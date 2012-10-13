@@ -1,0 +1,1250 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package connection;
+
+import eccezioni.CheckTuttException;
+import entita.*;
+import java.util.List;
+import eccezioni.EccezioneChiaveDuplicata;
+import eccezioni.EccezioneConnesioneNonRiuscita;
+import eccezioni.EccezioneEntitaNonValida;
+import eccezioni.EccezioneValoreCampoTroppoLungo;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Andle
+ */
+public abstract class DAO_ASF {
+    
+    //Codici di errore MySql
+    private static final int DUPLICATE_ENTRY = 1062;
+    private static final int DATA_TOO_LONG = 1406;
+    
+    //Parametri di connessione al db
+    private static Connection conn = new DbManager().CreateConnection();
+    private static PreparedStatement ps;
+    private static ResultSet rs;
+    private static String sql;
+    
+    public static void test() throws EccezioneConnesioneNonRiuscita {
+        new Test();
+    }
+    
+    /*
+     * Ricevuta in input una List di Fornitori, cicla sul ResultSet avvalorato precedentemente
+     * e aggiunge ciclicamente gli elementi alla lista
+     */
+    private static void ricFornitori(List lista) throws SQLException {
+        Integer cod = 0;
+        String nome = null;
+        String titolare = null;
+        String piva = null;
+        String codfisc = null;
+        String indirizzo = null;
+        String telefono1 = null;
+        String telefono2 = null;
+        String fax = null;
+        String email = null;
+        String cap = null;
+        String citta = null;
+        String prov = null;
+        String nazione = null;
+        String banca = null;
+        String iban = null;
+        String nomeRef1;
+        String nomeRef2;
+        String emailRef1;
+        String emailRef2;
+        String telRef1;
+        String telRef2;
+          
+        /*
+         * Per ogni elemento presente nel ResultSet, crea un oggetto Fornitore
+         * e lo aggiunge alla lista
+         */
+        while (rs.next()) {
+            cod = rs.getInt(Tabelle.Fornitori.COD);
+            nome = rs.getString(Tabelle.Fornitori.NOME);
+            titolare = rs.getString(Tabelle.Fornitori.TITOLARE);
+            piva = rs.getString(Tabelle.Fornitori.PIVA);
+            codfisc = rs.getString(Tabelle.Fornitori.CODFISCALE);
+            indirizzo = rs.getString(Tabelle.Fornitori.INDIRIZZO);
+            telefono1 = rs.getString(Tabelle.Fornitori.TELEFONO1);
+            telefono2 = rs.getString(Tabelle.Fornitori.TELEFONO2);
+            fax = rs.getString(Tabelle.Fornitori.FAX);
+            email = rs.getString(Tabelle.Fornitori.EMAIL);
+            cap = rs.getString(Tabelle.Fornitori.CAP);
+            citta = rs.getString(Tabelle.Fornitori.CITTA);
+            prov = rs.getString(Tabelle.Fornitori.PROV);
+            nazione = rs.getString(Tabelle.Fornitori.NAZIONE);
+            banca = rs.getString(Tabelle.Fornitori.BANCA);
+            iban = rs.getString(Tabelle.Fornitori.IBAN);
+            nomeRef1 = rs.getString(Tabelle.Fornitori.NOME_REF_1);
+            nomeRef2 = rs.getString(Tabelle.Fornitori.NOME_REF_2);
+            emailRef1 = rs.getString(Tabelle.Fornitori.EMAIL_REF_1);
+            emailRef2 = rs.getString(Tabelle.Fornitori.EMAIL_REF_2);
+            telRef1 = rs.getString(Tabelle.Fornitori.TEL_REF_1);
+            telRef2 = rs.getString(Tabelle.Fornitori.TEL_REF_2);
+            
+            lista.add(new Fornitore(cod, nome, titolare, piva, codfisc, indirizzo, telefono1, telefono2, fax, email, cap, citta, prov, nazione, banca, iban,
+                    nomeRef1, nomeRef2, emailRef1, emailRef2, telRef1, telRef2));   
+         }
+    }
+    
+    /**
+     * Restituisce una lista di oggetti entity (appartententi alla categoria anagrafe) corrispondenti 
+     * alla classe specificata nel parametro.
+     * @param entita Descrive la classe di cui si vuole restituirne una lista di entità.
+     * @return Una lista di entità.
+     */
+    public static List<Entity> getAnagrafe(Class entita) {
+        
+        /*
+         * Il metodo determina inanzitutto, la classe di appartenenza del parametro. Successivamente
+         * recupera dal database l'elenco completo dalla relativa tabella e popola una lista con tali
+         * elementi.
+         */
+        
+        if (entita.equals(Fornitore.class)) {
+            try {
+                sql = "SELECT * FROM " + Tabelle.FORNITORI + " ORDER BY " + Tabelle.Fornitori.NOME + ", " + Tabelle.Fornitori.PIVA
+                        + ", " + Tabelle.Fornitori.CODFISCALE;
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                rs = ps.executeQuery();
+                List<Entity> fornitori = new LinkedList<Entity>();
+                ricFornitori(fornitori);
+              
+                return fornitori;
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        } else if (entita.equals(Mezzo.class)) {
+            try {
+                sql = "SELECT * FROM " + Tabelle.MEZZI + " WHERE " + Tabelle.Mezzi.TARGA + " <> 'Vettore' ORDER BY " + Tabelle.Mezzi.TARGA;
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                rs = ps.executeQuery();
+                List<Entity> mezzi = new LinkedList<Entity>();
+                
+                Integer id = 0;
+                String targa = null;
+                String marca = null;
+            
+                while (rs.next()){
+                    id = rs.getInt(Tabelle.Mezzi.ID);
+                    targa = rs.getString(Tabelle.Mezzi.TARGA);
+                    marca = rs.getString(Tabelle.Mezzi.MARCA);
+                
+                    mezzi.add(new Mezzo(id, targa, marca));   
+                }
+            
+                return mezzi;
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        throw new EccezioneEntitaNonValida();
+    }
+    
+    /*
+     * Controlla che il singolo campo contenga una stringa vuota. In tal caso imposta il valore NULL
+     */
+    private static String checkNull(Object campo) {
+        if (campo == null) {
+            campo = "NULL";
+            
+        } else if (campo instanceof String) {
+            if (((String)campo).isEmpty()) { //se il campo == "" lo imposta al valore NULL
+                campo = "NULL";
+          
+            } else { //altrimenti aggiunge gli apici ' all'inizio e alla fine della stringa
+                char[] field = ((String) campo).toCharArray();
+                char[] newField = new char[field.length + 2];
+                newField[0] = '\'';
+                newField[newField.length -1] = '\'';
+                System.arraycopy(field, 0, newField, 1, field.length);
+                campo = new String(newField);
+            }
+                            
+        } else if (campo instanceof Integer) {
+            campo = Integer.toString((Integer) campo);
+            
+        } else if (campo instanceof Date) {
+            char[] field = ((Date)campo).toString().toCharArray();
+            char[] newField = new char[field.length + 2];
+            newField[0] = '\'';
+            newField[newField.length -1] = '\'';
+            System.arraycopy(field, 0, newField, 1, field.length);
+            campo = new String(newField);
+        } 
+        return (String) campo;
+    }
+    
+    /**
+     * Permette la memorizzazione di un nuovo oggetto.
+     * @param o L'oggetto entità da memorizzare.
+     * @return true se l'operazione va a buon fine, false altrimenti.
+     */
+    public static boolean insert(Entity o) {
+        
+       /*
+        * Il metodo dopo aver determinato il tipo dell'entità, inserisce nel db il nuovo elemento,
+         * controllando per tutti i possibili campi che possono assumere il valore null, se il campo
+         * è un campo vuoto. In tal caso viene posto il valore NULL nella stringa SQL, altrimenti
+         * la il valore del campo viene delimitato dalla coppia di apici.
+        */
+        
+       if (o instanceof Fornitore) {
+            Fornitore f = (Fornitore) o;
+            try {
+                sql = "INSERT INTO " + Tabelle.FORNITORI + " VALUES (NULL, " + checkNull(f.getNome()) + ", " + checkNull(f.getTitolare()) + ", " + checkNull(f.getPiva()) + ", " + 
+                        checkNull(f.getCodfiscale()) + ", " + checkNull(f.getIndirizzo()) + ", " + checkNull(f.getTelefono1()) + ", " + checkNull(f.getTelefono2()) + ", " + checkNull(f.getFax()) + ", " +
+                        checkNull(f.getEmail()) + ", " + checkNull(f.getCap()) + ", " + checkNull(f.getCitta()) + ", " + checkNull(f.getProv()) + ", " + 
+                        checkNull(f.getNazione()) + ", " + checkNull(f.getBanca()) + ", " + checkNull(f.getIban()) + ", " + checkNull(f.getNomeRef1()) + 
+                        ", " + checkNull(f.getEmailRef1()) + ", " + checkNull(f.getTelRef1()) + ", " + checkNull(f.getNomeRef2()) + ", " + checkNull(f.getEmailRef2()) + 
+                        ", " + checkNull(f.getTelRef2()) + ")";
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+                return true;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                if (ex.getErrorCode() == DUPLICATE_ENTRY) {
+                    if (ex.getMessage().contains(Tabelle.Fornitori.PIVA))
+                        throw new EccezioneChiaveDuplicata("Partita IVA '" + f.getPiva() + "' esistente!");
+                    else
+                        throw new EccezioneChiaveDuplicata("Codice fiscale '" + f.getCodfiscale() + "' esistente!");
+                    
+                } else if (ex.getErrorCode() == DATA_TOO_LONG) {
+                    
+                    if (ex.getMessage().contains(Tabelle.Fornitori.NOME))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nome troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.TITOLARE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Titolare troppo lungo!");
+                        
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.INDIRIZZO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Indirizzo troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.TELEFONO1))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Telefono 1 troppo lungo!"); 
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.TELEFONO2))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Telefono 2 troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.FAX))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Fax troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.EMAIL))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo E-Mail troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CAP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo CAP troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CITTA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Città troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.PROV))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provincia troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.NAZIONE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nazione troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.BANCA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Banca troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.IBAN))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo IBAN troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.NOME_REF_1))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nome Referente 1 troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.NOME_REF_2))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nome Referente 2 troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.EMAIL_REF_1))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Email Referente 1 troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.EMAIL_REF_2))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Email Referente 2 troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.TEL_REF_1))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Telefono Referente 1 troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.TEL_REF_2))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Telefono Referente 2 troppo lungo!");
+                }
+                       
+                return false;
+            }
+            
+        } else if (o instanceof Mezzo){
+            Mezzo m =(Mezzo) o;
+            try {
+                sql = "INSERT INTO " + Tabelle.MEZZI + " VALUES (NULL, '" + m.getTarga() + "', '" + m.getMarca() + "')";
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+                return true;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                if (ex.getErrorCode() == DUPLICATE_ENTRY) 
+                    throw new EccezioneChiaveDuplicata("Targa '" + m.getTarga() + "' esistente!");
+                
+                return false;
+            }
+            
+        } else if (o instanceof Spedizione) {
+            Spedizione sped = (Spedizione) o;
+            try {
+                Integer idMezzo = null;
+                if (sped.getMezzo() != null) {
+                    sql = "SELECT " + Tabelle.Mezzi.ID + " FROM " + Tabelle.MEZZI + " WHERE " + Tabelle.Mezzi.TARGA + " = '" + sped.getMezzo() + "'";
+                    System.out.println(sql);
+                    ps = conn.prepareStatement(sql);
+                    rs = ps.executeQuery();
+                    rs.next();
+                    idMezzo = rs.getInt(Tabelle.Mezzi.ID);
+                }
+                
+                ps = conn.prepareStatement("START TRANSACTION");
+                ps.executeUpdate();
+                
+                sql = "INSERT INTO " + Tabelle.SPEDIZIONI + " VALUES ("+Integer.parseInt(sped.getNumSpedizione())+", " + checkNull(sped.getDataCarico()) + ", " + checkNull(sped.getDataDocumento()) + ", " 
+                        + checkNull(sped.getDescrizione()) + ", " + sped.getFornitore() + ", " + checkNull(idMezzo) + ", " + checkNull(sped.getUm()) + ", " + sped.getQta() + ", " 
+                        + sped.getTraz() + ", " + sped.getDistrib() + ", " + sped.getImporto() + ", " + sped.getSconto() + ", " + sped.getPercIva() + ", " + sped.getIva() +
+                        ", " + sped.getPercProvv() + ", " + sped.getProvvigione() + ", " + sped.getTotale() + ", " + checkNull(sped.getNote()) + ", " + sped.getRientrata() + 
+                        ", NULL, NULL, " + sped.getValoreMerce() + ", " + sped.getImponibile() + ")";
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+                
+                List<Integer> bolle = sped.getBolle();
+                for (Integer bolla : bolle) {
+                    sql = "INSERT INTO " + Tabelle.BOLLE + " VALUES ('" + sped.getNumSpedizione() + "', '" + sped.getDataCarico() + "', " + bolla + ")";
+                    System.out.println(sql);
+                    ps = conn.prepareStatement(sql);
+                    ps.executeUpdate();
+                    
+                }
+                
+                ps = conn.prepareStatement("COMMIT");
+                ps.executeUpdate();
+                return true;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                if (ex.getErrorCode() == DUPLICATE_ENTRY) {
+                    throw new EccezioneChiaveDuplicata("Numero spedizione '" + sped.getNumSpedizione() + "' esistente per l'anno in questione!");
+                                        
+                } else if (ex.getErrorCode() == DATA_TOO_LONG) {
+                    String errorMsg = ex.getMessage();
+                    if (errorMsg.contains(Tabelle.Spedizioni.NUMERO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Numero troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.DESCRIZIONE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Descrizione troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.UM))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo UM troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.QTA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Quantità troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.TRAZ))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Traz. troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.DISTRIB))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Distrib. troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.IMPORTO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Importo troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.SCONTO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Sconto troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.PERC_IVA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo % IVA troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.IVA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo IVA troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.PERC_PROVV))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo % Provvigione troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.IMPORTO_PROVV))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provvigione troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.TOTALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Totale troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.VALORE_MERCE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Valore merce troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.IMPONIBILE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Imponibile troppo lungo!");
+                    
+                }
+                return false;
+            }
+            
+        } else if (o instanceof Fattura) {
+            Fattura fatt = (Fattura) o;
+            
+            try {
+                ps = conn.prepareStatement("START TRANSACTION");
+                ps.executeUpdate();
+                
+                sql = "INSERT INTO " + Tabelle.FATTURE + " VALUES (" + fatt.getNumero() + ", " + checkNull(fatt.getData()) + ", " + checkNull(fatt.getMetPag()) + ", " + fatt.getImporto() + ", " + 
+                                            fatt.getSconto() + ", " + fatt.getProvvigione() + ", " + fatt.getIva() + ", " + fatt.getTotale() + ", " + fatt.getForfait() + ", " + fatt.getPagata() + ", " + checkNull(fatt.getNote()) +")";
+
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+
+                List<Spedizione> spedizioni = fatt.getSpedizioni();
+                int fornitore = spedizioni.get(0).getFornitore();
+                //Date data = fatt.getData();
+                for (Spedizione sped: spedizioni){
+                    sql = "UPDATE " + Tabelle.SPEDIZIONI + " SET " + Tabelle.Spedizioni.NUM_FATTURA + " = " + fatt.getNumero() + 
+                            ", " + Tabelle.Spedizioni.DATA_FATTURA + " = '" + fatt.getData() + "' WHERE " + Tabelle.Spedizioni.NUMERO + " = " + sped.getNumSpedizione() +
+                            " AND " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore + " AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + sped.getDataCarico() + "'";
+
+                    System.out.println(sql);
+                    ps = conn.prepareStatement(sql);
+                    ps.executeUpdate();
+                }
+
+                ps = conn.prepareStatement("COMMIT");
+                ps.executeUpdate();
+                
+                return true;
+
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                if (ex.getErrorCode() == DATA_TOO_LONG) {
+                    String errorMsg = ex.getMessage();
+                    if (errorMsg.contains(Tabelle.Fatture.METODO_PAGAMENTO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Metodo di pagamento troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Fatture.IMPORTO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Importo troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Fatture.SCONTO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Sconto troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Fatture.PROVVIGIONE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provvigione troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Fatture.IVA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo IVA troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Fatture.TOTALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Totale troppo lungo!");
+                } else if (ex.getErrorCode() == DUPLICATE_ENTRY) {
+                    throw new EccezioneChiaveDuplicata("Numero fattura '" + fatt.getNumero() + "' esistente per la data in questione!");
+                }
+                return false;
+            } 
+            
+        }
+       return false;
+    }     
+    
+    /**
+     * Permette l'aggiornamento di un oggetto esistente.
+     * @param o L'oggetto entità da aggiornare
+     * @return true se l'operazione va a buon fine, false altrimenti.
+     */
+    public static boolean update(Entity o) {
+        if (o instanceof Fornitore) {
+            Fornitore f = (Fornitore) o;
+            try {
+                sql = "UPDATE " + Tabelle.FORNITORI + " SET " + Tabelle.Fornitori.NOME + " = " + checkNull(f.getNome()) + ", " + 
+                        Tabelle.Fornitori.TITOLARE + " = " + checkNull(f.getTitolare()) + ", " + Tabelle.Fornitori.PIVA + " = " + checkNull(f.getPiva()) + ", " + 
+                        Tabelle.Fornitori.CODFISCALE + " = " + checkNull(f.getCodfiscale()) + ", " + Tabelle.Fornitori.INDIRIZZO + " = " + checkNull(f.getIndirizzo()) + 
+                        ", " + Tabelle.Fornitori.TELEFONO1 + " = " + checkNull(f.getTelefono1()) + ", " + Tabelle.Fornitori.EMAIL + " = " + checkNull(f.getEmail()) + ", " +
+                        Tabelle.Fornitori.CAP + " = " + checkNull(f.getCap()) + ", " + Tabelle.Fornitori.CITTA + " = " + checkNull(f.getCitta()) + ", " + 
+                        Tabelle.Fornitori.PROV + " = " + checkNull(f.getProv()) + ", " + Tabelle.Fornitori.NAZIONE + " = " + checkNull(f.getNazione()) + ", " +
+                        Tabelle.Fornitori.BANCA + " = " + checkNull(f.getBanca()) + ", " + Tabelle.Fornitori.IBAN + " = " + checkNull(f.getIban()) + ", " +
+                        Tabelle.Fornitori.NOME_REF_1 + " = " + checkNull(f.getNomeRef1()) + ", " + Tabelle.Fornitori.NOME_REF_2 + " = " + checkNull(f.getNomeRef2()) + 
+                        ", " + Tabelle.Fornitori.EMAIL_REF_1 + " = " + checkNull(f.getEmailRef1()) + ", " + Tabelle.Fornitori.EMAIL_REF_2 + " = " + checkNull(f.getEmailRef2()) +
+                        ", " + Tabelle.Fornitori.TEL_REF_1 + " = " + checkNull(f.getTelRef1()) + ", " + Tabelle.Fornitori.TEL_REF_2 + " = " + checkNull(f.getTelRef2()) + 
+                        ", " + Tabelle.Fornitori.TELEFONO2 + " = " + checkNull(f.getTelefono2()) + ", " + Tabelle.Fornitori.FAX + " = " + checkNull(f.getFax()) +
+                        " WHERE " + Tabelle.Fornitori.COD + " = " + f.getCod();
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+                return true;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                if (ex.getErrorCode() == DUPLICATE_ENTRY) {
+                    if (ex.getMessage().contains(Tabelle.Fornitori.PIVA))
+                        throw new EccezioneChiaveDuplicata("Partita IVA '" + f.getPiva() + "' esistente!");
+                    else
+                        throw new EccezioneChiaveDuplicata("Codice fiscale '" + f.getCodfiscale() + "' esistente!");
+                    
+                } else if (ex.getErrorCode() == DATA_TOO_LONG) {
+                    
+                    if (ex.getMessage().contains(Tabelle.Fornitori.NOME))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nome troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.TITOLARE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Titolare troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.INDIRIZZO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Indirizzo troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.TELEFONO1))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Telefono 1 troppo lungo!"); 
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.TELEFONO2))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Telefono 2 troppo lungo!"); 
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.FAX))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Fax troppo lungo!"); 
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.EMAIL))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo E-Mail troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CAP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo CAP troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CITTA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Città troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.PROV))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provincia troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.NAZIONE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nazione troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.BANCA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Banca troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.IBAN))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo IBAN troppo lungo!");
+                    
+                }
+                return false;
+            }
+            
+        } else if (o instanceof Mezzo) {
+            Mezzo m =(Mezzo) o;
+            try {
+                sql = "UPDATE " + Tabelle.MEZZI + " SET " + Tabelle.Mezzi.TARGA + " = '" + m.getTarga() + 
+                        "', " + Tabelle.Mezzi.MARCA + " = " + checkNull(m.getMarca()) + " WHERE " + Tabelle.Mezzi.ID + " = " + m.getId();
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+                return true;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                if (ex.getErrorCode() == DUPLICATE_ENTRY) 
+                    throw new EccezioneChiaveDuplicata("Targa '" + m.getTarga() + "' esistente!");
+                
+                return false;
+            }
+        } else if (o instanceof Spedizione) {
+            Spedizione s = (Spedizione) o;
+            try {
+                Integer idMezzo = null;
+                if (s.getMezzo() != null) {
+                    sql = "SELECT " + Tabelle.Mezzi.ID + " FROM " + Tabelle.MEZZI + " WHERE " + Tabelle.Mezzi.TARGA + " = '" + s.getMezzo() + "'";
+                    System.out.println(sql);
+                    ps = conn.prepareStatement(sql);
+                    rs = ps.executeQuery();
+                    rs.next();
+                    idMezzo = rs.getInt(Tabelle.Mezzi.ID);
+                    
+                }                             
+                ps = conn.prepareStatement("START TRANSACTION");
+                ps.executeUpdate();
+                
+                sql = "UPDATE " + Tabelle.SPEDIZIONI + " SET " + Tabelle.Spedizioni.DATA_CARICO + " = " + checkNull(s.getDataCarico()) + ", " + 
+                    Tabelle.Spedizioni.DATA_DOCUMENTO + " = " + checkNull(s.getDataDocumento()) + ", " + Tabelle.Spedizioni.DESCRIZIONE + 
+                    " = " + checkNull(s.getDescrizione()) + ", " + Tabelle.Spedizioni.MEZZO + " = " + checkNull(idMezzo) + ", " + 
+                    Tabelle.Spedizioni.UM + " = " + checkNull(s.getUm()) + ", " + Tabelle.Spedizioni.QTA + " = " + s.getQta() + ", " + 
+                    Tabelle.Spedizioni.TRAZ + " = " + s.getTraz() + ", " + Tabelle.Spedizioni.DISTRIB + " = " + s.getDistrib() + ", " +
+                    Tabelle.Spedizioni.IMPORTO + " = " + s.getImporto() + ", " + Tabelle.Spedizioni.SCONTO + " = " + checkNull(s.getSconto()) + 
+                    ", " + Tabelle.Spedizioni.PERC_IVA + " = " + s.getPercIva() + ", " + Tabelle.Spedizioni.IVA + " = " + s.getIva() + 
+                    ", " + Tabelle.Spedizioni.PERC_PROVV + " = " + s.getPercProvv() + ", " + Tabelle.Spedizioni.IMPORTO_PROVV + " = " + 
+                    s.getProvvigione() + ", " + Tabelle.Spedizioni.TOTALE + " = " + s.getTotale() + ", " + Tabelle.Spedizioni.NOTE + " = " +
+                    checkNull(s.getNote()) + ", " + Tabelle.Spedizioni.RIENTRATA + " = " + s.getRientrata() + ", " + Tabelle.Spedizioni.NUM_FATTURA + 
+                    " = " + checkNull(s.getNumFattura()) + ", " + Tabelle.Spedizioni.VALORE_MERCE + " = " + s.getValoreMerce() + ", " +
+                    Tabelle.Spedizioni.IMPONIBILE + " = " + s.getImponibile() + " WHERE " + Tabelle.Spedizioni.NUMERO + " = '" + s.getNumSpedizione() +
+                    "' AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + s.getDataCarico() + "'";
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql); 
+                ps.executeUpdate(); //esegue l'update
+                
+                sql = "DELETE FROM " + Tabelle.BOLLE + " WHERE " + Tabelle.Bolle.SPEDIZIONE + " = '" + s.getNumSpedizione() + "' AND " + 
+                        Tabelle.Bolle.DATA_SPEDIZIONE + " = '" + s.getDataCarico() + "'";
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate(); //elimina tutte le bolle della spedizione corrente
+                
+                List<Integer> bolle = s.getBolle();
+                for (Integer bolla : bolle) {
+                    sql = "INSERT INTO " + Tabelle.BOLLE + " VALUES ('" + s.getNumSpedizione() + "', '" + s.getDataCarico() + "', " + bolla + ")";
+                    System.out.println(sql);
+                    ps = conn.prepareStatement(sql);
+                    ps.executeUpdate();
+                    
+                }
+                
+                ps = conn.prepareStatement("COMMIT");
+                ps.executeUpdate();
+                return true;
+                
+            } catch (SQLException ex) {
+                if (ex.getErrorCode() == DATA_TOO_LONG) {
+                    String errorMsg = ex.getMessage();
+                    if (errorMsg.contains(Tabelle.Spedizioni.NUMERO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Numero troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.DESCRIZIONE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Descrizione troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.UM))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo UM troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.QTA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Quantità troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.TRAZ))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Traz. troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.DISTRIB))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Distrib. troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.IMPORTO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Importo troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.SCONTO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Sconto troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.PERC_IVA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo % IVA troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.IVA))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo IVA troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.PERC_PROVV))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo % Provvigione troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.IMPORTO_PROVV))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provvigione troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.TOTALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Totale troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.VALORE_MERCE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Valore merce troppo lungo!");
+                    
+                    else if (errorMsg.contains(Tabelle.Spedizioni.IMPONIBILE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Imponibile troppo lungo!");
+                        
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Permette l'eliminazione di un oggetto esistente.
+     * @param o L'oggetto entità da aggiornare.
+     * @return true se l'operazione va a buon fine, false altrimenti.
+     */
+    public static boolean delete(Entity o) {
+        if (o instanceof Fornitore) {
+            Fornitore f = (Fornitore) o;
+            try {
+                sql = "DELETE FROM " + Tabelle.FORNITORI + " WHERE " + Tabelle.Fornitori.COD + " = " + f.getCod();
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();;
+                return true;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+            
+        } else if (o instanceof Mezzo) {
+            Mezzo m = (Mezzo) o;
+            try {
+                sql = "DELETE FROM " + Tabelle.MEZZI + " WHERE " + Tabelle.Mezzi.ID + " = " + m.getId();
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();;
+                return true;
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        } else if (o instanceof Spedizione) {
+            Spedizione s = (Spedizione) o;
+            try {
+                ps = conn.prepareStatement("START TRANSACTION");
+                ps.executeUpdate();
+                
+                sql = "DELETE FROM " + Tabelle.SPEDIZIONI + " WHERE " + Tabelle.Spedizioni.NUMERO + " = '" + s.getNumSpedizione()+ "' AND " + Tabelle.Spedizioni.DATA_CARICO + " = '"+ s.getDataCarico() + "'";
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+                
+                sql = "DELETE FROM " + Tabelle.BOLLE + " WHERE " + Tabelle.Bolle.SPEDIZIONE + " = '" + s.getNumSpedizione() + "' AND " + 
+                        Tabelle.Bolle.DATA_SPEDIZIONE + " = '" + s.getDataCarico() + "'";
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+                
+                ps = conn.prepareStatement("COMMIT");
+                ps.executeUpdate();
+                
+                resetNumSpedizione(Integer.parseInt(s.getNumSpedizione()), s.getDataCarico());
+                return true;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean cambiaCliente(List<Spedizione> spedizioni, Fornitore cliente) {
+        try {
+            ps = conn.prepareStatement("START TRANSACTION");
+            ps.executeUpdate();
+            
+            for (Spedizione spedizione : spedizioni) {
+                sql = "UPDATE " + Tabelle.SPEDIZIONI + " SET " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + cliente.getCod() + " WHERE " +
+                        Tabelle.Spedizioni.NUMERO + " = " + spedizione.getNumSpedizione() + " AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" +
+                        spedizione.getDataCarico() + "'";
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+            }
+            
+            ps = conn.prepareStatement("COMMIT");
+            ps.executeUpdate();
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    /**
+     * Ricerca e restituisce l'insieme dei fornitori che hanno il nome 
+     * corrispondente al parametro.
+     * @param nome Il nome da cercare
+     * @return Una lista contenente l'insieme dei fornitori che soddisfano la ricerca, oppure null
+     * se si verficano errori durante la ricerca
+     */
+    public static List<Fornitore> getFornitori(int tipo, String ric) {        
+        switch (tipo) {
+            case Fornitore.RIC_NOME: 
+                sql = "SELECT * FROM " + Tabelle.FORNITORI + " WHERE " + Tabelle.Fornitori.NOME + " LIKE '" + ric + "%' ORDER BY " + 
+                        Tabelle.Fornitori.NOME + ", " + Tabelle.Fornitori.PIVA + ", " + Tabelle.Fornitori.CODFISCALE;
+                break;
+                    
+            case Fornitore.RIC_PIVA: 
+                sql = "SELECT * FROM " + Tabelle.FORNITORI + " WHERE " + Tabelle.Fornitori.PIVA + " LIKE '" + ric + "%' ORDER BY " + 
+                        Tabelle.Fornitori.NOME + ", " + Tabelle.Fornitori.PIVA + ", " + Tabelle.Fornitori.CODFISCALE;
+                break;
+                    
+            case Fornitore.RIC_CODFISC: 
+                sql = "SELECT * FROM " + Tabelle.FORNITORI + " WHERE " + Tabelle.Fornitori.CODFISCALE + " LIKE '" + ric + "%' ORDER BY " + 
+                        Tabelle.Fornitori.NOME + ", " + Tabelle.Fornitori.PIVA + ", " + Tabelle.Fornitori.CODFISCALE;
+                break;
+        }
+        
+        try {
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            List<Fornitore> fornitori = new LinkedList<Fornitore>();
+            ricFornitori(fornitori);
+            return fornitori;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    /*
+     * Ricevuto il parametro di ordinamento (nome, piva, codfisc), produce una lista ordinata sul parametro
+     * ricevuto di oggetti Fornitore.
+     */
+//    public static List<Fornitore> orderFornitori(int tipo) {
+//        switch (tipo) {
+//            case Fornitore.RIC_NOME: 
+//                sql = "SELECT * FROM " + Tabelle.FORNITORI + " ORDER BY " + Tabelle.Fornitori.NOME;
+//                break;
+//                    
+//            case Fornitore.RIC_PIVA: 
+//                sql = "SELECT * FROM " + Tabelle.FORNITORI + " ORDER BY " + Tabelle.Fornitori.PIVA;
+//                break;
+//                    
+//            case Fornitore.RIC_CODFISC: 
+//                sql = "SELECT * FROM " + Tabelle.FORNITORI + " ORDER BY " + Tabelle.Fornitori.CODFISCALE;
+//                break;
+//        }
+//        
+//        try {
+//            System.out.println(sql);
+//            ps = conn.prepareStatement(sql);
+//            rs = ps.executeQuery();
+//            List<Fornitore> fornitori = new LinkedList<Fornitore>();
+//            ricFornitori(fornitori);
+//            return fornitori;
+//            
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+//            return null;
+//        }
+//    }
+    
+    /**
+     * Ricerca e restituisce l'unico mezzo con la targa corrispondente al parametro.
+     * @param targa La targa da ricercare
+     * @return Il mezzo corrispondente alla targa
+     */
+    public static Mezzo getMezzo(String targaRic) {
+        try {
+            sql = "SELECT * FROM " + Tabelle.MEZZI + " WHERE " + Tabelle.Mezzi.TARGA + " = '" + targaRic + "' ORDER BY " + Tabelle.Mezzi.TARGA;
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            Integer id = 0;
+            String targa = null;
+            String marca = null;
+            Mezzo mezzo = new Mezzo();
+            
+            if (rs.next()){
+                id = rs.getInt(Tabelle.Mezzi.ID);
+                targa = rs.getString(Tabelle.Mezzi.TARGA);
+                marca = rs.getString(Tabelle.Mezzi.MARCA);
+                
+                mezzo = new Mezzo(id, targa, marca);   
+            }
+            
+            return mezzo;
+            
+        } catch (SQLException ex) {
+          Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+          return null;
+        }
+    }
+    
+    /*
+     * Ricevuta in input una List di Spedizioni, cicla sul ResultSet avvalorato precedentemente
+     * e aggiunge ciclicamente gli elementi alla lista
+     */
+    private static void ricSpedizioni(List<Spedizione> spedizioni) {
+        try {
+            String numero;
+            Date dataCarico;
+            Date dataDocumento;
+            String descrizione;
+            Integer forn;
+            String mezzo;
+            String um;
+            Integer qta;
+            Double traz;
+            Double distrib;
+            Double importo;
+            Integer sconto;
+            Integer percIva;
+            Double iva;
+            Integer percProvvigione;
+            Double provvigione;
+            Double totale;
+            String note;
+            boolean rientrata;
+            Integer numFattura;
+            Date dataFattura;
+            Double valoreMerce;
+            Double imponibile;
+                
+            while (rs.next()){
+                numero = rs.getString(Tabelle.Spedizioni.NUMERO);
+                dataCarico = rs.getDate(Tabelle.Spedizioni.DATA_CARICO);
+                dataDocumento = rs.getDate(Tabelle.Spedizioni.DATA_DOCUMENTO);
+                descrizione = rs.getString(Tabelle.Spedizioni.DESCRIZIONE);
+                forn = rs.getInt(Tabelle.Spedizioni.FORN_CLIENTE);
+                mezzo = rs.getString(Tabelle.Mezzi.TARGA);
+                um = rs.getString(Tabelle.Spedizioni.UM);
+                qta = rs.getInt(Tabelle.Spedizioni.QTA);
+                traz = rs.getDouble(Tabelle.Spedizioni.TRAZ);
+                distrib = rs.getDouble(Tabelle.Spedizioni.DISTRIB);
+                importo = rs.getDouble(Tabelle.Spedizioni.IMPORTO);
+                note = rs.getString(Tabelle.Spedizioni.NOTE);
+                percIva = rs.getInt(Tabelle.Spedizioni.PERC_IVA);
+                iva = rs.getDouble(Tabelle.Spedizioni.IVA);
+                sconto = rs.getInt(Tabelle.Spedizioni.SCONTO);
+                percProvvigione = rs.getInt(Tabelle.Spedizioni.PERC_PROVV);
+                provvigione = rs.getDouble(Tabelle.Spedizioni.IMPORTO_PROVV);
+                totale = rs.getDouble(Tabelle.Spedizioni.TOTALE);
+                rientrata = rs.getBoolean(Tabelle.Spedizioni.RIENTRATA);
+                numFattura = rs.getInt(Tabelle.Spedizioni.NUM_FATTURA);
+                dataFattura = rs.getDate(Tabelle.Spedizioni.DATA_FATTURA);
+                valoreMerce = rs.getDouble(Tabelle.Spedizioni.VALORE_MERCE);
+                imponibile = rs.getDouble(Tabelle.Spedizioni.IMPONIBILE);
+                
+                if (numFattura == 0)
+                    numFattura = null;
+                    
+                Spedizione sped = new Spedizione(numero, forn, dataCarico, dataDocumento, descrizione, mezzo, 
+                        um, qta, traz, distrib, importo, sconto, percIva, iva, 
+                        percProvvigione, provvigione, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile);
+                    
+                ps = conn.prepareStatement("SELECT " + Tabelle.Bolle.BOLLA + " FROM " + Tabelle.BOLLE + " WHERE " + 
+                        Tabelle.Bolle.SPEDIZIONE + " = '" + numero + "' AND " + Tabelle.Bolle.DATA_SPEDIZIONE + " = '" + dataCarico + "'");
+                    
+                ResultSet rsbolle = ps.executeQuery();
+                while (rsbolle.next()) {
+                    sped.addBolla(rsbolle.getInt(Tabelle.Bolle.BOLLA));
+                }
+                    
+                spedizioni.add(sped);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Restituisce l'elenco di tutte le spedizioni effettuate dal singolo fornitore/cliente
+     * specificato dal parametro.
+     * @param fornitore Il fornitore di cui recuperare le spedizioni e il tipo di spedizioni da recuperare
+     * nf indica le spedizioni non fatturate
+     * f indica le spedizioni giù fatturate
+     * all indica tutte le spedizioni
+     * @return Una lista di spedizioni
+     */
+    public static List<Spedizione> getSpedizioni(Fornitore fornitore, Spedizione.tipo type) {
+        try {
+            if (type == Spedizione.tipo.NF)
+                
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
+                        Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + 
+                        " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL " +
+                        " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
+                        Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
+                        Tabelle.Spedizioni.NUM_FATTURA + " IS NULL ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+            
+            else if (type == Spedizione.tipo.F)
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
+                        Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + 
+                        " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL" + 
+                        " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
+                        Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
+                        Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+            
+            else if (type == Spedizione.tipo.ALL)
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
+                        Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + 
+                        " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + 
+                        " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
+                        Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL ORDER BY " + 
+                        Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+                       
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            List<Spedizione> spedizioni = new LinkedList<Spedizione>();
+            ricSpedizioni(spedizioni);
+            
+            return spedizioni;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    /**
+     * Restituisce l'elenco di tutte le spedizioni effettuate dal singolo fornitore/cliente
+     * specificato dal parametro nelle date comprese fra quelle indicate nei parametri.
+     * @param fornitore Il fornitore di cui recuperare le spedizioni
+     * @param dataInizio La data di inizio dell'intervallo da considerare
+     * @param dataFine La data di fine dell'intervallo da considerare
+     *      * @param emesse Indica se recuperare le spedizioni fatturate o meno
+     * @return Una lista di spedizioni
+     */
+    public static List<Spedizione> getSpedizioniDateInterval(Fornitore fornitore, Date dataInizio, Date dataFine, Spedizione.tipo type){
+        try {
+            if (type == Spedizione.tipo.NF)
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
+                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + 
+                    " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL" + 
+                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
+                    Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
+                    Tabelle.Spedizioni.NUM_FATTURA + " IS NULL " + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+            
+            else if (type == Spedizione.tipo.F)
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
+                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + 
+                    " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL" +
+                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
+                    Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
+                    Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL " + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+            
+            else if (type == Spedizione.tipo.ALL)
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
+                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + 
+                    " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "'" + 
+                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
+                    Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
+                    Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " + Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine +
+                    "' ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+                           
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            List<Spedizione> spedizioni = new LinkedList<Spedizione>();
+            ricSpedizioni(spedizioni);    
+            
+            return spedizioni;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    /**
+     * Restituisce il prossimo numero della fattura o spedizione
+     */
+    public static int getNumber(Class table, Date dataDoc) {
+        try {
+            String dataDocYear = (dataDoc.toString()).substring(0, 4);
+            Date data = null;
+            if (table.equals(Fattura.class)){
+                String sqlMaxDate = "SELECT MAX(" + Tabelle.Fatture.DATA + ") AS MAXDATE FROM " + Tabelle.FATTURE;
+                System.out.println(sqlMaxDate);
+                PreparedStatement psMaxDate = conn.prepareStatement(sqlMaxDate);
+                ResultSet rsMaxDate = psMaxDate.executeQuery();
+                if (rsMaxDate.next()){ 
+                    data = rsMaxDate.getDate("MAXDATE");
+                }
+                sql = "SELECT MAX(" + Tabelle.Fatture.NUMERO + ") AS MAXNUM FROM " + Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.DATA + " >= '" + dataDocYear + "-01-01'" + " AND " + Tabelle.Fatture.DATA + " <= '" + dataDocYear + "-12-31'";  
+                
+            } else if (table.equals(Spedizione.class)) {
+                String sqlMaxDate = "SELECT MAX(" + Tabelle.Spedizioni.DATA_CARICO + ") AS MAXDATE FROM " + Tabelle.SPEDIZIONI;
+                System.out.println(sqlMaxDate);
+                PreparedStatement psMaxDate = conn.prepareStatement(sqlMaxDate);
+                ResultSet rsMaxDate = psMaxDate.executeQuery();
+                if (rsMaxDate.next()){ 
+                    data = rsMaxDate.getDate("MAXDATE");
+                }
+                sql = "SELECT MAX(" + Tabelle.Spedizioni.NUMERO + ") AS MAXNUM FROM " + Tabelle.SPEDIZIONI + " WHERE " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataDocYear + "-01-01'" + " AND " + Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataDocYear + "-12-31'";  
+            }
+            
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            int actualNum = 1;
+            String ultimoDocYear = "";
+            
+            if (rs.next()){
+               if (!(data == null)){
+                   
+                   //Estraiamo l'anno dell'ultimo documento memorizzato nel db
+                   ultimoDocYear = (data.toString()).substring(0, 4); 
+                   
+                   /*
+                    * Controlla se l'anno della data odierna è maggiore dell'anno dell'ultima fattura inserita nel db. In caso 
+                    * affermativo il contatore del numero fattura riparte da 0; in caso negativo il numero della fattura vien
+                    * semplicemente incrementato di 1.
+                    */
+                    if (Integer.parseInt(dataDocYear) <= Integer.parseInt(ultimoDocYear))
+                        actualNum = rs.getInt("MAXNUM") + 1;
+                }
+            }            
+            return actualNum;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+    }
+    
+    
+    /*
+     * Si occupa di resettare i numeri di spedizione quanto una di queste viene eliminata.
+     * @param numero: il numero di spedizione eliminata
+     * @param data: la data della spedizione eliminata
+     */
+    public static boolean resetNumSpedizione(int numero, Date dataSped){
+        try {
+            String annoDataSped = (dataSped.toString()).substring(0, 4);
+            sql = "SELECT " + Tabelle.Spedizioni.NUMERO + ", " + Tabelle.Spedizioni.DATA_CARICO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " + Tabelle.Spedizioni.NUMERO + " > " + numero + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + annoDataSped + "-01-01' AND " + Tabelle.Spedizioni.DATA_CARICO + " <= '" + annoDataSped + "-12-31'"; 
+        
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            ps = conn.prepareStatement("START TRANSACTION");
+            ps.executeUpdate();
+            
+            while (rs.next()){
+                int modNum = rs.getInt(1);
+                Date dataCarico = rs.getDate(2);
+                sql = "UPDATE " + Tabelle.SPEDIZIONI + " SET " + Tabelle.Spedizioni.NUMERO + " = " + Tabelle.Spedizioni.NUMERO + " -1 WHERE " + Tabelle.Spedizioni.NUMERO + " = " + modNum + " AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + dataCarico + "'";
+                ps = conn.prepareStatement(sql);
+                System.out.println(sql);
+                ps.executeUpdate(); 
+            }
+            
+            ps = conn.prepareStatement("COMMIT");
+            ps.executeUpdate();
+            
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+   
+    /*
+     * Effettua un controllo generico sulla data inserita e l'eventuale numero forzato dall'utente per la fattura.
+     * Restituisce un numero intero che caratterizza il numero della fattura proposto dal sistema
+     */
+    public static int checkTutt(Date dataDoc, int forcedNumber){
+        int valoreReturn = 1;
+        try {
+            String dataDocYear = (dataDoc.toString()).substring(0, 4);
+            Date data = null;
+            String sqlDataPrec = "SELECT " + Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO + " FROM " + 
+                    Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDoc + "' ORDER BY " +
+                    Tabelle.Fatture.DATA + " DESC, " + Tabelle.Fatture.NUMERO + " DESC LIMIT 1";
+            
+            System.out.println(sqlDataPrec);
+            ps = conn.prepareStatement(sqlDataPrec);
+            rs = ps.executeQuery();
+            
+            Date dataPrec = null;
+            int numPrec = 0;
+            if (rs.next()){
+                dataPrec = rs.getDate(Tabelle.Fatture.DATA);
+                numPrec = rs.getInt(Tabelle.Fatture.NUMERO);
+            }
+            
+            String sqlDataSucc = "SELECT " + Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO + " FROM " + 
+                    Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.DATA + " BETWEEN '" + dataDoc + "' AND '" + dataDocYear+"-12-31' AND " + Tabelle.Fatture.NUMERO + " > " + numPrec + " ORDER BY " +
+                    Tabelle.Fatture.DATA + " ASC, " + Tabelle.Fatture.NUMERO + " ASC LIMIT 1";
+            
+            System.out.println(sqlDataSucc);
+            ps = conn.prepareStatement(sqlDataSucc);
+            rs = ps.executeQuery();
+            
+            Date dataSucc = null;
+            int numSucc = 0;
+            if (rs.next()){
+                dataSucc = rs.getDate(Tabelle.Fatture.DATA);
+                numSucc = rs.getInt(Tabelle.Fatture.NUMERO);
+            }
+//            System.out.println(numPrec + " " + numSucc);
+            if (forcedNumber != -1) {
+                String sqlNumExistency = "SELECT " +  Tabelle.Fatture.NUMERO + " FROM " + Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.NUMERO + " = " + forcedNumber + " AND " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDocYear + "-12-31'";
+                System.out.println(sqlNumExistency);
+                PreparedStatement psNumExistency = conn.prepareStatement(sqlNumExistency);
+                ResultSet rsNumExistency = psNumExistency.executeQuery();
+                if (rsNumExistency.next()) {
+                    //valoreReturn viene posto a -1 valore che definisce l'esistenza del numero inserito.
+                    throw new CheckTuttException("Numero fattura inserito già esistente.");
+                    
+                } else {
+                    
+                    if (numPrec > 0) {
+                       if (numSucc > 0) {
+                            if (!((forcedNumber > numPrec) && (forcedNumber < numSucc)))
+                                throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
+                                        "oppure non c'è nessun intervallo di fatture alla data selezionata.");
+                            
+                            else
+                                valoreReturn = 0;    //Valore di ok
+                            
+                        } else if (numSucc == 0) {
+                            if (!((forcedNumber > numPrec)))
+                                throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
+                                        "oppure non c'è nessun intervallo di fatture alla data selezionata.");
+                            
+                            else
+                                valoreReturn = 0;    //Valore di ok
+                          }
+                       
+                    } else if (numPrec == 0) {
+                        if (!(forcedNumber < numSucc))
+                            throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
+                                        "oppure non c'è nessun intervallo di fatture alla data selezionata.");
+                        
+                        else
+                            valoreReturn = 0;    //Valore di ok
+                        
+                    } else
+                        valoreReturn = 0;
+                }
+                
+            } else {
+                //System.out.println("Nprec: " + numPrec + "\nNsucc: " + numSucc);
+                if (numSucc - numPrec == 1) {
+                    throw new CheckTuttException("Nessun intervallo di fatture presente alla data selezionata.");
+                    
+                } else 
+                    valoreReturn = numPrec + 1;
+            }
+
+            return valoreReturn;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CheckTuttException("Numero fattura inserito già esistente.");
+            
+        }
+    }
+}

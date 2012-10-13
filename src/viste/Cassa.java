@@ -1,0 +1,1174 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * RegistroFattureEmesse.java
+ *
+ * Created on 30-mag-2012, 20.17.33
+ */
+package viste;
+
+import com.itextpdf.text.DocumentException;
+import contabilizzazione.SaldoCassaMensile;
+import controllo.FrontController;
+import entita.Entity;
+import entita.Fattura;
+import entita.Fornitore;
+import movimentazionecontante.Versamento;
+import java.awt.Color;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import movimentazionecontante.MovimentazioneContante;
+import movimentazionecontante.Prelievo;
+import stampa.StampaCassa;
+import stampa.StampaCassa.RiepilogoCassa;
+
+/**
+ *
+ * @author Michele
+ */
+public class Cassa extends javax.swing.JFrame {
+    
+    private class CassaTableModel extends DefaultTableModel {
+        
+        private final boolean[] CAN_EDIT;
+        private final Class[] types;
+        
+        public CassaTableModel(Object[][] righe, String[] colonne, Class[] tps, boolean[] edit) {
+            super(righe, colonne);
+            CAN_EDIT = edit;
+            types = tps;
+            
+        }
+ 
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return CAN_EDIT[columnIndex];
+        }
+               
+        @Override
+        public Class getColumnClass(int columnIndex) {
+            return this.types[columnIndex];
+        }
+
+        @Override
+        public void setValueAt(Object aValue, int row, int column) {
+            super.setValueAt(aValue, row, column);
+            
+            MovimentazioneContante movimento = movimentiContante.get(row);
+            
+            int id = movimento.getId();
+            String banca = ((String) tblVersamenti.getValueAt(row, BANCA));
+            double importo = 0.00;
+            
+            try {
+                importo = ((Double) tblVersamenti.getValueAt(row, IMPORTO));
+            } catch (NullPointerException e) {
+                setValueAt(movimento.getImporto(), row, column);
+                return;
+            }
+                        
+            if (column == IMPORTO) {
+                Double totVersamenti = Double.parseDouble(txtVersamentiTot.getText());
+                Double totPrelievi = Double.parseDouble(txtPrelievi.getText());
+                Double attivoContante = Double.parseDouble(txtAttivoContante.getText());
+                Double passivoContante = Double.parseDouble(txtPassivoContante.getText());
+                                
+                String tipo = ((String) tblVersamenti.getValueAt(row, TIPO));
+                
+                if (tipo.equalsIgnoreCase(Versamento.class.getSimpleName())) {
+                    totVersamenti -= movimento.getImporto();
+                    totVersamenti += (Double) aValue;
+                    txtVersamentiTot.setText(String.valueOf(roundTwoDecimals(totVersamenti)));
+                } else {
+                    totPrelievi -= movimento.getImporto();
+                    totPrelievi += (Double) aValue;
+                    txtPrelievi.setText(String.valueOf(roundTwoDecimals(totPrelievi)));
+                }
+                
+                Double netto = attivoContante + totPrelievi - passivoContante - totVersamenti;
+                txtCassaNetto.setText(String.valueOf(roundTwoDecimals(netto)));
+                
+            }   
+            
+            movimento.setBanca(banca);
+            movimento.setImporto(importo);
+            
+            if (!FrontController.updateMovimentazioneContante(movimento))
+                JOptionPane.showMessageDialog(null, "Si è verificato un errore durante la modifica!" , "Errore", JOptionPane.ERROR_MESSAGE);
+            
+            movimentiContante.set(row, movimento);
+        }
+        
+    }
+
+    /** Creates new form RegistroFattureEmesse */
+    public Cassa() {
+        initComponents();
+        ColorManager color = new ColorManager();
+        color.changeColor(pnlAnno);
+        color.changeColor(pnlCliente);
+        color.changeColor(pnlCassa);
+        color.changeColor(pnlEntrate);
+        color.changeColor(pnlUscite);
+        color.changeColor(pnlMovimenti);
+    }
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        pnlAnno = new javax.swing.JPanel();
+        cboAnno = new javax.swing.JComboBox();
+        pnlCliente = new javax.swing.JPanel();
+        cboCliente = new javax.swing.JComboBox();
+        pnlCassa = new javax.swing.JPanel();
+        txtAttivoContante = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtVersamentiTot = new javax.swing.JTextField();
+        txtCassaNetto = new javax.swing.JTextField();
+        txtPrelievi = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txtPassivoContante = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        btnVersamento = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        pnlEntrate = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblCassaAttiva = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        txtTotAssegniEntrate = new javax.swing.JTextField();
+        txtTotBonificoEntrate = new javax.swing.JTextField();
+        txtTotRibaEntrate = new javax.swing.JTextField();
+        txtTotContanteEntrate = new javax.swing.JTextField();
+        pnlUscite = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblCassaPassiva = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        txtTotContanteUscite = new javax.swing.JTextField();
+        txtTotAssegniUscite = new javax.swing.JTextField();
+        txtTotBonificoUscite = new javax.swing.JTextField();
+        txtTotRibaUscite = new javax.swing.JTextField();
+        pnlMovimenti = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblVersamenti = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        mnuIntervalloDate = new javax.swing.JCheckBoxMenuItem();
+        mnuProspetto = new javax.swing.JMenu();
+        mnuStampa = new javax.swing.JMenuItem();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cassa");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+
+        pnlAnno.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Anno", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+
+        cboAnno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboAnnoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlAnnoLayout = new javax.swing.GroupLayout(pnlAnno);
+        pnlAnno.setLayout(pnlAnnoLayout);
+        pnlAnnoLayout.setHorizontalGroup(
+            pnlAnnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAnnoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cboAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlAnnoLayout.setVerticalGroup(
+            pnlAnnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAnnoLayout.createSequentialGroup()
+                .addComponent(cboAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlCliente.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Cliente/Fornitore", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+
+        cboCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tutti" }));
+        cboCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboClienteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlClienteLayout = new javax.swing.GroupLayout(pnlCliente);
+        pnlCliente.setLayout(pnlClienteLayout);
+        pnlClienteLayout.setHorizontalGroup(
+            pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cboCliente, 0, 534, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlClienteLayout.setVerticalGroup(
+            pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlClienteLayout.createSequentialGroup()
+                .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlCassa.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Cassa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        txtAttivoContante.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtAttivoContante.setEnabled(false);
+
+        jLabel4.setText("Prelievi");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel6.setText("Netto in cassa");
+
+        jLabel5.setText("Versamenti");
+
+        txtVersamentiTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtVersamentiTot.setEnabled(false);
+
+        txtCassaNetto.setFont(new java.awt.Font("Tahoma", 1, 12));
+        txtCassaNetto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtCassaNetto.setEnabled(false);
+
+        txtPrelievi.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtPrelievi.setEnabled(false);
+
+        jLabel1.setText("Attivo Contante");
+
+        txtPassivoContante.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtPassivoContante.setEnabled(false);
+
+        jLabel3.setText("Passivo Contante");
+
+        btnVersamento.setBackground(new java.awt.Color(255, 255, 255));
+        btnVersamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/versamento.png"))); // NOI18N
+        btnVersamento.setText("Effettua Versamento");
+        btnVersamento.setToolTipText("Registra un nuovo versamento di contante");
+        btnVersamento.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        btnVersamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVersamentoActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prelievo.png"))); // NOI18N
+        jButton1.setText("Effettua Prelievo");
+        jButton1.setToolTipText("Effettua un prelievo");
+        jButton1.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlCassaLayout = new javax.swing.GroupLayout(pnlCassa);
+        pnlCassa.setLayout(pnlCassaLayout);
+        pnlCassaLayout.setHorizontalGroup(
+            pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCassaLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addComponent(txtCassaNetto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                        .addComponent(txtVersamentiTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                        .addComponent(txtPrelievi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlCassaLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                        .addComponent(txtAttivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                        .addComponent(txtPassivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(128, 128, 128)
+                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                    .addComponent(btnVersamento))
+                .addGap(122, 122, 122))
+        );
+
+        pnlCassaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtAttivoContante, txtPassivoContante, txtPrelievi, txtVersamentiTot});
+
+        pnlCassaLayout.setVerticalGroup(
+            pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCassaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtAttivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPassivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPrelievi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtVersamentiTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(13, 13, 13)
+                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCassaLayout.createSequentialGroup()
+                        .addComponent(btnVersamento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCassaNetto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17))
+        );
+
+        pnlCassaLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtAttivoContante, txtCassaNetto, txtPassivoContante, txtPrelievi, txtVersamentiTot});
+
+        pnlCassaLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnVersamento, jButton1});
+
+        pnlEntrate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Entrate", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        tblCassaAttiva.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tblCassaAttiva.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setViewportView(tblCassaAttiva);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel7.setText("TOTALI");
+
+        txtTotAssegniEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotAssegniEntrate.setEnabled(false);
+
+        txtTotBonificoEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotBonificoEntrate.setEnabled(false);
+
+        txtTotRibaEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotRibaEntrate.setEnabled(false);
+
+        txtTotContanteEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotContanteEntrate.setEnabled(false);
+
+        javax.swing.GroupLayout pnlEntrateLayout = new javax.swing.GroupLayout(pnlEntrate);
+        pnlEntrate.setLayout(pnlEntrateLayout);
+        pnlEntrateLayout.setHorizontalGroup(
+            pnlEntrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEntrateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlEntrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlEntrateLayout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                        .addComponent(txtTotContanteEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtTotAssegniEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtTotBonificoEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtTotRibaEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(6, Short.MAX_VALUE))
+        );
+
+        pnlEntrateLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtTotAssegniEntrate, txtTotBonificoEntrate, txtTotContanteEntrate, txtTotRibaEntrate});
+
+        pnlEntrateLayout.setVerticalGroup(
+            pnlEntrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlEntrateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlEntrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtTotContanteEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotAssegniEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotBonificoEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotRibaEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+
+        pnlUscite.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Uscite", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        tblCassaPassiva.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tblCassaPassiva.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane2.setViewportView(tblCassaPassiva);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel8.setText("TOTALI");
+
+        txtTotContanteUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotContanteUscite.setEnabled(false);
+
+        txtTotAssegniUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotAssegniUscite.setEnabled(false);
+
+        txtTotBonificoUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotBonificoUscite.setEnabled(false);
+
+        txtTotRibaUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotRibaUscite.setEnabled(false);
+
+        javax.swing.GroupLayout pnlUsciteLayout = new javax.swing.GroupLayout(pnlUscite);
+        pnlUscite.setLayout(pnlUsciteLayout);
+        pnlUsciteLayout.setHorizontalGroup(
+            pnlUsciteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUsciteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlUsciteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+                    .addGroup(pnlUsciteLayout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+                        .addComponent(txtTotContanteUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtTotAssegniUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtTotBonificoUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtTotRibaUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        pnlUsciteLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtTotAssegniUscite, txtTotBonificoUscite, txtTotContanteUscite, txtTotRibaUscite});
+
+        pnlUsciteLayout.setVerticalGroup(
+            pnlUsciteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUsciteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlUsciteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtTotContanteUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotAssegniUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotBonificoUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotRibaUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+
+        pnlMovimenti.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Movimenti Contante", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        tblVersamenti.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tblVersamenti.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane3.setViewportView(tblVersamenti);
+
+        javax.swing.GroupLayout pnlMovimentiLayout = new javax.swing.GroupLayout(pnlMovimenti);
+        pnlMovimenti.setLayout(pnlMovimentiLayout);
+        pnlMovimentiLayout.setHorizontalGroup(
+            pnlMovimentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMovimentiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlMovimentiLayout.setVerticalGroup(
+            pnlMovimentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMovimentiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, 0, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/filtra.png"))); // NOI18N
+        jMenu3.setText("Filtra");
+
+        mnuIntervalloDate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        mnuIntervalloDate.setText("Per intervallo date");
+        mnuIntervalloDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/intervallodate.png"))); // NOI18N
+        mnuIntervalloDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuIntervalloDateActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnuIntervalloDate);
+
+        jMenuBar1.add(jMenu3);
+
+        mnuProspetto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prospetto.png"))); // NOI18N
+        mnuProspetto.setText("Prospetto");
+
+        mnuStampa.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        mnuStampa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
+        mnuStampa.setText("Stampa");
+        mnuStampa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuStampaActionPerformed(evt);
+            }
+        });
+        mnuProspetto.add(mnuStampa);
+
+        jMenuBar1.add(mnuProspetto);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(617, 617, 617))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(pnlCassa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pnlEntrate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pnlMovimenti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlEntrate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlCassa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlMovimenti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlAnno, pnlCliente});
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+// TODO add your handling code here:
+    List<Entity> fornitori = FrontController.getAnagrafe(Fornitore.class);
+    List<Integer> anni = FrontController.getAnniEsercizio();
+    popolaSelect(fornitori);
+    popolaSelect(anni);
+    String anno = String.valueOf(cboAnno.getSelectedItem());
+    dataIniziale = Date.valueOf(anno + "-01-01");
+    dataFinale = Date.valueOf(anno + "-12-31");
+}//GEN-LAST:event_formWindowOpened
+
+/*
+ * Prende come parametri d'ingresso due sql.Date e compila un array di String contenente tutti i mesi nel periodo passato come parametro.
+ * I mesi da inserire nell'array sono nella forma "anno-mese";
+ */
+private void setAnniMesi(Date iniziale, Date finale) {
+    String dataI = iniziale.toString();
+    String dataF = finale.toString();
+    int annoI = Integer.parseInt(dataI.substring(0,4));
+    int meseI = Integer.parseInt(dataI.substring(5,7));
+    int annoF = Integer.parseInt(dataF.substring(0,4));
+    int meseF = Integer.parseInt(dataF.substring(5,7));
+    
+    //Valutazione del periodo inserito, a cavallo fra due o più anni, o nello stesso anno.
+    if (annoI == annoF) {
+        int diff = meseF - meseI;  //es. 12-1
+        anniMesi = new String[diff+1];
+        if (String.valueOf(meseI).length() == 1) //Se l'int del mese iniziale è nella forma 1, 2, 3.... 9
+            anniMesi[0] = annoI + "-0" + String.valueOf(meseI);
+        else 
+            anniMesi[0] = annoI + "-" + String.valueOf(meseI);
+        
+        int j = 1;
+        for (int i = meseI+1; i < meseF; i++) {
+            String mese = String.valueOf(i);
+            if (mese.length() == 1)
+                mese = "0" + i;
+            anniMesi[j] = annoI + "-" + mese;
+            j++;
+        }
+        if (diff > 0) {
+            if (String.valueOf(meseF).length() == 1)
+                anniMesi[diff] = annoI + "-0" + meseF;
+            else
+                anniMesi[diff] = annoI + "-" + meseF;
+        }
+    } else { //se le date sono a cavallo fra 2 o più anni
+        int diffAnni = annoF - annoI;
+        int mesiTot = (12-meseI + 1) + (12 * (diffAnni -1)) + (meseF);
+        anniMesi = new String[mesiTot];
+        
+        //inserimento nell'array dell'anno e mese iniziale
+        if (String.valueOf(meseI).length() == 1)
+            anniMesi[0] = annoI + "-0" + meseI;
+        else 
+            anniMesi[0] = annoI + "-" + meseI;
+        
+        int j = 1;
+        int anno = annoI;
+        //ciclo che inserisce nell'array di anniMesi tutti i valori dei mesi tranne quelli dell'ultimo anno del periodo di riferimento
+        for (int i = 0; i < diffAnni; i++) {
+            for (int h = meseI + 1; h <= 12; h++){
+                if (String.valueOf(h).length() == 1) 
+                    anniMesi[j] = anno + "-0" + h;
+                else
+                    anniMesi[j] = anno + "-" + h;                
+                j++;
+            }
+            //porto l'anno pari all'anno successivo in caso di ulteriore iterata del ciclo (diffAnni > 1)
+            anno = anno + 1;
+            //riporto il mese iniziale a 1 in caso di ulteriore iterata
+            meseI = 0;
+        }
+        //ciclo che inserisce nell'array anniMesi le occorrenze dell'ultimo anno del periodo inserito
+        for (int i = 1; i < meseF; i++) {
+            if (String.valueOf(i).length() == 1) 
+                    anniMesi[j] = annoF + "-0" + i;
+                else
+                    anniMesi[j] = annoF + "-" + i;                
+                j++;
+        }
+        if (String.valueOf(meseF).length() == 1)
+            anniMesi[mesiTot-1] = annoF + "-0" + meseF;
+        else
+            anniMesi[mesiTot-1] = annoF + "-" + meseF;             
+    }
+} 
+
+private void cboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboClienteActionPerformed
+// TODO add your handling code here:
+    try {
+        codFornCliente = ((Fornitore) cboCliente.getSelectedItem()).getCod();
+        
+    } catch (ClassCastException e) {
+        codFornCliente = -1;
+        
+    }
+    
+    setTable();
+    
+}//GEN-LAST:event_cboClienteActionPerformed
+
+private void cboAnnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAnnoActionPerformed
+// TODO add your handling code here:
+    String anno = String.valueOf(cboAnno.getSelectedItem());
+    dataIniziale = Date.valueOf(anno + "-01-01");
+    dataFinale = Date.valueOf(anno + "-12-31");
+    mnuIntervalloDate.setSelected(false);
+    setTable();
+}//GEN-LAST:event_cboAnnoActionPerformed
+
+private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIntervalloDateActionPerformed
+// TODO add your handling code here:
+    // TODO add your handling code here:
+    boolean okDate = false;
+    java.util.Calendar currentime = Calendar.getInstance();
+    dataIniziale = null;
+    dataFinale = new Date((currentime.getTime()).getTime()); //data odierna
+   
+    /*
+     * Il ciclo viene ripetuto fino a quando viene inserita una data nel formato corretto, oppure
+     * fino a quando l'utente non decide di annullare l'operazione di filtraggio.
+     */
+    while (!okDate) {
+        String dataI;
+        try {
+            /*
+             * Il ciclo viene ripetuto fino a quando l'utente continua a cliccare ok sull'input senza
+             * inserire alcun valore.
+             */
+            while ((dataI = JOptionPane.showInputDialog(rootPane, "Inserisci la data iniziale")).isEmpty());
+            
+        } catch (NullPointerException e) { //L'utente ha premuto annulla sull'input dialog
+            mnuIntervalloDate.setSelected(false);
+            return;
+        }
+    
+        if (!checkData(dataI)) //Il formato della data inserita dall'utente, non è gg/mm/aaaa
+            JOptionPane.showMessageDialog(rootPane, "Inserisci la data nel formato gg/mm/aaaa", "Formato errato", JOptionPane.ERROR_MESSAGE);
+        
+        else { //Il formato è corretto
+            String splitted[] = dataI.split("\\/");
+            String giorno = splitted[0];
+            String mese = splitted[1];
+            String anno = splitted[2];
+            
+            if (anno.length() == 2)
+                anno = "20" + anno;
+                    
+            else if (anno.length() == 3)
+                anno = "2" + anno;
+
+            if (mese.length() == 1)
+                mese = "0" + mese;
+
+            if (giorno.length() == 1) 
+                giorno = "0" + giorno;
+            
+            try {
+                dataIniziale = Date.valueOf(anno + "-" + mese + "-" + giorno);
+                okDate = true;
+                
+            } catch (IllegalArgumentException e) { //Il valore inserito per la data non è valido, perché non esiste. Per esempio si inserisce 13 come mese
+                JOptionPane.showMessageDialog(rootPane, "Inserisci la data nel formato corretto", "Valore errato", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }
+    }
+    
+    okDate = false;
+    
+    //Come quello di cui sopra
+    while (!okDate) {
+        String dataF = JOptionPane.showInputDialog(rootPane, "Inserisci la data finale oppure premi OK se vuoi utilizzare la data odierna.");
+        if (dataF == null) { //L'utente ha premuto annulla sull'input dialog
+            mnuIntervalloDate.setSelected(false);
+            return;
+        }
+        
+        if (!(dataF.isEmpty())) { //La data inserita non è la stringa vuota
+            if (!checkData(dataF)) //Il formato della data inserita dall'utente, non è gg/mm/aaaa
+                JOptionPane.showMessageDialog(rootPane, "Inserisci la data nel formato gg/mm/aaaa", "Formato errato", JOptionPane.ERROR_MESSAGE);
+            
+            else { //Il formato è corretto
+                String splitted[] = dataF.split("\\/");
+                String giorno = splitted[0];
+                String mese = splitted[1];
+                String anno = splitted[2];
+                
+                if (anno.length() == 2)
+                    anno = "20" + anno;
+                    
+                else if (anno.length() == 3)
+                    anno = "2" + anno;
+
+                if (mese.length() == 1)
+                    mese = "0" + mese;
+
+                if (giorno.length() == 1) 
+                    giorno = "0" + giorno;
+                
+                try {
+                    dataFinale = Date.valueOf(anno + "-" + mese + "-" + giorno);
+                    okDate = true;
+                    
+                } catch (IllegalArgumentException e) { //Il valore inserito per la data non è valido, perché non esiste. Per esempio si inserisce 13 come mese
+                    JOptionPane.showMessageDialog(rootPane, "Inserisci la data nel formato corretto", "Valore errato", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+        } else //L'utente non ha inserito alcuna data, quindi viene considerata la data odierna come data finale
+            okDate = true;
+   }
+   if (okDate){
+      setTable();
+   }
+}//GEN-LAST:event_mnuIntervalloDateActionPerformed
+
+private void btnVersamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVersamentoActionPerformed
+// TODO add your handling code here:
+    FrontController.open(new InsMovimentoContante(this, rootPaneCheckingEnabled, MovimentazioneContante.VERSAMENTO));
+}//GEN-LAST:event_btnVersamentoActionPerformed
+
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// TODO add your handling code here:
+     FrontController.open(new InsMovimentoContante(this, rootPaneCheckingEnabled, MovimentazioneContante.PRELIEVO));
+}//GEN-LAST:event_jButton1ActionPerformed
+
+private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaActionPerformed
+// TODO add your handling code here:
+    try {
+        
+        boolean forn_clienteSelezionato = cboCliente.getSelectedIndex() > 0;
+        
+        double attivoContante = Double.parseDouble(txtAttivoContante.getText());
+        double passivoContante = Double.parseDouble(txtPassivoContante.getText());
+        double versamenti = Double.parseDouble(txtVersamentiTot.getText());
+        double prelievi = Double.parseDouble(txtPrelievi.getText());
+        double netto = Double.parseDouble(txtCassaNetto.getText());
+        
+        RiepilogoCassa cassa = new RiepilogoCassa(attivoContante, passivoContante, versamenti, prelievi, netto);
+        
+        double[] totaliAttivo = {
+            Double.parseDouble(txtTotContanteEntrate.getText()),
+            Double.parseDouble(txtTotAssegniEntrate.getText()),
+            Double.parseDouble(txtTotBonificoEntrate.getText()),
+            Double.parseDouble(txtTotRibaEntrate.getText())
+        };
+        
+        double[] totaliPassivo = {
+            Double.parseDouble(txtTotContanteUscite.getText()),
+            Double.parseDouble(txtTotAssegniUscite.getText()),
+            Double.parseDouble(txtTotBonificoUscite.getText()),
+            Double.parseDouble(txtTotRibaUscite.getText())
+        };
+        
+        if (mnuIntervalloDate.isSelected() && forn_clienteSelezionato) {
+            new StampaCassa((Fornitore)cboCliente.getSelectedItem(), dataIniziale, dataFinale, movimentiContante, attivo, passivo, cassa, totaliAttivo, totaliPassivo).printAndOpen();
+   
+        } else if (mnuIntervalloDate.isSelected() && !forn_clienteSelezionato) {
+            new StampaCassa(dataIniziale, dataFinale, movimentiContante, attivo, passivo, cassa, totaliAttivo, totaliPassivo).printAndOpen();
+            
+        } else if (!mnuIntervalloDate.isSelected() && forn_clienteSelezionato) {
+            new StampaCassa((Fornitore)cboCliente.getSelectedItem(), (Integer) cboAnno.getSelectedItem(), movimentiContante, attivo, passivo, cassa, totaliAttivo, totaliPassivo).printAndOpen();
+            
+        } else if (!mnuIntervalloDate.isSelected() && !forn_clienteSelezionato) {
+            new StampaCassa((Integer) cboAnno.getSelectedItem(), movimentiContante, attivo, passivo, cassa, totaliAttivo, totaliPassivo).printAndOpen();
+            
+        }
+        
+    } catch (DocumentException ex) {
+        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+}//GEN-LAST:event_mnuStampaActionPerformed
+
+private boolean checkData(String data) {
+    Pattern pattern = Pattern.compile("\\d{1,2}/\\d{1,2}/\\d{2,4}");
+    Matcher match = pattern.matcher(data);
+    return match.matches();
+}
+ 
+void setTable() {
+       
+    setAnniMesi(dataIniziale, dataFinale);
+    List<SaldoCassaMensile> cassaAttiva = FrontController.getMovimentazioneCassaMensile(anniMesi, codFornCliente, Fattura.tipo.VEN);
+    List<SaldoCassaMensile> cassaPassiva = FrontController.getMovimentazioneCassaMensile(anniMesi, codFornCliente, Fattura.tipo.ACQ);
+    List<MovimentazioneContante> movimenti = FrontController.getCashMovements(anniMesi);
+    attivo = cassaAttiva;
+    passivo = cassaPassiva;
+    movimentiContante = movimenti;
+    
+    //Definizione del netto in cassa
+//    double attivoAssegni = 0.00;
+    double attivoContante = 0.00;
+    double totPrelievi = 0.00;
+    double passivoContante = 0.00;
+    double totVers = 0.00;
+    double nettoCassa = 0.00;
+    
+    for (SaldoCassaMensile s : cassaAttiva){
+//        attivoAssegni += s.getAssegni();
+        attivoContante += s.getContanti();
+    }
+    
+    for (SaldoCassaMensile s : cassaPassiva){
+        passivoContante += s.getContanti();
+    }
+    for (MovimentazioneContante m : movimenti){
+        if (m instanceof Versamento)
+            totVers += m.getImporto();
+        else if (m instanceof Prelievo)
+            totPrelievi += m.getImporto();
+    }
+    nettoCassa = attivoContante + totPrelievi - passivoContante - totVers;
+    
+    //txtAttivoAssegni.setText(String.valueOf(roundTwoDecimals(attivoAssegni)));
+    txtAttivoContante.setText(String.valueOf(roundTwoDecimals(attivoContante)));
+    txtPrelievi.setText(String.valueOf(roundTwoDecimals(totPrelievi)));
+    txtPassivoContante.setText(String.valueOf(roundTwoDecimals(passivoContante)));
+    txtVersamentiTot.setText(String.valueOf(roundTwoDecimals(totVers)));
+    txtCassaNetto.setText(String.valueOf(roundTwoDecimals(nettoCassa)));
+    
+    Object[] cassaAtt = cassaAttiva.toArray();
+    Object[] cassaPass = cassaPassiva.toArray();
+    Object[] movim = movimenti.toArray();
+    Object[][] arrayAttiva = new Object[cassaAtt.length][SaldoCassaMensile.NUM_CAMPI];
+    Object[][] arrayPassiva = new Object[cassaPass.length][SaldoCassaMensile.NUM_CAMPI];
+    Object[][] arrayMov = new Object[movim.length][MovimentazioneContante.NUM_CAMPI];
+    
+    int cont = 0;
+    double totContante = 0.00;
+    double totAssegni = 0.00;
+    double totBonifico = 0.00;
+    double totRiba = 0.00;
+    for (SaldoCassaMensile saldo : cassaAttiva) {
+        arrayAttiva[cont++] = saldo.toArray();
+        totContante += saldo.getContanti();
+        totAssegni += saldo.getAssegni();
+        totBonifico += saldo.getBonifico();
+        totRiba += saldo.getRiba();
+    }
+    
+    txtTotAssegniEntrate.setText(String.valueOf(roundTwoDecimals(totAssegni)));
+    txtTotContanteEntrate.setText(String.valueOf(roundTwoDecimals(totContante)));
+    txtTotBonificoEntrate.setText(String.valueOf(roundTwoDecimals(totBonifico)));
+    txtTotRibaEntrate.setText(String.valueOf(roundTwoDecimals(totRiba)));
+    
+    txtTotAssegniEntrate.setHorizontalAlignment(JTextField.RIGHT);
+    txtTotContanteEntrate.setHorizontalAlignment(JTextField.RIGHT);
+    txtTotBonificoEntrate.setHorizontalAlignment(JTextField.RIGHT);
+    txtTotRibaEntrate.setHorizontalAlignment(JTextField.RIGHT);
+    
+    cont = 0;
+    totContante = 0.00;
+    totAssegni = 0.00;
+    totBonifico = 0.00;
+    totRiba = 0.00;
+    for (SaldoCassaMensile saldo : cassaPassiva) {
+        arrayPassiva[cont++] = saldo.toArray();
+        totContante += saldo.getContanti();
+        totAssegni += saldo.getAssegni();
+        totBonifico += saldo.getBonifico();
+        totRiba += saldo.getRiba();
+    }
+    
+    txtTotAssegniUscite.setText(String.valueOf(roundTwoDecimals(totAssegni)));
+    txtTotContanteUscite.setText(String.valueOf(roundTwoDecimals(totContante)));
+    txtTotBonificoUscite.setText(String.valueOf(roundTwoDecimals(totBonifico)));
+    txtTotRibaUscite.setText(String.valueOf(roundTwoDecimals(totRiba)));
+    
+    txtTotAssegniUscite.setHorizontalAlignment(JTextField.RIGHT);
+    txtTotContanteUscite.setHorizontalAlignment(JTextField.RIGHT);
+    txtTotBonificoUscite.setHorizontalAlignment(JTextField.RIGHT);
+    txtTotRibaUscite.setHorizontalAlignment(JTextField.RIGHT);
+    
+    cont = 0;
+    for (MovimentazioneContante m : movimenti){
+        arrayMov[cont++] = m.toArray();
+    }
+    
+    final String[] COLONNE_MOV = {
+        "DATA", "BANCA", "IMPORTO", "TIPO"
+    };
+    
+    final String[] COLONNE = {
+        "PERIODO", "CONTANTE", "ASSEGNI", "BONIFICO", "RIBA"
+    };
+    
+    Class[] types = {String.class, Double.class, Double.class, Double.class, Double.class};
+    
+    TableModel tm = new CassaTableModel(arrayAttiva, COLONNE, types, new boolean[] {
+        false, false, false, false
+    });    
+   
+    tblCassaAttiva.setModel(tm);
+    TableRowSorter sorter = new TableRowSorter(tm);
+    sorter.setSortable(PERIODO, false);
+    tblCassaAttiva.setRowSorter(sorter);
+    
+    tm = new CassaTableModel(arrayPassiva, COLONNE, types, new boolean[] {
+        false, false, false, false, false
+    });    
+    
+    tblCassaPassiva.setModel(tm);
+    sorter = new TableRowSorter(tm);
+    sorter.setSortable(PERIODO, false);
+    tblCassaPassiva.setRowSorter(sorter);
+    
+    boolean[] resizable = {
+        false, false, false, false, false
+    };
+    
+    types = new Class[] {Object.class, String.class, Double.class, String.class};
+    
+    tm = new CassaTableModel(arrayMov, COLONNE_MOV, types, new boolean[] {false, true, true, false});
+    tblVersamenti.setModel(tm);
+    tblVersamenti.setRowSorter(new TableRowSorter(tm) {
+
+        class DateComparator implements Comparator {
+
+            @Override
+            public int compare(Object o1, Object o2) {
+                String[] data1_str = ((String) o1).split("/");
+                String[] data2_str = ((String) o2).split("/");
+
+                Date data1 = Date.valueOf(data1_str[2] + "-" + data1_str[1] + "-" + data1_str[0]);
+                Date data2 = Date.valueOf(data2_str[2] + "-" + data2_str[1] + "-" + data2_str[0]);
+
+                return data1.compareTo(data2);
+            }
+            
+        }
+        
+        @Override
+        public void sort() {
+            setComparator(DATA, new DateComparator());
+            super.sort();
+        }
+        
+    });
+    
+    boolean[] resizableMov = {
+        false, false, false, false
+    };
+    
+    for (int i = 0; i < COLONNE_MOV.length; i++) {
+        TableColumn colonnaVers = tblCassaAttiva.getColumnModel().getColumn(i);
+        colonnaVers.setResizable(resizableMov[i]);
+        if (i == IMPORTO) {
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(JLabel.RIGHT);
+            colonnaVers.setCellRenderer(renderer);
+        }
+            
+    }
+    
+//    int[] width = {
+//        300, 100, 90, 170
+//    };
+    
+    tblCassaAttiva.getTableHeader().setReorderingAllowed(false); //Fa in modo che l'utente non possa modificare l'ordine delle colonne
+    tblCassaPassiva.getTableHeader().setReorderingAllowed(false); //Fa in modo che l'utente non possa modificare l'ordine delle colonne
+        
+    //Imposta la larghezza dei singoli campi
+    //tblContEmesse.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    
+    for (int i = 0; i < COLONNE.length; i++) {
+        TableColumn colonnaAttivo = tblCassaAttiva.getColumnModel().getColumn(i);
+        TableColumn colonnaPassivo = tblCassaPassiva.getColumnModel().getColumn(i);
+        colonnaAttivo.setResizable(resizable[i]);
+        colonnaPassivo.setResizable(resizable[i]);
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        
+        if (i != PERIODO)
+            renderer.setHorizontalAlignment(JLabel.RIGHT);
+        else
+            renderer.setBackground(Color.lightGray);
+        
+        colonnaAttivo.setCellRenderer(renderer);
+        colonnaPassivo.setCellRenderer(renderer);
+        
+        //colonna.setPreferredWidth(width[i]);
+    }
+          
+    tblCassaAttiva.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    tblCassaPassiva.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+}
+
+/*
+ * Popola la select dei fornitori.
+ */
+private void popolaSelect(List items) {
+    for (Object item : items)
+        if (item instanceof Integer)
+            cboAnno.addItem((Integer)item);
+        else
+            cboCliente.addItem((Fornitore) item);
+}
+
+/*
+ * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
+ */
+private double roundTwoDecimals(double d) {
+    return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
+}
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnVersamento;
+    private javax.swing.JComboBox cboAnno;
+    private javax.swing.JComboBox cboCliente;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JCheckBoxMenuItem mnuIntervalloDate;
+    private javax.swing.JMenu mnuProspetto;
+    private javax.swing.JMenuItem mnuStampa;
+    private javax.swing.JPanel pnlAnno;
+    private javax.swing.JPanel pnlCassa;
+    private javax.swing.JPanel pnlCliente;
+    private javax.swing.JPanel pnlEntrate;
+    private javax.swing.JPanel pnlMovimenti;
+    private javax.swing.JPanel pnlUscite;
+    private javax.swing.JTable tblCassaAttiva;
+    private javax.swing.JTable tblCassaPassiva;
+    private javax.swing.JTable tblVersamenti;
+    private javax.swing.JTextField txtAttivoContante;
+    private javax.swing.JTextField txtCassaNetto;
+    private javax.swing.JTextField txtPassivoContante;
+    private javax.swing.JTextField txtPrelievi;
+    private javax.swing.JTextField txtTotAssegniEntrate;
+    private javax.swing.JTextField txtTotAssegniUscite;
+    private javax.swing.JTextField txtTotBonificoEntrate;
+    private javax.swing.JTextField txtTotBonificoUscite;
+    private javax.swing.JTextField txtTotContanteEntrate;
+    private javax.swing.JTextField txtTotContanteUscite;
+    private javax.swing.JTextField txtTotRibaEntrate;
+    private javax.swing.JTextField txtTotRibaUscite;
+    private javax.swing.JTextField txtVersamentiTot;
+    // End of variables declaration//GEN-END:variables
+    
+    Date dataIniziale;
+    Date dataFinale;
+    private String[] anniMesi;
+    private int codFornCliente = -1;
+    private List<MovimentazioneContante> movimentiContante; 
+    private List<SaldoCassaMensile> attivo;
+    private List<SaldoCassaMensile> passivo;
+    
+    private static final int PERIODO = 0;
+    private static final int CONTANTE = 1;
+    private static final int ASSEGNI = 2;
+    private static final int BONIFICO = 3;
+    private static final int RIBA = 4;
+    
+    private static final int DATA = 0;
+    private static final int BANCA = 1;
+    private static final int IMPORTO = 2;
+    private static final int TIPO = 3;
+}

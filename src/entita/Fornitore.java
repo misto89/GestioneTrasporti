@@ -1,0 +1,298 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entita;
+
+public class Fornitore implements Entity {
+
+    private Integer cod;
+    private String nome;
+    private String titolare;
+    private String piva;
+    private String codfiscale;
+    private String indirizzo;
+    private String telefono1;
+    private String telefono2;
+    private String fax;
+    private String email;
+    private String cap;
+    private String citta;
+    private String prov;
+    private String nazione;
+    private String banca;
+    private String iban;
+    private String nomeRef1;
+    private String nomeRef2;
+    private String emailRef1;
+    private String emailRef2;
+    private String telRef1;
+    private String telRef2;
+    
+    
+    public static final int NUM_CAMPI = 16;
+    
+    //Tipi di ricerche per i fornitori
+    public static final int RIC_NOME = 1;
+    public static final int RIC_PIVA = 2;
+    public static final int RIC_CODFISC = 3;
+
+    public Fornitore() {
+    }
+
+    public Fornitore(Integer cod) {
+        this.cod = cod;
+    }
+
+    public Fornitore(Integer cod, String nome, String titolare, String piva, String codfiscale, String indirizzo, String telefono1, String telefono2,
+            String fax, String email, String cap, String citta, String prov, String nazione, String banca, String iban) {
+        
+        this.cod = cod;
+        this.nome = nome;
+        this.titolare = titolare;
+        this.piva = piva;
+        this.codfiscale = codfiscale;
+        this.indirizzo = indirizzo;
+        this.telefono1 = telefono1;
+        this.telefono2 = telefono2;
+        this.fax = fax;
+        this.email = email;
+        this.cap = cap;
+        this.citta = citta;
+        this.prov = prov;
+        this.nazione = nazione;
+        this.banca = banca;
+        this.iban = iban;
+    }
+    
+    public Fornitore(Integer cod, String nome, String titolare, String piva, String codfiscale, String indirizzo, String telefono1, String telefono2,
+            String fax, String email, String cap, String citta, String prov, String nazione, String banca, String iban, String nomeRef1, String nomeRef2, String emailRef1,
+            String emailRef2, String telRef1, String telRef2) {
+        
+        this(cod, nome, titolare, piva, codfiscale, indirizzo, telefono1, telefono2, fax, email, cap, citta, prov, nazione, banca, iban);
+     
+        this.nomeRef1 = nomeRef1;
+        this.nomeRef2 = nomeRef2;
+        this.emailRef1 = emailRef1;
+        this.emailRef2 = emailRef2;
+        this.telRef1 = telRef1;
+        this.telRef2 = telRef2;
+         
+    }
+
+    public Integer getCod() {
+        return cod;
+    }
+
+    public void setCod(Integer cod) {
+        this.cod = cod;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    public String getTitolare() {
+        return titolare;
+    }
+
+    public void setTitolare(String titolare) {
+        this.titolare = titolare;
+    }
+
+    public String getPiva() {
+        return piva;
+    }
+
+    public void setPiva(String piva) {
+        this.piva = piva;
+    }
+
+    public String getCodfiscale() {
+        return codfiscale;
+    }
+
+    public void setCodfiscale(String codfiscale) {
+        this.codfiscale = codfiscale;
+    }
+
+    public String getIndirizzo() {
+        return indirizzo;
+    }
+
+    public void setIndirizzo(String indirizzo) {
+        this.indirizzo = indirizzo;
+    }
+
+    public String getTelefono1() {
+        return telefono1;
+    }
+
+    public void setTelefono1(String telefono) {
+        this.telefono1 = telefono;
+    }
+    
+    public String getTelefono2() {
+        return telefono2;
+    }
+
+    public void setTelefono2(String telefono) {
+        this.telefono2 = telefono;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getCap() {
+        return cap;
+    }
+
+    public void setCap(String cap) {
+        this.cap = cap;
+    }
+    
+    public String getCitta() {
+        return citta;
+    }
+
+    public void setCitta(String citta) {
+        this.citta = citta;
+    }
+    
+    public String getProv() {
+        return prov;
+    }
+
+    public void setProv(String prov) {
+        this.prov = prov;
+    }
+    
+    public String getNazione() {
+        return nazione;
+    }
+
+    public void setNazione(String nazione) {
+        this.nazione = nazione;
+    }
+    
+    public String getBanca() {
+        return banca;
+    }
+
+    public void setBanca(String banca) {
+        this.banca = banca;
+    }
+    
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public String getNomeRef1() {
+        return nomeRef1;
+    }
+
+    public void setNomeRef1(String nome) {
+        this.nomeRef1 = nome;
+    }
+    
+    public String getNomeRef2() {
+        return nomeRef2;
+    }
+
+    public void setNomeRef2(String nome) {
+        this.nomeRef2 = nome;
+    }
+    
+    public String getEmailRef1() {
+        return emailRef1;
+    }
+
+    public void setEmailRef1(String email) {
+        this.emailRef1 = email;
+    }
+    
+    public String getEmailRef2() {
+        return emailRef2;
+    }
+
+    public void setEmailRef2(String email) {
+        this.emailRef2 = email;
+    }
+    
+    public String getTelRef1() {
+        return telRef1;
+    }
+
+    public void setTelRef1(String tel) {
+        this.telRef1 = tel;
+    }
+    
+    public String getTelRef2() {
+        return telRef2;
+    }
+
+    public void setTelRef2(String tel) {
+        this.telRef2 = tel;
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the cod fields are not set
+        if (!(object instanceof Fornitore)) {
+            return false;
+        }
+        Fornitore other = (Fornitore) object;
+        if ((this.cod == null && other.cod != null) || (this.cod != null && !this.cod.equals(other.cod))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        //return "entita.Fornitori[ cod=" + cod + " ]";
+
+        if (nome != null) {
+            if (piva != null)
+                return (this.nome).toUpperCase() + " - " + this.piva;
+            else
+                return (this.nome).toUpperCase() + " - " + this.codfiscale;
+            
+        } else {
+            if (piva != null)
+                return this.piva;
+            else
+                return this.codfiscale;
+        }
+        
+    }
+    
+    public Object[] toArray(){
+        Object[] arrayForn = {this.cod, this.nome, this.titolare, this.piva, this.codfiscale, this.banca, this.iban, this.telefono1,
+                this.telefono2, this.fax, this.email, this.indirizzo, this.cap, this.citta, this.prov, this.nazione
+        };
+        return arrayForn;
+    }
+    
+}
