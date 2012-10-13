@@ -32,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import libs.DoubleFormatter;
 import stampa.StampaScadenziario;
 
 /**
@@ -519,6 +520,8 @@ void setTableEmesse() {
         TableColumn colonna = tblScadenzeEmesse.getColumnModel().getColumn(i);
         colonna.setResizable(resizable[i]);
         colonna.setPreferredWidth(width[i]);
+        if (i == IMPONIBILE || i == IVA_VEN || i == TOTALE_VEN)
+            colonna.setCellRenderer(new DoubleFormatter());
     }
     
     tblScadenzeEmesse.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -638,6 +641,8 @@ void setTableAcquisto() {
         TableColumn colonna = tblScadenzeAcquisto.getColumnModel().getColumn(i);
         colonna.setResizable(resizable[i]);
         colonna.setPreferredWidth(width[i]);
+        if (i == IVA_ACQ || i == TOTALE_ACQ)
+            colonna.setCellRenderer(new DoubleFormatter());
     }
     
     tblScadenzeAcquisto.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -651,13 +656,6 @@ void setTableAcquisto() {
 private void popolaSelect(List items) {
     for (Object item : items)
         cboFornCliente.addItem((Fornitore) item);
-}
-
-/*
- * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
- */
-private double roundTwoDecimals(double d) {
-    return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

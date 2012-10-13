@@ -4,6 +4,8 @@
  */
 package contabilizzazione;
 
+import libs.DoubleFormatter;
+
 /**
  *
  * @author Andle
@@ -85,13 +87,7 @@ public class SaldoContabilitaMensile implements MovimentazioneMensile {
     
     @Override
     public Object[] toArray() {
-        return new Object[] {this.getMeseAnno(), roundTwoDecimals(totPos), roundTwoDecimals(totNeg), roundTwoDecimals(saldo)};
+        return new Object[] {this.getMeseAnno(), DoubleFormatter.roundTwoDecimals(totPos), DoubleFormatter.roundTwoDecimals(totNeg), DoubleFormatter.roundTwoDecimals(saldo)};
     }
 
-    /*
-     * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
-     */
-    private static double roundTwoDecimals(double d) {
-        return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
-    }
 }

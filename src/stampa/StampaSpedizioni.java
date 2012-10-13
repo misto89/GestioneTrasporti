@@ -168,9 +168,9 @@ public final class StampaSpedizioni extends StampaDocumento {
                 new PdfPCell(new Phrase(spedizione.getDescrizione(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(spedizione.getUm(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(String.valueOf(spedizione.getQta()), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(spedizione.getTraz())), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(spedizione.getDistrib())), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(spedizione.getImporto())), FONT_GRANDE_NORMALE))
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getTraz())), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getDistrib())), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getImporto())), FONT_GRANDE_NORMALE))
             };
             
             rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);

@@ -13,9 +13,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import libs.DoubleFormatter;
 
 /**
  *
@@ -90,12 +90,10 @@ public abstract class StampaDocumento {
      * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
     */
     protected double roundTwoDecimals(double d) {
-        return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
+        return DoubleFormatter.roundTwoDecimals(d);
     }
     
     protected String doubleToString(double d) {
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
-        String string = currencyFormatter.format(d);
-        return string.substring(1, string.length());
+        return DoubleFormatter.doubleToString(d);
     }
 }

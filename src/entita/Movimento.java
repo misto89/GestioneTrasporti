@@ -18,6 +18,7 @@ public class Movimento implements Entity {
     private String tipo;
     private String metPag;
     private Double valore;
+    private Integer fornCliente;
 
     public Movimento() {
     }
@@ -26,21 +27,23 @@ public class Movimento implements Entity {
         this.id = id;
     }
 
-    public Movimento(Integer id, Integer numDoc, Date data, String tipo, String metPag, Double valore) {
+    public Movimento(Integer id, Integer numDoc, Date data, String tipo, String metPag, Double valore, Integer fornCliente) {
         this.id = id;
         this.numDoc = numDoc;
         this.data = data;
         this.tipo = tipo;
         this.metPag = metPag;
         this.valore = valore;
+        this.fornCliente = fornCliente;
     }
     
-    public Movimento(Integer numDoc, Date data, String tipo, String metPag, Double valore) {
+    public Movimento(Integer numDoc, Date data, String tipo, String metPag, Double valore, Integer fornCliente) {
         this.numDoc = numDoc;
         this.data = data;
         this.tipo = tipo;
         this.metPag = metPag;
         this.valore = valore;
+        this.fornCliente = fornCliente;
     }
 
     public Integer getId() {
@@ -90,6 +93,16 @@ public class Movimento implements Entity {
     public void setValore(Double valore) {
         this.valore = valore;
     }
+
+    public Integer getFornCliente() {
+        return fornCliente;
+    }
+
+    public void setFornCliente(Integer fornCliente) {
+        this.fornCliente = fornCliente;
+    }
+    
+    
 
 //    @Override
 //    public boolean equals(Object object) {

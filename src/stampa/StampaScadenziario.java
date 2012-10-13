@@ -130,7 +130,7 @@ public class StampaScadenziario extends StampaDocumento {
                     new PdfPCell(new Phrase(String.valueOf(elencoFatture1.get(j).getNumero()), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(elencoFatture1.get(j).getFormattedData(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(elencoFatture1.get(j).getMetPag().replace("-", " a ") + " gg", FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(elencoFatture1.get(j).getTotale())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(elencoFatture1.get(j).getTotale())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(elencoFatture1.get(j).getFormattedDataScadenza(), FONT_GRANDE_NORMALE))
             };
             
@@ -200,7 +200,7 @@ public class StampaScadenziario extends StampaDocumento {
                     new PdfPCell(new Phrase(String.valueOf(elencoFatture.get(j).getNumero()), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(elencoFatture.get(j).getFormattedData(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(elencoFatture.get(j).getMetPag().replace("-", " a ") + " gg", FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(elencoFatture.get(j).getTotale())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(elencoFatture.get(j).getTotale())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(elencoFatture.get(j).getFormattedDataScadenza(), FONT_GRANDE_NORMALE))
             };
             

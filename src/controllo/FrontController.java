@@ -92,9 +92,13 @@ public abstract class FrontController {
      * @return true se l'operazione va a buon fine, false altrimenti.
      */
     public static boolean delete(Entity o) {
-        if (o instanceof Fattura)
-            return DAO_CBC.deleteFattura((Fattura)o);
-                
+        if (o instanceof Fattura) {
+            if (((Fattura)o).getTipo() != null && ((Fattura)o).getSpedizioni() == null)
+                return  DAO_CBC.deleteFatturaAcquisto((Fattura)o);
+            else
+                return DAO_CBC.deleteFattura((Fattura)o);
+        }           
+        
         return DAO_ASF.delete(o);
     }
     
@@ -261,5 +265,9 @@ public abstract class FrontController {
 
     public static boolean deleteTempFiles() {
         return new Cleaner().cleanTempFiles();
+    }
+
+    public static boolean updateFatturaAcquisto(Fattura fatt, Fattura old) {
+        return DAO_CBC.updateFatturaAcquisto(fatt, old);
     }
 }

@@ -10,7 +10,7 @@ public class Mezzo implements Entity {
     private String marca;
     private String scadBollo;
     private String scadRevisione;
-    private String scadAdp;
+    private String scadAtp;
     private String scadAssicurazione;
     
     public static final int NUM_CAMPI = 6;
@@ -28,13 +28,13 @@ public class Mezzo implements Entity {
         this.marca = marca;
     }
 
-    public Mezzo(Integer id, String targa, String marca, String scadBollo, String scadRevisione, String scadAdp, String scadAssicurazione) {
+    public Mezzo(Integer id, String targa, String marca, String scadBollo, String scadRevisione, String scadAtp, String scadAssicurazione) {
         this.id = id;
         this.targa = targa;
         this.marca = marca;
         this.scadBollo = scadBollo;
         this.scadRevisione = scadRevisione;
-        this.scadAdp = scadAdp;
+        this.scadAtp = scadAtp;
         this.scadAssicurazione = scadAssicurazione;
     }
 
@@ -62,8 +62,8 @@ public class Mezzo implements Entity {
         this.marca = marca;
     }
 
-    public String getScadAdp() {
-        return scadAdp;
+    public String getScadAtp() {
+        return scadAtp;
     }
 
     public String getScadAssicurazione() {
@@ -78,8 +78,8 @@ public class Mezzo implements Entity {
         return scadRevisione;
     }
 
-    public void setScadAdp(String scadAdp) {
-        this.scadAdp = scadAdp;
+    public void setScadAtp(String scadAtp) {
+        this.scadAtp = scadAtp;
     }
 
     public void setScadAssicurazione(String scadAssicurazione) {
@@ -121,7 +121,7 @@ public class Mezzo implements Entity {
     }
     
     public Object[] toArray(){
-        Object[] arrayMezzi = {this.targa, this.marca, this.scadBollo, this.scadRevisione, this.scadAdp, this.scadAssicurazione};
+        Object[] arrayMezzi = {this.targa, this.marca, this.scadBollo, this.scadRevisione, this.scadAtp, this.scadAssicurazione};
         return arrayMezzi;
     }
 }

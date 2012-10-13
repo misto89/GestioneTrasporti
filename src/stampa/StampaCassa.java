@@ -57,11 +57,11 @@ public class StampaCassa extends StampaDocumento {
     private Date dataFinale;
     private int anno;
     private filtro filtroS;
-    private double[] totaliAttivo;
-    private double[] totaliPassivo;
+    private String[] totaliAttivo;
+    private String[] totaliPassivo;
 
     private StampaCassa(List<MovimentazioneContante> movimentiContante, List<SaldoCassaMensile> attivo, List<SaldoCassaMensile> passivo, 
-            RiepilogoCassa riepilogoCassa, double[] totaliAttivo, double[] totaliPassivo) throws DocumentException {
+            RiepilogoCassa riepilogoCassa, String[] totaliAttivo, String[] totaliPassivo) throws DocumentException {
         
         super(FILENAME);
         this.movimentiContante = movimentiContante;
@@ -73,7 +73,7 @@ public class StampaCassa extends StampaDocumento {
     }
         
     public StampaCassa(int anno, List<MovimentazioneContante> movimentiContante, List<SaldoCassaMensile> attivo, List<SaldoCassaMensile> passivo,
-            RiepilogoCassa riepilogoCassa, double[] totaliAttivo, double[] totaliPassivo) throws DocumentException {
+            RiepilogoCassa riepilogoCassa, String[] totaliAttivo, String[] totaliPassivo) throws DocumentException {
         
         this(movimentiContante, attivo, passivo, riepilogoCassa, totaliAttivo, totaliPassivo);
         this.anno = anno;         
@@ -81,14 +81,14 @@ public class StampaCassa extends StampaDocumento {
     }
     
     public StampaCassa(Fornitore forn_cliente, int anno, List<MovimentazioneContante> movimentiContante, List<SaldoCassaMensile> attivo, List<SaldoCassaMensile> passivo,
-            RiepilogoCassa riepilogoCassa, double[] totaliAttivo, double[] totaliPassivo) throws DocumentException {
+            RiepilogoCassa riepilogoCassa, String[] totaliAttivo, String[] totaliPassivo) throws DocumentException {
         
         this(anno, movimentiContante, attivo, passivo, riepilogoCassa, totaliAttivo, totaliPassivo);
         this.forn_cliente = forn_cliente;
     }
     
     public StampaCassa(Date dataI, Date dataF, List<MovimentazioneContante> movimentiContante, List<SaldoCassaMensile> attivo, 
-            List<SaldoCassaMensile> passivo, RiepilogoCassa riepilogoCassa, double[] totaliAttivo, double[] totaliPassivo) throws DocumentException {
+            List<SaldoCassaMensile> passivo, RiepilogoCassa riepilogoCassa, String[] totaliAttivo, String[] totaliPassivo) throws DocumentException {
         
         this(movimentiContante, attivo, passivo, riepilogoCassa, totaliAttivo, totaliPassivo);
         this.dataFinale = dataF;
@@ -97,13 +97,13 @@ public class StampaCassa extends StampaDocumento {
     }
     
     public StampaCassa(Fornitore forn_cliente, Date dataI, Date dataF, List<MovimentazioneContante> movimentiContante,
-            List<SaldoCassaMensile> attivo, List<SaldoCassaMensile> passivo, RiepilogoCassa riepilogoCassa, double[] totaliAttivo, double[] totaliPassivo) throws DocumentException {
+            List<SaldoCassaMensile> attivo, List<SaldoCassaMensile> passivo, RiepilogoCassa riepilogoCassa, String[] totaliAttivo, String[] totaliPassivo) throws DocumentException {
         
         this(dataI, dataF, movimentiContante, attivo, passivo, riepilogoCassa,totaliAttivo, totaliPassivo);
         this.forn_cliente = forn_cliente;
     }
     
-    private void initTableEU(String tipo, List<SaldoCassaMensile> lista, double[] totali) throws DocumentException {
+    private void initTableEU(String tipo, List<SaldoCassaMensile> lista, String[] totali) throws DocumentException {
         PdfPTable table = new PdfPTable(1);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
         table.setSpacingBefore(30);
@@ -139,10 +139,10 @@ public class StampaCassa extends StampaDocumento {
         for (SaldoCassaMensile movimento : lista) {
             PdfPCell[] riga = new PdfPCell[] {
                     new PdfPCell(new Phrase(movimento.getMeseAnnoRif(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(movimento.getContanti())), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(movimento.getAssegni())), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(movimento.getBonifico())), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(movimento.getRiba())), FONT_GRANDE_NORMALE))
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getContanti())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getAssegni())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getBonifico())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getRiba())), FONT_GRANDE_NORMALE))
             };
             
             for (int i = 0; i < riga.length; i++) {
@@ -164,10 +164,10 @@ public class StampaCassa extends StampaDocumento {
           
         PdfPCell[] riga = {
             new PdfPCell(new Phrase("TOTALI", FONT_BIG_BOLD)),
-            new PdfPCell(new Phrase("€ " + doubleToString(totali[0]), FONT_GRANDE_BOLD)),
-            new PdfPCell(new Phrase("€ " + doubleToString(totali[1]), FONT_GRANDE_BOLD)),
-            new PdfPCell(new Phrase("€ " + doubleToString(totali[2]), FONT_GRANDE_BOLD)),
-            new PdfPCell(new Phrase("€ " + doubleToString(totali[3]), FONT_GRANDE_BOLD))
+            new PdfPCell(new Phrase(totali[0], FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase(totali[1], FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase(totali[2], FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase(totali[3], FONT_GRANDE_BOLD))
         };
         
         for (int i = 0; i < riga.length; i++) {
@@ -288,7 +288,7 @@ public class StampaCassa extends StampaDocumento {
             PdfPCell[] riga = new PdfPCell[] {
                     new PdfPCell(new Phrase(movimento.getFormattedDataMovimento(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(movimento.getBanca(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(movimento.getImporto())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getImporto())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(tipo, FONT_GRANDE_NORMALE))
             };
             
@@ -324,17 +324,17 @@ public class StampaCassa extends StampaDocumento {
         
         PdfPCell[] riepilogo = new PdfPCell[] {
                 new PdfPCell(new Phrase("Attivo contante", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(riepilogoCassa.attivoContante)), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(riepilogoCassa.attivoContante)), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("Passivo contante", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(riepilogoCassa.passivoContante)), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(riepilogoCassa.passivoContante)), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("Prelievi", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(riepilogoCassa.totPrelievi)), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(riepilogoCassa.totPrelievi)), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("Versamenti", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(riepilogoCassa.totVersamenti)), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(riepilogoCassa.totVersamenti)), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("\n", FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("\n", FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("Netto in cassa", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(riepilogoCassa.netto)), FONT_GRANDE_BOLD))
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(riepilogoCassa.netto)), FONT_GRANDE_BOLD))
         };
         
         for (int i = 0; i < riepilogo.length; i++) {

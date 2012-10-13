@@ -244,7 +244,11 @@ public class Fattura implements Entity {
     @Override
     public boolean equals(Object obj) {
         Fattura fatt = (Fattura) obj;
-        return this.numero.equals(fatt.numero) && this.dataFattura.equals(fatt.dataFattura);
+        
+//        if (spedizioni == null)
+//            return this.numero.equals(fatt.numero) && this.dataFattura.equals(fatt.dataFattura) && this.cliente.equals(fatt.getCliente());
+//        else
+            return this.numero.equals(fatt.numero) && this.dataFattura.equals(fatt.dataFattura);
     }
         
     public Object[] toArray() {

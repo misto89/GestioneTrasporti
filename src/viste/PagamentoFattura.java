@@ -386,7 +386,7 @@ private void setNumber() {
             FrontController.checkTutt(dataPresunta, textNumber);
             
         } catch (CheckTuttException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         
     } else {
@@ -396,7 +396,7 @@ private void setNumber() {
             txtNFatt.setText(String.valueOf(numCheck));
             
         } catch (CheckTuttException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         
     }
@@ -424,7 +424,7 @@ private void txtNFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event
     try {
         proposedNumber = FrontController.checkTutt(dataPresunta, -1);
     } catch (CheckTuttException e) {
-       JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+//       JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
        return;
        
     }
@@ -438,7 +438,7 @@ private void txtNFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event
             FrontController.checkTutt(dataPresunta, textNumber);
             
         } catch (CheckTuttException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 //            txtNFatt.requestFocus();
             return;
         }

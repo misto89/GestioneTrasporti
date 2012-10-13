@@ -66,7 +66,7 @@ public class Mezzi extends javax.swing.JFrame {
         lblTarga2 = new javax.swing.JLabel();
         txtTarga = new javax.swing.JTextField();
         lblTarga4 = new javax.swing.JLabel();
-        txtScadAdp = new javax.swing.JTextField();
+        txtScadAtp = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFiltra = new javax.swing.JMenu();
         mnuTutti = new javax.swing.JCheckBoxMenuItem();
@@ -130,7 +130,7 @@ public class Mezzi extends javax.swing.JFrame {
         lblTarga2.setText("Scadenza bollo");
         lblTarga2.setToolTipText("");
 
-        lblTarga4.setText("Scadenza adp");
+        lblTarga4.setText("Scadenza atp");
         lblTarga4.setToolTipText("");
 
         javax.swing.GroupLayout pnlDatiLayout = new javax.swing.GroupLayout(pnlDati);
@@ -152,7 +152,7 @@ public class Mezzi extends javax.swing.JFrame {
                     .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtScadBollo, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtScadRevisione, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtScadAdp, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtScadAtp, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtScadAssicurazione, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -180,7 +180,7 @@ public class Mezzi extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTarga4, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
-                    .addComponent(txtScadAdp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtScadAtp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTarga5, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
@@ -285,7 +285,7 @@ private void popolaTabella(List mezzi) {
         arrayMezzi,
             
         new String [] {
-                "TARGA", "MARCA", "SCADENZA BOLLO ", "SCADENZA REVISIONE ", "SCADENZA ADP ", "SCADENZA ASSICURAZIONE "
+                "TARGA", "MARCA", "SCADENZA BOLLO ", "SCADENZA REVISIONE ", "SCADENZA ATP ", "SCADENZA ASSICURAZIONE "
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -317,7 +317,7 @@ private void popolaTabella(List mezzi) {
     final int MARCA = 1;
     final int SCAD_BOLLO = 2;
     final int SCAD_REVISIONE = 3;
-    final int SCAD_ADP = 4;
+    final int SCAD_ATP = 4;
     final int SCAD_ASSIC = 5;
     
     boolean[] resizable = {false, false, false, false, false, false};
@@ -340,14 +340,14 @@ private void popolaTabella(List mezzi) {
             String marca = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), MARCA);
             String scadBollo = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_BOLLO);
             String scadRevisione = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_REVISIONE);
-            String scadAdp = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_ADP);
+            String scadAtp = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_ATP);
             String scadAssic = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_ASSIC);
 
             //Imposta le text con i valori estratti dalla tabella
             txtTarga.setText(targa);
             txtMarca.setText(marca);
             txtScadBollo.setText(scadBollo);
-            txtScadAdp.setText(scadAdp);
+            txtScadAtp.setText(scadAtp);
             txtScadAssicurazione.setText(scadAssic);
             txtScadRevisione.setText(scadRevisione);
 
@@ -386,7 +386,7 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     String marca = txtMarca.getText();
     String scadBollo = txtScadBollo.getText();
     String scadRevisione = txtScadRevisione.getText();
-    String scadAdp = txtScadAdp.getText();
+    String scadAtp = txtScadAtp.getText();
     String scadAssic = txtScadAssicurazione.getText();
     
     Integer ID = null;
@@ -418,7 +418,7 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
      * riga della tabella.
      */
     if (checkData){
-        Mezzo mezzo = new Mezzo(ID, targa, marca, scadBollo, scadRevisione, scadAdp, scadAssic);
+        Mezzo mezzo = new Mezzo(ID, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssic);
         
         /*
          * Se l'id è != null vuol dire che è stata selezionata una riga dalla tabella, quindi si cerca di 
@@ -553,7 +553,7 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 private void pulisciText() {
     txtMarca.setText(null);
     txtTarga.setText(null);
-    txtScadAdp.setText(null);
+    txtScadAtp.setText(null);
     txtScadAssicurazione.setText(null);
     txtScadBollo.setText(null);
     txtScadRevisione.setText(null);
@@ -580,8 +580,8 @@ private void pulisciText() {
     private javax.swing.JPanel pnlDati;
     private javax.swing.JTable tblMezzi;
     private javax.swing.JTextField txtMarca;
-    private javax.swing.JTextField txtScadAdp;
     private javax.swing.JTextField txtScadAssicurazione;
+    private javax.swing.JTextField txtScadAtp;
     private javax.swing.JTextField txtScadBollo;
     private javax.swing.JTextField txtScadRevisione;
     private javax.swing.JTextField txtTarga;

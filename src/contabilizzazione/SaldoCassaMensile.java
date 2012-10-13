@@ -6,6 +6,7 @@ package contabilizzazione;
 
 import controllo.FrontController;
 import entita.Fattura;
+import libs.DoubleFormatter;
 
 /**
  *
@@ -132,14 +133,7 @@ public class SaldoCassaMensile implements MovimentazioneMensile{
 
     @Override
     public Object[] toArray() {
-        return new Object[] {this.getMeseAnnoRif(), roundTwoDecimals(contanti), roundTwoDecimals(assegni), roundTwoDecimals(bonifico), roundTwoDecimals(riba)};
-    }
-
-    /*
-     * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
-     */
-    private static double roundTwoDecimals(double d) {
-        return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
+        return new Object[] {this.getMeseAnnoRif(),  DoubleFormatter.roundTwoDecimals(contanti), DoubleFormatter.roundTwoDecimals(assegni), DoubleFormatter.roundTwoDecimals(bonifico), DoubleFormatter.roundTwoDecimals(riba)};
     }
     
 }

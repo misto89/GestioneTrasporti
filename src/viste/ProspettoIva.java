@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import libs.DoubleFormatter;
 
 /**
  *
@@ -189,10 +190,10 @@ private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:e
 
 private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaActionPerformed
 // TODO add your handling code here:
-    parent.stampaProspettoIva(prospetto, new double[] {
-        Double.parseDouble(txtIvaCredito.getText()),
-        Double.parseDouble(txtTotIvaDebito.getText()),
-        Double.parseDouble(txtTotSaldo.getText())
+    parent.stampaProspettoIva(prospetto, new String[] {
+        txtIvaCredito.getText(),
+        txtTotIvaDebito.getText(),
+        txtTotSaldo.getText()
     });
 }//GEN-LAST:event_mnuStampaActionPerformed
 
@@ -219,9 +220,9 @@ private void setTable() {
     txtTotIvaDebito.setHorizontalAlignment(JTextField.RIGHT);
     txtIvaCredito.setHorizontalAlignment(JTextField.RIGHT);
     txtTotSaldo.setHorizontalAlignment(JTextField.RIGHT);
-    txtTotIvaDebito.setText(String.valueOf(this.parent.roundTwoDecimals(ivaDebito)));
-    txtIvaCredito.setText(String.valueOf(this.parent.roundTwoDecimals(ivaCredito)));
-    txtTotSaldo.setText(String.valueOf(this.parent.roundTwoDecimals(totSaldo)));
+    txtTotIvaDebito.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(ivaDebito)));
+    txtIvaCredito.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(ivaCredito)));
+    txtTotSaldo.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totSaldo)));
     
     final String[] COLONNE = {
         "PERIODO", "IVA CREDITO", "IVA DEBITO", "SALDO IVA"
@@ -254,15 +255,16 @@ private void setTable() {
     for (int i = 0; i < COLONNE.length; i++) {
         TableColumn colonna = tblSaldiIvaMensili.getColumnModel().getColumn(i);
         colonna.setResizable(resizable[i]);
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        
         
         if (i == CREDITO || i == DEBITO || i == SALDO)
-            renderer.setHorizontalAlignment(JLabel.RIGHT);
-        else
+            colonna.setCellRenderer(new DoubleFormatter());
+        else {
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setBackground(Color.lightGray);
-        
-        colonna.setCellRenderer(renderer);
-        
+            colonna.setCellRenderer(renderer);
+        }
+
         //colonna.setPreferredWidth(width[i]);
     }
        

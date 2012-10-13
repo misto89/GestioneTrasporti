@@ -10,6 +10,7 @@
  */
 package viste;
 
+import libs.DoubleFormatter;
 import com.itextpdf.text.DocumentException;
 import controllo.FrontController;
 import entita.Entity;
@@ -1229,11 +1230,11 @@ void setFatture() {
     }
      
     txtNumFatt.setText(String.valueOf(contFatt));
-    txtIvaTot.setText(String.valueOf(roundTwoDecimals(totIva)));
-    txtTotFatture.setText(String.valueOf(roundTwoDecimals(totTotale)));
-    txtTotImp.setText(String.valueOf(roundTwoDecimals(totImponibile)));
-    txtTotPagate.setText(String.valueOf(roundTwoDecimals(totPagate)));
-    txtTotNonPagate.setText(String.valueOf(roundTwoDecimals(totNonPagate)));
+    txtIvaTot.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totIva)));
+    txtTotFatture.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totTotale)));
+    txtTotImp.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totImponibile)));
+    txtTotPagate.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totPagate)));
+    txtTotNonPagate.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totNonPagate)));
     
     final String[] COLONNE = {
         "CLIENTE", "NUM. FATT.", "DATA", "MOD. PAGAMENTO", "PAGATA", "IMPONIBILE", "IVA", 
@@ -1319,14 +1320,10 @@ void setFatture() {
     DefaultCellEditor comboPagata = new DefaultCellEditor(new JComboBox(valoriPagata));
     comboPagata.setClickCountToStart(2);
     tblFatture.getColumnModel().getColumn(PAGATA).setCellEditor(comboPagata);
+    
+    for (int i = IMPONIBILE; i <= TOTALE; i++)
+        tblFatture.getColumnModel().getColumn(i).setCellRenderer(new DoubleFormatter());
 }
-
-    /*
-     * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
-     */
-    private double roundTwoDecimals(double d) {
-        return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
-    }
 
     private int getIndexSelectedFattura() {
         Fattura fatt = new Fattura();

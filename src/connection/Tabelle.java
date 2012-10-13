@@ -58,7 +58,7 @@ class Tabelle {
         public static final String MARCA = "marca";
         public static final String SCAD_BOLLO = "scad_bollo";
         public static final String SCAD_REVISIONE = "scad_revisione";
-        public static final String SCAD_ADP = "scad_adp";
+        public static final String SCAD_ATP = "scad_atp";
         public static final String SCAD_ASSICURAZIONE = "scad_assicurazione";
     }
     
@@ -133,6 +133,7 @@ class Tabelle {
         public static final String TIPO = "tipo";
         public static final String MET_PAG = "met_pag";
         public static final String VALORE = "valore";
+        public static final String FORN_CLIENTE = "forncliente";
     }
     
     static class MovimentoContante {

@@ -10,13 +10,17 @@
  */
 package viste;
 
+import libs.DoubleFormatter;
 import com.itextpdf.text.DocumentException;
 import controllo.FrontController;
 import entita.Entity;
 import entita.Fattura;
 import entita.Fornitore;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -26,6 +30,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -81,6 +86,8 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
             }
                         
         }
+        
+        
     }
 
     /** Creates new form RegistroFattureEmesse */
@@ -175,8 +182,10 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
         optScadute = new javax.swing.JRadioButton();
         optNonScadute = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        mnuInserisci = new javax.swing.JMenu();
+        mnuFattura = new javax.swing.JMenu();
         mnuInsFatt = new javax.swing.JMenuItem();
+        mnuModFattura = new javax.swing.JMenuItem();
+        mnuEliminaFattura = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         mnuIntervalloDate = new javax.swing.JCheckBoxMenuItem();
         mnuProspetto = new javax.swing.JMenu();
@@ -360,7 +369,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                 .addComponent(pnlTotPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlTotNonPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(210, Short.MAX_VALUE))
         );
         pnlRiepilogoLayout.setVerticalGroup(
             pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -807,7 +816,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                     .addComponent(optScadute)
                     .addComponent(optTutteScad)
                     .addComponent(optNonScadute))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         pnlScaduteLayout.setVerticalGroup(
             pnlScaduteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -820,21 +829,43 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
-        mnuInserisci.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modifica.png"))); // NOI18N
-        mnuInserisci.setText("Inserisci");
+        mnuFattura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/emettifattura.png"))); // NOI18N
+        mnuFattura.setText("Fattura");
 
         mnuInsFatt.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
-        mnuInsFatt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/emettifattura.png"))); // NOI18N
-        mnuInsFatt.setText("Fattura di acquisto");
+        mnuInsFatt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modifica.png"))); // NOI18N
+        mnuInsFatt.setText("Inserisci nuova");
         mnuInsFatt.setToolTipText("");
         mnuInsFatt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuInsFattActionPerformed(evt);
             }
         });
-        mnuInserisci.add(mnuInsFatt);
+        mnuFattura.add(mnuInsFatt);
 
-        jMenuBar1.add(mnuInserisci);
+        mnuModFattura.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        mnuModFattura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modifica.png"))); // NOI18N
+        mnuModFattura.setText("Modifica selezionata");
+        mnuModFattura.setEnabled(false);
+        mnuModFattura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuModFatturaActionPerformed(evt);
+            }
+        });
+        mnuFattura.add(mnuModFattura);
+
+        mnuEliminaFattura.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        mnuEliminaFattura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancella.png"))); // NOI18N
+        mnuEliminaFattura.setText("Elimina selezionata");
+        mnuEliminaFattura.setEnabled(false);
+        mnuEliminaFattura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuEliminaFatturaActionPerformed(evt);
+            }
+        });
+        mnuFattura.add(mnuEliminaFattura);
+
+        jMenuBar1.add(mnuFattura);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/filtra.png"))); // NOI18N
         jMenu3.setText("Filtra");
@@ -876,7 +907,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1167, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1175, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(pnlPagate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1041,6 +1072,7 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     List<Integer> anni = FrontController.getAnniEsercizio(Fattura.tipo.ACQ);
     popolaSelect(fornitori);
     popolaSelect(anni);
+        
 }//GEN-LAST:event_formWindowOpened
 
 private void cboFornitoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFornitoreActionPerformed
@@ -1425,6 +1457,29 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }
 }//GEN-LAST:event_mnuStampaActionPerformed
 
+private void mnuModFatturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuModFatturaActionPerformed
+// TODO add your handling code here:
+    FrontController.open(new InsFatturaAcquisto(this, rootPaneCheckingEnabled, fattureInTabella.get(getIndexSelectedFattura())));
+}//GEN-LAST:event_mnuModFatturaActionPerformed
+
+private void mnuEliminaFatturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEliminaFatturaActionPerformed
+// TODO add your handling code here:
+    
+    final int RESPONSE = JOptionPane.showConfirmDialog(this, "Sei sicuro di voler eliminare la fattura selezionata?",
+            "Conferma eliminazione fattura", JOptionPane.OK_CANCEL_OPTION);
+    
+    if (RESPONSE == JOptionPane.OK_OPTION) {
+        if (FrontController.delete(fattureInTabella.get(getIndexSelectedFattura()))) {
+            setFatture();
+            JOptionPane.showMessageDialog(this, "Eliminazione effettuata con successo!", "", JOptionPane.INFORMATION_MESSAGE);
+            fattureInTabella.remove(getIndexSelectedFattura());
+        } else 
+            JOptionPane.showMessageDialog(this, "Si è verificato un errore durante l'eliminazione della fattura!", "Errore", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    
+}//GEN-LAST:event_mnuEliminaFatturaActionPerformed
+
 private String meseToString(int mese) {
     String stringa = null;
     switch (mese) {
@@ -1480,8 +1535,19 @@ private void setCheckBox() {
         chkTutti.setSelected(false);
 }
 
+void updateCboAnno() {
+    cboAnno.setModel(new DefaultComboBoxModel());
+    List<Integer> anni = FrontController.getAnniEsercizio(Fattura.tipo.ACQ);
+    popolaSelect(anni);
+}
+
 void setFatture() {
-       
+
+    if (cboAnno.getItemCount() == 0) {
+        List<Integer> anni = FrontController.getAnniEsercizio(Fattura.tipo.ACQ);
+        popolaSelect(anni);
+    }
+      
     Fornitore cliente = null;
     if (cboFornitore.getSelectedIndex() == 0)
         cliente = new Fornitore(null);  
@@ -1538,6 +1604,7 @@ void setFatture() {
         arrayFatt[contFatt++] = ((Fattura) fatt).fattAcquistoToArray();
         totIva += ((Fattura) fatt).getIva();
         totTotale += ((Fattura) fatt).getTotale();
+        totImponibile += ((Fattura) fatt).getImponibile();
         if (((Fattura)fatt).getPagata())
             totPagate += ((Fattura) fatt).getTotale();
         else
@@ -1545,11 +1612,11 @@ void setFatture() {
     }
      
     txtNumFatt.setText(String.valueOf(contFatt));
-    txtIvaTot.setText(String.valueOf(roundTwoDecimals(totIva)));
-    txtTotFatture.setText(String.valueOf(roundTwoDecimals(totTotale)));
-    txtTotImp.setText(String.valueOf(roundTwoDecimals(totImponibile)));
-    txtTotPagate.setText(String.valueOf(roundTwoDecimals(totPagate)));
-    txtTotNonPagate.setText(String.valueOf(roundTwoDecimals(totNonPagate)));
+    txtIvaTot.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totIva)));
+    txtTotFatture.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totTotale)));
+    txtTotImp.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totImponibile)));
+    txtTotPagate.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totPagate)));
+    txtTotNonPagate.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totNonPagate)));
     
     final String[] COLONNE = {
         "FORNITORE", "TIPO", "NUM. DOC", "DATA", "MOD. PAGAMENTO", "PAGATA", "IVA", 
@@ -1610,29 +1677,64 @@ void setFatture() {
         colonna.setPreferredWidth(width[i]);
     }
     
+    tblFatture.addMouseListener(new MouseAdapter() {
+        public void mouseClicked(MouseEvent me) {
+            mnuEliminaFattura.setEnabled(true);
+            mnuModFattura.setEnabled(true);
+//            selected = fattureInTabella.get(getIndexSelectedFattura());
+            
+            //JOptionPane.showMessageDialog(rootPane,selected.getImporto());
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            //super.mousePressed(e);
+            //mouseClicked(null);
+        }
+
+    });
+    
     tblFatture.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     Character[] valoriPagata = {'S', 'N'};
     DefaultCellEditor comboPagata = new DefaultCellEditor(new JComboBox(valoriPagata));
     comboPagata.setClickCountToStart(2);
-    tblFatture.getColumnModel().getColumn(5).setCellEditor(comboPagata);
+    tblFatture.getColumnModel().getColumn(PAGATA).setCellEditor(comboPagata);
+    
+    //Formatta le colonne mostrando i double sempre con due cifre decimali
+    tblFatture.getColumnModel().getColumn(TOTALE).setCellRenderer(new DoubleFormatter());
+    tblFatture.getColumnModel().getColumn(IVA).setCellRenderer(new DoubleFormatter());
     
 }
-
-    /*
-     * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
-     */
-    private double roundTwoDecimals(double d) {
-        return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
-    }
     
     private int getIndexSelectedFattura() {
         Fattura fatt = new Fattura();
         fatt.setNumero((Integer) tblFatture.getValueAt(tblFatture.getSelectedRow(), NUM));
+        
         String[] data = ((String) tblFatture.getValueAt(tblFatture.getSelectedRow(), DATA)).split("/");
         Date dataFatt = Date.valueOf(data[2] + "-" + data[1] + "-" + data[0]);
         fatt.setData(dataFatt);
         
-        return fattureInTabella.indexOf(fatt);
+        int index = fattureInTabella.indexOf(fatt);
+        Fornitore fornitore = fattureInTabella.get(index).getCliente();
+        
+        String forn = (String) tblFatture.getValueAt(tblFatture.getSelectedRow(), FORNITORE);
+        
+        if (fornitore.getNome().equals(forn)) {
+            fatt.setCliente(fornitore);
+            return index;
+            
+        } else {
+            for (int i = 0; i < fattureInTabella.size(); i++)
+                if (i != index) {
+                    Fattura fattura = fattureInTabella.get(i);
+                    if (fattura.getNumero() == fatt.getNumero() && fattura.getData().equals(fatt.getData()) && fattura.getCliente().getNome().equals(forn)) {
+                        fatt.setCliente(fattura.getCliente());
+                        return i;
+                    }
+                        
+                }
+            return -1;
+        }
     }
     
 
@@ -1660,9 +1762,11 @@ void setFatture() {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem mnuEliminaFattura;
+    private javax.swing.JMenu mnuFattura;
     private javax.swing.JMenuItem mnuInsFatt;
-    private javax.swing.JMenu mnuInserisci;
     private javax.swing.JCheckBoxMenuItem mnuIntervalloDate;
+    private javax.swing.JMenuItem mnuModFattura;
     private javax.swing.JMenu mnuProspetto;
     private javax.swing.JMenuItem mnuStampa;
     private javax.swing.JRadioButton optAcqStrutture;
@@ -1706,6 +1810,7 @@ void setFatture() {
     private javax.swing.JCheckBox[] chkMesi;
     private String tipoFatt = "all";
     private List<Fattura> fattureInTabella;
+//    private Fattura selected = null;
     Date dataIniziale = null;
     Date dataFinale = null;
     private RegistroFattureAcquisto vista;

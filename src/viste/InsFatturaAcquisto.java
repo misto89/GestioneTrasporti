@@ -12,13 +12,18 @@ package viste;
 
 import controllo.FrontController;
 import eccezioni.EccezioneChiaveDuplicata;
+import eccezioni.EccezioneModificaFattAcquisto;
 import eccezioni.EccezioneValoreCampoTroppoLungo;
 import entita.Entity;
 import entita.Fattura;
 import entita.Fornitore;
+import entita.Movimento;
 import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import libs.DoubleFormatter;
 
 /**
  *
@@ -35,8 +40,18 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         ColorManager color = new ColorManager();
         color.changeColor(pnl);
     }
-
-
+    
+     public InsFatturaAcquisto(java.awt.Frame parent, boolean modal, Fattura selected) {
+        super(parent, modal);
+        initComponents();
+        this.setTitle("Modifica della fattura di acquisto numero " + selected.getNumero());
+        this.parent = (RegistroFattureAcquisto) parent;
+        ColorManager color = new ColorManager();
+        color.changeColor(pnl);
+        toModify = selected;
+        btnMemorizza.setText("Salva modifiche");
+    }
+     
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -78,6 +93,8 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         txtPercIva = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        txtNoteMetPag = new javax.swing.JTextField();
+        lblNoteMetPag = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -166,6 +183,10 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
 
         jLabel15.setText("€");
 
+        txtNoteMetPag.setEnabled(false);
+
+        lblNoteMetPag.setText("Note pagamento");
+
         javax.swing.GroupLayout pnlLayout = new javax.swing.GroupLayout(pnl);
         pnl.setLayout(pnlLayout);
         pnlLayout.setHorizontalGroup(
@@ -173,82 +194,88 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
             .addGroup(pnlLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlLayout.createSequentialGroup()
-                        .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cboFornitore, 0, 359, Short.MAX_VALUE)
-                            .addGroup(pnlLayout.createSequentialGroup()
-                                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnlLayout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                                        .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                                        .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlLayout.createSequentialGroup()
+                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cboFornitore, 0, 359, Short.MAX_VALUE)
+                                .addGroup(pnlLayout.createSequentialGroup()
+                                    .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(pnlLayout.createSequentialGroup()
+                                            .addComponent(jLabel9)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                                            .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
                                             .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(pnlLayout.createSequentialGroup()
+                                                                    .addComponent(jLabel11)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                                                                    .addComponent(jLabel13)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                    .addComponent(txtGiornoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                    .addComponent(jLabel12)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                                                .addGroup(pnlLayout.createSequentialGroup()
+                                                                    .addComponent(jLabel2)
+                                                                    .addGap(121, 121, 121)))
                                                             .addGroup(pnlLayout.createSequentialGroup()
-                                                                .addComponent(jLabel11)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                                                                .addComponent(jLabel13)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(txtGiornoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(jLabel12)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                                            .addGroup(pnlLayout.createSequentialGroup()
-                                                                .addComponent(jLabel2)
-                                                                .addGap(121, 121, 121)))
+                                                                .addComponent(jLabel1)
+                                                                .addGap(122, 122, 122)))
                                                         .addGroup(pnlLayout.createSequentialGroup()
-                                                            .addComponent(jLabel1)
-                                                            .addGap(122, 122, 122)))
+                                                            .addComponent(jLabel3)
+                                                            .addGap(126, 126, 126)))
                                                     .addGroup(pnlLayout.createSequentialGroup()
-                                                        .addComponent(jLabel3)
-                                                        .addGap(126, 126, 126)))
+                                                        .addComponent(jLabel4)
+                                                        .addGap(143, 143, 143)))
                                                 .addGroup(pnlLayout.createSequentialGroup()
-                                                    .addComponent(jLabel4)
-                                                    .addGap(143, 143, 143)))
-                                            .addGroup(pnlLayout.createSequentialGroup()
-                                                .addComponent(jLabel5)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                        .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(txtSconto)
-                                                .addComponent(txtNum)
-                                                .addComponent(txtImporto)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                                                    .addComponent(txtMeseFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel5)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(txtSconto)
+                                                    .addComponent(txtNum)
+                                                    .addComponent(txtImporto)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
+                                                        .addComponent(txtMeseFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jLabel14)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(txtAnnoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(txtTotale, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                                                .addGroup(pnlLayout.createSequentialGroup()
+                                                    .addComponent(txtPercIva, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(jLabel14)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(txtAnnoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addComponent(txtTotale, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                                            .addGroup(pnlLayout.createSequentialGroup()
-                                                .addComponent(txtPercIva, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel7))))
-                                    .addComponent(cboTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnlLayout.createSequentialGroup()
-                                        .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel10))
-                                    .addComponent(txtIva, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel15)
-                        .addContainerGap())
+                                                    .addComponent(jLabel7))))
+                                        .addComponent(cboTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(pnlLayout.createSequentialGroup()
+                                            .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jLabel10))
+                                        .addComponent(txtIva, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel15)
+                            .addContainerGap())
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                            .addGap(210, 210, 210))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
+                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblNoteMetPag)
+                                .addComponent(jLabel6))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtNoteMetPag)
+                                .addComponent(txtNote, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                            .addContainerGap()))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(chkPagata)
-                        .addGap(145, 145, 145))
-                    .addGroup(pnlLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(26, 26, 26)
-                        .addComponent(txtNote, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(161, 161, 161))))
         );
         pnlLayout.setVerticalGroup(
             pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,9 +324,13 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(16, 16, 16)
                 .addComponent(chkPagata)
                 .addGap(18, 18, 18)
+                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNoteMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNoteMetPag))
+                .addGap(4, 4, 4)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -324,7 +355,7 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
                 .addComponent(pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnMemorizza)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -349,8 +380,45 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     txtPercIva.setDocument(new JTextFieldLimit(MAX_LENGTH_PERCIVA));
     cboFornitore.requestFocus();
     txtPercIva.setText(PERC_IVA.toString());
-//    txtImporto.setDocument(new JTextFieldLimitDecimal(JTextFieldLimitDecimal.LIMIT));
-//    txtSconto.setDocument(new JTextFieldLimitDecimal(JTextFieldLimitDecimal.LIMIT));
+    lblNoteMetPag.setVisible(false);
+    txtNoteMetPag.setVisible(false);
+    //Scrive i dati della fattura all'interno delle text.
+    if (toModify != null){
+        cboFornitore.setSelectedItem(toModify.getCliente());
+        String[] data = toModify.getData().toString().split("-");
+        txtAnnoFatt.setText(data[0]);
+        txtMeseFatt.setText(data[1]);
+        txtGiornoFatt.setText(data[2]);
+        lblNoteMetPag.setVisible(true);
+        txtNoteMetPag.setVisible(true);
+        txtNoteMetPag.setText(toModify.getNotePag());
+        txtNum.setText(String.valueOf(toModify.getNumero()));
+        txtImporto.setText(String.valueOf(toModify.getImporto()));
+        txtIva.setText(String.valueOf(toModify.getIva()));
+        txtSconto.setText(String.valueOf(toModify.getSconto()));
+        txtTotale.setText(String.valueOf(toModify.getTotale()));
+        txtPercIva.setText(String.valueOf(toModify.getPercIva()));               
+        
+        if (toModify.getNote() == null)
+            txtNote.setText("");
+        else
+            txtNote.setText(String.valueOf(toModify.getNote()));
+        
+        chkPagata.setSelected(toModify.getPagata());
+        cboTipo.setSelectedItem(toModify.getTipo());
+        String[] completeMetPag = toModify.getMetPag().split("-");
+        String metPag = completeMetPag[0];
+        String days = completeMetPag[1];
+        cboMetPag.setSelectedItem(metPag);
+        cboGiorni.setSelectedItem(days);
+        if (toModify.getPagata()){
+            chkPagata.setEnabled(false);
+            cboMetPag.setEnabled(false);
+            cboGiorni.setEnabled(false);
+            lblNoteMetPag.setVisible(true);
+            txtNoteMetPag.setVisible(true);
+        } 
+    }
 }//GEN-LAST:event_formWindowOpened
 
 private void cboFornitoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFornitoreActionPerformed
@@ -487,9 +555,43 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     String note = txtNote.getText();
     
     Fattura fatt = new Fattura(num, data, metPag, importo, sconto, iva, totale, tipo, pagata, fornitore, note);
-    
+    fatt.setCliente(new Fornitore(codFornitore));
     try {
-        if (FrontController.insertFattAcquisto(fatt)) {
+        
+        if (toModify != null){
+            
+            try {
+                
+                if (FrontController.updateFatturaAcquisto(fatt, toModify)){
+                    if (toModify.getPagata() != pagata){
+                        List<Movimento> movimento = new LinkedList<Movimento>();
+                        movimento.add(new Movimento(num, data, Fattura.tipo.ACQ.toString(), (String)cboMetPag.getSelectedItem(), totale, codFornitore));
+                        FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, pagata, movimento);
+                    }
+                    parent.setFatture();
+                    JOptionPane.showMessageDialog(this, "Modifica eseguita con successo");
+                    toModify = fatt;
+                    dispose();
+                    
+                } else 
+                    JOptionPane.showMessageDialog(this, "Ci sono stati problemi nella modifica, si prega di controllare i dati", "Errore", JOptionPane.ERROR_MESSAGE);
+                
+            } catch (EccezioneModificaFattAcquisto e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Attenzione", JOptionPane.WARNING_MESSAGE);
+                parent.setFatture();
+                toModify = fatt;
+                dispose();
+                
+            } 
+            
+        } else if (FrontController.insertFattAcquisto(fatt)) {
+            if (pagata) {
+                List<Movimento> movimento = new LinkedList<Movimento>();
+                movimento.add(new Movimento(num, data, Fattura.tipo.ACQ.toString(), (String)cboMetPag.getSelectedItem(), totale, codFornitore));
+                FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, pagata, movimento);
+            }
+      
+            parent.updateCboAnno();
             parent.setFatture();
             JOptionPane.showMessageDialog(this, "Inserimento fattura eseguito con successo");
             cboFornitore.setSelectedIndex(0);
@@ -548,13 +650,9 @@ private void calculateTotal(){
     
     imponibile = importo - sconto;
     iva = (imponibile * percIva)/100.0;
-    txtIva.setText(String.valueOf(roundTwoDecimals(iva)));
-    txtTotale.setText(String.valueOf(roundTwoDecimals(iva + imponibile)));
+    txtIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
+    txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva + imponibile)));
     
-}
-
-private double roundTwoDecimals(double d) {
-    return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
 }
 
     private int codFornitore;
@@ -581,6 +679,7 @@ private double roundTwoDecimals(double d) {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblNoteMetPag;
     private javax.swing.JPanel pnl;
     private javax.swing.JTextField txtAnnoFatt;
     private javax.swing.JTextField txtGiornoFatt;
@@ -588,6 +687,7 @@ private double roundTwoDecimals(double d) {
     private javax.swing.JTextField txtIva;
     private javax.swing.JTextField txtMeseFatt;
     private javax.swing.JTextField txtNote;
+    private javax.swing.JTextField txtNoteMetPag;
     private javax.swing.JTextField txtNum;
     private javax.swing.JTextField txtPercIva;
     private javax.swing.JTextField txtSconto;
@@ -599,6 +699,8 @@ private double roundTwoDecimals(double d) {
     private static final int MAX_LENGTH_ANNO = 4;
     private static final int MAX_LENGTH_PERCIVA = 2;
     private static final Integer PERC_IVA = 21;
+    
+    private Fattura toModify = null;
     
     /*
      * Campi per il calcolo

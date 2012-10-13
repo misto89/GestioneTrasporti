@@ -188,11 +188,11 @@ public class StampaRegistroEmesse extends StampaDocumento {
         
         tot = new PdfPCell[] {
             new PdfPCell(new Phrase(String.valueOf((Integer)riepilogo[0]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase("€ " + doubleToString((Double)riepilogo[1]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase("€ " + doubleToString((Double)riepilogo[2]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase("€ " + doubleToString((Double)riepilogo[3]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase("€ " + doubleToString((Double)riepilogo[4]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase("€ " + doubleToString((Double)riepilogo[5]), FONT_GRANDE_NORMALE))
+            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[1]), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[2]), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[3]), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[4]), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[5]), FONT_GRANDE_NORMALE))
         };
         
         for (int i = 0; i < tot.length; i++) {
@@ -259,9 +259,9 @@ public class StampaRegistroEmesse extends StampaDocumento {
                     new PdfPCell(new Phrase(fatture.get(j).getFormattedData(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(fatture.get(j).getMetPag().replace("-", " a ") + " gg", FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(pagata, FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(fatture.get(j).getImponibile())), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(fatture.get(j).getIva())), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(fatture.get(j).getTotale())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getImponibile())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getIva())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getTotale())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(fatture.get(j).getFormattedDataScadenza(), FONT_GRANDE_NORMALE))
             };
             

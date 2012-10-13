@@ -36,6 +36,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import libs.DoubleFormatter;
 import movimentazionecontante.MovimentazioneContante;
 import movimentazionecontante.Prelievo;
 import stampa.StampaCassa;
@@ -96,15 +97,15 @@ public class Cassa extends javax.swing.JFrame {
                 if (tipo.equalsIgnoreCase(Versamento.class.getSimpleName())) {
                     totVersamenti -= movimento.getImporto();
                     totVersamenti += (Double) aValue;
-                    txtVersamentiTot.setText(String.valueOf(roundTwoDecimals(totVersamenti)));
+                    txtVersamentiTot.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totVersamenti)));
                 } else {
                     totPrelievi -= movimento.getImporto();
                     totPrelievi += (Double) aValue;
-                    txtPrelievi.setText(String.valueOf(roundTwoDecimals(totPrelievi)));
+                    txtPrelievi.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totPrelievi)));
                 }
                 
                 Double netto = attivoContante + totPrelievi - passivoContante - totVersamenti;
-                txtCassaNetto.setText(String.valueOf(roundTwoDecimals(netto)));
+                txtCassaNetto.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(netto)));
                 
             }   
             
@@ -229,7 +230,7 @@ public class Cassa extends javax.swing.JFrame {
             pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlClienteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cboCliente, 0, 534, Short.MAX_VALUE)
+                .addComponent(cboCliente, 0, 768, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlClienteLayout.setVerticalGroup(
@@ -297,67 +298,64 @@ public class Cassa extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlCassaLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
+                .addGap(60, 60, 60)
+                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtPassivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPrelievi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtVersamentiTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtCassaNetto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-                        .addComponent(txtVersamentiTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
-                        .addComponent(txtPrelievi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlCassaLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                        .addComponent(txtAttivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                        .addComponent(txtPassivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(128, 128, 128)
+                    .addComponent(txtAttivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(72, 72, 72)
                 .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                     .addComponent(btnVersamento))
-                .addGap(122, 122, 122))
+                .addGap(128, 128, 128))
         );
 
-        pnlCassaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtAttivoContante, txtPassivoContante, txtPrelievi, txtVersamentiTot});
+        pnlCassaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtAttivoContante, txtCassaNetto, txtPassivoContante, txtPrelievi, txtVersamentiTot});
+
+        pnlCassaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnVersamento, jButton1});
 
         pnlCassaLayout.setVerticalGroup(
             pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCassaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtAttivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPassivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPrelievi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtVersamentiTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(13, 13, 13)
                 .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCassaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(txtAttivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)
+                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(txtPassivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtPrelievi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(txtVersamentiTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(13, 13, 13)
+                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCassaNetto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlCassaLayout.createSequentialGroup()
+                        .addGap(127, 127, 127)
                         .addComponent(btnVersamento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCassaNetto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(17, 17, 17))
+                        .addComponent(jButton1)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        pnlCassaLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtAttivoContante, txtCassaNetto, txtPassivoContante, txtPrelievi, txtVersamentiTot});
+        pnlCassaLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel3, jLabel4, jLabel5, jLabel6, txtAttivoContante, txtCassaNetto, txtPassivoContante, txtPrelievi, txtVersamentiTot});
 
         pnlCassaLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnVersamento, jButton1});
 
@@ -407,7 +405,7 @@ public class Cassa extends javax.swing.JFrame {
                         .addComponent(txtTotBonificoEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtTotRibaEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(6, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlEntrateLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtTotAssegniEntrate, txtTotBonificoEntrate, txtTotContanteEntrate, txtTotRibaEntrate});
@@ -424,7 +422,7 @@ public class Cassa extends javax.swing.JFrame {
                     .addComponent(txtTotAssegniEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTotBonificoEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTotRibaEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlUscite.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Uscite", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
@@ -462,10 +460,10 @@ public class Cassa extends javax.swing.JFrame {
             .addGroup(pnlUsciteLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlUsciteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE)
                     .addGroup(pnlUsciteLayout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 374, Short.MAX_VALUE)
                         .addComponent(txtTotContanteUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtTotAssegniUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -490,7 +488,7 @@ public class Cassa extends javax.swing.JFrame {
                     .addComponent(txtTotAssegniUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTotBonificoUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTotRibaUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlMovimenti.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Movimenti Contante", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
@@ -512,7 +510,7 @@ public class Cassa extends javax.swing.JFrame {
             pnlMovimentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMovimentiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlMovimentiLayout.setVerticalGroup(
@@ -568,15 +566,18 @@ public class Cassa extends javax.swing.JFrame {
                         .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(617, 617, 617))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(pnlCassa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlEntrate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pnlEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pnlCassa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(pnlMovimenti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnlCassa, pnlEntrate});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -585,7 +586,7 @@ public class Cassa extends javax.swing.JFrame {
                     .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlEntrate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -842,18 +843,18 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         
         RiepilogoCassa cassa = new RiepilogoCassa(attivoContante, passivoContante, versamenti, prelievi, netto);
         
-        double[] totaliAttivo = {
-            Double.parseDouble(txtTotContanteEntrate.getText()),
-            Double.parseDouble(txtTotAssegniEntrate.getText()),
-            Double.parseDouble(txtTotBonificoEntrate.getText()),
-            Double.parseDouble(txtTotRibaEntrate.getText())
+        String[] totaliAttivo = {
+            txtTotContanteEntrate.getText(),
+            txtTotAssegniEntrate.getText(),
+            txtTotBonificoEntrate.getText(),
+            txtTotRibaEntrate.getText()
         };
         
-        double[] totaliPassivo = {
-            Double.parseDouble(txtTotContanteUscite.getText()),
-            Double.parseDouble(txtTotAssegniUscite.getText()),
-            Double.parseDouble(txtTotBonificoUscite.getText()),
-            Double.parseDouble(txtTotRibaUscite.getText())
+        String[] totaliPassivo = {
+            txtTotContanteUscite.getText(),
+            txtTotAssegniUscite.getText(),
+            txtTotBonificoUscite.getText(),
+            txtTotRibaUscite.getText()
         };
         
         if (mnuIntervalloDate.isSelected() && forn_clienteSelezionato) {
@@ -919,11 +920,11 @@ void setTable() {
     nettoCassa = attivoContante + totPrelievi - passivoContante - totVers;
     
     //txtAttivoAssegni.setText(String.valueOf(roundTwoDecimals(attivoAssegni)));
-    txtAttivoContante.setText(String.valueOf(roundTwoDecimals(attivoContante)));
-    txtPrelievi.setText(String.valueOf(roundTwoDecimals(totPrelievi)));
-    txtPassivoContante.setText(String.valueOf(roundTwoDecimals(passivoContante)));
-    txtVersamentiTot.setText(String.valueOf(roundTwoDecimals(totVers)));
-    txtCassaNetto.setText(String.valueOf(roundTwoDecimals(nettoCassa)));
+    txtAttivoContante.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(attivoContante)));
+    txtPrelievi.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totPrelievi)));
+    txtPassivoContante.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(passivoContante)));
+    txtVersamentiTot.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totVers)));
+    txtCassaNetto.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(nettoCassa)));
     
     Object[] cassaAtt = cassaAttiva.toArray();
     Object[] cassaPass = cassaPassiva.toArray();
@@ -945,10 +946,10 @@ void setTable() {
         totRiba += saldo.getRiba();
     }
     
-    txtTotAssegniEntrate.setText(String.valueOf(roundTwoDecimals(totAssegni)));
-    txtTotContanteEntrate.setText(String.valueOf(roundTwoDecimals(totContante)));
-    txtTotBonificoEntrate.setText(String.valueOf(roundTwoDecimals(totBonifico)));
-    txtTotRibaEntrate.setText(String.valueOf(roundTwoDecimals(totRiba)));
+    txtTotAssegniEntrate.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totAssegni)));
+    txtTotContanteEntrate.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totContante)));
+    txtTotBonificoEntrate.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totBonifico)));
+    txtTotRibaEntrate.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totRiba)));
     
     txtTotAssegniEntrate.setHorizontalAlignment(JTextField.RIGHT);
     txtTotContanteEntrate.setHorizontalAlignment(JTextField.RIGHT);
@@ -968,10 +969,10 @@ void setTable() {
         totRiba += saldo.getRiba();
     }
     
-    txtTotAssegniUscite.setText(String.valueOf(roundTwoDecimals(totAssegni)));
-    txtTotContanteUscite.setText(String.valueOf(roundTwoDecimals(totContante)));
-    txtTotBonificoUscite.setText(String.valueOf(roundTwoDecimals(totBonifico)));
-    txtTotRibaUscite.setText(String.valueOf(roundTwoDecimals(totRiba)));
+    txtTotAssegniUscite.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totAssegni)));
+    txtTotContanteUscite.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totContante)));
+    txtTotBonificoUscite.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totBonifico)));
+    txtTotRibaUscite.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totRiba)));
     
     txtTotAssegniUscite.setHorizontalAlignment(JTextField.RIGHT);
     txtTotContanteUscite.setHorizontalAlignment(JTextField.RIGHT);
@@ -1089,6 +1090,13 @@ void setTable() {
           
     tblCassaAttiva.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     tblCassaPassiva.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    
+    for (int i = CONTANTE; i <= RIBA; i++) {
+        tblCassaAttiva.getColumnModel().getColumn(i).setCellRenderer(new DoubleFormatter());
+        tblCassaPassiva.getColumnModel().getColumn(i).setCellRenderer(new DoubleFormatter());
+    }
+    
+    tblVersamenti.getColumnModel().getColumn(IMPORTO).setCellRenderer(new DoubleFormatter());
 }
 
 /*
@@ -1100,13 +1108,6 @@ private void popolaSelect(List items) {
             cboAnno.addItem((Integer)item);
         else
             cboCliente.addItem((Fornitore) item);
-}
-
-/*
- * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
- */
-private double roundTwoDecimals(double d) {
-    return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

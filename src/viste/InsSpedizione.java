@@ -18,6 +18,7 @@ import entita.Entity;
 import entita.Fattura;
 import entita.Fornitore;
 import entita.Mezzo;
+import entita.Movimento;
 import entita.Spedizione;
 import java.io.IOException;
 import java.sql.Date;
@@ -28,6 +29,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import libs.DoubleFormatter;
 
 /**
  *
@@ -45,7 +47,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         color.changeColor(pnlNote);
         color.changeColor(pnlPrezzo);
         color.changeColor(pnlTotale);
-        
+        blockTexts();
         id_fornitore = fornitore.getCod();
         this.fornitore = fornitore;
         setTitle("Inserimento Spedizioni: " + fornitore);
@@ -77,6 +79,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         color.changeColor(pnlNote);
         color.changeColor(pnlPrezzo);
         color.changeColor(pnlTotale);
+        blockTexts();
         id_fornitore = fornitore.getCod();
         setTitle("Modifica Spedizione #" + spedizione.getNumSpedizione() + ", " + spedizione.getDataCarico().toString().substring(0, 4) + " - " + fornitore);
         this.parent = (Spedizioni) parent;
@@ -123,19 +126,19 @@ public class InsSpedizione extends javax.swing.JDialog {
         else
             cboUm.setSelectedIndex(0);
         
-        double importo = roundTwoDecimals(spedizione.getImporto());
-        double traz = roundTwoDecimals(spedizione.getTraz());
-        double distrib = roundTwoDecimals(spedizione.getDistrib());
+        double importo = DoubleFormatter.roundTwoDecimals(spedizione.getImporto());
+        double traz = DoubleFormatter.roundTwoDecimals(spedizione.getTraz());
+        double distrib = DoubleFormatter.roundTwoDecimals(spedizione.getDistrib());
         int percSconto = spedizione.getSconto();
-        double impSconto = roundTwoDecimals(importo * percSconto / 100);
-        double impScontato = roundTwoDecimals(importo - impSconto);
-        double valoreMerce = roundTwoDecimals(spedizione.getValoreMerce());
-        double impProvv = roundTwoDecimals(spedizione.getProvvigione());
-        double imponibile = roundTwoDecimals(impScontato + impProvv);
+        double impSconto = DoubleFormatter.roundTwoDecimals(importo * percSconto / 100);
+        double impScontato = DoubleFormatter.roundTwoDecimals(importo - impSconto);
+        double valoreMerce = DoubleFormatter.roundTwoDecimals(spedizione.getValoreMerce());
+        double impProvv = DoubleFormatter.roundTwoDecimals(spedizione.getProvvigione());
+        double imponibile = DoubleFormatter.roundTwoDecimals(impScontato + impProvv);
         int percIva = spedizione.getPercIva();
-        double iva = roundTwoDecimals(spedizione.getIva());
+        double iva = DoubleFormatter.roundTwoDecimals(spedizione.getIva());
         int percProvv = spedizione.getPercProvv();
-        double totale = roundTwoDecimals(spedizione.getTotale());
+        double totale = DoubleFormatter.roundTwoDecimals(spedizione.getTotale());
         
         txtQuantita.setText(Integer.toString(spedizione.getQta()));
         txtImporto.setText(Double.toString(importo));
@@ -1218,8 +1221,16 @@ void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boo
     speds.add(spedDaFatturare);
 
     Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, speds, forfait, pagata, note);
+    fatt.setCliente(fornitore);
     try {
         if (FrontController.insert(fatt)) {
+            if (pagata) {
+                    String[] metPag = metodoPagamento.split("-");
+                    List<Movimento> movimento = new LinkedList<Movimento>();
+                    movimento.add(new Movimento(numero, dataFattura, Fattura.tipo.VEN.toString(), metPag[0], totale, fornitore.getCod()));
+                    FrontController.updatePagataFattura(Fattura.tipo.VEN, fatt, pagata, movimento);
+            }
+            
             JOptionPane.showMessageDialog(null, "Fatturazione eseguita con successo!", "", JOptionPane.INFORMATION_MESSAGE);
             pulisciText();
             parent.ricaricaTabella();
@@ -1332,8 +1343,7 @@ private void txtMeseCaricoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     txtMeseDocumento.setText(txtMeseCarico.getText());
 }//GEN-LAST:event_txtMeseCaricoFocusLost
 
-private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-// TODO add your handling code here:
+private void blockTexts() {
     txtGiornoCarico.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
     txtMeseCarico.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
     txtAnnoCarico.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
@@ -1343,6 +1353,11 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     txtPercIva.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
     txtPercProv.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
     txtPercSconto.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
+}
+
+private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+// TODO add your handling code here:
+
 }//GEN-LAST:event_formWindowOpened
 
 private void popolaSelect(List items) {
@@ -1373,7 +1388,7 @@ private void calcolaImporto(){
         } catch (NumberFormatException e) {}
     
     double importo = (qta * traz) + (qta * distrib);
-    txtImporto.setText(String.valueOf(roundTwoDecimals(importo)));
+    txtImporto.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(importo)));
 }
 
 private void calcolaSconto(){
@@ -1392,8 +1407,8 @@ private void calcolaSconto(){
     
     double importoSconto = (importo * sconto) / 100.0;
     double impScontato = importo - importoSconto;
-    txtImpScontato.setText(String.valueOf(roundTwoDecimals(impScontato)));
-    txtImpSconto.setText(String.valueOf(roundTwoDecimals(importoSconto)));
+    txtImpScontato.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(impScontato)));
+    txtImpSconto.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(importoSconto)));
 }
 
 private void calcolaTotale(){
@@ -1416,7 +1431,7 @@ private void calcolaTotale(){
             importo = Double.parseDouble(txtImporto.getText());
         } catch (NumberFormatException e) {}
         
-        txtImpScontato.setText(Double.toString(roundTwoDecimals(importo)));
+        txtImpScontato.setText(Double.toString(DoubleFormatter.roundTwoDecimals(importo)));
         txtPercSconto.setText("0");
         txtImpSconto.setText("0.0");
     }
@@ -1436,10 +1451,10 @@ private void calcolaTotale(){
     double imponibile = importo + provvigione;
     double iva = (imponibile * percIva) / 100.0;
     double totale = imponibile + iva;
-    txtImponibile.setText(String.valueOf(roundTwoDecimals(imponibile)));
-    txtImpIva.setText(String.valueOf(roundTwoDecimals(iva)));
-    txtImpProv.setText(String.valueOf(roundTwoDecimals(provvigione)));
-    txtTotale.setText(String.valueOf(roundTwoDecimals(totale)));
+    txtImponibile.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(imponibile)));
+    txtImpIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
+    txtImpProv.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(provvigione)));
+    txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totale)));
 }
 
 private void pulisciText(){
@@ -1472,13 +1487,6 @@ private void pulisciText(){
     txtValMerce.setText(null);
     cboMezzo.setSelectedIndex(0);
     txtGiornoCarico.requestFocus();
-}
-
-/*
- * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
- */
-private double roundTwoDecimals(double d) {
-    return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
 }
 
     private boolean modifica; //se true vuol dire che si sta effettuando una modifica, altrimenti un inserimento

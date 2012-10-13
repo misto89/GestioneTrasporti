@@ -139,7 +139,7 @@ CREATE TABLE `mezzi` (
   `marca` varchar(30) DEFAULT NULL,
   `scad_bollo` varchar(30) DEFAULT NULL,
   `scad_revisione` varchar(30) DEFAULT NULL,
-  `scad_adp` varchar(30) DEFAULT NULL,
+  `scad_atp` varchar(30) DEFAULT NULL,
   `scad_assicurazione` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `targa` (`targa`)
@@ -179,6 +179,7 @@ CREATE TABLE `movimenti` (
   `tipo` varchar(20) NOT NULL,
   `met_pag` varchar(30) NOT NULL,
   `valore` decimal(10,2) NOT NULL,
+  `forncliente` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -227,4 +228,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-09-24 17:48:47
+-- Dump completed on 2012-10-02 17:01:28

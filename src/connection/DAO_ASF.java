@@ -160,7 +160,7 @@ public abstract class DAO_ASF {
                 String marca = null;
                 String scadBollo = null;
                 String scadRevisione = null;
-                String scadAdp = null;
+                String scadAtp = null;
                 String scadAssicurazione = null;
             
                 while (rs.next()){
@@ -169,10 +169,10 @@ public abstract class DAO_ASF {
                     marca = rs.getString(Tabelle.Mezzi.MARCA);
                     scadBollo = rs.getString(Tabelle.Mezzi.SCAD_BOLLO);
                     scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
-                    scadAdp = rs.getString(Tabelle.Mezzi.SCAD_ADP);
+                    scadAtp = rs.getString(Tabelle.Mezzi.SCAD_ATP);
                     scadAssicurazione = rs.getString(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
                 
-                    mezzi.add(new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAdp, scadAssicurazione));   
+                    mezzi.add(new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione));   
                 }
             
                 return mezzi;
@@ -344,7 +344,7 @@ public abstract class DAO_ASF {
             Mezzo m =(Mezzo) o;
             try {
                 sql = "INSERT INTO " + Tabelle.MEZZI + " VALUES (NULL, '" + m.getTarga() + "', " + checkNull(m.getMarca()) + 
-                        ", " + checkNull(m.getScadBollo()) + ", " + checkNull(m.getScadRevisione()) + ", " + checkNull(m.getScadAdp()) +
+                        ", " + checkNull(m.getScadBollo()) + ", " + checkNull(m.getScadRevisione()) + ", " + checkNull(m.getScadAtp()) +
                         ", " + checkNull(m.getScadAssicurazione()) + ")";
                 
                 System.out.println(sql);
@@ -626,7 +626,7 @@ public abstract class DAO_ASF {
                         "', " + Tabelle.Mezzi.MARCA + " = " + checkNull(m.getMarca()) + 
                         ", " + Tabelle.Mezzi.SCAD_BOLLO + " = " + checkNull(m.getScadBollo()) + 
                         ", " + Tabelle.Mezzi.SCAD_REVISIONE + " = " + checkNull(m.getScadRevisione()) +
-                        ", " + Tabelle.Mezzi.SCAD_ADP + " = " + checkNull(m.getScadAdp()) +
+                        ", " + Tabelle.Mezzi.SCAD_ATP + " = " + checkNull(m.getScadAtp()) +
                         ", " + Tabelle.Mezzi.SCAD_ASSICURAZIONE + " = " + checkNull(m.getScadAssicurazione()) +
                         " WHERE " + Tabelle.Mezzi.ID + " = " + m.getId();
                 
@@ -948,7 +948,7 @@ public abstract class DAO_ASF {
             String marca = null;
             String scadBollo = null;
             String scadRevisione = null;
-            String scadAdp = null;
+            String scadAtp = null;
             String scadAssicurazione = null;
             Mezzo mezzo = new Mezzo();
             
@@ -958,10 +958,10 @@ public abstract class DAO_ASF {
                 marca = rs.getString(Tabelle.Mezzi.MARCA);
                 scadBollo = rs.getString(Tabelle.Mezzi.SCAD_BOLLO);
                 scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
-                scadAdp = rs.getString(Tabelle.Mezzi.SCAD_ADP);
+                scadAtp = rs.getString(Tabelle.Mezzi.SCAD_ATP);
                 scadAssicurazione = rs.getString(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
 
-                mezzo = new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAdp, scadAssicurazione);   
+                mezzo = new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione);   
             }
             
             return mezzo;
@@ -1290,7 +1290,8 @@ public abstract class DAO_ASF {
             }
 //            System.out.println(numPrec + " " + numSucc);
             if (forcedNumber != -1) {
-                String sqlNumExistency = "SELECT " +  Tabelle.Fatture.NUMERO + " FROM " + Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.NUMERO + " = " + forcedNumber + " AND " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDocYear + "-12-31'";
+                String sqlNumExistency = "SELECT " +  Tabelle.Fatture.NUMERO + " FROM " + Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.NUMERO +
+                        " = " + forcedNumber + " AND " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDocYear + "-12-31'";
                 System.out.println(sqlNumExistency);
                 PreparedStatement psNumExistency = conn.prepareStatement(sqlNumExistency);
                 ResultSet rsNumExistency = psNumExistency.executeQuery();
@@ -1319,15 +1320,15 @@ public abstract class DAO_ASF {
                           }
                        
                     } else if (numPrec == 0) {
-                        if (!(forcedNumber < numSucc))
-                            throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
-                                        "oppure non c'è nessun intervallo di fatture alla data selezionata.");
-                        
-                        else
-                            valoreReturn = 0;    //Valore di ok
-                        
-                    } else
-                        valoreReturn = 0;
+                        if (numSucc != 0) { //Se entrambi i valori sono 0 allora è la prima fattura in assoluto nell'anno
+                            if (forcedNumber > numSucc)
+                                throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
+                                            "oppure non c'è nessun intervallo di fatture alla data selezionata.");
+                            else
+                                valoreReturn = 0;    //Valore di ok
+                        } else
+                            valoreReturn = 0;
+                    } 
                 }
                 
             } else {

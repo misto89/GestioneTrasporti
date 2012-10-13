@@ -10,6 +10,7 @@
  */
 package viste;
 
+import libs.DoubleFormatter;
 import com.itextpdf.text.DocumentException;
 import controllo.FrontController;
 import eccezioni.CheckTuttException;
@@ -19,6 +20,7 @@ import entita.Fattura;
 import entita.Spedizione;
 import entita.Fornitore;
 import entita.Mezzo;
+import entita.Movimento;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -84,26 +86,19 @@ public class Spedizioni extends javax.swing.JFrame {
                 imponibile = importo;
             }
             
-            txtImponibileForfait.setText(String.valueOf(roundTwoDecimals(imponibile)));
+            txtImponibileForfait.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(imponibile)));
             
             iva = imponibile * percIva/100.0;
             
-            txtIvaForfait.setText(String.valueOf(roundTwoDecimals(iva)));
+            txtIvaForfait.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
             
             totale= imponibile+iva;
             
-            txtTotForfait.setText(String.valueOf(roundTwoDecimals(totale)));
+            txtTotForfait.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totale)));
         }
         
     }
     
-    /*
-     * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
-    */
-    private double roundTwoDecimals(double d) {
-        return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
-    }
-
     private class SpedizioniTableModel extends DefaultTableModel {
 
         private final String[] COLONNE;
@@ -1231,9 +1226,9 @@ private void popolaTabella(List<Spedizione> spedizioni, boolean[] canEdit) {
       
     List<Entity> mezzi = FrontController.getAnagrafe(Mezzo.class);
     Object[] arrMezzi = mezzi.toArray();
-    Mezzo[] arrayMezzi = new Mezzo[arrMezzi.length + 1];
+    Mezzo[] arrayMezzi = new Mezzo[arrMezzi.length + 2];
     Character[] valoriRientrata = {'S','N'};
-    System.arraycopy(arrMezzi, 0, arrayMezzi, 1, arrMezzi.length);
+    System.arraycopy(arrMezzi, 0, arrayMezzi, 2, arrMezzi.length);
     arrayMezzi[0] = new Mezzo(null, "", null);
     arrayMezzi[1] = new Mezzo(null, "Vettore", null);
     DefaultCellEditor comboMezziEditor = new DefaultCellEditor(new JComboBox(arrayMezzi));
@@ -1359,6 +1354,10 @@ private void popolaTabella(List<Spedizione> spedizioni, boolean[] canEdit) {
     
     tblSpedizioni.getColumnModel().getColumn(BOLLE).setCellRenderer(new GraphButtonCellRenderer());
     */
+    
+    for (int i = TRAZ; i <= VAL_MERCE; i++)
+        tblSpedizioni.getColumnModel().getColumn(i).setCellRenderer(new DoubleFormatter());
+    
 }
 
 //ricarica i dati nella tabella dopo la modifica dal form di inserimento spedizioni
@@ -1667,9 +1666,15 @@ private void btnEmettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     final int RESPONSE = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler procedere con l'emissione della fattura?", "Conferma fatturazione", JOptionPane.OK_CANCEL_OPTION);
     if (RESPONSE == JOptionPane.OK_OPTION) {
         Fattura fatt = new Fattura(numFattura, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, spedizioniDaFatt, forfait, pagata, note);
-
+        fatt.setCliente(new Fornitore(id_fornitore));
         try {
             if (FrontController.insert(fatt)) {
+                if (pagata) {
+                    List<Movimento> movimento = new LinkedList<Movimento>();
+                    movimento.add(new Movimento(numFattura, dataFattura, Fattura.tipo.VEN.toString(), (String)cboMetPag.getSelectedItem(), totale, id_fornitore));
+                    FrontController.updatePagataFattura(Fattura.tipo.VEN, fatt, pagata, movimento);
+                }
+                
                 cboMetPag.setSelectedIndex(0);
                 cboGiorni.setSelectedIndex(0);
                 txtNote.setText(null);
@@ -1988,7 +1993,7 @@ private void txtNumFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:eve
         proposedNumber = FrontController.checkTutt(dataPresunta, -1);
         
     } catch (CheckTuttException e) {
-        JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+//        JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         return;
     }
     //textNumber è il numero eventualmente inserito all'interno della text
@@ -2001,7 +2006,7 @@ private void txtNumFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:eve
             FrontController.checkTutt(dataPresunta, textNumber);
             
         } catch (CheckTuttException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             //txtNumFatt.requestFocus();
             return;
         }
@@ -2094,7 +2099,7 @@ private void setNumber() {
             FrontController.checkTutt(dataPresunta, textNumber);
  
         } catch (CheckTuttException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         
     } else {
@@ -2104,7 +2109,7 @@ private void setNumber() {
             txtNumFatt.setText(String.valueOf(numCheck));
             
         } catch (CheckTuttException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
@@ -2129,12 +2134,12 @@ private void setRiepilogoFattura(List<Spedizione> spedizioni){
         imponibile = importoTot - scontoTot + provvigione;
         totale = imponibile + ivaTot;
 
-        txtImpTot.setText(String.valueOf(roundTwoDecimals(importoTot)));
-        txtImponibile.setText(String.valueOf(roundTwoDecimals(imponibile)));
-        txtIva.setText(String.valueOf(roundTwoDecimals(ivaTot)));
-        txtProvvigioneTot.setText(String.valueOf(roundTwoDecimals(provvigione)));
-        txtScontoTot.setText(String.valueOf(roundTwoDecimals(scontoTot)));
-        txtTotale.setText(String.valueOf(roundTwoDecimals(totale)));
+        txtImpTot.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(importoTot)));
+        txtImponibile.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(imponibile)));
+        txtIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(ivaTot)));
+        txtProvvigioneTot.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(provvigione)));
+        txtScontoTot.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(scontoTot)));
+        txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totale)));
 
         //Inserisce una data presunta della fattura
         java.util.Date utilDate = new java.util.Date();

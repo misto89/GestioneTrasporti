@@ -10,6 +10,7 @@
  */
 package viste;
 
+import libs.DoubleFormatter;
 import com.itextpdf.text.DocumentException;
 import contabilizzazione.SaldoContabilitaMensile;
 import contabilizzazione.SaldoIvaMensile;
@@ -20,13 +21,13 @@ import entita.Fornitore;
 import java.awt.Color;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -595,10 +596,10 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         else
             tipo = StampaMovimentazioneMensile.tipo.PAGATE;
         
-        double[] totali = {
-            Double.parseDouble(txtTotPos.getText()),
-            Double.parseDouble(txtTotNeg.getText()),
-            Double.parseDouble(txtTotSaldo.getText())
+        String[] totali = {
+            txtTotPos.getText(),
+            txtTotNeg.getText(),
+            txtTotSaldo.getText()
         };
         
         
@@ -622,6 +623,12 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
     }
 }//GEN-LAST:event_mnuStampaActionPerformed
+
+private String doubleToString(double d) {
+    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+    String string = currencyFormatter.format(d);
+    return string;
+}
 
 private void setTable() {
     
@@ -655,9 +662,9 @@ private void setTable() {
     txtTotNeg.setHorizontalAlignment(JTextField.RIGHT);
     txtTotPos.setHorizontalAlignment(JTextField.RIGHT);
     txtTotSaldo.setHorizontalAlignment(JTextField.RIGHT);
-    txtTotNeg.setText(String.valueOf(roundTwoDecimals(totNeg)));
-    txtTotPos.setText(String.valueOf(roundTwoDecimals(totPos)));
-    txtTotSaldo.setText(String.valueOf(roundTwoDecimals(totSaldo)));
+    txtTotNeg.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totNeg)));
+    txtTotPos.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totPos)));
+    txtTotSaldo.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totSaldo)));
     
     final String[] COLONNE = {
         "PERIODO", "ENTRATE", "USCITE", "SALDO"
@@ -690,15 +697,15 @@ private void setTable() {
     for (int i = 0; i < COLONNE.length; i++) {
         TableColumn colonna = tblContEmesse.getColumnModel().getColumn(i);
         colonna.setResizable(resizable[i]);
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         
         if (i == EMESSE || i == ACQUISTO || i == SALDO)
-            renderer.setHorizontalAlignment(JLabel.RIGHT);
-        else
+            colonna.setCellRenderer(new DoubleFormatter());
+        else {
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setBackground(Color.lightGray);
-        
-        colonna.setCellRenderer(renderer);
-        
+            colonna.setCellRenderer(renderer);
+        }
+ 
         //colonna.setPreferredWidth(width[i]);
     }
        
@@ -729,14 +736,7 @@ private void popolaSelect(List items) {
             cboCliente.addItem((Fornitore) item);
 }
 
-/*
- * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
- */
-public double roundTwoDecimals(double d) {
-    return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
-}
-
-void stampaProspettoIva(List<SaldoIvaMensile> prospettoIva, double[] totali) {
+void stampaProspettoIva(List<SaldoIvaMensile> prospettoIva, String[] totali) {
     try {       
         
         if (mnuIntervalloDate.isSelected()) {

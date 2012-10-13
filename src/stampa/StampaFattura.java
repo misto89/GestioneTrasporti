@@ -230,7 +230,7 @@ public final class StampaFattura extends StampaDocumento {
                 new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("€ " + doubleToString(roundTwoDecimals(fattura.getImporto())), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fattura.getImporto())), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase(fattura.getPercIva() + " %", FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
@@ -272,12 +272,12 @@ public final class StampaFattura extends StampaDocumento {
             new PdfPCell(new Phrase("IMPONIBILE", FONT_PICCOLO_NORMALE)),
             new PdfPCell(new Phrase("IVA", FONT_PICCOLO_NORMALE)),
             new PdfPCell(new Phrase("TOTALE", FONT_PICCOLO_BOLD)),
-            new PdfPCell(new Phrase(String.valueOf("€ " + doubleToString(roundTwoDecimals(fattura.getImporto()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf("€ " + doubleToString(roundTwoDecimals(fattura.getSconto()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf("€ " + doubleToString(roundTwoDecimals(fattura.getProvvigione()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf("€ " + doubleToString(roundTwoDecimals(fattura.getImponibile()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf("€ " + doubleToString(roundTwoDecimals(fattura.getIva()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf("€ " + doubleToString(roundTwoDecimals(fattura.getTotale()))), FONT_GRANDE_BOLD))            
+            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getImporto()))), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getSconto()))), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getProvvigione()))), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getImponibile()))), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getIva()))), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getTotale()))), FONT_GRANDE_BOLD))            
         };
                
         for (int i = 0; i < totali.length; i++) {

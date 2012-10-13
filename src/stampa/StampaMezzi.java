@@ -55,7 +55,7 @@ public class StampaMezzi extends StampaDocumento {
                 new PdfPCell(new Phrase("MARCA", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("SCAD. BOLLO", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("SCAD. REVISIONE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("SCAD. ADP", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("SCAD. ATP", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("SCAD. ASSICURAZIONE", FONT_GRANDE_BOLD))
         };
         
@@ -70,7 +70,7 @@ public class StampaMezzi extends StampaDocumento {
                 new PdfPCell(new Phrase(mezzo.getMarca(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(mezzo.getScadBollo(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(mezzo.getScadRevisione(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(mezzo.getScadAdp(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(mezzo.getScadAtp(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(mezzo.getScadAssicurazione(), FONT_GRANDE_NORMALE))
             };
             

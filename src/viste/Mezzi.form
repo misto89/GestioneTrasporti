@@ -208,7 +208,7 @@
                       <Component id="txtMarca" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
                       <Component id="txtScadBollo" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
                       <Component id="txtScadRevisione" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
-                      <Component id="txtScadAdp" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
+                      <Component id="txtScadAtp" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
                       <Component id="txtScadAssicurazione" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -240,7 +240,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="lblTarga4" alignment="0" pref="20" max="32767" attributes="0"/>
-                      <Component id="txtScadAdp" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtScadAtp" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -295,11 +295,11 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblTarga4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Scadenza adp"/>
+            <Property name="text" type="java.lang.String" value="Scadenza atp"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtScadAdp">
+        <Component class="javax.swing.JTextField" name="txtScadAtp">
         </Component>
       </SubComponents>
     </Container>

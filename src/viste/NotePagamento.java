@@ -18,6 +18,7 @@ import java.awt.Frame;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import libs.DoubleFormatter;
 
 /**
  *
@@ -230,7 +231,7 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     
     if (fattura.getNotePag() == null) {
         String metPag = (fattura.getMetPag().split("-"))[0];
-        double totale = roundTwoDecimals(fattura.getTotale());
+        double totale = DoubleFormatter.roundTwoDecimals(fattura.getTotale());
     
         for (int i = 1; i < txtMetodi.length; i++)
             if (metPag.equals(metodiPagamento[i])) {
@@ -286,7 +287,7 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         String valore = txtMetodi[i + 1].getText();
         if (!valore.isEmpty()) {
             try {
-                valori[i] = roundTwoDecimals(Double.parseDouble(valore));
+                valori[i] = DoubleFormatter.roundTwoDecimals(Double.parseDouble(valore));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Valore errato per il metodo " + metodiPagamento[i + 1] + "!", "Formato errato", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -314,7 +315,7 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         
         for (int i = 0; i < valori.length; i++)
             if (valori[i] != 0.00)
-                movimenti.add(new Movimento(fattura.getNumero(), fattura.getData(), tipo.toString(), metodiPagamento[i + 1], valori[i]));
+                movimenti.add(new Movimento(fattura.getNumero(), fattura.getData(), tipo.toString(), metodiPagamento[i + 1], valori[i], fattura.getCliente().getCod()));
         
         FrontController.updatePagataFattura(tipo, fattura, true, movimenti);
         if (tipo == Fattura.tipo.VEN) {
@@ -350,12 +351,6 @@ private void txtRibaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_
     checkInsertedTotal();
 }//GEN-LAST:event_txtRibaFocusLost
 
-/*
- * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
- */
-private double roundTwoDecimals(double d) {
-    return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnulla;
