@@ -143,10 +143,10 @@ CREATE TABLE `mezzi` (
   `scad_assicurazione` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `targa` (`targa`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-INSERT INTO `mezzi` (`targa`) VALUES ('Vettore');
+INSERT INTO `mezzi` (`targa`) VALUES ('vettore');
 
 --
 -- Table structure for table `movimcontante`
@@ -228,4 +228,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-02 17:01:28
+-- Dump completed on 2012-10-07 16:29:10

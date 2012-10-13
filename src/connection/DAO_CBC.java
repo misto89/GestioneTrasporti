@@ -228,7 +228,7 @@ public class DAO_CBC {
             if (tipo != Fattura.pagata.ALL)
                 sql += ")";
             
-            sql += ")";
+            sql += ") ORDER BY " + Tabelle.Fatture.DATA;
             
             try {
                 System.out.println(sql);
@@ -631,7 +631,7 @@ public class DAO_CBC {
             if (!(tipoFatt.equalsIgnoreCase("all")))
                 sql += ")";
             
-            sql += ")";
+            sql += ") ORDER BY " + Tabelle.FattureAcquisto.DATA;
             
             try {
                 System.out.println(sql);
@@ -975,6 +975,12 @@ public class DAO_CBC {
             
         }
      
+        sql += " ORDER BY ";
+        if (tipo == Fattura.tipo.VEN)
+            sql += Tabelle.Fatture.DATA;
+        else
+            sql += Tabelle.FattureAcquisto.DATA;
+                    
         List<Fattura> fatture = new LinkedList<Fattura>();
             
         try {

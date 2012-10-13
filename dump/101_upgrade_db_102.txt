@@ -1,4 +1,0 @@
-USE pugliatrasporti;
-
-ALTER TABLE `mezzi` CHANGE `scad_adp` `scad_atp` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
-ALTER TABLE `movimenti` ADD `forncliente` INT NOT NULL;

@@ -36,7 +36,8 @@ public class Fattura implements Entity {
     private int fornitore; //solo per fatture d'acquisto
     private List<Movimento> movimenti = new LinkedList<Movimento>();
     
-    public static int NUM_CAMPI = 11;
+    public static int NUM_CAMPI_EMESSE = 11;
+    public static int NUM_CAMPI_ACQUISTO = 12;
    
     public static enum pagata {
         P, NP, ALL
@@ -186,6 +187,10 @@ public class Fattura implements Entity {
         return pagata;
     }
     
+    public void setPagata(boolean pagata){
+        this.pagata = pagata;
+    }
+    
     public boolean getForfait(){
         return forfait;
     }
@@ -263,7 +268,7 @@ public class Fattura implements Entity {
         else
             pagata = 'N';
         
-        return new Object[] {cliente.getNome(), numero, sdf.format(dataFattura), metodoPagam, pagata, imponibile, ivaTot, totale, sdf.format(getDataScadenza()), getNotePag(), note};
+        return new Object[] {cliente.getNome(), numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
     }
     
     public Object[] fattAcquistoToArray() {
@@ -278,7 +283,7 @@ public class Fattura implements Entity {
         else
             pagata = 'N';
 
-        return new Object[] {cliente.getNome(), tipo, numero, sdf.format(dataFattura), metodoPagam, pagata, ivaTot, totale, sdf.format(getDataScadenza()), getNotePag(), note};
+        return new Object[] {cliente.getNome(), tipo, numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
     }
     
     public boolean isScaduta() {

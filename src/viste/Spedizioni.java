@@ -1622,7 +1622,7 @@ private void btnEmettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     Double provvigione = 0.00;
     try {
         if (!forfait)
-            provvigione = Double.parseDouble(txtImpTot.getText());
+            provvigione = Double.parseDouble(txtProvvigioneTot.getText());
     } catch (NumberFormatException e) {}
     
     Double sconto = 0.00;

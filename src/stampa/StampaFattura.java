@@ -82,6 +82,8 @@ public final class StampaFattura extends StampaDocumento {
     
     @Override
     protected void stampa() throws DocumentException, IOException {
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
         doc.open();                        
         int numPagina = 1;
         initIntestazione(numPagina);
@@ -105,28 +107,33 @@ public final class StampaFattura extends StampaDocumento {
 
         if (!fattura.getForfait()){
             for (Spedizione sped: spedizioni) {
-                
+                String descrizione = sped.getDescrizione();
+                if (sped.getValoreMerce() != 0) {
+                    descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
+                }
                 PdfPCell[] rigaSped = {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(sped.getDescrizione(), FONT_PICCOLO_NORMALE)),
+                    new PdfPCell(new Phrase(sdf.format(sped.getDataDocumento()), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(descrizione, FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase(sped.getUm(), FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase(String.valueOf(sped.getQta()), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(sped.getDistrib() + sped.getTraz())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(sped.getImporto())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(String.valueOf(sped.getSconto() + " %"), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(String.valueOf(sped.getPercIva() + " %"), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(sped.getValoreMerce())), FONT_GRANDE_NORMALE)),
+                    //new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(sped.getValoreMerce())), FONT_GRANDE_NORMALE)),
                 };
                 
                 rigaSped[0].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                rigaSped[1].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                rigaSped[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 rigaSped[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                
                 rigaSped[0].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
                 //rigaSped[1].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
                 rigaSped[2].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
@@ -169,26 +176,31 @@ public final class StampaFattura extends StampaDocumento {
         } else if (fattura.getForfait()) {
             //stampa la fattura eliminando i riferimenti a quantità, prezzi e totali delle spedizioni
             for (Spedizione sped: spedizioni) {
+                String descrizione = sped.getDescrizione();
+                if (sped.getValoreMerce() != 0) {
+                    descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
+                }
                 PdfPCell[] rigaSped = {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(sped.getDescrizione(), FONT_PICCOLO_NORMALE)),
+                    new PdfPCell(new Phrase(sdf.format(sped.getDataDocumento()), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(descrizione, FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase("", FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                    //new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
                 };
                 rigaSped[0].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                rigaSped[1].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                rigaSped[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 rigaSped[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[0].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
 
                 for (int i = 0; i < rigaSped.length; i++) {
@@ -264,6 +276,7 @@ public final class StampaFattura extends StampaDocumento {
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
         table.setTotalWidth(523);
         //table.setWidthPercentage(100);
+        table.setWidths(new int[] {15, 15, 15, 14, 14, 17});
         
         PdfPCell[] totali = {
             new PdfPCell(new Phrase("IMPORTO", FONT_PICCOLO_NORMALE)),
@@ -478,7 +491,7 @@ public final class StampaFattura extends StampaDocumento {
         table = new PdfPTable(9);
         table.setSpacingBefore(0);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        int[] widths = {40, 70, 25, 20, 25, 40, 25, 20, 40};
+        int[] widths = {35, 45, 65, 15, 15, 40, 45, 25, 20};
         try {
             table.setWidths(widths);
         } catch (DocumentException ex) {
@@ -488,14 +501,15 @@ public final class StampaFattura extends StampaDocumento {
         
         PdfPCell[] intestazioneSpedizioni = {
             new PdfPCell(new Phrase("RIF. DOC.", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("DATA DOC.", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("DESCRIZIONE", FONT_GRANDE_BOLD)),
-            new PdfPCell(new Phrase("U.M.", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("U.M", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("QTA", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("PRZ.UN", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("IMPORTO", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("SCONTO", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("IVA", FONT_GRANDE_BOLD)),
-            new PdfPCell(new Phrase("VAL. MERCE", FONT_GRANDE_BOLD)),
+            //new PdfPCell(new Phrase("VAL. MERCE", FONT_GRANDE_BOLD)),
         };
         
         intestazioneSpedizioni[0].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -506,7 +520,7 @@ public final class StampaFattura extends StampaDocumento {
         intestazioneSpedizioni[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         intestazioneSpedizioni[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         intestazioneSpedizioni[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        intestazioneSpedizioni[8].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        intestazioneSpedizioni[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         
         for (int i = 0; i < intestazioneSpedizioni.length; i++) {
             //if (i == 0){

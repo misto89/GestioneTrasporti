@@ -25,9 +25,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
@@ -194,12 +198,12 @@ public class Scadenziario extends javax.swing.JFrame {
             .addGroup(pnlAcquistoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pnlScadenza.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "In scadenza", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
-        cboPeriodi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tutte", "Oggi", "Questo mese" }));
+        cboPeriodi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tutte", "Oggi", "Scegli data" }));
         cboPeriodi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboPeriodiActionPerformed(evt);
@@ -317,20 +321,97 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     popolaSelect(fornitori);
     setTableEmesse();
     setTableAcquisto();
+    setPanelBorderTitle();
 }//GEN-LAST:event_formWindowOpened
+
+//Modifica a runtime del borderTitle
+private void setPanelBorderTitle(){
+    Double totFattAcquisto = 0.0;
+    Double totFattEmesse = 0.0; 
+    DoubleFormatter.roundTwoDecimals(totFattAcquisto);
+    DoubleFormatter.roundTwoDecimals(totFattEmesse);
+    //Prendo il totale delle fatture emesse e d'acquisto nelle tabelle
+    for (Fattura f: fattureEmesse)
+        totFattEmesse += f.getTotale();
+    for (Fattura f: fattureAcquisto)
+        totFattAcquisto += f.getTotale();
+    
+    Border borderEmesse = new TitledBorder("Fatture emesse - TOTALE: € " + String.format("%1$,.2f", totFattEmesse));
+    Border borderAcquisto = new TitledBorder("Fatture acquisto  - TOTALE: € " + String.format("%1$,.2f", totFattAcquisto));
+    pnlEmesse.setBorder(borderEmesse);
+    pnlAcquisto.setBorder(borderAcquisto);
+}
 
 private void cboFornClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFornClienteActionPerformed
 // TODO add your handling code here: 
     setTableEmesse();
     setTableAcquisto();
-    
+    setPanelBorderTitle();
 }//GEN-LAST:event_cboFornClienteActionPerformed
 
 private void cboPeriodiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPeriodiActionPerformed
-// TODO add your handling code here:
+    if (cboPeriodi.getSelectedIndex()== SCELTA) {
+        boolean okDate = false;
+        /*
+         * Il ciclo viene ripetuto fino a quando viene inserita una data nel formato corretto, oppure
+         * fino a quando l'utente non decide di annullare l'operazione di filtraggio.
+        */
+        while (!okDate) {
+            String dataInput;
+            try {
+                /*
+                 * Il ciclo viene ripetuto fino a quando l'utente continua a cliccare ok sull'input senza
+                 * inserire alcun valore.
+                 */
+                while ((dataInput = JOptionPane.showInputDialog(rootPane, "Inserisci la data","Inserimento data finale di scadenza", JOptionPane.QUESTION_MESSAGE)).isEmpty());
+
+            } catch (NullPointerException e) { //L'utente ha premuto annulla sull'input dialog
+                return;
+            }
+
+            if (!checkData(dataInput)) //Il formato della data inserita dall'utente, non è gg/mm/aaaa
+                JOptionPane.showMessageDialog(rootPane, "Inserisci la data nel formato gg/mm/aaaa", "Formato errato", JOptionPane.ERROR_MESSAGE);
+
+            else { //Il formato è corretto
+                String splitted[] = dataInput.split("\\/");
+                String giorno = splitted[0];
+                String mese = splitted[1];
+                String anno = splitted[2];
+
+                if (anno.length() == 2)
+                    anno = "20" + anno;
+
+                else if (anno.length() == 3)
+                    anno = "2" + anno;
+
+                if (mese.length() == 1)
+                    mese = "0" + mese;
+
+                if (giorno.length() == 1) 
+                    giorno = "0" + giorno;
+
+                try {
+                    dataScelta = Date.valueOf(anno + "-" + mese + "-" + giorno);
+                    okDate = true;
+
+                } catch (IllegalArgumentException e) { //Il valore inserito per la data non è valido, perché non esiste. Per esempio si inserisce 13 come mese
+                    JOptionPane.showMessageDialog(rootPane, "Inserisci la data nel formato corretto", "Valore errato", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        }
+    }
     setTableEmesse();
     setTableAcquisto();
+    setPanelBorderTitle();
 }//GEN-LAST:event_cboPeriodiActionPerformed
+
+private boolean checkData(String data) {
+    Pattern pattern = Pattern.compile("\\d{1,2}/\\d{1,2}/\\d{2,4}");
+    Matcher match = pattern.matcher(data);
+    return match.matches();
+      
+}
 
 private void mnuSollecitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSollecitoActionPerformed
 // TODO add your handling code here:
@@ -434,17 +515,17 @@ void setTableEmesse() {
         String giorno = splitted[2];
         Date dataOdierna = Date.valueOf(anno + "-" + mese + "-" + giorno);
         if (cboPeriodi.getSelectedIndex() == SEMPRE) {
-            if (fattura.isScaduta())
+            if (!fattura.getPagata())
                 fattureEmesse.add(fattura);
             
         } else if(cboPeriodi.getSelectedIndex() == OGGI) {
             if (scadenza.compareTo(dataOdierna) == 0)
                 fattureEmesse.add(fattura);
             
-        } else if(cboPeriodi.getSelectedIndex() == MESE) {
-            Date inMese = Date.valueOf(anno + "-" + mese + "-01");
-            Date fMese = Date.valueOf(anno + "-" + mese + "-31");
-            if ((scadenza.compareTo(inMese) >= 0) && (scadenza.compareTo(fMese) <= 0))
+        } else if(cboPeriodi.getSelectedIndex() == SCELTA) {
+            //Date inMese = Date.valueOf(anno + "-" + mese + "-01");
+            //Date fMese = Date.valueOf(anno + "-" + mese + "-31");
+            if (scadenza.compareTo(dataScelta) <= 0)
                 fattureEmesse.add(fattura);
         }
     }
@@ -457,19 +538,19 @@ void setTableEmesse() {
     this.fattureEmesse = fattureEmesse;
     
     Object[] arFatt = fattureEmesse.toArray();
-    Object[][] arrayFatt = new Object[arFatt.length][Fattura.NUM_CAMPI];
+    Object[][] arrayFatt = new Object[arFatt.length][Fattura.NUM_CAMPI_EMESSE];
     int contFatt = 0;
     for (Object fatt : arFatt) {
         arrayFatt[contFatt++] = ((Fattura) fatt).toArray();        
     }
     
     final String[] COLONNE = {
-        "CLIENTE", "NUM. FATT.", "DATA", "MOD. PAGAMENTO", "PAGATA", "IMPONIBILE", "IVA", 
-        "TOTALE", "SCADENZA", "NOTE PAGAM.", "NOTE"
+        "CLIENTE", "NUM. FATT.", "DATA", "IMPONIBILE", "IVA", "TOTALE", "MOD. PAGAMENTO", "PAGATA", 
+        "SCADENZA", "NOTE PAGAM.", "NOTE"
     };
     
     Class[] types = { String.class, Integer.class, Object.class,
-                    String.class, Character.class, Double.class, Double.class, Double.class, Object.class, String.class, String.class };
+                    Double.class, Double.class, Double.class, String.class, Character.class, Object.class, String.class, String.class };
     
     TableModel tm = new FattureTableModel(arrayFatt, COLONNE, types, new boolean[] {
         false, false, false, false, false, false, false, false, false, false, false
@@ -508,7 +589,7 @@ void setTableEmesse() {
     };
     
     int[] width = {
-        300, 100, 90, 170, 70, 125, 125, 125, 125, 300, 300
+        300, 100, 90, 125, 125, 125, 170, 70, 125, 300, 300
     };
     
     tblScadenzeEmesse.getTableHeader().setReorderingAllowed(false); //Fa in modo che l'utente non possa modificare l'ordine delle colonne
@@ -520,7 +601,7 @@ void setTableEmesse() {
         TableColumn colonna = tblScadenzeEmesse.getColumnModel().getColumn(i);
         colonna.setResizable(resizable[i]);
         colonna.setPreferredWidth(width[i]);
-        if (i == IMPONIBILE || i == IVA_VEN || i == TOTALE_VEN)
+        if (i == IMPONIBILE_VEN || i == IVA_VEN || i == TOTALE_VEN)
             colonna.setCellRenderer(new DoubleFormatter());
     }
     
@@ -559,17 +640,15 @@ void setTableAcquisto() {
         String giorno = splitted[2];
         Date dataOdierna = Date.valueOf(anno + "-" + mese + "-" + giorno);
         if (cboPeriodi.getSelectedIndex() == SEMPRE) {
-            if (fattura.isScaduta())
+            if (!fattura.getPagata())
                 fattureAcquisto.add(fattura);
             
         } else if(cboPeriodi.getSelectedIndex() == OGGI) {
             if (scadenza.compareTo(dataOdierna) == 0)
                 fattureAcquisto.add(fattura);
             
-        } else if(cboPeriodi.getSelectedIndex() == MESE) {
-            Date inMese = Date.valueOf(anno + "-" + mese + "-01");
-            Date fMese = Date.valueOf(anno + "-" + mese + "-31");
-            if ((scadenza.compareTo(inMese) >= 0) && (scadenza.compareTo(fMese) <= 0))
+        } else if(cboPeriodi.getSelectedIndex() == SCELTA) {
+            if (scadenza.compareTo(dataScelta) <= 0)
                 fattureAcquisto.add(fattura);
         }
     }
@@ -577,22 +656,22 @@ void setTableAcquisto() {
     this.fattureAcquisto = fattureAcquisto;
     
     Object[] arFatt = fattureAcquisto.toArray();
-    Object[][] arrayFatt = new Object[arFatt.length][Fattura.NUM_CAMPI];
+    Object[][] arrayFatt = new Object[arFatt.length][Fattura.NUM_CAMPI_ACQUISTO];
     int contFatt = 0;
     for (Object fatt : arFatt) {
         arrayFatt[contFatt++] = ((Fattura) fatt).fattAcquistoToArray();        
     }
     
     final String[] COLONNE = {
-        "FORNITORE", "TIPO", "NUM. DOC", "DATA", "MOD. PAGAMENTO", "PAGATA", "IVA", 
-        "TOTALE", "SCADENZA", "NOTE PAGAM.", "NOTE" 
+        "FORNITORE", "TIPO", "NUM. DOC", "DATA", "IMPONIBILE", "IVA", 
+        "TOTALE", "MOD. PAGAMENTO", "PAGATA",  "SCADENZA", "NOTE PAGAM.", "NOTE" 
     };
     
     Class[] types = { String.class, String.class, Integer.class,
-                    Object.class, String.class, Character.class, Double.class, Double.class, Object.class, String.class, String.class };
+                    Object.class, Double.class, Double.class, Double.class, String.class, Character.class, Object.class, String.class, String.class };
     
     TableModel tm = new FattureTableModel(arrayFatt, COLONNE, types, new boolean[] {
-        false, false, false, false, false, false, false, false, false, false, false
+        false, false, false, false, false, false, false, false, false, false, false, false
     });
     
     tblScadenzeAcquisto.setModel(tm);
@@ -625,11 +704,11 @@ void setTableAcquisto() {
     });
     
     boolean[] resizable = {
-        true, true, false, false, false, false, false, false, false, true, true
+        true, true, false, false, false, false, false, false, false, false, true, true
     };
     
     int[] width = {
-        300, 90, 100, 90, 170, 70, 125, 125, 125, 300, 300
+        300, 90, 100, 90, 125, 125, 125, 170, 70, 125, 300, 300
     };
     
     tblScadenzeAcquisto.getTableHeader().setReorderingAllowed(false); //Fa in modo che l'utente non possa modificare l'ordine delle colonne
@@ -641,8 +720,9 @@ void setTableAcquisto() {
         TableColumn colonna = tblScadenzeAcquisto.getColumnModel().getColumn(i);
         colonna.setResizable(resizable[i]);
         colonna.setPreferredWidth(width[i]);
-        if (i == IVA_ACQ || i == TOTALE_ACQ)
+        if (i== IMPONIBILE_ACQ || i == IVA_ACQ || i == TOTALE_ACQ)
             colonna.setCellRenderer(new DoubleFormatter());
+            //colonna.setCellRenderer(new DefaultTableCellRenderer());
     }
     
     tblScadenzeAcquisto.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -681,16 +761,16 @@ private void popolaSelect(List items) {
     
     private static final int SEMPRE = 0;
     private static final int OGGI = 1;
-    private static final int MESE = 2;
+    private static final int SCELTA = 2;
     
     private static final int CLIENTE = 0;
     private static final int NUM_VEN = 1;
     private static final int DATA_VEN = 2;
-    private static final int MOD_PAG_VEN = 3;
-    private static final int PAGATA_VEN = 4;
-    private static final int IMPONIBILE = 5;
-    private static final int IVA_VEN = 6;
-    private static final int TOTALE_VEN = 7;
+    private static final int IMPONIBILE_VEN = 3;
+    private static final int IVA_VEN = 4;
+    private static final int TOTALE_VEN = 5;
+    private static final int MOD_PAG_VEN = 6;
+    private static final int PAGATA_VEN = 7;
     private static final int SCADENZA_VEN = 8;
     private static final int NOTE_PAG_VEN = 9;
     private static final int NOTE_VEN = 10;
@@ -699,14 +779,17 @@ private void popolaSelect(List items) {
     private static final int TIPO = 1;
     private static final int NUM_ACQ = 2;
     private static final int DATA_ACQ = 3;
-    private static final int MOD_PAG_ACQ = 4;
-    private static final int PAGATA_ACQ = 5;
-    private static final int IVA_ACQ = 6;
-    private static final int TOTALE_ACQ = 7;
-    private static final int SCADENZA_ACQ = 8;
-    private static final int NOTE_PAG_ACQ = 9;
-    private static final int NOTE_ACQ = 10;
+    private static final int IMPONIBILE_ACQ = 4;
+    private static final int IVA_ACQ = 5;
+    private static final int TOTALE_ACQ = 6;
+    private static final int MOD_PAG_ACQ = 7;
+    private static final int PAGATA_ACQ = 8;
+    private static final int SCADENZA_ACQ = 9;
+    private static final int NOTE_PAG_ACQ = 10;
+    private static final int NOTE_ACQ = 11;
     
     private List<Fattura> fattureEmesse;
     private List<Fattura> fattureAcquisto;
+    
+    private Date dataScelta = null;
 }

@@ -225,18 +225,18 @@ public class StampaRegistroEmesse extends StampaDocumento {
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
         table.setSpacingBefore(10);
         table.setWidthPercentage(100);
-        widths = new int[] {60, 20, 35, 55, 20, 35, 35, 35, 35};
+        widths = new int[] {60, 20, 35, 35, 35, 35, 55, 20, 35};
         table.setWidths(widths);
         
         intestazione = new PdfPCell[] {
                 new PdfPCell(new Phrase("CLIENTE", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("NUMERO", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("DATA", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("MOD. PAGAM.", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("PAGATA", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("IMPONIBILE", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("IVA", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("TOTALE", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("MOD. PAGAM.", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("PAGATA", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("SCADENZA", FONT_GRANDE_BOLD)),
         };
         
@@ -257,18 +257,18 @@ public class StampaRegistroEmesse extends StampaDocumento {
                     new PdfPCell(new Phrase(fatture.get(j).getCliente().getNome(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(String.valueOf(fatture.get(j).getNumero()), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(fatture.get(j).getFormattedData(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(fatture.get(j).getMetPag().replace("-", " a ") + " gg", FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(pagata, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getImponibile())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getIva())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getTotale())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(fatture.get(j).getMetPag().replace("-", " a ") + " gg", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(pagata, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(fatture.get(j).getFormattedDataScadenza(), FONT_GRANDE_NORMALE))
             };
             
             for (int i = 0; i < riga.length; i++) {
-                if (i == 5 || i == 6 || i == 7)
+                if (i == 3 || i == 4 || i == 5)
                     riga[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                else if (i == 1 || i == 2 || i == 4 || i == 8)
+                else if (i == 1 || i == 2 || i == 7 || i == 8)
                     riga[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 else
                     riga[i].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

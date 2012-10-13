@@ -429,17 +429,23 @@ private static void redirectOutErr() throws FileNotFoundException {
         }
         //</editor-fold>
         redirectOutErr();
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                Main main = new Main();
-                main.setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("img/icon.png")).getImage());
-                main.setVisible(true);
-            }
-            
-        });
         
+        try {
+            FrontController.test();
+            /* Create and display the form */
+            java.awt.EventQueue.invokeLater(new Runnable() {
+
+                public void run() {
+                    Main main = new Main();
+                    main.setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("img/icon.png")).getImage());
+                    main.setVisible(true);
+                }
+            
+            });
+
+        } catch (EccezioneConnesioneNonRiuscita e) {
+            JOptionPane.showMessageDialog(null, e.getMessage() + "\nImpossibile avviare il programma.", "Avvio non riuscito", JOptionPane.ERROR_MESSAGE);
+        }        
         
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

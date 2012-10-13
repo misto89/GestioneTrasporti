@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.RootPaneContainer;
 import libs.DoubleFormatter;
 
 /**
@@ -170,6 +171,11 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         cboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Terzi", "Ricevute", "Stipendi", "Note Credito", "Note Debito", "Polizze", "Varie", "Manutenzione", "Rifornimenti", "Acq. strutture" }));
 
         chkPagata.setText("Pagata");
+        chkPagata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPagataActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Note");
 
@@ -434,128 +440,7 @@ private void cboFornitoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
 private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMemorizzaActionPerformed
 // TODO add your handling code here:
-    
-    int fornitore;
-    if (codFornitore > 0)
-        fornitore = codFornitore;
-    else {
-        JOptionPane.showMessageDialog(this, "Selezionare un fornitore!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    String numero = txtNum.getText();
-    if (numero.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Inserire il numero della fattura!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
-        return;    
-    }
-        
-    int num = 0;
-    try {
-        num = Integer.parseInt(numero);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Il numero deve essere un numero intero!", "Formato errato", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-        
-    String anno = txtAnnoFatt.getText();
-    String mese = txtMeseFatt.getText();
-    String giorno = txtGiornoFatt.getText();
-    
-    if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-        JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data", 
-            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    if (anno.length() == 2)
-        anno = "20" + anno;
-    else if (anno.length() == 3)
-        anno = "2" + anno;
-    
-    if (mese.length() == 1)
-        mese = "0" + mese;
-    
-    if (giorno.length() == 1)
-        giorno = "0" + giorno;
-    
-    Date data = null;
-    try {
-        data = Date.valueOf(anno + "-" + mese + "-"  + giorno);
-        
-    } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, "Valore inserito per la data non valido! Inserire la data nel formato gg/mm/aaaa", 
-            "Formato errato", JOptionPane.ERROR_MESSAGE);
-            return;
-    }
-    
-    String metPag = "Contante-0";
-    if (cboMetPag.getSelectedIndex() > 0)
-        metPag = String.valueOf(cboMetPag.getSelectedItem()) + "-" + String.valueOf(cboGiorni.getSelectedItem());
-    
-    String imp = txtImporto.getText();
-    if (imp.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Inserire l'importo della fattura!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    double importo = 0.00;
-    try {
-        importo = Double.parseDouble(imp);
-        
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "L'importo deve essere un numero decimale!", "Formato errato", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    String sc = txtSconto.getText();
-    double sconto = 0.00;
-    if (!sc.isEmpty()) {
-        try {
-            sconto = Double.parseDouble(sc);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Lo sconto deve essere un numero decimale!", "Formato errato", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-    }
-    
-    String textIva = txtIva.getText();
-    if (textIva.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Inserire l'IVA!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    double iva = 0.00;
-    try {
-        iva = Double.parseDouble(textIva);
-        
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "L'iva deve essere un numero decimale!", "Formato errato", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    String tot = txtTotale.getText();
-    if (tot.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Inserire il totale della fattura!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
-        return;
-    }    
-    
-    double totale = 0.00;
-    try {
-        totale = Double.parseDouble(tot);
-        
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Il totale deve essere un numero decimale!", "Formato errato", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    String tipo = String.valueOf(cboTipo.getSelectedItem());
-        
-    boolean pagata = chkPagata.isSelected();
-    
-    String note = txtNote.getText();
-    
-    Fattura fatt = new Fattura(num, data, metPag, importo, sconto, iva, totale, tipo, pagata, fornitore, note);
-    fatt.setCliente(new Fornitore(codFornitore));
+    Fattura fatt = createFattura();
     try {
         
         if (toModify != null){
@@ -563,10 +448,15 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 
                 if (FrontController.updateFatturaAcquisto(fatt, toModify)){
-                    if (toModify.getPagata() != pagata){
-                        List<Movimento> movimento = new LinkedList<Movimento>();
-                        movimento.add(new Movimento(num, data, Fattura.tipo.ACQ.toString(), (String)cboMetPag.getSelectedItem(), totale, codFornitore));
-                        FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, pagata, movimento);
+                    if (toModify.getPagata() != fatt.getPagata()){
+                        //List<Movimento> movimento = new LinkedList<Movimento>();
+                        //movimento.add(new Movimento(num, data, Fattura.tipo.ACQ.toString(), (String)cboMetPag.getSelectedItem(), totale, codFornitore));
+                        for (Movimento m : movimenti){
+                            m.setFornCliente(fatt.getFornitore());
+                            m.setData(fatt.getData());
+                            m.setNumDoc(fatt.getNumero());
+                        }
+                        FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, fatt.getPagata(), movimenti);
                     }
                     parent.setFatture();
                     JOptionPane.showMessageDialog(this, "Modifica eseguita con successo");
@@ -584,33 +474,39 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 
             } 
             
-        } else if (FrontController.insertFattAcquisto(fatt)) {
-            if (pagata) {
-                List<Movimento> movimento = new LinkedList<Movimento>();
-                movimento.add(new Movimento(num, data, Fattura.tipo.ACQ.toString(), (String)cboMetPag.getSelectedItem(), totale, codFornitore));
-                FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, pagata, movimento);
-            }
-      
-            parent.updateCboAnno();
-            parent.setFatture();
-            JOptionPane.showMessageDialog(this, "Inserimento fattura eseguito con successo");
-            cboFornitore.setSelectedIndex(0);
-            txtNum.setText(null);
-            txtGiornoFatt.setText(null);
-            txtMeseFatt.setText(null);
-            txtAnnoFatt.setText(null);
-            txtImporto.setText(null);
-            txtSconto.setText(null);
-            txtIva.setText(null);
-            txtTotale.setText(null);
-            cboMetPag.setSelectedIndex(0);
-            cboGiorni.setSelectedIndex(0);
-            cboTipo.setSelectedIndex(0);
-            chkPagata.setSelected(false);
+        } else {
+            fatt.setPagata(movimenti != null);
+            if (FrontController.insertFattAcquisto(fatt)) {
+                if (fatt.getPagata()) {
+                    //List<Movimento> movimento = new LinkedList<Movimento>();
+                    //movimento.add(new Movimento(num, data, Fattura.tipo.ACQ.toString(), (String)cboMetPag.getSelectedItem(), totale, codFornitore));
+                    for (Movimento m : movimenti){
+                        m.setFornCliente(fatt.getFornitore());
+                        m.setData(fatt.getData());
+                        m.setNumDoc(fatt.getNumero());
+                    }
+                    FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, fatt.getPagata(), movimenti);
+                }
+
+                parent.updateCboAnno();
+                parent.setFatture();
+                JOptionPane.showMessageDialog(this, "Inserimento fattura eseguito con successo");
+                cboFornitore.setSelectedIndex(0);
+                txtNum.setText(null);
+                txtGiornoFatt.setText(null);
+                txtMeseFatt.setText(null);
+                txtAnnoFatt.setText(null);
+                txtImporto.setText(null);
+                txtSconto.setText(null);
+                txtIva.setText(null);
+                txtTotale.setText(null);
+                cboMetPag.setSelectedIndex(0);
+                cboGiorni.setSelectedIndex(0);
+                cboTipo.setSelectedIndex(0);
+                chkPagata.setSelected(false);
+            } else
+                JOptionPane.showMessageDialog(this, "Ci sono stati problemi nell'inserimento, si prega di reinserire i dati", "Errore", JOptionPane.ERROR_MESSAGE);
         }
-        else
-            JOptionPane.showMessageDialog(this, "Ci sono stati problemi nell'inserimento, si prega di reinserire i dati", "Errore", JOptionPane.ERROR_MESSAGE);
-        
     } catch (EccezioneChiaveDuplicata e) {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Chiave duplicata", JOptionPane.ERROR_MESSAGE);
         
@@ -639,6 +535,155 @@ private void txtIvaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t
 // TODO add your handling code here:
     calculateTotal();
 }//GEN-LAST:event_txtIvaFocusLost
+
+private Fattura createFattura(){
+    int fornitore = 0;
+    if (codFornitore > 0)
+        fornitore = codFornitore;
+    else {
+        JOptionPane.showMessageDialog(this, "Selezionare un fornitore!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
+        return null;
+    }
+
+    String numero = txtNum.getText();
+    if (numero.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Inserire il numero della fattura!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
+        return null;
+    }
+
+    int num = 0;
+    try {
+        num = Integer.parseInt(numero);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Il numero deve essere un numero intero!", "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return null;
+    }
+
+    String anno = txtAnnoFatt.getText();
+    String mese = txtMeseFatt.getText();
+    String giorno = txtGiornoFatt.getText();
+
+    if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
+        JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data", 
+            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
+        return null;
+    }
+
+    if (anno.length() == 2)
+        anno = "20" + anno;
+    else if (anno.length() == 3)
+        anno = "2" + anno;
+
+    if (mese.length() == 1)
+        mese = "0" + mese;
+
+    if (giorno.length() == 1)
+        giorno = "0" + giorno;
+
+    Date data = null;
+    try {
+        data = Date.valueOf(anno + "-" + mese + "-"  + giorno);
+
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(null, "Valore inserito per la data non valido! Inserire la data nel formato gg/mm/aaaa", 
+            "Formato errato", JOptionPane.ERROR_MESSAGE);
+            return null;
+    }
+
+    String metPag = "Contante-0";
+    if (cboMetPag.getSelectedIndex() > 0)
+        metPag = String.valueOf(cboMetPag.getSelectedItem()) + "-" + String.valueOf(cboGiorni.getSelectedItem());
+
+    String imp = txtImporto.getText();
+    if (imp.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Inserire l'importo della fattura!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
+        return null;
+    }
+
+    double importo = 0.00;
+    try {
+        importo = Double.parseDouble(imp);
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "L'importo deve essere un numero decimale!", "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return null;
+    }
+
+    String sc = txtSconto.getText();
+    double sconto = 0.00;
+    if (!sc.isEmpty()) {
+        try {
+            sconto = Double.parseDouble(sc);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Lo sconto deve essere un numero decimale!", "Formato errato", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+
+    String textIva = txtIva.getText();
+    if (textIva.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Inserire l'IVA!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
+        return null;
+    }
+
+    double iva = 0.00;
+    try {
+        iva = Double.parseDouble(textIva);
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "L'iva deve essere un numero decimale!", "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return null;
+    }
+
+    String tot = txtTotale.getText();
+    if (tot.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Inserire il totale della fattura!", "Campo mancante", JOptionPane.WARNING_MESSAGE);
+        return null;
+    }    
+
+    double totale = 0.00;
+    try {
+        totale = Double.parseDouble(tot);
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Il totale deve essere un numero decimale!", "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return null;
+    }
+
+    String tipo = String.valueOf(cboTipo.getSelectedItem());
+
+    boolean pagata = chkPagata.isSelected();
+
+    String note = txtNote.getText();
+
+    Fattura fattura = new Fattura(num, data, metPag, importo, sconto, iva, totale, tipo, pagata, fornitore, note);
+    fattura.setCliente(new Fornitore(codFornitore));
+
+    return fattura;
+}
+
+private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPagataActionPerformed
+// TODO add your handling code here:
+    if (chkPagata.isSelected()){
+        if (toModify == null){
+            //L'utente sta inserendo una nuova fattura
+            toInsert = createFattura();
+            if (toInsert != null)
+                FrontController.open(new NotePagamento(dialogVista, rootPaneCheckingEnabled, toInsert)); 
+            else
+                chkPagata.setSelected(false);
+        } else { //L'utente è in modifica di una fattura
+            String metPag = "Contante-0";
+            if (cboMetPag.getSelectedIndex() > 0)
+                metPag = String.valueOf(cboMetPag.getSelectedItem()) + "-" + String.valueOf(cboGiorni.getSelectedItem());
+            toModify.setMetPag(metPag);
+            FrontController.open(new NotePagamento(dialogVista, rootPaneCheckingEnabled, toModify));
+        }
+    } else {
+        movimenti = null;
+        toInsert = null;
+    }
+}//GEN-LAST:event_chkPagataActionPerformed
 
 private void calculateTotal(){
     importo = Double.parseDouble(txtImporto.getText());
@@ -700,8 +745,14 @@ private void calculateTotal(){
     private static final int MAX_LENGTH_PERCIVA = 2;
     private static final Integer PERC_IVA = 21;
     
+    private RegistroFattureAcquisto vista;
+    private InsFatturaAcquisto dialogVista;
+    
+    private Fattura toInsert = null;
     private Fattura toModify = null;
     
+    //Lista temporanea di movimenti
+    public static List<Movimento> movimenti = new LinkedList<Movimento>();
     /*
      * Campi per il calcolo
      */

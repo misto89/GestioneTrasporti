@@ -163,6 +163,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFattura = new javax.swing.JMenu();
         mnuRistampa = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         mnuAnnullaFattura = new javax.swing.JMenuItem();
         mnuInviaEmail = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -342,7 +343,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
                 .addComponent(pnlTotPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlTotNonPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         pnlRiepilogoLayout.setVerticalGroup(
             pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -665,6 +666,16 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
             }
         });
         mnuFattura.add(mnuRistampa);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/anteprimastampa.png"))); // NOI18N
+        jMenuItem1.setText("Anteprima di stampa");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        mnuFattura.add(jMenuItem1);
 
         mnuAnnullaFattura.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuAnnullaFattura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/annulla.png"))); // NOI18N
@@ -1110,6 +1121,20 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }
 }//GEN-LAST:event_mnuStampaActionPerformed
 
+private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+// TODO add your handling code here:
+    Fattura fattura = fattureInTabella.get(getIndexSelectedFattura());
+    
+    try {
+        new stampa.StampaFattura(fattura, fattura.getCliente(), true).printAndOpen();
+
+    } catch (DocumentException ex) {
+        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}//GEN-LAST:event_jMenuItem1ActionPerformed
+
 private String meseToString(int mese) {
     String stringa = null;
     switch (mese) {
@@ -1210,7 +1235,7 @@ void setFatture() {
         mnuProspetto.setEnabled(true);
         
     Object[] arFatt = fatture.toArray();
-    Object[][] arrayFatt = new Object[arFatt.length][Fattura.NUM_CAMPI];
+    Object[][] arrayFatt = new Object[arFatt.length][Fattura.NUM_CAMPI_EMESSE];
     int contFatt = 0;
     double totImponibile = 0.00;
     double totIva = 0.00;
@@ -1237,15 +1262,15 @@ void setFatture() {
     txtTotNonPagate.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totNonPagate)));
     
     final String[] COLONNE = {
-        "CLIENTE", "NUM. FATT.", "DATA", "MOD. PAGAMENTO", "PAGATA", "IMPONIBILE", "IVA", 
-        "TOTALE", "SCADENZA", "NOTE PAGAM.", "NOTE"
+        "CLIENTE", "NUM. FATT.", "DATA", "IMPONIBILE", "IVA", 
+        "TOTALE", "MOD. PAGAMENTO", "PAGATA", "SCADENZA", "NOTE PAGAM.", "NOTE"
     };
     
     Class[] types = { String.class, Integer.class, Object.class,
-                    String.class, Character.class, Double.class, Double.class, Double.class, Object.class, String.class, String.class };
+                        Double.class, Double.class, Double.class, String.class, Character.class, Object.class, String.class, String.class };
     
     TableModel tm = new FattureTableModel(arrayFatt, COLONNE, types, new boolean[] {
-        false, false, false, false, true, false, false, false, false, false, false
+        false, false, false, false, false, false, false, true, false, false, false
     });    
     
     tblFatture.setModel(tm);
@@ -1281,7 +1306,7 @@ void setFatture() {
     };
     
     int[] width = {
-        300, 100, 90, 170, 70, 125, 125, 125, 125, 300, 300
+        300, 100, 90, 125, 125, 125, 170, 70, 125, 300, 300
     };
     
     tblFatture.getTableHeader().setReorderingAllowed(false); //Fa in modo che l'utente non possa modificare l'ordine delle colonne
@@ -1353,6 +1378,7 @@ void setFatture() {
     private javax.swing.JCheckBox chkTutti;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnuAnnullaFattura;
     private javax.swing.JMenu mnuFattura;
@@ -1396,11 +1422,11 @@ void setFatture() {
     private static final int CLIENTE = 0;
     private static final int NUM = 1;
     private static final int DATA = 2;
-    private static final int MOD_PAG = 3;
-    private static final int PAGATA = 4;
-    private static final int IMPONIBILE = 5;
-    private static final int IVA = 6;
-    private static final int TOTALE = 7;
+    private static final int IMPONIBILE = 3;
+    private static final int IVA = 4;
+    private static final int TOTALE = 5;
+    private static final int MOD_PAG = 6;
+    private static final int PAGATA = 7;
     private static final int SCADENZA = 8;
     private static final int NOTE_PAG = 9;
     private static final int NOTE = 10;

@@ -20,7 +20,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -1472,7 +1471,7 @@ private void mnuEliminaFatturaActionPerformed(java.awt.event.ActionEvent evt) {/
         if (FrontController.delete(fattureInTabella.get(getIndexSelectedFattura()))) {
             setFatture();
             JOptionPane.showMessageDialog(this, "Eliminazione effettuata con successo!", "", JOptionPane.INFORMATION_MESSAGE);
-            fattureInTabella.remove(getIndexSelectedFattura());
+            //fattureInTabella.remove(getIndexSelectedFattura());
         } else 
             JOptionPane.showMessageDialog(this, "Si è verificato un errore durante l'eliminazione della fattura!", "Errore", JOptionPane.ERROR_MESSAGE);
     }
@@ -1593,7 +1592,7 @@ void setFatture() {
         mnuProspetto.setEnabled(true);
     
     Object[] arFatt = fatture.toArray();
-    Object[][] arrayFatt = new Object[arFatt.length][Fattura.NUM_CAMPI];
+    Object[][] arrayFatt = new Object[arFatt.length][Fattura.NUM_CAMPI_ACQUISTO];
     int contFatt = 0;
     double totImponibile = 0.00;
     double totIva = 0.00;
@@ -1619,15 +1618,15 @@ void setFatture() {
     txtTotNonPagate.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totNonPagate)));
     
     final String[] COLONNE = {
-        "FORNITORE", "TIPO", "NUM. DOC", "DATA", "MOD. PAGAMENTO", "PAGATA", "IVA", 
-        "TOTALE", "SCADENZA", "NOTE PAGAM.", "NOTE" 
+        "FORNITORE", "TIPO", "NUM. DOC", "DATA", "IMPONIBILE", "IVA", 
+        "TOTALE", "MOD. PAGAMENTO", "PAGATA",  "SCADENZA", "NOTE PAGAM.", "NOTE" 
     };
     
     Class[] types = { String.class, String.class, Integer.class,
-                    Object.class, String.class, Character.class, Double.class, Double.class, Object.class, String.class, String.class };
+                    Object.class, Double.class, Double.class, Double.class, String.class, Character.class, Object.class, String.class, String.class };
     
     TableModel tm = new FattureTableModel(arrayFatt, COLONNE, types, new boolean[] {
-        false, false, false, false, false, true, false, false, false, false, false
+        false, false, false, false, false, false, false, false, true, false, false, false
     });
     tblFatture.setModel(tm);
     
@@ -1659,11 +1658,11 @@ void setFatture() {
     });
     
     boolean[] resizable = {
-        true, true, false, false, false, false, false, false, false, true, true
+        true, true, false, false, false, false, false, false, false, false, true, true
     };
     
     int[] width = {
-        300, 90, 100, 90, 170, 70, 125, 125, 125, 300, 300
+        300, 90, 100, 90, 125, 125, 125, 170, 70, 125, 300, 300
     };
     
     tblFatture.getTableHeader().setReorderingAllowed(false); //Fa in modo che l'utente non possa modificare l'ordine delle colonne
@@ -1703,11 +1702,13 @@ void setFatture() {
     //Formatta le colonne mostrando i double sempre con due cifre decimali
     tblFatture.getColumnModel().getColumn(TOTALE).setCellRenderer(new DoubleFormatter());
     tblFatture.getColumnModel().getColumn(IVA).setCellRenderer(new DoubleFormatter());
+    tblFatture.getColumnModel().getColumn(IMPONIBILE).setCellRenderer(new DoubleFormatter());
     
 }
     
     private int getIndexSelectedFattura() {
         Fattura fatt = new Fattura();
+        //JOptionPane.showMessageDialog(rootPane, tblFatture.getSelectedRow());
         fatt.setNumero((Integer) tblFatture.getValueAt(tblFatture.getSelectedRow(), NUM));
         
         String[] data = ((String) tblFatture.getValueAt(tblFatture.getSelectedRow(), DATA)).split("/");
@@ -1819,12 +1820,13 @@ void setFatture() {
     private static final int TIPO = 1;
     private static final int NUM = 2;
     private static final int DATA = 3;
-    private static final int MOD_PAG = 4;
-    private static final int PAGATA = 5;
-    private static final int IVA = 6;
-    private static final int TOTALE = 7;
-    private static final int SCADENZA = 8;
-    private static final int NOTE_PAG = 9;
-    private static final int NOTE = 10;
+    private static final int IMPONIBILE = 4;
+    private static final int IVA = 5;
+    private static final int TOTALE = 6;
+    private static final int MOD_PAG = 7;
+    private static final int PAGATA = 8;
+    private static final int SCADENZA = 9;
+    private static final int NOTE_PAG = 10;
+    private static final int NOTE = 11;
 
 }

@@ -230,7 +230,7 @@ public class Cassa extends javax.swing.JFrame {
             pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlClienteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cboCliente, 0, 768, Short.MAX_VALUE)
+                .addComponent(cboCliente, 0, 480, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlClienteLayout.setVerticalGroup(
@@ -241,33 +241,44 @@ public class Cassa extends javax.swing.JFrame {
         );
 
         pnlCassa.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Cassa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        pnlCassa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtAttivoContante.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtAttivoContante.setEnabled(false);
+        pnlCassa.add(txtAttivoContante, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 28, 120, 21));
 
         jLabel4.setText("Prelievi");
+        pnlCassa.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 83, -1, 21));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel6.setText("Netto in cassa");
+        pnlCassa.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 144, -1, 21));
 
         jLabel5.setText("Versamenti");
+        pnlCassa.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 110, -1, 21));
 
         txtVersamentiTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtVersamentiTot.setEnabled(false);
+        pnlCassa.add(txtVersamentiTot, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 120, 21));
 
         txtCassaNetto.setFont(new java.awt.Font("Tahoma", 1, 12));
         txtCassaNetto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtCassaNetto.setEnabled(false);
+        pnlCassa.add(txtCassaNetto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 144, 120, -1));
 
         txtPrelievi.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPrelievi.setEnabled(false);
+        pnlCassa.add(txtPrelievi, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 83, 120, 21));
 
         jLabel1.setText("Attivo Contante");
+        pnlCassa.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, -1, 21));
 
         txtPassivoContante.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPassivoContante.setEnabled(false);
+        pnlCassa.add(txtPassivoContante, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 56, 120, 21));
 
         jLabel3.setText("Passivo Contante");
+        pnlCassa.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 56, -1, 21));
 
         btnVersamento.setBackground(new java.awt.Color(255, 255, 255));
         btnVersamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/versamento.png"))); // NOI18N
@@ -279,6 +290,7 @@ public class Cassa extends javax.swing.JFrame {
                 btnVersamentoActionPerformed(evt);
             }
         });
+        pnlCassa.add(btnVersamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 144, 160, 35));
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prelievo.png"))); // NOI18N
@@ -290,76 +302,10 @@ public class Cassa extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout pnlCassaLayout = new javax.swing.GroupLayout(pnlCassa);
-        pnlCassa.setLayout(pnlCassaLayout);
-        pnlCassaLayout.setHorizontalGroup(
-            pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addGap(60, 60, 60)
-                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtPassivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPrelievi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtVersamentiTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCassaNetto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtAttivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(72, 72, 72)
-                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                    .addComponent(btnVersamento))
-                .addGap(128, 128, 128))
-        );
-
-        pnlCassaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtAttivoContante, txtCassaNetto, txtPassivoContante, txtPrelievi, txtVersamentiTot});
-
-        pnlCassaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnVersamento, jButton1});
-
-        pnlCassaLayout.setVerticalGroup(
-            pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCassaLayout.createSequentialGroup()
-                .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlCassaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(txtAttivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(7, 7, 7)
-                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(txtPassivoContante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(txtPrelievi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(txtVersamentiTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(13, 13, 13)
-                        .addGroup(pnlCassaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCassaNetto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pnlCassaLayout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(btnVersamento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-
-        pnlCassaLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel3, jLabel4, jLabel5, jLabel6, txtAttivoContante, txtCassaNetto, txtPassivoContante, txtPrelievi, txtVersamentiTot});
-
-        pnlCassaLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnVersamento, jButton1});
+        pnlCassa.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 185, 160, -1));
 
         pnlEntrate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Entrate", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        pnlEntrate.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblCassaAttiva.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -372,60 +318,30 @@ public class Cassa extends javax.swing.JFrame {
         tblCassaAttiva.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(tblCassaAttiva);
 
+        pnlEntrate.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, 614, 226));
+
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel7.setText("TOTALI");
+        pnlEntrate.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 275, 58, -1));
 
         txtTotAssegniEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotAssegniEntrate.setEnabled(false);
+        pnlEntrate.add(txtTotAssegniEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(264, 272, 110, -1));
 
         txtTotBonificoEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotBonificoEntrate.setEnabled(false);
+        pnlEntrate.add(txtTotBonificoEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(392, 272, 110, -1));
 
         txtTotRibaEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotRibaEntrate.setEnabled(false);
+        pnlEntrate.add(txtTotRibaEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 272, 110, -1));
 
         txtTotContanteEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotContanteEntrate.setEnabled(false);
-
-        javax.swing.GroupLayout pnlEntrateLayout = new javax.swing.GroupLayout(pnlEntrate);
-        pnlEntrate.setLayout(pnlEntrateLayout);
-        pnlEntrateLayout.setHorizontalGroup(
-            pnlEntrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEntrateLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlEntrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlEntrateLayout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                        .addComponent(txtTotContanteEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTotAssegniEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTotBonificoEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTotRibaEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        pnlEntrateLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtTotAssegniEntrate, txtTotBonificoEntrate, txtTotContanteEntrate, txtTotRibaEntrate});
-
-        pnlEntrateLayout.setVerticalGroup(
-            pnlEntrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlEntrateLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(pnlEntrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtTotContanteEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTotAssegniEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTotBonificoEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTotRibaEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        pnlEntrate.add(txtTotContanteEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 272, 110, -1));
 
         pnlUscite.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Uscite", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        pnlUscite.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblCassaPassiva.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -438,60 +354,30 @@ public class Cassa extends javax.swing.JFrame {
         tblCassaPassiva.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane2.setViewportView(tblCassaPassiva);
 
+        pnlUscite.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, 590, 226));
+
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel8.setText("TOTALI");
+        pnlUscite.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 275, 58, -1));
 
         txtTotContanteUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotContanteUscite.setEnabled(false);
+        pnlUscite.add(txtTotContanteUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 110, -1));
 
         txtTotAssegniUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotAssegniUscite.setEnabled(false);
+        pnlUscite.add(txtTotAssegniUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 110, -1));
 
         txtTotBonificoUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotBonificoUscite.setEnabled(false);
+        pnlUscite.add(txtTotBonificoUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 270, 110, -1));
 
         txtTotRibaUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotRibaUscite.setEnabled(false);
-
-        javax.swing.GroupLayout pnlUsciteLayout = new javax.swing.GroupLayout(pnlUscite);
-        pnlUscite.setLayout(pnlUsciteLayout);
-        pnlUsciteLayout.setHorizontalGroup(
-            pnlUsciteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUsciteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlUsciteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE)
-                    .addGroup(pnlUsciteLayout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 374, Short.MAX_VALUE)
-                        .addComponent(txtTotContanteUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTotAssegniUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTotBonificoUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTotRibaUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-
-        pnlUsciteLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtTotAssegniUscite, txtTotBonificoUscite, txtTotContanteUscite, txtTotRibaUscite});
-
-        pnlUsciteLayout.setVerticalGroup(
-            pnlUsciteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUsciteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(pnlUsciteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtTotContanteUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTotAssegniUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTotBonificoUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTotRibaUscite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        pnlUscite.add(txtTotRibaUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 270, 110, -1));
 
         pnlMovimenti.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Movimenti Contante", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        pnlMovimenti.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblVersamenti.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -504,22 +390,7 @@ public class Cassa extends javax.swing.JFrame {
         tblVersamenti.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane3.setViewportView(tblVersamenti);
 
-        javax.swing.GroupLayout pnlMovimentiLayout = new javax.swing.GroupLayout(pnlMovimenti);
-        pnlMovimenti.setLayout(pnlMovimentiLayout);
-        pnlMovimentiLayout.setHorizontalGroup(
-            pnlMovimentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlMovimentiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlMovimentiLayout.setVerticalGroup(
-            pnlMovimentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlMovimentiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, 0, 0, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        pnlMovimenti.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, 598, 200));
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/filtra.png"))); // NOI18N
         jMenu3.setText("Filtra");
@@ -567,16 +438,18 @@ public class Cassa extends javax.swing.JFrame {
                         .addGap(617, 617, 617))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pnlCassa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlMovimenti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                            .addComponent(pnlCassa, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+                            .addComponent(pnlEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pnlMovimenti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE))
+                        .addContainerGap(38, Short.MAX_VALUE))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnlCassa, pnlEntrate});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnlMovimenti, pnlUscite});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -587,16 +460,18 @@ public class Cassa extends javax.swing.JFrame {
                     .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlEntrate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlEntrate, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                    .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlCassa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlMovimenti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlCassa, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                    .addComponent(pnlMovimenti, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlAnno, pnlCliente});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlCassa, pnlMovimenti});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

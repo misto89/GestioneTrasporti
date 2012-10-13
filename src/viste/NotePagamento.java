@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import libs.DoubleFormatter;
 
@@ -40,6 +41,23 @@ public class NotePagamento extends javax.swing.JDialog {
         };
         
         this.parent = parent;
+        setTitle(getTitle() + ": totale fattura " + fattura.getTotale());
+    }
+    //Costruttore per la modifica live dei metodi di pagamento
+    public NotePagamento(javax.swing.JDialog parent, boolean modal, Fattura fattura) {
+        super(parent, modal);
+        this.fattura = fattura;
+        this.metodiPagamento = FrontController.getMetodiPagamento();
+        initComponents();
+        ColorManager color = new ColorManager();
+        color.changeColor(pnl);
+        //JOptionPane.showMessageDialog(rootPane, "ECCOMI");
+        calledByDialog = true;
+        txtMetodi = new javax.swing.JTextField[] {
+            null, txtContante, txtBonifico, txtAssegno, txtRiba
+        };
+        
+        this.dialogParent = parent;
         setTitle(getTitle() + ": totale fattura " + fattura.getTotale());
     }
 
@@ -196,13 +214,13 @@ public class NotePagamento extends javax.swing.JDialog {
                                 .addComponent(btnConferma, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAnnulla)))
-                        .addContainerGap(18, Short.MAX_VALUE))
+                        .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(lblRiba1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                         .addComponent(txtTot, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59))))
+                        .addGap(66, 66, 66))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnnulla, btnConferma});
@@ -269,13 +287,16 @@ private void checkInsertedTotal(){
 
 private void btnAnnullaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnullaActionPerformed
 // TODO add your handling code here:
-    try {
+    if (!calledByDialog){
+        try {
         ((RegistroFattureEmesse)parent).setFatture();
         
-    } catch (ClassCastException e) {
-        ((RegistroFattureAcquisto)parent).setFatture();
+        } catch (ClassCastException e) {
+            ((RegistroFattureAcquisto)parent).setFatture();
+        }
+    } else {
+        ((InsFatturaAcquisto)dialogParent).movimenti = null;
     }
-    
     dispose();
 }//GEN-LAST:event_btnAnnullaActionPerformed
 
@@ -317,13 +338,18 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             if (valori[i] != 0.00)
                 movimenti.add(new Movimento(fattura.getNumero(), fattura.getData(), tipo.toString(), metodiPagamento[i + 1], valori[i], fattura.getCliente().getCod()));
         
-        FrontController.updatePagataFattura(tipo, fattura, true, movimenti);
-        if (tipo == Fattura.tipo.VEN) {
-            ((RegistroFattureEmesse)parent).setFatture();
+        if (!calledByDialog){
+            FrontController.updatePagataFattura(tipo, fattura, true, movimenti);
+        
+            if (tipo == Fattura.tipo.VEN) {
+                ((RegistroFattureEmesse)parent).setFatture();
             
+            } else {
+                ((RegistroFattureAcquisto)parent).setFatture();
+            }
         } else {
-            ((RegistroFattureAcquisto)parent).setFatture();
-        }            
+            ((InsFatturaAcquisto)dialogParent).movimenti = movimenti; 
+        }
         
         dispose();
     }
@@ -371,5 +397,7 @@ private void txtRibaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_
     private Fattura fattura;
     private javax.swing.JTextField txtMetodi[];
     private Frame parent;
+    private JDialog dialogParent;
+    private boolean calledByDialog = false;
     private String[] metodiPagamento;
 }
