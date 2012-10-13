@@ -26,15 +26,15 @@ class Tabelle {
         public static final String TITOLARE = "titolare";
         public static final String PIVA = "piva";
         public static final String CODFISCALE = "codfiscale";
-        public static final String INDIRIZZO = "indirizzo";
+        public static final String INDIRIZZO_LEGALE = "indirizzo_leg";
         public static final String TELEFONO1 = "telefono1";
         public static final String TELEFONO2 = "telefono2";
         public static final String FAX = "fax";
         public static final String EMAIL = "email";  
-        public static final String CAP = "cap";
-        public static final String CITTA = "citta";
-        public static final String PROV = "provincia";
-        public static final String NAZIONE = "nazione";
+        public static final String CAP_LEGALE = "cap_leg";
+        public static final String CITTA_LEGALE = "citta_leg";
+        public static final String PROV_LEGALE = "provincia_leg";
+        public static final String NAZIONE_LEGALE = "nazione_leg";
         public static final String BANCA = "banca";
         public static final String IBAN = "iban";
         public static final String NOME_REF_1 = "nome_ref_1";
@@ -43,6 +43,12 @@ class Tabelle {
         public static final String EMAIL_REF_2 = "email_ref_2";
         public static final String TEL_REF_1 = "tel_ref_1";
         public static final String TEL_REF_2 = "tel_ref_2";
+        public static final String ISCRIZIONE_ALBO = "iscrizione_albo";
+        public static final String INDIRIZZO_OP = "indirizzo_op";
+        public static final String CAP_OP = "cap_op";
+        public static final String CITTA_OP = "citta_op";
+        public static final String PROV_OP = "provincia_op";
+        public static final String NAZIONE_OP = "nazione_op";
     }
     
     //Rappresenta la tabella "mezzi" con i suoi campi
@@ -50,6 +56,10 @@ class Tabelle {
         public static final String ID = "id";
         public static final String TARGA = "targa";
         public static final String MARCA = "marca";
+        public static final String SCAD_BOLLO = "scad_bollo";
+        public static final String SCAD_REVISIONE = "scad_revisione";
+        public static final String SCAD_ADP = "scad_adp";
+        public static final String SCAD_ASSICURAZIONE = "scad_assicurazione";
     }
     
     //Rappresenta la tabella "spedizioni" con i suoi campi

@@ -182,9 +182,9 @@ public abstract class FrontController {
         String[] metPagam = {null, "Contante", "Bonifico Bancario", "Assegno Bancario", "RIBA"};
         return metPagam;
     }
-    
-    public static List<Integer> getAnniEsercizio() {
-        return DAO_CBC.getAnniEsercizio();
+        
+    public static List<Integer> getAnniEsercizio(Fattura.tipo tipo) {
+        return DAO_CBC.getAnniEsercizio(tipo);
     }
 
     public static List<Fattura> getFatture(Integer anno, Fornitore cliente, boolean[] mesi, Fattura.pagata pagata, Date dataIntIn, Date dataIntFin) {

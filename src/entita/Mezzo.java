@@ -8,8 +8,12 @@ public class Mezzo implements Entity {
     private Integer id;
     private String targa;
     private String marca;
+    private String scadBollo;
+    private String scadRevisione;
+    private String scadAdp;
+    private String scadAssicurazione;
     
-    public static final int NUM_CAMPI = 2;
+    public static final int NUM_CAMPI = 6;
 
     public Mezzo() {
     }
@@ -17,11 +21,21 @@ public class Mezzo implements Entity {
     public Mezzo(Integer id) {
         this.id = id;
     }
-
+    
     public Mezzo(Integer id, String targa, String marca) {
         this.id = id;
         this.targa = targa;
         this.marca = marca;
+    }
+
+    public Mezzo(Integer id, String targa, String marca, String scadBollo, String scadRevisione, String scadAdp, String scadAssicurazione) {
+        this.id = id;
+        this.targa = targa;
+        this.marca = marca;
+        this.scadBollo = scadBollo;
+        this.scadRevisione = scadRevisione;
+        this.scadAdp = scadAdp;
+        this.scadAssicurazione = scadAssicurazione;
     }
 
     public Integer getId() {
@@ -48,6 +62,38 @@ public class Mezzo implements Entity {
         this.marca = marca;
     }
 
+    public String getScadAdp() {
+        return scadAdp;
+    }
+
+    public String getScadAssicurazione() {
+        return scadAssicurazione;
+    }
+
+    public String getScadBollo() {
+        return scadBollo;
+    }
+
+    public String getScadRevisione() {
+        return scadRevisione;
+    }
+
+    public void setScadAdp(String scadAdp) {
+        this.scadAdp = scadAdp;
+    }
+
+    public void setScadAssicurazione(String scadAssicurazione) {
+        this.scadAssicurazione = scadAssicurazione;
+    }
+
+    public void setScadBollo(String scadBollo) {
+        this.scadBollo = scadBollo;
+    }
+
+    public void setScadRevisione(String scadRevisione) {
+        this.scadRevisione = scadRevisione;
+    }
+        
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -75,7 +121,7 @@ public class Mezzo implements Entity {
     }
     
     public Object[] toArray(){
-        Object[] arrayMezzi = {this.targa, this.marca};
+        Object[] arrayMezzi = {this.targa, this.marca, this.scadBollo, this.scadRevisione, this.scadAdp, this.scadAssicurazione};
         return arrayMezzi;
     }
 }

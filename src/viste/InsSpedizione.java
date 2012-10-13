@@ -71,6 +71,12 @@ public class InsSpedizione extends javax.swing.JDialog {
     public InsSpedizione(java.awt.Frame parent, boolean modal, Fornitore fornitore, Spedizione spedizione, int rigaTabellaSpedizioni) {
         super(parent, modal);
         initComponents();
+        ColorManager color = new ColorManager();
+        color.changeColor(pnlDatiSpedizione);
+        color.changeColor(pnlGenerale);
+        color.changeColor(pnlNote);
+        color.changeColor(pnlPrezzo);
+        color.changeColor(pnlTotale);
         id_fornitore = fornitore.getCod();
         setTitle("Modifica Spedizione #" + spedizione.getNumSpedizione() + ", " + spedizione.getDataCarico().toString().substring(0, 4) + " - " + fornitore);
         this.parent = (Spedizioni) parent;
@@ -247,6 +253,11 @@ public class InsSpedizione extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         pnlGenerale.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Generale", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
@@ -823,7 +834,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(pnlPrezzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
+                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pnlTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1321,6 +1332,19 @@ private void txtMeseCaricoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     txtMeseDocumento.setText(txtMeseCarico.getText());
 }//GEN-LAST:event_txtMeseCaricoFocusLost
 
+private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+// TODO add your handling code here:
+    txtGiornoCarico.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+    txtMeseCarico.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+    txtAnnoCarico.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+    txtGiornoDocumento.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+    txtMeseDocumento.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+    txtAnnoDocumento.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+    txtPercIva.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
+    txtPercProv.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
+    txtPercSconto.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
+}//GEN-LAST:event_formWindowOpened
+
 private void popolaSelect(List items) {
     cboMezzo.addItem(new Mezzo(null, "Vettore", null));
     for (Object mezzo : items)
@@ -1545,5 +1569,9 @@ private double roundTwoDecimals(double d) {
     private boolean spedizioneInserita = false;
     private Fornitore fornitore;
     private int rigaTabellaSpedizioni; //Il numero della riga che sto modificando nella jtable delle spedizioni
-
+    
+    private static final int MAX_LENGTH_GIORNO = 2;
+    private static final int MAX_LENGTH_MESE = 2;
+    private static final int MAX_LENGTH_ANNO = 4;
+    private static final int MAX_LENGTH_PERC = 2;
 }

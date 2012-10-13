@@ -1038,7 +1038,7 @@ private void chkNovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
 private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 // TODO add your handling code here:
     List<Entity> fornitori = FrontController.getAnagrafe(Fornitore.class);
-    List<Integer> anni = FrontController.getAnniEsercizio();
+    List<Integer> anni = FrontController.getAnniEsercizio(Fattura.tipo.ACQ);
     popolaSelect(fornitori);
     popolaSelect(anni);
 }//GEN-LAST:event_formWindowOpened
@@ -1481,6 +1481,7 @@ private void setCheckBox() {
 }
 
 void setFatture() {
+       
     Fornitore cliente = null;
     if (cboFornitore.getSelectedIndex() == 0)
         cliente = new Fornitore(null);  

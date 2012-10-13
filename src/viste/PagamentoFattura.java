@@ -347,6 +347,10 @@ private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:e
 
 private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 // TODO add your handling code here:
+    txtGiorno.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+    txtMese.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+    txtAnno.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+    
     String[] metPagam = FrontController.getMetodiPagamento();
     for (String metodo : metPagam)
         cboMetPag.addItem((String) metodo);
@@ -468,4 +472,8 @@ private void txtNFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event
     private InsSpedizione insSpedizione;
     private Date dataPresunta;
     private boolean forced = false;
+    
+    private static final int MAX_LENGTH_GIORNO = 2;
+    private static final int MAX_LENGTH_MESE = 2;
+    private static final int MAX_LENGTH_ANNO = 4;
 }

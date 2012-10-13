@@ -186,6 +186,10 @@ public class InsMovimentoContante extends javax.swing.JDialog {
     
 private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 // TODO add your handling code here:
+    txtGiorno.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+    txtMese.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+    txtAnno.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+    
     java.util.Date utilDate = new java.util.Date();    
     String today = (new java.sql.Date(utilDate.getTime())).toString();
     String[] splitted = today.split("\\-");
@@ -195,6 +199,7 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     txtGiorno.setText(giorno);
     txtMese.setText(mese);
     txtAnno.setText(anno);
+    
 }//GEN-LAST:event_formWindowOpened
 
 private void btnRegistraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistraActionPerformed
@@ -256,4 +261,8 @@ private boolean checkData(String data) {
     private javax.swing.JTextField txtImporto;
     private javax.swing.JTextField txtMese;
     // End of variables declaration//GEN-END:variables
+
+    private static final int MAX_LENGTH_GIORNO = 2;
+    private static final int MAX_LENGTH_MESE = 2;
+    private static final int MAX_LENGTH_ANNO = 4;
 }

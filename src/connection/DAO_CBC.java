@@ -44,9 +44,16 @@ public class DAO_CBC {
      * Recupera tutti gli anni in cui sono state emesse fatture.
      * @return Una lista di interi.
      */
-    public static List<Integer> getAnniEsercizio(){
+    public static List<Integer> getAnniEsercizio(Fattura.tipo tipo){
         try {
-            sql = "SELECT " + Tabelle.Fatture.DATA + " FROM " + Tabelle.FATTURE + " ORDER BY " + Tabelle.Fatture.DATA + " DESC";
+            if (tipo == Fattura.tipo.VEN) 
+                sql = "SELECT " + Tabelle.Fatture.DATA + " FROM " + Tabelle.FATTURE + " ORDER BY " + Tabelle.Fatture.DATA + " DESC";
+            else if (tipo == Fattura.tipo.ACQ)
+                sql = "SELECT " + Tabelle.FattureAcquisto.DATA + " FROM " + Tabelle.FATT_ACQUISTO + " ORDER BY " + Tabelle.FattureAcquisto.DATA + " DESC";
+            else
+                sql = "SELECT " + Tabelle.Fatture.DATA + " FROM " + Tabelle.FATTURE + " UNION " + 
+                        "SELECT " + Tabelle.FattureAcquisto.DATA + " FROM " + Tabelle.FATT_ACQUISTO + " ORDER BY " + Tabelle.FattureAcquisto.DATA + " DESC";
+                
             System.out.println(sql);
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -103,15 +110,15 @@ public class DAO_CBC {
                 String titolare = rs.getString(Tabelle.Fornitori.TITOLARE);
                 String piva = rs.getString(Tabelle.Fornitori.PIVA);
                 String codfisc = rs.getString(Tabelle.Fornitori.CODFISCALE);
-                String indirizzo = rs.getString(Tabelle.Fornitori.INDIRIZZO);
+                String indirizzoLeg = rs.getString(Tabelle.Fornitori.INDIRIZZO_LEGALE);
                 String telefono1 = rs.getString(Tabelle.Fornitori.TELEFONO1);
                 String telefono2 = rs.getString(Tabelle.Fornitori.TELEFONO2);
                 String fax = rs.getString(Tabelle.Fornitori.FAX);
                 String email = rs.getString(Tabelle.Fornitori.EMAIL);
-                String cap = rs.getString(Tabelle.Fornitori.CAP);
-                String citta = rs.getString(Tabelle.Fornitori.CITTA);
-                String prov = rs.getString(Tabelle.Fornitori.PROV);
-                String nazione = rs.getString(Tabelle.Fornitori.NAZIONE);
+                String capLeg = rs.getString(Tabelle.Fornitori.CAP_LEGALE);
+                String cittaLeg = rs.getString(Tabelle.Fornitori.CITTA_LEGALE);
+                String provLeg = rs.getString(Tabelle.Fornitori.PROV_LEGALE);
+                String nazioneLeg = rs.getString(Tabelle.Fornitori.NAZIONE_LEGALE);
                 String banca = rs.getString(Tabelle.Fornitori.BANCA);
                 String iban = rs.getString(Tabelle.Fornitori.IBAN);
                 String nomeRef1 = rs.getString(Tabelle.Fornitori.NOME_REF_1);
@@ -120,9 +127,15 @@ public class DAO_CBC {
                 String emailRef2 = rs.getString(Tabelle.Fornitori.EMAIL_REF_2);
                 String telRef1 = rs.getString(Tabelle.Fornitori.TEL_REF_1);
                 String telRef2 = rs.getString(Tabelle.Fornitori.TEL_REF_2);
+                String iscrizioneAlbo = rs.getString(Tabelle.Fornitori.ISCRIZIONE_ALBO);
+                String indirizzoOp = rs.getString(Tabelle.Fornitori.INDIRIZZO_OP);
+                String capOp = rs.getString(Tabelle.Fornitori.CAP_OP);
+                String cittaOp = rs.getString(Tabelle.Fornitori.CITTA_OP);
+                String provOp = rs.getString(Tabelle.Fornitori.PROV_OP);
+                String nazioneOp = rs.getString(Tabelle.Fornitori.NAZIONE_OP);
 
-                fatt.setCliente(new Fornitore(cod, nome, titolare, piva, codfisc, indirizzo, telefono1, telefono2, fax, email, cap, citta, prov, nazione, banca, iban,
-                        nomeRef1, nomeRef2, emailRef1, emailRef2, telRef1, telRef2));   
+                fatt.setCliente(new Fornitore(cod, nome, titolare, piva, codfisc, indirizzoLeg, telefono1, telefono2, fax, email, capLeg, cittaLeg, provLeg, nazioneLeg, banca, iban,
+                        iscrizioneAlbo, indirizzoOp, cittaOp, capOp, provOp, nazioneOp, nomeRef1, nomeRef2, emailRef1, emailRef2, telRef1, telRef2));   
 
             }
 
@@ -388,19 +401,20 @@ public class DAO_CBC {
      */
     public static boolean insertFattAcquisto(Fattura fatt) {
         try {
+//           Togliendo i commenti si avrà il controllo sul numero fattura già inserita nell'anno
             
-            int anno = Integer.parseInt((fatt.getData().toString().split("-"))[0]);
+//            int anno = Integer.parseInt((fatt.getData().toString().split("-"))[0]);
             
-            sql = "SELECT COUNT(*) AS num FROM " + Tabelle.FATT_ACQUISTO + " WHERE " + Tabelle.FattureAcquisto.NUMERO + " = " + 
-                    fatt.getNumero() + " AND " + Tabelle.FattureAcquisto.DATA + " BETWEEN '" + anno + "-01-01' AND '" + anno + "-12-31'";
+            //sql = "SELECT COUNT(*) AS num FROM " + Tabelle.FATT_ACQUISTO + " WHERE " + Tabelle.FattureAcquisto.NUMERO + " = " + 
+            //        fatt.getNumero() + " AND " + Tabelle.FattureAcquisto.DATA + " BETWEEN '" + anno + "-01-01' AND '" + anno + "-12-31'";
             
-            System.out.println(sql);
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
+            //System.out.println(sql);
+            //ps = conn.prepareStatement(sql);
+            //rs = ps.executeQuery();
             
-            rs.next();
-            int num = rs.getInt("num");
-            if (num == 0) { //numero nell'anno non esistente
+            //rs.next();
+//            int num = rs.getInt("num");
+//            if (num == 0) { //numero nell'anno non esistente
                 ps = conn.prepareStatement("START TRANSACTION");
                 ps.executeUpdate();
 
@@ -417,9 +431,9 @@ public class DAO_CBC {
 
                 return true;
                 
-            } else { //numero nell'anno esistente
-                throw new EccezioneChiaveDuplicata("Numero fattura '" + fatt.getNumero() + "' esistente per l'anno in questione");
-            }
+//            } else { //numero nell'anno esistente
+//                throw new EccezioneChiaveDuplicata("Numero fattura '" + fatt.getNumero() + "' esistente per l'anno in questione");
+//            }
             
         } catch (SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
@@ -486,19 +500,26 @@ public class DAO_CBC {
                 String titolare = rs.getString(Tabelle.Fornitori.TITOLARE);
                 String piva = rs.getString(Tabelle.Fornitori.PIVA);
                 String codfisc = rs.getString(Tabelle.Fornitori.CODFISCALE);
-                String indirizzo = rs.getString(Tabelle.Fornitori.INDIRIZZO);
+                String indirizzoLeg = rs.getString(Tabelle.Fornitori.INDIRIZZO_LEGALE);
                 String telefono1 = rs.getString(Tabelle.Fornitori.TELEFONO1);
                 String telefono2 = rs.getString(Tabelle.Fornitori.TELEFONO2);
                 String fax = rs.getString(Tabelle.Fornitori.FAX);
                 String email = rs.getString(Tabelle.Fornitori.EMAIL);
-                String cap = rs.getString(Tabelle.Fornitori.CAP);
-                String citta = rs.getString(Tabelle.Fornitori.CITTA);
-                String prov = rs.getString(Tabelle.Fornitori.PROV);
-                String nazione = rs.getString(Tabelle.Fornitori.NAZIONE);
+                String capLeg = rs.getString(Tabelle.Fornitori.CAP_LEGALE);
+                String cittaLeg = rs.getString(Tabelle.Fornitori.CITTA_LEGALE);
+                String provLeg = rs.getString(Tabelle.Fornitori.PROV_LEGALE);
+                String nazioneLeg = rs.getString(Tabelle.Fornitori.NAZIONE_LEGALE);
                 String banca = rs.getString(Tabelle.Fornitori.BANCA);
                 String iban = rs.getString(Tabelle.Fornitori.IBAN);
+                String iscrizioneAlbo = rs.getString(Tabelle.Fornitori.ISCRIZIONE_ALBO);
+                String indirizzoOp = rs.getString(Tabelle.Fornitori.INDIRIZZO_OP);
+                String capOp = rs.getString(Tabelle.Fornitori.CAP_OP);
+                String cittaOp = rs.getString(Tabelle.Fornitori.CITTA_OP);
+                String provOp = rs.getString(Tabelle.Fornitori.PROV_OP);
+                String nazioneOp = rs.getString(Tabelle.Fornitori.NAZIONE_OP);
 
-                fatt.setCliente(new Fornitore(cod, nome, titolare, piva, codfisc, indirizzo, telefono1, telefono2, fax, email, cap, citta, prov, nazione, banca, iban));   
+                fatt.setCliente(new Fornitore(cod, nome, titolare, piva, codfisc, indirizzoLeg, telefono1, telefono2, fax, email, capLeg, cittaLeg, provLeg, nazioneLeg, banca, iban, iscrizioneAlbo,
+                        indirizzoOp, cittaOp, capOp, provOp, nazioneOp));   
 
             }
 

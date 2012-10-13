@@ -603,7 +603,7 @@ public class Cassa extends javax.swing.JFrame {
 private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 // TODO add your handling code here:
     List<Entity> fornitori = FrontController.getAnagrafe(Fornitore.class);
-    List<Integer> anni = FrontController.getAnniEsercizio();
+    List<Integer> anni = FrontController.getAnniEsercizio(Fattura.tipo.ALL);
     popolaSelect(fornitori);
     popolaSelect(anni);
     String anno = String.valueOf(cboAnno.getSelectedItem());

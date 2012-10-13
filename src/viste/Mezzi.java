@@ -35,6 +35,9 @@ public class Mezzi extends javax.swing.JFrame {
     /** Creates new form Mezzi */
     public Mezzi() {
         initComponents();
+        ColorManager color = new ColorManager();
+        color.changeColor(pnlDati);
+        txtTarga.setDocument(new JTextFieldLimit(MAX_LENGTH_TARGA));
     }
 
     /** This method is called from within the constructor to
@@ -48,15 +51,22 @@ public class Mezzi extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMezzi = new javax.swing.JTable();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
-        lblTarga = new javax.swing.JLabel();
-        txtMarca = new javax.swing.JTextField();
         btnNuovo = new javax.swing.JButton();
         btnSalva = new javax.swing.JButton();
         btnElimina = new javax.swing.JButton();
+        pnlDati = new javax.swing.JPanel();
+        txtScadRevisione = new javax.swing.JTextField();
+        lblTarga5 = new javax.swing.JLabel();
         lblTarga1 = new javax.swing.JLabel();
+        lblTarga3 = new javax.swing.JLabel();
+        txtMarca = new javax.swing.JTextField();
+        txtScadAssicurazione = new javax.swing.JTextField();
+        lblTarga = new javax.swing.JLabel();
+        txtScadBollo = new javax.swing.JTextField();
+        lblTarga2 = new javax.swing.JLabel();
         txtTarga = new javax.swing.JTextField();
+        lblTarga4 = new javax.swing.JLabel();
+        txtScadAdp = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFiltra = new javax.swing.JMenu();
         mnuTutti = new javax.swing.JCheckBoxMenuItem();
@@ -81,9 +91,6 @@ public class Mezzi extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblMezzi);
 
-        lblTarga.setText("Marca");
-        lblTarga.setToolTipText("");
-
         btnNuovo.setText("Nuovo");
         btnNuovo.setToolTipText("Inserisci un nuovo fornitore");
         btnNuovo.addActionListener(new java.awt.event.ActionListener() {
@@ -106,8 +113,80 @@ public class Mezzi extends javax.swing.JFrame {
             }
         });
 
+        pnlDati.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Dati", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+
+        lblTarga5.setText("Scadenza assicurazione");
+        lblTarga5.setToolTipText("");
+
         lblTarga1.setText("Targa");
         lblTarga1.setToolTipText("");
+
+        lblTarga3.setText("Scadenza revisione");
+        lblTarga3.setToolTipText("");
+
+        lblTarga.setText("Marca");
+        lblTarga.setToolTipText("");
+
+        lblTarga2.setText("Scadenza bollo");
+        lblTarga2.setToolTipText("");
+
+        lblTarga4.setText("Scadenza adp");
+        lblTarga4.setToolTipText("");
+
+        javax.swing.GroupLayout pnlDatiLayout = new javax.swing.GroupLayout(pnlDati);
+        pnlDati.setLayout(pnlDatiLayout);
+        pnlDatiLayout.setHorizontalGroup(
+            pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTarga5)
+                    .addComponent(lblTarga4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTarga3)
+                    .addComponent(lblTarga2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTarga, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTarga1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
+                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTarga, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtScadBollo, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtScadRevisione, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtScadAdp, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtScadAssicurazione, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlDatiLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblTarga, lblTarga1, lblTarga2, lblTarga3, lblTarga4, lblTarga5});
+
+        pnlDatiLayout.setVerticalGroup(
+            pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatiLayout.createSequentialGroup()
+                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTarga1, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTarga, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTarga2, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(txtScadBollo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTarga3, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(txtScadRevisione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTarga4, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(txtScadAdp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTarga5, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(txtScadAssicurazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         mnuFiltra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/filtra.png"))); // NOI18N
         mnuFiltra.setText("Filtra");
@@ -160,23 +239,14 @@ public class Mezzi extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
+                    .addComponent(pnlDati, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 844, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNuovo, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnSalva, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnElimina, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTarga1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTarga, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(72, 72, 72)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtMarca, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTarga, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnElimina, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -184,24 +254,14 @@ public class Mezzi extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTarga1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTarga, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(38, 38, 38)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(pnlDati, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuovo)
                     .addComponent(btnSalva)
                     .addComponent(btnElimina))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -225,14 +285,14 @@ private void popolaTabella(List mezzi) {
         arrayMezzi,
             
         new String [] {
-                "TARGA", "MARCA"
+                "TARGA", "MARCA", "SCADENZA BOLLO ", "SCADENZA REVISIONE ", "SCADENZA ADP ", "SCADENZA ASSICURAZIONE "
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false, false, false
             };
 
-            Class[] types = {String.class, String.class};
+            Class[] types = {String.class, String.class, String.class, String.class, String.class, String.class};
             
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -255,10 +315,16 @@ private void popolaTabella(List mezzi) {
     //Le seguenti costanti indicano i numeri di colonna dei campi
     final int TARGA = 0;
     final int MARCA = 1;
-
+    final int SCAD_BOLLO = 2;
+    final int SCAD_REVISIONE = 3;
+    final int SCAD_ADP = 4;
+    final int SCAD_ASSIC = 5;
+    
+    boolean[] resizable = {false, false, false, false, false, false};
+    
     jScrollPane1.setViewportView(tblMezzi);
-    tblMezzi.getColumnModel().getColumn(TARGA).setResizable(false);
-    tblMezzi.getColumnModel().getColumn(MARCA).setResizable(false);
+    for (int i = TARGA; i < SCAD_ASSIC; i++)
+        tblMezzi.getColumnModel().getColumn(i).setResizable(resizable[i]);
 
     tblMezzi.getTableHeader().setReorderingAllowed(false); //Fa in modo che l'utente non possa modificare l'ordine delle colonne
     tblMezzi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -272,10 +338,18 @@ private void popolaTabella(List mezzi) {
             //Estrae dalla tabella i valori dei relativi campi
             String targa = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), TARGA);
             String marca = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), MARCA);
+            String scadBollo = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_BOLLO);
+            String scadRevisione = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_REVISIONE);
+            String scadAdp = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_ADP);
+            String scadAssic = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_ASSIC);
 
             //Imposta le text con i valori estratti dalla tabella
             txtTarga.setText(targa);
             txtMarca.setText(marca);
+            txtScadBollo.setText(scadBollo);
+            txtScadAdp.setText(scadAdp);
+            txtScadAssicurazione.setText(scadAssic);
+            txtScadRevisione.setText(scadRevisione);
 
         }
     });
@@ -310,6 +384,10 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 // TODO add your handling code here:
     String targa = txtTarga.getText().toUpperCase();
     String marca = txtMarca.getText();
+    String scadBollo = txtScadBollo.getText();
+    String scadRevisione = txtScadRevisione.getText();
+    String scadAdp = txtScadAdp.getText();
+    String scadAssic = txtScadAssicurazione.getText();
     
     Integer ID = null;
     try {
@@ -328,8 +406,8 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         checkData=false;
         
     } else { 
-        if (!targa.isEmpty() && targa.length() != 7){
-            JOptionPane.showMessageDialog(null, "La Targa deve contenere 7 cifre!", "Campo obbligatorio errato", JOptionPane.ERROR_MESSAGE);
+        if (!targa.isEmpty() && targa.length() != MAX_LENGTH_TARGA){
+            JOptionPane.showMessageDialog(null, "La Targa deve contenere " + MAX_LENGTH_TARGA + " caratteri!", "Campo obbligatorio errato", JOptionPane.ERROR_MESSAGE);
             checkData=false;
         } 
     }
@@ -340,7 +418,7 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
      * riga della tabella.
      */
     if (checkData){
-        Mezzo mezzo = new Mezzo(ID, targa, marca);
+        Mezzo mezzo = new Mezzo(ID, targa, marca, scadBollo, scadRevisione, scadAdp, scadAssic);
         
         /*
          * Se l'id è != null vuol dire che è stata selezionata una riga dalla tabella, quindi si cerca di 
@@ -475,6 +553,10 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 private void pulisciText() {
     txtMarca.setText(null);
     txtTarga.setText(null);
+    txtScadAdp.setText(null);
+    txtScadAssicurazione.setText(null);
+    txtScadBollo.setText(null);
+    txtScadRevisione.setText(null);
     txtTarga.requestFocus();
 }
     
@@ -484,19 +566,28 @@ private void pulisciText() {
     private javax.swing.JButton btnSalva;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblTarga;
     private javax.swing.JLabel lblTarga1;
+    private javax.swing.JLabel lblTarga2;
+    private javax.swing.JLabel lblTarga3;
+    private javax.swing.JLabel lblTarga4;
+    private javax.swing.JLabel lblTarga5;
     private javax.swing.JMenu mnuFiltra;
     private javax.swing.JMenu mnuProspetto;
     private javax.swing.JMenuItem mnuStampa;
     private javax.swing.JCheckBoxMenuItem mnuTarga;
     private javax.swing.JCheckBoxMenuItem mnuTutti;
+    private javax.swing.JPanel pnlDati;
     private javax.swing.JTable tblMezzi;
     private javax.swing.JTextField txtMarca;
+    private javax.swing.JTextField txtScadAdp;
+    private javax.swing.JTextField txtScadAssicurazione;
+    private javax.swing.JTextField txtScadBollo;
+    private javax.swing.JTextField txtScadRevisione;
     private javax.swing.JTextField txtTarga;
     // End of variables declaration//GEN-END:variables
 
     private List<Mezzo> mezziInTabella;
+    
+    private static final int MAX_LENGTH_TARGA = 7;
 }

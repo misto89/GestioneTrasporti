@@ -11,15 +11,15 @@ public class Fornitore implements Entity {
     private String titolare;
     private String piva;
     private String codfiscale;
-    private String indirizzo;
+    private String indirizzoLeg;
     private String telefono1;
     private String telefono2;
     private String fax;
     private String email;
-    private String cap;
-    private String citta;
-    private String prov;
-    private String nazione;
+    private String capLeg;
+    private String cittaLeg;
+    private String provLeg;
+    private String nazioneLeg;
     private String banca;
     private String iban;
     private String nomeRef1;
@@ -28,7 +28,12 @@ public class Fornitore implements Entity {
     private String emailRef2;
     private String telRef1;
     private String telRef2;
-    
+    private String iscrizioneAlbo; 
+    private String indirizzoOp;
+    private String capOp;
+    private String cittaOp;
+    private String provOp;
+    private String nazioneOp;
     
     public static final int NUM_CAMPI = 16;
     
@@ -44,32 +49,42 @@ public class Fornitore implements Entity {
         this.cod = cod;
     }
 
-    public Fornitore(Integer cod, String nome, String titolare, String piva, String codfiscale, String indirizzo, String telefono1, String telefono2,
-            String fax, String email, String cap, String citta, String prov, String nazione, String banca, String iban) {
+    public Fornitore(Integer cod, String nome, String titolare, String piva, String codfiscale, String indirizzoLeg, String telefono1, String telefono2,
+            String fax, String email, String capLeg, String cittaLeg, String provLeg, String nazioneLeg, String banca, String iban,
+            String iscrizioneAlbo, String indirizzoOp, String cittaOp, String capOp, String provOp, String nazioneOp) {
         
         this.cod = cod;
         this.nome = nome;
         this.titolare = titolare;
         this.piva = piva;
         this.codfiscale = codfiscale;
-        this.indirizzo = indirizzo;
+        this.indirizzoLeg = indirizzoLeg;
         this.telefono1 = telefono1;
         this.telefono2 = telefono2;
         this.fax = fax;
         this.email = email;
-        this.cap = cap;
-        this.citta = citta;
-        this.prov = prov;
-        this.nazione = nazione;
+        this.capLeg = capLeg;
+        this.cittaLeg = cittaLeg;
+        this.provLeg = provLeg;
+        this.nazioneLeg = nazioneLeg;
         this.banca = banca;
         this.iban = iban;
+        this.iscrizioneAlbo = iscrizioneAlbo;
+        this.indirizzoOp = indirizzoOp;
+        this.cittaOp = cittaOp;
+        this.capOp = capOp;
+        this.cittaOp = cittaOp;
+        this.provOp = provOp;
+        this.nazioneOp = nazioneOp;
     }
     
-    public Fornitore(Integer cod, String nome, String titolare, String piva, String codfiscale, String indirizzo, String telefono1, String telefono2,
-            String fax, String email, String cap, String citta, String prov, String nazione, String banca, String iban, String nomeRef1, String nomeRef2, String emailRef1,
+    public Fornitore(Integer cod, String nome, String titolare, String piva, String codfiscale, String indirizzoLeg, String telefono1, String telefono2,
+            String fax, String email, String capLeg, String cittaLeg, String provLeg, String nazioneLeg, String banca, String iban, 
+            String iscrizioneAlbo, String indirizzoOp, String cittaOp, String capOp, String provOp, String nazioneOp,  String nomeRef1, String nomeRef2, String emailRef1,
             String emailRef2, String telRef1, String telRef2) {
         
-        this(cod, nome, titolare, piva, codfiscale, indirizzo, telefono1, telefono2, fax, email, cap, citta, prov, nazione, banca, iban);
+        this(cod, nome, titolare, piva, codfiscale, indirizzoLeg, telefono1, telefono2, fax, email, capLeg, cittaLeg, provLeg, nazioneLeg, banca, iban, iscrizioneAlbo, 
+                indirizzoOp, cittaOp, capOp, provOp, nazioneOp);
      
         this.nomeRef1 = nomeRef1;
         this.nomeRef2 = nomeRef2;
@@ -120,12 +135,20 @@ public class Fornitore implements Entity {
         this.codfiscale = codfiscale;
     }
 
-    public String getIndirizzo() {
-        return indirizzo;
+    public String getIndirizzoLeg() {
+        return indirizzoLeg;
     }
 
-    public void setIndirizzo(String indirizzo) {
-        this.indirizzo = indirizzo;
+    public void setIndirizzoLeg(String indirizzo) {
+        this.indirizzoLeg = indirizzo;
+    }
+    
+    public String getIndirizzoOp() {
+        return indirizzoOp;
+    }
+
+    public void setIndirizzoOp(String indirizzo) {
+        this.indirizzoOp = indirizzo;
     }
 
     public String getTelefono1() {
@@ -160,36 +183,68 @@ public class Fornitore implements Entity {
         this.email = email;
     }
     
-    public String getCap() {
-        return cap;
+    public String getCapLeg() {
+        return capLeg;
     }
 
-    public void setCap(String cap) {
-        this.cap = cap;
+    public void setCapLeg(String cap) {
+        this.capLeg = cap;
     }
     
-    public String getCitta() {
-        return citta;
+    public String getCittaLeg() {
+        return cittaLeg;
     }
 
-    public void setCitta(String citta) {
-        this.citta = citta;
+    public void setCittaLeg(String citta) {
+        this.cittaLeg = citta;
     }
     
-    public String getProv() {
-        return prov;
+    public String getProvLeg() {
+        return provLeg;
     }
 
-    public void setProv(String prov) {
-        this.prov = prov;
+    public void setProvLeg(String prov) {
+        this.provLeg = prov;
     }
     
-    public String getNazione() {
-        return nazione;
+    public String getNazioneLeg() {
+        return nazioneLeg;
     }
 
-    public void setNazione(String nazione) {
-        this.nazione = nazione;
+    public void setNazioneLeg(String nazione) {
+        this.nazioneLeg = nazione;
+    }
+    
+    public String getCapOp() {
+        return capOp;
+    }
+
+    public void setCapOp(String cap) {
+        this.capOp = cap;
+    }
+    
+    public String getCittaOp() {
+        return cittaOp;
+    }
+
+    public void setCittaOp(String citta) {
+        this.cittaOp = citta;
+    }
+    
+    public String getProvOp() {
+        return provOp;
+    }
+
+    public void setProvOp(String prov) {
+        this.provOp = prov;
+    }
+    
+    public String getNazioneOp() {
+        return nazioneOp;
+    }
+
+    public void setNazioneOp(String nazione) {
+        this.nazioneOp = nazione;
     }
     
     public String getBanca() {
@@ -256,6 +311,14 @@ public class Fornitore implements Entity {
         this.telRef2 = tel;
     }
     
+    public void setIscrizioneAlbo(String iscrizioneAlbo) {
+        this.iscrizioneAlbo = iscrizioneAlbo;
+    }
+
+    public String getIscrizioneAlbo() {
+        return iscrizioneAlbo;
+    }
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the cod fields are not set
@@ -290,7 +353,7 @@ public class Fornitore implements Entity {
     
     public Object[] toArray(){
         Object[] arrayForn = {this.cod, this.nome, this.titolare, this.piva, this.codfiscale, this.banca, this.iban, this.telefono1,
-                this.telefono2, this.fax, this.email, this.indirizzo, this.cap, this.citta, this.prov, this.nazione
+                this.telefono2, this.fax, this.email, this.indirizzoLeg, this.capLeg, this.cittaLeg, this.provLeg, this.nazioneLeg
         };
         return arrayForn;
     }

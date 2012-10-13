@@ -99,26 +99,14 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" alignment="1" pref="783" max="32767" attributes="1"/>
-                  <Component id="jSeparator1" alignment="0" pref="783" max="32767" attributes="1"/>
-                  <Component id="jSeparator2" alignment="1" pref="783" max="32767" attributes="1"/>
+                  <Component id="pnlDati" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="844" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnNuovo" min="-2" pref="135" max="-2" attributes="1"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnSalva" min="-2" pref="116" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnElimina" min="-2" pref="116" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTarga1" min="-2" pref="84" max="-2" attributes="0"/>
-                          <Component id="lblTarga" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="txtMarca" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
-                          <Component id="txtTarga" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
-                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -130,27 +118,15 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="346" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtTarga" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblTarga1" alignment="3" max="32767" attributes="0"/>
-              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtMarca" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblTarga" alignment="3" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-              <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="pnlDati" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnNuovo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSalva" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnElimina" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="22" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -175,18 +151,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JSeparator" name="jSeparator1">
-    </Component>
-    <Component class="javax.swing.JSeparator" name="jSeparator2">
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblTarga">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Marca"/>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtMarca">
-    </Component>
     <Component class="javax.swing.JButton" name="btnNuovo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nuovo"/>
@@ -212,13 +176,132 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblTarga1">
+    <Container class="javax.swing.JPanel" name="pnlDati">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Targa"/>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder position="2" title="Dati">
+              <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </TitledBorder>
+          </Border>
+        </Property>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtTarga">
-    </Component>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblTarga5" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTarga4" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                      <Component id="lblTarga3" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTarga2" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                      <Component id="lblTarga" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                      <Component id="lblTarga1" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="txtTarga" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
+                      <Component id="txtMarca" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
+                      <Component id="txtScadBollo" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
+                      <Component id="txtScadRevisione" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
+                      <Component id="txtScadAdp" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
+                      <Component id="txtScadAssicurazione" alignment="0" min="-2" pref="288" max="-2" attributes="1"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="txtTarga" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTarga1" alignment="0" pref="20" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblTarga" alignment="0" pref="20" max="32767" attributes="0"/>
+                      <Component id="txtMarca" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblTarga2" alignment="0" pref="20" max="32767" attributes="0"/>
+                      <Component id="txtScadBollo" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblTarga3" alignment="0" pref="20" max="32767" attributes="0"/>
+                      <Component id="txtScadRevisione" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblTarga4" alignment="0" pref="20" max="32767" attributes="0"/>
+                      <Component id="txtScadAdp" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblTarga5" alignment="0" pref="20" max="32767" attributes="0"/>
+                      <Component id="txtScadAssicurazione" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JTextField" name="txtScadRevisione">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTarga5">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Scadenza assicurazione"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTarga1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Targa"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTarga3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Scadenza revisione"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtMarca">
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtScadAssicurazione">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTarga">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Marca"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtScadBollo">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTarga2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Scadenza bollo"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtTarga">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTarga4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Scadenza adp"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtScadAdp">
+        </Component>
+      </SubComponents>
+    </Container>
   </SubComponents>
 </Form>

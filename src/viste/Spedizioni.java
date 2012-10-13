@@ -1144,6 +1144,11 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     String[] metPagam = FrontController.getMetodiPagamento();
     for (String metodo : metPagam)
         cboMetPag.addItem((String) metodo);
+    //Set the locks
+    txtGiornoFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+    txtMeseFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+    txtAnnoFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+    txtPercIvaForfait.setDocument(new JTextFieldLimit(MAX_LENGTH_PERCIVA));
 }//GEN-LAST:event_formWindowOpened
 
 /*
@@ -2274,4 +2279,8 @@ int getIndexSpedizione(Spedizione sped) {
     //private final int PROVVIGIONE = 17;
     //private final int TOTALE = 18;
     
+    private static final int MAX_LENGTH_GIORNO = 2;
+    private static final int MAX_LENGTH_MESE = 2;
+    private static final int MAX_LENGTH_ANNO = 4;
+    private static final int MAX_LENGTH_PERCIVA = 2;
 }

@@ -9,6 +9,7 @@ import entita.*;
 import java.util.List;
 import eccezioni.EccezioneChiaveDuplicata;
 import eccezioni.EccezioneConnesioneNonRiuscita;
+import eccezioni.EccezioneEliminazioneImpossibile;
 import eccezioni.EccezioneEntitaNonValida;
 import eccezioni.EccezioneValoreCampoTroppoLungo;
 import java.sql.Connection;
@@ -50,15 +51,15 @@ public abstract class DAO_ASF {
         String titolare = null;
         String piva = null;
         String codfisc = null;
-        String indirizzo = null;
+        String indirizzoLeg = null;
         String telefono1 = null;
         String telefono2 = null;
         String fax = null;
         String email = null;
-        String cap = null;
-        String citta = null;
-        String prov = null;
-        String nazione = null;
+        String capLeg = null;
+        String cittaLeg = null;
+        String provLeg = null;
+        String nazioneLeg = null;
         String banca = null;
         String iban = null;
         String nomeRef1;
@@ -67,6 +68,13 @@ public abstract class DAO_ASF {
         String emailRef2;
         String telRef1;
         String telRef2;
+        String iscrizioneAlbo;
+        String indirizzoOp = null;
+        String capOp = null;
+        String cittaOp = null;
+        String provOp = null;
+        String nazioneOp = null;
+        
           
         /*
          * Per ogni elemento presente nel ResultSet, crea un oggetto Fornitore
@@ -78,15 +86,15 @@ public abstract class DAO_ASF {
             titolare = rs.getString(Tabelle.Fornitori.TITOLARE);
             piva = rs.getString(Tabelle.Fornitori.PIVA);
             codfisc = rs.getString(Tabelle.Fornitori.CODFISCALE);
-            indirizzo = rs.getString(Tabelle.Fornitori.INDIRIZZO);
+            indirizzoLeg = rs.getString(Tabelle.Fornitori.INDIRIZZO_LEGALE);
             telefono1 = rs.getString(Tabelle.Fornitori.TELEFONO1);
             telefono2 = rs.getString(Tabelle.Fornitori.TELEFONO2);
             fax = rs.getString(Tabelle.Fornitori.FAX);
             email = rs.getString(Tabelle.Fornitori.EMAIL);
-            cap = rs.getString(Tabelle.Fornitori.CAP);
-            citta = rs.getString(Tabelle.Fornitori.CITTA);
-            prov = rs.getString(Tabelle.Fornitori.PROV);
-            nazione = rs.getString(Tabelle.Fornitori.NAZIONE);
+            capLeg = rs.getString(Tabelle.Fornitori.CAP_LEGALE);
+            cittaLeg = rs.getString(Tabelle.Fornitori.CITTA_LEGALE);
+            provLeg = rs.getString(Tabelle.Fornitori.PROV_LEGALE);
+            nazioneLeg = rs.getString(Tabelle.Fornitori.NAZIONE_LEGALE);
             banca = rs.getString(Tabelle.Fornitori.BANCA);
             iban = rs.getString(Tabelle.Fornitori.IBAN);
             nomeRef1 = rs.getString(Tabelle.Fornitori.NOME_REF_1);
@@ -95,9 +103,15 @@ public abstract class DAO_ASF {
             emailRef2 = rs.getString(Tabelle.Fornitori.EMAIL_REF_2);
             telRef1 = rs.getString(Tabelle.Fornitori.TEL_REF_1);
             telRef2 = rs.getString(Tabelle.Fornitori.TEL_REF_2);
+            iscrizioneAlbo = rs.getString(Tabelle.Fornitori.ISCRIZIONE_ALBO);
+            indirizzoOp = rs.getString(Tabelle.Fornitori.INDIRIZZO_OP);
+            capOp = rs.getString(Tabelle.Fornitori.CAP_OP);
+            cittaOp = rs.getString(Tabelle.Fornitori.CITTA_OP);
+            provOp = rs.getString(Tabelle.Fornitori.PROV_OP);
+            nazioneOp = rs.getString(Tabelle.Fornitori.NAZIONE_OP);
             
-            lista.add(new Fornitore(cod, nome, titolare, piva, codfisc, indirizzo, telefono1, telefono2, fax, email, cap, citta, prov, nazione, banca, iban,
-                    nomeRef1, nomeRef2, emailRef1, emailRef2, telRef1, telRef2));   
+            lista.add(new Fornitore(cod, nome, titolare, piva, codfisc, indirizzoLeg, telefono1, telefono2, fax, email, capLeg, cittaLeg, provLeg, nazioneLeg, banca, iban,
+                    iscrizioneAlbo, indirizzoOp, cittaOp, capOp, provOp, nazioneOp, nomeRef1, nomeRef2, emailRef1, emailRef2, telRef1, telRef2));   
          }
     }
     
@@ -144,13 +158,21 @@ public abstract class DAO_ASF {
                 Integer id = 0;
                 String targa = null;
                 String marca = null;
+                String scadBollo = null;
+                String scadRevisione = null;
+                String scadAdp = null;
+                String scadAssicurazione = null;
             
                 while (rs.next()){
                     id = rs.getInt(Tabelle.Mezzi.ID);
                     targa = rs.getString(Tabelle.Mezzi.TARGA);
                     marca = rs.getString(Tabelle.Mezzi.MARCA);
+                    scadBollo = rs.getString(Tabelle.Mezzi.SCAD_BOLLO);
+                    scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
+                    scadAdp = rs.getString(Tabelle.Mezzi.SCAD_ADP);
+                    scadAssicurazione = rs.getString(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
                 
-                    mezzi.add(new Mezzo(id, targa, marca));   
+                    mezzi.add(new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAdp, scadAssicurazione));   
                 }
             
                 return mezzi;
@@ -215,11 +237,12 @@ public abstract class DAO_ASF {
             Fornitore f = (Fornitore) o;
             try {
                 sql = "INSERT INTO " + Tabelle.FORNITORI + " VALUES (NULL, " + checkNull(f.getNome()) + ", " + checkNull(f.getTitolare()) + ", " + checkNull(f.getPiva()) + ", " + 
-                        checkNull(f.getCodfiscale()) + ", " + checkNull(f.getIndirizzo()) + ", " + checkNull(f.getTelefono1()) + ", " + checkNull(f.getTelefono2()) + ", " + checkNull(f.getFax()) + ", " +
-                        checkNull(f.getEmail()) + ", " + checkNull(f.getCap()) + ", " + checkNull(f.getCitta()) + ", " + checkNull(f.getProv()) + ", " + 
-                        checkNull(f.getNazione()) + ", " + checkNull(f.getBanca()) + ", " + checkNull(f.getIban()) + ", " + checkNull(f.getNomeRef1()) + 
+                        checkNull(f.getCodfiscale()) + ", " + checkNull(f.getIndirizzoLeg()) + ", " + checkNull(f.getTelefono1()) + ", " + checkNull(f.getTelefono2()) + ", " + checkNull(f.getFax()) + ", " +
+                        checkNull(f.getEmail()) + ", " + checkNull(f.getCapLeg()) + ", " + checkNull(f.getCittaLeg()) + ", " + checkNull(f.getProvLeg()) + ", " + 
+                        checkNull(f.getNazioneLeg()) + ", " + checkNull(f.getBanca()) + ", " + checkNull(f.getIban()) + ", " + checkNull(f.getNomeRef1()) + 
                         ", " + checkNull(f.getEmailRef1()) + ", " + checkNull(f.getTelRef1()) + ", " + checkNull(f.getNomeRef2()) + ", " + checkNull(f.getEmailRef2()) + 
-                        ", " + checkNull(f.getTelRef2()) + ")";
+                        ", " + checkNull(f.getTelRef2()) + ", " + checkNull(f.getIscrizioneAlbo()) + ", " + checkNull(f.getIndirizzoOp()) + ", " + checkNull(f.getCapOp()) + 
+                        ", " + checkNull(f.getCittaOp()) + ", " + checkNull(f.getProvOp()) + ", " + checkNull(f.getNazioneOp()) + ")";
                 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
@@ -242,8 +265,8 @@ public abstract class DAO_ASF {
                     else if (ex.getMessage().contains(Tabelle.Fornitori.TITOLARE))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Titolare troppo lungo!");
                         
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.INDIRIZZO))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Indirizzo troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.INDIRIZZO_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Indirizzo legale troppo lungo!");
                     
                     else if (ex.getMessage().contains(Tabelle.Fornitori.TELEFONO1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Telefono 1 troppo lungo!"); 
@@ -257,17 +280,17 @@ public abstract class DAO_ASF {
                     else if (ex.getMessage().contains(Tabelle.Fornitori.EMAIL))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo E-Mail troppo lungo!");
                     
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.CAP))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo CAP troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CAP_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo CAP legale troppo lungo!");
                     
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.CITTA))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Città troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CITTA_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Città legale troppo lungo!");
                     
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.PROV))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provincia troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.PROV_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provincia legale troppo lungo!");
                     
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.NAZIONE))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nazione troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.NAZIONE_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nazione legale troppo lungo!");
                     
                     else if (ex.getMessage().contains(Tabelle.Fornitori.BANCA))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Banca troppo lungo!");
@@ -292,6 +315,26 @@ public abstract class DAO_ASF {
                     
                     else if (ex.getMessage().contains(Tabelle.Fornitori.TEL_REF_2))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Telefono Referente 2 troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.ISCRIZIONE_ALBO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Iscrizione all'albo troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.INDIRIZZO_OP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Indirizzo operativo troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CAP_OP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo CAP operativo troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CITTA_OP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Città operativa troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.PROV_OP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provincia operativa troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.NAZIONE_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nazione operativa troppo lungo!");
+                    
+                    
                 }
                        
                 return false;
@@ -300,7 +343,10 @@ public abstract class DAO_ASF {
         } else if (o instanceof Mezzo){
             Mezzo m =(Mezzo) o;
             try {
-                sql = "INSERT INTO " + Tabelle.MEZZI + " VALUES (NULL, '" + m.getTarga() + "', '" + m.getMarca() + "')";
+                sql = "INSERT INTO " + Tabelle.MEZZI + " VALUES (NULL, '" + m.getTarga() + "', " + checkNull(m.getMarca()) + 
+                        ", " + checkNull(m.getScadBollo()) + ", " + checkNull(m.getScadRevisione()) + ", " + checkNull(m.getScadAdp()) +
+                        ", " + checkNull(m.getScadAssicurazione()) + ")";
+                
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
                 ps.executeUpdate();
@@ -483,15 +529,18 @@ public abstract class DAO_ASF {
             try {
                 sql = "UPDATE " + Tabelle.FORNITORI + " SET " + Tabelle.Fornitori.NOME + " = " + checkNull(f.getNome()) + ", " + 
                         Tabelle.Fornitori.TITOLARE + " = " + checkNull(f.getTitolare()) + ", " + Tabelle.Fornitori.PIVA + " = " + checkNull(f.getPiva()) + ", " + 
-                        Tabelle.Fornitori.CODFISCALE + " = " + checkNull(f.getCodfiscale()) + ", " + Tabelle.Fornitori.INDIRIZZO + " = " + checkNull(f.getIndirizzo()) + 
+                        Tabelle.Fornitori.CODFISCALE + " = " + checkNull(f.getCodfiscale()) + ", " + Tabelle.Fornitori.INDIRIZZO_LEGALE + " = " + checkNull(f.getIndirizzoLeg()) + 
                         ", " + Tabelle.Fornitori.TELEFONO1 + " = " + checkNull(f.getTelefono1()) + ", " + Tabelle.Fornitori.EMAIL + " = " + checkNull(f.getEmail()) + ", " +
-                        Tabelle.Fornitori.CAP + " = " + checkNull(f.getCap()) + ", " + Tabelle.Fornitori.CITTA + " = " + checkNull(f.getCitta()) + ", " + 
-                        Tabelle.Fornitori.PROV + " = " + checkNull(f.getProv()) + ", " + Tabelle.Fornitori.NAZIONE + " = " + checkNull(f.getNazione()) + ", " +
+                        Tabelle.Fornitori.CAP_LEGALE + " = " + checkNull(f.getCapLeg()) + ", " + Tabelle.Fornitori.CITTA_LEGALE + " = " + checkNull(f.getCittaLeg()) + ", " + 
+                        Tabelle.Fornitori.PROV_LEGALE + " = " + checkNull(f.getProvLeg()) + ", " + Tabelle.Fornitori.NAZIONE_LEGALE + " = " + checkNull(f.getNazioneLeg()) + ", " +
                         Tabelle.Fornitori.BANCA + " = " + checkNull(f.getBanca()) + ", " + Tabelle.Fornitori.IBAN + " = " + checkNull(f.getIban()) + ", " +
                         Tabelle.Fornitori.NOME_REF_1 + " = " + checkNull(f.getNomeRef1()) + ", " + Tabelle.Fornitori.NOME_REF_2 + " = " + checkNull(f.getNomeRef2()) + 
                         ", " + Tabelle.Fornitori.EMAIL_REF_1 + " = " + checkNull(f.getEmailRef1()) + ", " + Tabelle.Fornitori.EMAIL_REF_2 + " = " + checkNull(f.getEmailRef2()) +
                         ", " + Tabelle.Fornitori.TEL_REF_1 + " = " + checkNull(f.getTelRef1()) + ", " + Tabelle.Fornitori.TEL_REF_2 + " = " + checkNull(f.getTelRef2()) + 
                         ", " + Tabelle.Fornitori.TELEFONO2 + " = " + checkNull(f.getTelefono2()) + ", " + Tabelle.Fornitori.FAX + " = " + checkNull(f.getFax()) +
+                        ", " + Tabelle.Fornitori.ISCRIZIONE_ALBO + " = " + checkNull(f.getIscrizioneAlbo()) + ", " + Tabelle.Fornitori.INDIRIZZO_OP + " = " + checkNull(f.getIndirizzoOp()) + 
+                        ", " + Tabelle.Fornitori.CITTA_OP + " = " + checkNull(f.getCittaOp()) + ", " + Tabelle.Fornitori.CAP_OP + " = " + checkNull(f.getCapOp()) + 
+                        ", " + Tabelle.Fornitori.PROV_OP + " = " + checkNull(f.getProvOp()) + ", " + Tabelle.Fornitori.NAZIONE_OP + " = " + checkNull(f.getNazioneOp()) +
                         " WHERE " + Tabelle.Fornitori.COD + " = " + f.getCod();
                 
                 System.out.println(sql);
@@ -515,8 +564,8 @@ public abstract class DAO_ASF {
                     else if (ex.getMessage().contains(Tabelle.Fornitori.TITOLARE))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Titolare troppo lungo!");
                     
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.INDIRIZZO))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Indirizzo troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.INDIRIZZO_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Indirizzo legale troppo lungo!");
                     
                     else if (ex.getMessage().contains(Tabelle.Fornitori.TELEFONO1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Telefono 1 troppo lungo!"); 
@@ -530,23 +579,41 @@ public abstract class DAO_ASF {
                     else if (ex.getMessage().contains(Tabelle.Fornitori.EMAIL))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo E-Mail troppo lungo!");
                     
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.CAP))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo CAP troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CAP_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo CAP legale troppo lungo!");
                     
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.CITTA))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Città troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CITTA_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Città legale troppo lungo!");
                     
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.PROV))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provincia troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.PROV_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provincia legale troppo lungo!");
                     
-                    else if (ex.getMessage().contains(Tabelle.Fornitori.NAZIONE))
-                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nazione troppo lungo!");
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.NAZIONE_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nazione legale troppo lungo!");
                     
                     else if (ex.getMessage().contains(Tabelle.Fornitori.BANCA))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Banca troppo lungo!");
                     
                     else if (ex.getMessage().contains(Tabelle.Fornitori.IBAN))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo IBAN troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.ISCRIZIONE_ALBO))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Iscrizione all'albo troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.INDIRIZZO_OP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Indirizzo operativo troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CAP_OP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo CAP operativo troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.CITTA_OP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Città operativa troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.PROV_OP))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Provincia operativa troppo lungo!");
+                    
+                    else if (ex.getMessage().contains(Tabelle.Fornitori.NAZIONE_LEGALE))
+                        throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Nazione operativa troppo lungo!");
                     
                 }
                 return false;
@@ -556,7 +623,12 @@ public abstract class DAO_ASF {
             Mezzo m =(Mezzo) o;
             try {
                 sql = "UPDATE " + Tabelle.MEZZI + " SET " + Tabelle.Mezzi.TARGA + " = '" + m.getTarga() + 
-                        "', " + Tabelle.Mezzi.MARCA + " = " + checkNull(m.getMarca()) + " WHERE " + Tabelle.Mezzi.ID + " = " + m.getId();
+                        "', " + Tabelle.Mezzi.MARCA + " = " + checkNull(m.getMarca()) + 
+                        ", " + Tabelle.Mezzi.SCAD_BOLLO + " = " + checkNull(m.getScadBollo()) + 
+                        ", " + Tabelle.Mezzi.SCAD_REVISIONE + " = " + checkNull(m.getScadRevisione()) +
+                        ", " + Tabelle.Mezzi.SCAD_ADP + " = " + checkNull(m.getScadAdp()) +
+                        ", " + Tabelle.Mezzi.SCAD_ASSICURAZIONE + " = " + checkNull(m.getScadAssicurazione()) +
+                        " WHERE " + Tabelle.Mezzi.ID + " = " + m.getId();
                 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
@@ -686,11 +758,31 @@ public abstract class DAO_ASF {
     public static boolean delete(Entity o) {
         if (o instanceof Fornitore) {
             Fornitore f = (Fornitore) o;
+            
             try {
+                
+                sql = "SELECT COUNT(*) AS NUM FROM " + Tabelle.SPEDIZIONI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + f.getCod();
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                rs = ps.executeQuery();
+                if (rs.next())
+                    if (rs.getInt("NUM") > 0)
+                        throw new EccezioneEliminazioneImpossibile("Impossibile eliminare il fornitore/cliente selezionato!\n"
+                                + "Sono presenti delle spedizioni associate");
+            
+                sql = "SELECT COUNT(*) AS NUM FROM " + Tabelle.FATT_ACQUISTO + " WHERE " + Tabelle.FattureAcquisto.FORNITORE + " = " + f.getCod();
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                rs = ps.executeQuery();
+                if (rs.next())
+                    if (rs.getInt("NUM") > 0)
+                        throw new EccezioneEliminazioneImpossibile("Impossibile eliminare il fornitore/cliente selezionato!\n"
+                                + "Sono presenti delle fatture di acquisto associate");
+                
                 sql = "DELETE FROM " + Tabelle.FORNITORI + " WHERE " + Tabelle.Fornitori.COD + " = " + f.getCod();
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
-                ps.executeUpdate();;
+                ps.executeUpdate();
                 return true;
                 
             } catch (SQLException ex) {
@@ -854,14 +946,22 @@ public abstract class DAO_ASF {
             Integer id = 0;
             String targa = null;
             String marca = null;
+            String scadBollo = null;
+            String scadRevisione = null;
+            String scadAdp = null;
+            String scadAssicurazione = null;
             Mezzo mezzo = new Mezzo();
             
             if (rs.next()){
                 id = rs.getInt(Tabelle.Mezzi.ID);
                 targa = rs.getString(Tabelle.Mezzi.TARGA);
                 marca = rs.getString(Tabelle.Mezzi.MARCA);
-                
-                mezzo = new Mezzo(id, targa, marca);   
+                scadBollo = rs.getString(Tabelle.Mezzi.SCAD_BOLLO);
+                scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
+                scadAdp = rs.getString(Tabelle.Mezzi.SCAD_ADP);
+                scadAssicurazione = rs.getString(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
+
+                mezzo = new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAdp, scadAssicurazione);   
             }
             
             return mezzo;

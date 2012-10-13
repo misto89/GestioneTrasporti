@@ -127,6 +127,15 @@ public final class StampaFattura extends StampaDocumento {
                 rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                rigaSped[0].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                //rigaSped[1].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                rigaSped[2].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                rigaSped[3].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                rigaSped[4].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                rigaSped[5].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                rigaSped[6].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                rigaSped[7].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                rigaSped[8].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
                 
                 for (int i = 0; i < rigaSped.length; i++) {
                     rigaSped[i].setBorder(NO_BORDER);    
@@ -180,6 +189,7 @@ public final class StampaFattura extends StampaDocumento {
                 rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                rigaSped[0].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
 
                 for (int i = 0; i < rigaSped.length; i++) {
                     rigaSped[i].setBorder(NO_BORDER);
@@ -340,12 +350,12 @@ public final class StampaFattura extends StampaDocumento {
         }
         
         //Instestazione------------------------------------------------
-        String indirizzo = cliente.getIndirizzo();
+        String indirizzo = cliente.getIndirizzoLeg();
         String piva = cliente.getPiva();
         String codfisc = cliente.getCodfiscale();
-        String cap = cliente.getCap();
-        String citta = cliente.getCitta();
-        String prov = cliente.getProv();
+        String cap = cliente.getCapLeg();
+        String citta = cliente.getCittaLeg();
+        String prov = cliente.getProvLeg();
         String titolare = cliente.getTitolare();
         String nome;
         try {

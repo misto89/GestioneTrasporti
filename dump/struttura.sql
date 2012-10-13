@@ -80,7 +80,7 @@ CREATE TABLE `fattureacq` (
   `tipo` varchar(20) NOT NULL,
   `note` varchar(200) DEFAULT NULL,
   `fornitore` int(11) NOT NULL,
-  PRIMARY KEY (`numero`,`data`)
+  PRIMARY KEY (`numero`,`data`,`fornitore`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -96,16 +96,16 @@ CREATE TABLE `fornitori` (
   `nome` varchar(50) DEFAULT NULL,
   `titolare` varchar(20) DEFAULT NULL,
   `piva` varchar(11) DEFAULT NULL,
-  `codfiscale` varchar(11) DEFAULT NULL,
-  `indirizzo` varchar(50) DEFAULT NULL,
+  `codfiscale` varchar(16) DEFAULT NULL,
+  `indirizzo_leg` varchar(50) DEFAULT NULL,
   `telefono1` varchar(15) DEFAULT NULL,
   `telefono2` varchar(15) DEFAULT NULL,
   `fax` varchar(15) DEFAULT NULL,
   `email` varchar(40) DEFAULT NULL,
-  `cap` varchar(5) DEFAULT NULL,
-  `citta` varchar(20) DEFAULT NULL,
-  `provincia` varchar(10) DEFAULT NULL,
-  `nazione` varchar(20) DEFAULT NULL,
+  `cap_leg` varchar(5) DEFAULT NULL,
+  `citta_leg` varchar(20) DEFAULT NULL,
+  `provincia_leg` varchar(10) DEFAULT NULL,
+  `nazione_leg` varchar(20) DEFAULT NULL,
   `banca` varchar(30) DEFAULT NULL,
   `iban` varchar(27) DEFAULT NULL,
   `nome_ref_1` varchar(30) DEFAULT NULL,
@@ -114,6 +114,12 @@ CREATE TABLE `fornitori` (
   `nome_ref_2` varchar(30) DEFAULT NULL,
   `email_ref_2` varchar(40) DEFAULT NULL,
   `tel_ref_2` varchar(15) DEFAULT NULL,
+  `iscrizione_albo` varchar(20) DEFAULT NULL,
+  `indirizzo_op` varchar(50) DEFAULT NULL,
+  `cap_op` varchar(5) DEFAULT NULL,
+  `citta_op` varchar(20) DEFAULT NULL,
+  `provincia_op` varchar(10) DEFAULT NULL,
+  `nazione_op` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`cod`),
   UNIQUE KEY `codfiscale` (`codfiscale`),
   UNIQUE KEY `piva` (`piva`)
@@ -131,6 +137,10 @@ CREATE TABLE `mezzi` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `targa` varchar(10) NOT NULL,
   `marca` varchar(30) DEFAULT NULL,
+  `scad_bollo` varchar(30) DEFAULT NULL,
+  `scad_revisione` varchar(30) DEFAULT NULL,
+  `scad_adp` varchar(30) DEFAULT NULL,
+  `scad_assicurazione` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `targa` (`targa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -152,7 +162,7 @@ CREATE TABLE `movimcontante` (
   `importo` decimal(9,2) NOT NULL,
   `tipo` varchar(11) NOT NULL,
   PRIMARY KEY (`numero`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,4 +227,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-09-08 21:41:57
+-- Dump completed on 2012-09-24 17:48:47

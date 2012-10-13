@@ -43,16 +43,20 @@ public class StampaMezzi extends StampaDocumento {
                 
         doc.add(table);
         
-        table = new PdfPTable(2);
+        table = new PdfPTable(6);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
         table.setSpacingBefore(30);
         table.setWidthPercentage(100);
-        int[] widths = new int[] {30, 70};
+        int[] widths = new int[] {15, 25, 20, 20, 20, 20};
         table.setWidths(widths);
         
         PdfPCell[] riga = new PdfPCell[] {
                 new PdfPCell(new Phrase("TARGA", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("MARCA", FONT_GRANDE_BOLD))
+                new PdfPCell(new Phrase("MARCA", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("SCAD. BOLLO", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("SCAD. REVISIONE", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("SCAD. ADP", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("SCAD. ASSICURAZIONE", FONT_GRANDE_BOLD))
         };
         
         for (int i = 0; i < riga.length; i++) {
@@ -63,7 +67,11 @@ public class StampaMezzi extends StampaDocumento {
         for (Mezzo mezzo : mezzi) {
             riga = new PdfPCell[] {
                 new PdfPCell(new Phrase(mezzo.getTarga(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(mezzo.getMarca(), FONT_GRANDE_NORMALE))
+                new PdfPCell(new Phrase(mezzo.getMarca(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(mezzo.getScadBollo(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(mezzo.getScadRevisione(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(mezzo.getScadAdp(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(mezzo.getScadAssicurazione(), FONT_GRANDE_NORMALE))
             };
             
             for (PdfPCell cella : riga) {
