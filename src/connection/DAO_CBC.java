@@ -228,7 +228,7 @@ public class DAO_CBC {
             if (tipo != Fattura.pagata.ALL)
                 sql += ")";
             
-            sql += ") ORDER BY " + Tabelle.Fatture.DATA;
+            sql += ") ORDER BY " + Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO;
             
             try {
                 System.out.println(sql);
@@ -357,7 +357,7 @@ public class DAO_CBC {
 
                 ResultSet rsbolle = psSped.executeQuery();
                 while (rsbolle.next()) {
-                    sped.addBolla(rsbolle.getInt(Tabelle.Bolle.BOLLA));
+                    sped.addBolla(rsbolle.getString(Tabelle.Bolle.BOLLA));
                 }
 
                 spedizioni.add(sped);
@@ -631,7 +631,7 @@ public class DAO_CBC {
             if (!(tipoFatt.equalsIgnoreCase("all")))
                 sql += ")";
             
-            sql += ") ORDER BY " + Tabelle.FattureAcquisto.DATA;
+            sql += ") ORDER BY " + Tabelle.FattureAcquisto.DATA + ", " + Tabelle.FattureAcquisto.NUMERO;
             
             try {
                 System.out.println(sql);
@@ -660,6 +660,8 @@ public class DAO_CBC {
                 campo = "NULL";
           
             } else { //altrimenti aggiunge gli apici ' all'inizio e alla fine della stringa
+                campo = ((String)campo).replaceAll("'", "''");
+                campo = ((String)campo).replaceAll("\\\\", "\\\\\\\\");
                 char[] field = ((String) campo).toCharArray();
                 char[] newField = new char[field.length + 2];
                 newField[0] = '\'';
@@ -847,6 +849,8 @@ public class DAO_CBC {
                         mese.addBonifico(importo);
                     else if (metPag.equalsIgnoreCase(SaldoCassaMensile.RIBA))
                         mese.addRiba(importo);
+                    else if (metPag.equalsIgnoreCase(SaldoCassaMensile.ACCREDITO))
+                        mese.addAccredito(importo);
                 }
                
                 movimMensili.add(mese);
@@ -977,9 +981,9 @@ public class DAO_CBC {
      
         sql += " ORDER BY ";
         if (tipo == Fattura.tipo.VEN)
-            sql += Tabelle.Fatture.DATA;
+            sql += Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO;
         else
-            sql += Tabelle.FattureAcquisto.DATA;
+            sql += Tabelle.FattureAcquisto.DATA + ", " + Tabelle.FattureAcquisto.NUMERO;
                     
         List<Fattura> fatture = new LinkedList<Fattura>();
             

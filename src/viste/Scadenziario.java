@@ -350,7 +350,7 @@ private void cboFornClienteActionPerformed(java.awt.event.ActionEvent evt) {//GE
 }//GEN-LAST:event_cboFornClienteActionPerformed
 
 private void cboPeriodiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPeriodiActionPerformed
-    if (cboPeriodi.getSelectedIndex()== SCELTA) {
+    if (cboPeriodi.getSelectedIndex() == SCELTA) {
         boolean okDate = false;
         /*
          * Il ciclo viene ripetuto fino a quando viene inserita una data nel formato corretto, oppure

@@ -115,11 +115,11 @@ public class StampaCassa extends StampaDocumento {
                 
         doc.add(table);
         
-        table = new PdfPTable(5);
+        table = new PdfPTable(6);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
         table.setSpacingBefore(10);
         table.setWidthPercentage(100);
-        int[] widths = {40, 40, 40, 40, 40};
+        int[] widths = {49, 38, 38, 38, 39, 38};
         table.setWidths(widths);
         
         PdfPCell[] intestazione = new PdfPCell[] {
@@ -127,6 +127,7 @@ public class StampaCassa extends StampaDocumento {
                 new PdfPCell(new Phrase("CONTANTE", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("ASSEGNI", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("BONIFICO", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("ACCREDITO C/C", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("RIBA", FONT_GRANDE_BOLD))
         };
         
@@ -142,6 +143,7 @@ public class StampaCassa extends StampaDocumento {
                     new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getContanti())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getAssegni())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getBonifico())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getAccredito())), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(movimento.getRiba())), FONT_GRANDE_NORMALE))
             };
             
@@ -167,7 +169,8 @@ public class StampaCassa extends StampaDocumento {
             new PdfPCell(new Phrase(totali[0], FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase(totali[1], FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase(totali[2], FONT_GRANDE_BOLD)),
-            new PdfPCell(new Phrase(totali[3], FONT_GRANDE_BOLD))
+            new PdfPCell(new Phrase(totali[3], FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase(totali[4], FONT_GRANDE_BOLD))
         };
         
         for (int i = 0; i < riga.length; i++) {

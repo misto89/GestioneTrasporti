@@ -12,12 +12,13 @@ import libs.DoubleFormatter;
  *
  * @author Andle
  */
-public class SaldoCassaMensile implements MovimentazioneMensile{
+public class SaldoCassaMensile implements MovimentazioneMensile {
    
     private double assegni = 0.00;
     private double contanti = 0.00;
     private double riba = 0.00;
     private double bonifico = 0.00;
+    private double accredito = 0.00;
     private Fattura.tipo tipoCassa; //Cassa attiva o passiva
     private String meseAnnoRif;
     
@@ -27,13 +28,15 @@ public class SaldoCassaMensile implements MovimentazioneMensile{
     public static final String BONIFICO; 
     public static final String ASSEGNO; 
     public static final String RIBA;
+    public static final String ACCREDITO;
     
     static {
         String[] metPag = FrontController.getMetodiPagamento();
         CONTANTE = metPag[1];
         BONIFICO = metPag[2];
-        ASSEGNO = metPag[3];
-        RIBA = metPag[4];
+        ASSEGNO = metPag[4];
+        RIBA = metPag[5];
+        ACCREDITO = metPag[3];
     }
     
     public SaldoCassaMensile(String annoMese, Fattura.tipo tipo) {
@@ -86,6 +89,10 @@ public class SaldoCassaMensile implements MovimentazioneMensile{
     public void addBonifico(double importo) {
         this.bonifico += importo;
     }
+    
+    public void addAccredito(double importo) {
+        this.accredito += importo;
+    }
       
     public void addRiba(double importo) {
         this.riba += importo;
@@ -105,6 +112,14 @@ public class SaldoCassaMensile implements MovimentazioneMensile{
 
     public void setBonifico(double bonifico) {
         this.bonifico = bonifico;
+    }
+    
+    public double getAccredito() {
+        return accredito;
+    }
+
+    public void setAccredito(double accredito) {
+        this.accredito = accredito;
     }
 
     public double getContanti() {
@@ -133,7 +148,7 @@ public class SaldoCassaMensile implements MovimentazioneMensile{
 
     @Override
     public Object[] toArray() {
-        return new Object[] {this.getMeseAnnoRif(),  DoubleFormatter.roundTwoDecimals(contanti), DoubleFormatter.roundTwoDecimals(assegni), DoubleFormatter.roundTwoDecimals(bonifico), DoubleFormatter.roundTwoDecimals(riba)};
+        return new Object[] {this.getMeseAnnoRif(),  DoubleFormatter.roundTwoDecimals(contanti), DoubleFormatter.roundTwoDecimals(assegni), DoubleFormatter.roundTwoDecimals(bonifico), DoubleFormatter.roundTwoDecimals(accredito) ,DoubleFormatter.roundTwoDecimals(riba)};
     }
     
 }

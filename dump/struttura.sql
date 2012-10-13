@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS `bolle_spedizioni`;
 CREATE TABLE `bolle_spedizioni` (
   `num_spedizione` varchar(10) NOT NULL,
   `data_spedizione` date NOT NULL,
-  `bolla` int(10) NOT NULL,
+  `bolla` varchar(10) NOT NULL,
   PRIMARY KEY (`num_spedizione`,`data_spedizione`,`bolla`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -143,10 +143,10 @@ CREATE TABLE `mezzi` (
   `scad_assicurazione` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `targa` (`targa`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-INSERT INTO `mezzi` (`targa`) VALUES ('vettore');
+INSERT INTO `mezzi` (`targa`) VALUES ('Vettore');
 
 --
 -- Table structure for table `movimcontante`
@@ -228,4 +228,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-07 16:29:10
+-- Dump completed on 2012-10-12 17:22:18

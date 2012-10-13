@@ -183,7 +183,7 @@ public abstract class FrontController {
     }
     
     public static String[] getMetodiPagamento() {
-        String[] metPagam = {null, "Contante", "Bonifico Bancario", "Assegno Bancario", "RIBA"};
+        String[] metPagam = {null, "Contante", "Bonifico Bancario", "Accredito c/c" , "Assegno Bancario", "RIBA", "Rimessa diretta"};
         return metPagam;
     }
         
@@ -269,5 +269,9 @@ public abstract class FrontController {
 
     public static boolean updateFatturaAcquisto(Fattura fatt, Fattura old) {
         return DAO_CBC.updateFatturaAcquisto(fatt, old);
+    }
+
+    public static boolean updateMetodoPagamento(Fattura fattura) {
+        return DAO_ASF.updateMetodoPagamento(fattura);
     }
 }

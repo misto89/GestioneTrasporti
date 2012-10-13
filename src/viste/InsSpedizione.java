@@ -794,10 +794,10 @@ public class InsSpedizione extends javax.swing.JDialog {
         );
 
         btnNuovo.setBackground(new java.awt.Color(255, 255, 255));
-        btnNuovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/annulla.png"))); // NOI18N
-        btnNuovo.setText("Azzera");
+        btnNuovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pulisci.png"))); // NOI18N
         btnNuovo.setToolTipText("Cancella i valori inseriti");
-        btnNuovo.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        btnNuovo.setLabel("Pulisci campi");
+        btnNuovo.setMargin(new java.awt.Insets(2, 0, 2, 14));
         btnNuovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuovoActionPerformed(evt);
@@ -837,7 +837,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(pnlPrezzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pnlTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -934,7 +934,8 @@ private void btnNuovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
  * separati da un un '-'
  */
 private boolean checkBolle(String bolle) {
-    Pattern pattern = Pattern.compile("[1-9]([0-9])*(-[1-9]([0-9])*)*");
+//    Pattern pattern = Pattern.compile("[1-9]([0-9])*(-[1-9]([0-9])*)*");
+    Pattern pattern = Pattern.compile("(\\d){1,}(/[a-z]{1,}){0,1}(-(\\d){1,}(/[a-z]{1,}){0,1})*");
     Matcher match = pattern.matcher(bolle);
     return match.matches();
       
@@ -1118,7 +1119,7 @@ private Spedizione creaSpedizioneDaInserire() {
     
     if (bolle != null) {
         for (String bolla : bolle)
-            sped.addBolla(Integer.parseInt(bolla));
+            sped.addBolla(bolla);
     }
     
     return sped;
@@ -1135,7 +1136,7 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 try {
                     if (FrontController.insert(sped)) {
                         parent.ricaricaTabella(); //Aggiorna la tabella del frame di visualizzazione delle spedizioni, in modo da visualizzare la riga appena inserita
-                        //pulisciText();
+                        pulisciText();
                         JOptionPane.showMessageDialog(null, "Inserimento eseguito con successo!", "", JOptionPane.INFORMATION_MESSAGE);
                         spedizioneInserita = true;                    
                     } else {
@@ -1187,7 +1188,7 @@ private void txtImportoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:eve
     calcolaTotale();
 }//GEN-LAST:event_txtImportoFocusLost
 
-void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boolean pagata, boolean forfait, String note) {
+void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boolean pagata, boolean forfait, String note, List<Movimento> movimenti) {
            
     Double importo = 0.00;
     try {
@@ -1225,10 +1226,15 @@ void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boo
     try {
         if (FrontController.insert(fatt)) {
             if (pagata) {
-                    String[] metPag = metodoPagamento.split("-");
-                    List<Movimento> movimento = new LinkedList<Movimento>();
-                    movimento.add(new Movimento(numero, dataFattura, Fattura.tipo.VEN.toString(), metPag[0], totale, fornitore.getCod()));
-                    FrontController.updatePagataFattura(Fattura.tipo.VEN, fatt, pagata, movimento);
+                
+                for (Movimento m : movimenti){
+                    m.setFornCliente(id_fornitore);
+                    m.setData(dataFattura);
+                    m.setNumDoc(numero);
+                                
+                }
+                
+                FrontController.updatePagataFattura(Fattura.tipo.VEN, fatt, pagata, movimenti);
             }
             
             JOptionPane.showMessageDialog(null, "Fatturazione eseguita con successo!", "", JOptionPane.INFORMATION_MESSAGE);
@@ -1455,6 +1461,18 @@ private void calcolaTotale(){
     txtImpIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
     txtImpProv.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(provvigione)));
     txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totale)));
+}
+
+double getTotale() {
+    try {
+        return Double.parseDouble(txtTotale.getText());
+    } catch (NumberFormatException e) {
+        return 0.0;
+    }
+}
+
+Fornitore getCliente() {
+    return fornitore;
 }
 
 private void pulisciText(){

@@ -430,7 +430,7 @@ public class Spedizioni extends javax.swing.JFrame {
 
                 if (bolle != null) {
                     for (String bolla : bolle)
-                    sp.addBolla(Integer.parseInt(bolla));
+                    sp.addBolla(bolla);
                 }
 
                 //Per evitare problemi la data carico non deve essere modificata, quindi il codice seguente è stato commentato
@@ -477,6 +477,7 @@ public class Spedizioni extends javax.swing.JFrame {
         ColorManager color = new ColorManager();
         color.changeColor(pnlForfait);
         color.changeColor(pnlRiepilogo);
+        vista = this;
     }
 
     /** This method is called from within the constructor to
@@ -538,9 +539,21 @@ public class Spedizioni extends javax.swing.JFrame {
         lblIvaForfait = new javax.swing.JLabel();
         txtIvaForfait = new javax.swing.JTextField();
         lblScontoForfait = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         cboMetPag = new javax.swing.JComboBox();
         txtNote = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         btnModifica = new javax.swing.JButton();
         chkNonFatturate = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -613,11 +626,13 @@ public class Spedizioni extends javax.swing.JFrame {
 
         jLabel21.setText("Importo totale");
 
+        txtImpTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImpTot.setEnabled(false);
         txtImpTot.setFocusable(false);
 
         jLabel22.setText("Sconto totale");
 
+        txtScontoTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtScontoTot.setEnabled(false);
         txtScontoTot.setFocusable(false);
 
@@ -625,9 +640,11 @@ public class Spedizioni extends javax.swing.JFrame {
 
         jLabel24.setText("Imponibile");
 
+        txtProvvigioneTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtProvvigioneTot.setEnabled(false);
         txtProvvigioneTot.setFocusable(false);
 
+        txtImponibile.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImponibile.setEnabled(false);
         txtImponibile.setFocusable(false);
 
@@ -635,9 +652,11 @@ public class Spedizioni extends javax.swing.JFrame {
 
         jLabel26.setText("IVA");
 
+        txtIva.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtIva.setEnabled(false);
         txtIva.setFocusable(false);
 
+        txtTotale.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotale.setEnabled(false);
         txtTotale.setFocusable(false);
 
@@ -697,6 +716,11 @@ public class Spedizioni extends javax.swing.JFrame {
 
         chkPagata.setFont(new java.awt.Font("Tahoma", 1, 12));
         chkPagata.setText("Fattura pagata");
+        chkPagata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPagataActionPerformed(evt);
+            }
+        });
 
         chkForfait.setFont(new java.awt.Font("Tahoma", 1, 12));
         chkForfait.setText("Importo Forfettario");
@@ -709,6 +733,7 @@ public class Spedizioni extends javax.swing.JFrame {
         lblImpForfait.setText("Importo");
 
         txtTotForfait.setFont(new java.awt.Font("Tahoma", 1, 14));
+        txtTotForfait.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotForfait.setText("0,00");
         txtTotForfait.setEnabled(false);
         txtTotForfait.setFocusable(false);
@@ -716,6 +741,7 @@ public class Spedizioni extends javax.swing.JFrame {
         lblTotForfait.setFont(new java.awt.Font("Tahoma", 1, 14));
         lblTotForfait.setText("Totale");
 
+        txtPercIvaForfait.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPercIvaForfait.setText("21");
         txtPercIvaForfait.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -723,12 +749,14 @@ public class Spedizioni extends javax.swing.JFrame {
             }
         });
 
+        txtImpForfait.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImpForfait.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtImpForfaitFocusLost(evt);
             }
         });
 
+        txtScontoForfait.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtScontoForfait.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtScontoForfaitFocusLost(evt);
@@ -737,19 +765,33 @@ public class Spedizioni extends javax.swing.JFrame {
 
         lblImponibileForfait.setText("Imponibile");
 
+        txtImponibileForfait.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImponibileForfait.setText("0,00");
         txtImponibileForfait.setEnabled(false);
         txtImponibileForfait.setFocusable(false);
 
-        lblPercIvaForfait.setText("% IVA");
+        lblPercIvaForfait.setText("IVA");
 
         lblIvaForfait.setText("IVA");
 
+        txtIvaForfait.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtIvaForfait.setText("0,00");
         txtIvaForfait.setEnabled(false);
         txtIvaForfait.setFocusable(false);
 
         lblScontoForfait.setText("Sconto");
+
+        jLabel15.setText("€");
+
+        jLabel16.setText("€");
+
+        jLabel17.setText("€");
+
+        jLabel18.setText("€");
+
+        jLabel19.setText("€");
+
+        jLabel20.setText("%");
 
         javax.swing.GroupLayout pnlForfaitLayout = new javax.swing.GroupLayout(pnlForfait);
         pnlForfait.setLayout(pnlForfaitLayout);
@@ -766,7 +808,12 @@ public class Spedizioni extends javax.swing.JFrame {
                     .addComponent(txtIvaForfait, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
                     .addComponent(txtImponibileForfait, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
                     .addComponent(txtImpForfait, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlForfaitLayout.createSequentialGroup()
                         .addGroup(pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -780,12 +827,17 @@ public class Spedizioni extends javax.swing.JFrame {
                     .addComponent(txtScontoForfait, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                     .addComponent(txtPercIvaForfait, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                     .addComponent(txtTotForfait, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         pnlForfaitLayout.setVerticalGroup(
             pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlForfaitLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(lblImpForfait)
                 .addContainerGap(75, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlForfaitLayout.createSequentialGroup()
@@ -794,27 +846,54 @@ public class Spedizioni extends javax.swing.JFrame {
                     .addGroup(pnlForfaitLayout.createSequentialGroup()
                         .addGroup(pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblScontoForfait)
-                            .addComponent(txtScontoForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtScontoForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPercIvaForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPercIvaForfait)))
+                            .addComponent(lblPercIvaForfait)
+                            .addComponent(jLabel20)))
                     .addGroup(pnlForfaitLayout.createSequentialGroup()
-                        .addComponent(txtImpForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtImpForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16))
                         .addGap(6, 6, 6)
                         .addGroup(pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtImponibileForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblImponibileForfait))
+                            .addComponent(lblImponibileForfait)
+                            .addComponent(jLabel15))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlForfaitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtIvaForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTotForfait)
                             .addComponent(txtTotForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblIvaForfait))))
+                            .addComponent(lblIvaForfait)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel19))))
                 .addGap(21, 21, 21))
         );
 
+        pnlForfaitLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel15, jLabel16, txtImpForfait, txtImponibileForfait});
+
+        pnlForfaitLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel18, txtScontoForfait});
+
+        pnlForfaitLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel19, txtTotForfait});
+
+        pnlForfaitLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel20, txtPercIvaForfait});
+
         jLabel4.setText("Note");
+
+        jLabel5.setText("€");
+
+        jLabel6.setText("€");
+
+        jLabel7.setText("€");
+
+        jLabel8.setText("€");
+
+        jLabel13.setText("€");
+
+        jLabel14.setText("€");
 
         javax.swing.GroupLayout pnlRiepilogoLayout = new javax.swing.GroupLayout(pnlRiepilogo);
         pnlRiepilogo.setLayout(pnlRiepilogoLayout);
@@ -867,9 +946,14 @@ public class Spedizioni extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(chkForfait)
-                            .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtScontoTot)
-                                .addComponent(txtImpTot, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))))
+                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtScontoTot)
+                                    .addComponent(txtImpTot, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                         .addComponent(btnEmetti, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
@@ -883,7 +967,11 @@ public class Spedizioni extends javax.swing.JFrame {
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtImponibile)
                             .addComponent(txtProvvigioneTot, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15)
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                                 .addComponent(jLabel26)
@@ -893,11 +981,15 @@ public class Spedizioni extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)))
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtTotale)
-                            .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(pnlForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         pnlRiepilogoLayout.setVerticalGroup(
             pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -907,11 +999,13 @@ public class Spedizioni extends javax.swing.JFrame {
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel21)
-                            .addComponent(txtImpTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtImpTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(6, 6, 6)
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtScontoTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel22)))
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel6)))
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel27)
@@ -942,24 +1036,41 @@ public class Spedizioni extends javax.swing.JFrame {
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                                .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel13))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel25)))
+                                    .addComponent(jLabel25)
+                                    .addComponent(jLabel14)))
                             .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                                 .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtProvvigioneTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel23)
-                                    .addComponent(jLabel26))
+                                    .addComponent(jLabel26)
+                                    .addComponent(jLabel7))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtImponibile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel24))))
+                                    .addComponent(jLabel24)
+                                    .addComponent(jLabel8))))
                         .addGap(18, 18, 18)
                         .addComponent(pnlForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
+
+        pnlRiepilogoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel5, txtImpTot});
+
+        pnlRiepilogoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel6, txtScontoTot});
+
+        pnlRiepilogoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel7, txtProvvigioneTot});
+
+        pnlRiepilogoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel8, txtImponibile});
+
+        pnlRiepilogoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel13, txtIva});
+
+        pnlRiepilogoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel14, txtTotale});
 
         btnModifica.setBackground(new java.awt.Color(255, 255, 255));
         btnModifica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modifica.png"))); // NOI18N
@@ -1139,6 +1250,9 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     String[] metPagam = FrontController.getMetodiPagamento();
     for (String metodo : metPagam)
         cboMetPag.addItem((String) metodo);
+    
+    cboMetPag.setSelectedItem(metPagam[metPagam.length-1]); //Seleziona l'ultimo metodo di pagamento (Rimessa diretta)
+    
     //Set the locks
     txtGiornoFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
     txtMeseFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
@@ -1151,7 +1265,8 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
  * separati da un un '-'
  */
 private boolean checkBolle(String bolle) {
-    Pattern pattern = Pattern.compile("[1-9]([0-9])*(-[1-9]([0-9])*)*");
+//    Pattern pattern = Pattern.compile("[1-9]([0-9])*(-[1-9]([0-9])*)*");
+    Pattern pattern = Pattern.compile("(\\d){1,}(/[a-z]{1,}){0,1}(-(\\d){1,}(/[a-z]{1,}){0,1})*");
     Matcher match = pattern.matcher(bolle);
     return match.matches();    
 }
@@ -1602,7 +1717,7 @@ private void btnEmettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         metodoPagamento = (String) cboMetPag.getSelectedItem() + "-" + cboGiorni.getSelectedItem();
         
     } else {
-        metodoPagamento = "Contante-0";
+        metodoPagamento = cboMetPag.getItemAt(cboMetPag.getItemCount()-1) + "-0"; //Prende l'ultimo metodo di pagamento (Rimessa diretta)
     }
     
     boolean forfait = false;
@@ -1670,12 +1785,20 @@ private void btnEmettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         try {
             if (FrontController.insert(fatt)) {
                 if (pagata) {
-                    List<Movimento> movimento = new LinkedList<Movimento>();
-                    movimento.add(new Movimento(numFattura, dataFattura, Fattura.tipo.VEN.toString(), (String)cboMetPag.getSelectedItem(), totale, id_fornitore));
-                    FrontController.updatePagataFattura(Fattura.tipo.VEN, fatt, pagata, movimento);
+                    if (movimenti != null){
+                        //List<Movimento> movimento = new LinkedList<Movimento>();
+                        //movimento.add(new Movimento(numFattura, dataFattura, Fattura.tipo.VEN.toString(), (String)cboMetPag.getSelectedItem(), totale, id_fornitore));
+                        for (Movimento m : movimenti){
+                            m.setFornCliente(id_fornitore);
+                            m.setData(fatt.getData());
+                            m.setNumDoc(fatt.getNumero());
+                        }
+                        FrontController.updatePagataFattura(Fattura.tipo.VEN, fatt, pagata, movimenti);
+                        movimenti = null;
+                    }
                 }
                 
-                cboMetPag.setSelectedIndex(0);
+                cboMetPag.setSelectedIndex(cboMetPag.getItemCount()-1);
                 cboGiorni.setSelectedIndex(0);
                 txtNote.setText(null);
                 chkPagata.setSelected(false);
@@ -2088,6 +2211,32 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
 }//GEN-LAST:event_mnuStampaActionPerformed
 
+private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPagataActionPerformed
+// TODO add your handling code here:
+    if (chkPagata.isSelected()){
+        Fattura fatt = new Fattura();
+        fatt.setNumero(Integer.parseInt(txtNumFatt.getText()));
+        fatt.setData(dataPresunta);
+        fatt.setCliente((Fornitore)cboFornitori.getSelectedItem());
+        Double totale = 0.0;
+        if (chkForfait.isSelected())
+            totale = Double.parseDouble(txtTotForfait.getText());
+        else
+            totale = Double.parseDouble(txtTotale.getText());
+        fatt.setTotale(totale);
+        String metodoPagamento = null;
+        if (cboMetPag.getSelectedIndex() > 0) {
+            metodoPagamento = (String) cboMetPag.getSelectedItem() + "-" + cboGiorni.getSelectedItem();
+        } else {
+            metodoPagamento = "Contante-0";
+        }
+        fatt.setMetPag(metodoPagamento);
+
+        FrontController.open(new NotePagamento(vista, rootPaneCheckingEnabled, fatt)); 
+    } else
+        movimenti = null;
+}//GEN-LAST:event_chkPagataActionPerformed
+
 private void setNumber() {
     String anno = txtAnnoFatt.getText();
     String mese = txtMeseFatt.getText();
@@ -2175,6 +2324,10 @@ private int getIndexSpedizioneAt(int i) {
     return spedizioniInTabella.indexOf(sped);
 }
 
+void unCheckPagate(){
+    chkPagata.setSelected(false);
+}
+
 int getIndexSpedizione(Spedizione sped) {
     return spedizioniInTabella.indexOf((Spedizione)sped);
 }
@@ -2194,7 +2347,15 @@ int getIndexSpedizione(Spedizione sped) {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -2204,6 +2365,10 @@ int getIndexSpedizione(Spedizione sped) {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -2247,12 +2412,16 @@ int getIndexSpedizione(Spedizione sped) {
     private int id_fornitore; //Il fornitore selezionato, ovvero colui di cui si stanno visualizzando le spedizioni
     private boolean forced = false; //indica se il numero della fattura è stato forzato o meno
     private Date dataPresunta; //indica la data del giorno, presunta per la fatturazione
+    private Spedizioni vista;
     
     //Serve mantenere i riferimenti alle date, per mantenere sincronizzati le ricerche con il filtro delle fatture emesse
     private Date dataIniziale;
     private Date dataFinale;
     private List<Spedizione> spedizioniInTabella;
     private List<Spedizione> spedizioniDaFatt = new LinkedList<Spedizione>();
+    
+    //Lista temporanea di movimenti
+    public List<Movimento> movimenti = new LinkedList<Movimento>();
     
     private final boolean[] modificaCelle = new boolean[] {
             true, false, false, true, true, true, true, true, true, true, true, true, true, true, true, false 

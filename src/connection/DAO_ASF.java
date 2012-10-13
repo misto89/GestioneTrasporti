@@ -197,6 +197,8 @@ public abstract class DAO_ASF {
                 campo = "NULL";
           
             } else { //altrimenti aggiunge gli apici ' all'inizio e alla fine della stringa
+                campo = ((String)campo).replaceAll("'", "''");
+                campo = ((String)campo).replaceAll("\\\\", "\\\\\\\\");
                 char[] field = ((String) campo).toCharArray();
                 char[] newField = new char[field.length + 2];
                 newField[0] = '\'';
@@ -386,9 +388,9 @@ public abstract class DAO_ASF {
                 ps = conn.prepareStatement(sql);
                 ps.executeUpdate();
                 
-                List<Integer> bolle = sped.getBolle();
-                for (Integer bolla : bolle) {
-                    sql = "INSERT INTO " + Tabelle.BOLLE + " VALUES ('" + sped.getNumSpedizione() + "', '" + sped.getDataCarico() + "', " + bolla + ")";
+                List<String> bolle = sped.getBolle();
+                for (String bolla : bolle) {
+                    sql = "INSERT INTO " + Tabelle.BOLLE + " VALUES ('" + sped.getNumSpedizione() + "', '" + sped.getDataCarico() + "', '" + bolla + "')";
                     System.out.println(sql);
                     ps = conn.prepareStatement(sql);
                     ps.executeUpdate();
@@ -682,9 +684,9 @@ public abstract class DAO_ASF {
                 ps = conn.prepareStatement(sql);
                 ps.executeUpdate(); //elimina tutte le bolle della spedizione corrente
                 
-                List<Integer> bolle = s.getBolle();
-                for (Integer bolla : bolle) {
-                    sql = "INSERT INTO " + Tabelle.BOLLE + " VALUES ('" + s.getNumSpedizione() + "', '" + s.getDataCarico() + "', " + bolla + ")";
+                List<String> bolle = s.getBolle();
+                for (String bolla : bolle) {
+                    sql = "INSERT INTO " + Tabelle.BOLLE + " VALUES ('" + s.getNumSpedizione() + "', '" + s.getDataCarico() + "', '" + bolla + "')";
                     System.out.println(sql);
                     ps = conn.prepareStatement(sql);
                     ps.executeUpdate();
@@ -1039,7 +1041,7 @@ public abstract class DAO_ASF {
                     
                 ResultSet rsbolle = ps.executeQuery();
                 while (rsbolle.next()) {
-                    sped.addBolla(rsbolle.getInt(Tabelle.Bolle.BOLLA));
+                    sped.addBolla(rsbolle.getString(Tabelle.Bolle.BOLLA));
                 }
                     
                 spedizioni.add(sped);
@@ -1345,6 +1347,24 @@ public abstract class DAO_ASF {
         } catch (SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
             throw new CheckTuttException("Numero fattura inserito già esistente.");
+            
+        }
+    }
+
+    public static boolean updateMetodoPagamento(Fattura fattura) {
+        try {
+            
+            sql = "UPDATE " + Tabelle.FATTURE + " SET " + Tabelle.Fatture.METODO_PAGAMENTO + " = " + checkNull(fattura.getMetPag()) + " WHERE " +
+                    Tabelle.Fatture.NUMERO + " = " + fattura.getNumero() + " AND " + Tabelle.Fatture.DATA + " = '" + fattura.getData() + "'";
+            
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
             
         }
     }

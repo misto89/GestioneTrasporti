@@ -12,7 +12,12 @@ package viste;
 
 import controllo.FrontController;
 import eccezioni.CheckTuttException;
+import entita.Fattura;
+import entita.Fornitore;
+import entita.Movimento;
 import java.sql.Date;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 
@@ -26,12 +31,12 @@ public class PagamentoFattura extends javax.swing.JDialog {
     }    
     
     /** Creates new form PagamentoFattura */
-    public PagamentoFattura(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-        ColorManager color = new ColorManager();
-        color.changeColor(pnlDati);
-    }
+//    public PagamentoFattura(java.awt.Frame parent, boolean modal) {
+//        super(parent, modal);
+//        initComponents();
+//        ColorManager color = new ColorManager();
+//        color.changeColor(pnlDati);
+//    }
 
     public PagamentoFattura(InsSpedizione aThis, boolean modal) {
         super(aThis, modal);
@@ -123,6 +128,11 @@ public class PagamentoFattura extends javax.swing.JDialog {
 
         chkPagata.setFont(new java.awt.Font("Tahoma", 1, 12));
         chkPagata.setText("Fattura pagata");
+        chkPagata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPagataActionPerformed(evt);
+            }
+        });
 
         chkForfait.setFont(new java.awt.Font("Tahoma", 1, 12));
         chkForfait.setText("Fattura forfettaria");
@@ -328,14 +338,14 @@ private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:e
             modPag = (String) cboMetPag.getSelectedItem() + "-" + cboGiorni.getSelectedItem();
 
         } else {
-            modPag = "Contante-0";
+            modPag = cboMetPag.getItemAt(cboMetPag.getItemCount()-1) + "-0";
         }
         String note = txtNote.getText();
         boolean pagata = chkPagata.isSelected();
         boolean forfait = chkForfait.isSelected();
         try {
             FrontController.checkTutt(dataFattura, numFattura);
-            insSpedizione.continuaEmissione(numFattura, dataFattura, modPag, pagata, forfait, note);
+            insSpedizione.continuaEmissione(numFattura, dataFattura, modPag, pagata, forfait, note, movimenti);
             dispose();
             
         } catch (CheckTuttException e) {
@@ -354,6 +364,8 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     String[] metPagam = FrontController.getMetodiPagamento();
     for (String metodo : metPagam)
         cboMetPag.addItem((String) metodo);
+    
+    cboMetPag.setSelectedItem(metPagam[metPagam.length-1]);
     
     //Inserisce una data presunta della fattura
     java.util.Date utilDate = new java.util.Date();
@@ -417,6 +429,10 @@ private void txtMeseFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_
    setNumber();
 }//GEN-LAST:event_txtMeseFocusLost
 
+void unCheckPagate() {
+    chkPagata.setSelected(false);
+}
+
 private void txtNFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNFattFocusLost
 // TODO add your handling code here:
     //proposedNumber è il numero ottenuto dal sistema sulla base della data all'interno delle text
@@ -446,6 +462,28 @@ private void txtNFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event
 
 }//GEN-LAST:event_txtNFattFocusLost
 
+private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPagataActionPerformed
+// TODO add your handling code here:
+    if (chkPagata.isSelected()){
+        Fattura fatt = new Fattura();
+        fatt.setNumero(Integer.parseInt(txtNFatt.getText()));
+        fatt.setData(dataPresunta);
+        fatt.setCliente(insSpedizione.getCliente());
+        Double totale = insSpedizione.getTotale();
+        fatt.setTotale(totale);
+        String metodoPagamento = null;
+        if (cboMetPag.getSelectedIndex() > 0) {
+            metodoPagamento = (String) cboMetPag.getSelectedItem() + "-" + cboGiorni.getSelectedItem();
+        } else {
+            metodoPagamento = cboMetPag.getItemAt(cboMetPag.getItemCount()-1) + "-0";
+        }
+        fatt.setMetPag(metodoPagamento);
+
+        FrontController.open(new NotePagamento(this, rootPaneCheckingEnabled, fatt)); 
+    } else
+        movimenti = null;    
+}//GEN-LAST:event_chkPagataActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnulla;
     private javax.swing.JButton btnOk;
@@ -473,7 +511,11 @@ private void txtNFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event
     private Date dataPresunta;
     private boolean forced = false;
     
+    //Lista temporanea di movimenti
+    public List<Movimento> movimenti = new LinkedList<Movimento>();
+    
     private static final int MAX_LENGTH_GIORNO = 2;
     private static final int MAX_LENGTH_MESE = 2;
     private static final int MAX_LENGTH_ANNO = 4;
+
 }

@@ -157,7 +157,7 @@ public class Cassa extends javax.swing.JFrame {
         txtPassivoContante = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnVersamento = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnPrelievo = new javax.swing.JButton();
         pnlEntrate = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCassaAttiva = new javax.swing.JTable();
@@ -166,6 +166,7 @@ public class Cassa extends javax.swing.JFrame {
         txtTotBonificoEntrate = new javax.swing.JTextField();
         txtTotRibaEntrate = new javax.swing.JTextField();
         txtTotContanteEntrate = new javax.swing.JTextField();
+        txtTotAccreditoEntrate = new javax.swing.JTextField();
         pnlUscite = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCassaPassiva = new javax.swing.JTable();
@@ -174,6 +175,7 @@ public class Cassa extends javax.swing.JFrame {
         txtTotAssegniUscite = new javax.swing.JTextField();
         txtTotBonificoUscite = new javax.swing.JTextField();
         txtTotRibaUscite = new javax.swing.JTextField();
+        txtTotAccreditoUscite = new javax.swing.JTextField();
         pnlMovimenti = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblVersamenti = new javax.swing.JTable();
@@ -245,40 +247,40 @@ public class Cassa extends javax.swing.JFrame {
 
         txtAttivoContante.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtAttivoContante.setEnabled(false);
-        pnlCassa.add(txtAttivoContante, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 28, 120, 21));
+        pnlCassa.add(txtAttivoContante, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 28, 120, 30));
 
         jLabel4.setText("Prelievi");
-        pnlCassa.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 83, -1, 21));
+        pnlCassa.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 21));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel6.setText("Netto in cassa");
-        pnlCassa.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 144, -1, 21));
+        pnlCassa.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 21));
 
         jLabel5.setText("Versamenti");
-        pnlCassa.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 110, -1, 21));
+        pnlCassa.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, 21));
 
         txtVersamentiTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtVersamentiTot.setEnabled(false);
-        pnlCassa.add(txtVersamentiTot, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 120, 21));
+        pnlCassa.add(txtVersamentiTot, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 120, 30));
 
         txtCassaNetto.setFont(new java.awt.Font("Tahoma", 1, 12));
         txtCassaNetto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtCassaNetto.setEnabled(false);
-        pnlCassa.add(txtCassaNetto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 144, 120, -1));
+        pnlCassa.add(txtCassaNetto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 144, 120, 30));
 
         txtPrelievi.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPrelievi.setEnabled(false);
-        pnlCassa.add(txtPrelievi, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 83, 120, 21));
+        pnlCassa.add(txtPrelievi, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 83, 120, 30));
 
         jLabel1.setText("Attivo Contante");
-        pnlCassa.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, -1, 21));
+        pnlCassa.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 21));
 
         txtPassivoContante.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPassivoContante.setEnabled(false);
-        pnlCassa.add(txtPassivoContante, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 56, 120, 21));
+        pnlCassa.add(txtPassivoContante, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 56, 120, 30));
 
         jLabel3.setText("Passivo Contante");
-        pnlCassa.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 56, -1, 21));
+        pnlCassa.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, 21));
 
         btnVersamento.setBackground(new java.awt.Color(255, 255, 255));
         btnVersamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/versamento.png"))); // NOI18N
@@ -290,19 +292,19 @@ public class Cassa extends javax.swing.JFrame {
                 btnVersamentoActionPerformed(evt);
             }
         });
-        pnlCassa.add(btnVersamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 144, 160, 35));
+        pnlCassa.add(btnVersamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 139, 180, 40));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prelievo.png"))); // NOI18N
-        jButton1.setText("Effettua Prelievo");
-        jButton1.setToolTipText("Effettua un prelievo");
-        jButton1.setMargin(new java.awt.Insets(2, -10, 2, 14));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnPrelievo.setBackground(new java.awt.Color(255, 255, 255));
+        btnPrelievo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prelievo.png"))); // NOI18N
+        btnPrelievo.setText("Effettua Prelievo");
+        btnPrelievo.setToolTipText("Effettua un prelievo");
+        btnPrelievo.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        btnPrelievo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnPrelievoActionPerformed(evt);
             }
         });
-        pnlCassa.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 185, 160, -1));
+        pnlCassa.add(btnPrelievo, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 185, 180, -1));
 
         pnlEntrate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Entrate", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
         pnlEntrate.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -318,27 +320,31 @@ public class Cassa extends javax.swing.JFrame {
         tblCassaAttiva.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(tblCassaAttiva);
 
-        pnlEntrate.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, 614, 226));
+        pnlEntrate.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, 640, 226));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel7.setText("TOTALI");
         pnlEntrate.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 275, 58, -1));
 
-        txtTotAssegniEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotAssegniEntrate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         txtTotAssegniEntrate.setEnabled(false);
-        pnlEntrate.add(txtTotAssegniEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(264, 272, 110, -1));
+        pnlEntrate.add(txtTotAssegniEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 110, -1));
 
         txtTotBonificoEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotBonificoEntrate.setEnabled(false);
-        pnlEntrate.add(txtTotBonificoEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(392, 272, 110, -1));
+        pnlEntrate.add(txtTotBonificoEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 110, -1));
 
         txtTotRibaEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotRibaEntrate.setEnabled(false);
-        pnlEntrate.add(txtTotRibaEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 272, 110, -1));
+        pnlEntrate.add(txtTotRibaEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 270, 100, -1));
 
-        txtTotContanteEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotContanteEntrate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         txtTotContanteEntrate.setEnabled(false);
-        pnlEntrate.add(txtTotContanteEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 272, 110, -1));
+        pnlEntrate.add(txtTotContanteEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 110, -1));
+
+        txtTotAccreditoEntrate.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotAccreditoEntrate.setEnabled(false);
+        pnlEntrate.add(txtTotAccreditoEntrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 110, -1));
 
         pnlUscite.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Uscite", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
         pnlUscite.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -354,7 +360,7 @@ public class Cassa extends javax.swing.JFrame {
         tblCassaPassiva.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane2.setViewportView(tblCassaPassiva);
 
-        pnlUscite.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, 590, 226));
+        pnlUscite.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, 640, 226));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel8.setText("TOTALI");
@@ -362,19 +368,23 @@ public class Cassa extends javax.swing.JFrame {
 
         txtTotContanteUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotContanteUscite.setEnabled(false);
-        pnlUscite.add(txtTotContanteUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 110, -1));
+        pnlUscite.add(txtTotContanteUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 110, -1));
 
         txtTotAssegniUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotAssegniUscite.setEnabled(false);
-        pnlUscite.add(txtTotAssegniUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 110, -1));
+        pnlUscite.add(txtTotAssegniUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 110, -1));
 
         txtTotBonificoUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotBonificoUscite.setEnabled(false);
-        pnlUscite.add(txtTotBonificoUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 270, 110, -1));
+        pnlUscite.add(txtTotBonificoUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 110, -1));
 
         txtTotRibaUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtTotRibaUscite.setEnabled(false);
-        pnlUscite.add(txtTotRibaUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 270, 110, -1));
+        pnlUscite.add(txtTotRibaUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 270, 100, -1));
+
+        txtTotAccreditoUscite.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotAccreditoUscite.setEnabled(false);
+        pnlUscite.add(txtTotAccreditoUscite, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 110, -1));
 
         pnlMovimenti.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Movimenti Contante", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
         pnlMovimenti.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -435,21 +445,20 @@ public class Cassa extends javax.swing.JFrame {
                         .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(617, 617, 617))
+                        .addGap(645, 645, 645))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlCassa, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
-                            .addComponent(pnlEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pnlMovimenti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE))
-                        .addContainerGap(38, Short.MAX_VALUE))))
+                        .addComponent(pnlEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlCassa, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlMovimenti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnlCassa, pnlEntrate});
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnlMovimenti, pnlUscite});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnlEntrate, pnlMovimenti, pnlUscite});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,8 +469,8 @@ public class Cassa extends javax.swing.JFrame {
                     .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlEntrate, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
-                    .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
+                    .addComponent(pnlEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlCassa, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
@@ -472,6 +481,8 @@ public class Cassa extends javax.swing.JFrame {
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlAnno, pnlCliente});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlCassa, pnlMovimenti});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlEntrate, pnlUscite});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -699,10 +710,10 @@ private void btnVersamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     FrontController.open(new InsMovimentoContante(this, rootPaneCheckingEnabled, MovimentazioneContante.VERSAMENTO));
 }//GEN-LAST:event_btnVersamentoActionPerformed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+private void btnPrelievoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrelievoActionPerformed
 // TODO add your handling code here:
      FrontController.open(new InsMovimentoContante(this, rootPaneCheckingEnabled, MovimentazioneContante.PRELIEVO));
-}//GEN-LAST:event_jButton1ActionPerformed
+}//GEN-LAST:event_btnPrelievoActionPerformed
 
 private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaActionPerformed
 // TODO add your handling code here:
@@ -722,14 +733,18 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             txtTotContanteEntrate.getText(),
             txtTotAssegniEntrate.getText(),
             txtTotBonificoEntrate.getText(),
+            txtTotAccreditoEntrate.getText(),
             txtTotRibaEntrate.getText()
+            
         };
         
         String[] totaliPassivo = {
             txtTotContanteUscite.getText(),
             txtTotAssegniUscite.getText(),
             txtTotBonificoUscite.getText(),
+            txtTotAccreditoUscite.getText(),
             txtTotRibaUscite.getText()
+    
         };
         
         if (mnuIntervalloDate.isSelected() && forn_clienteSelezionato) {
@@ -813,46 +828,54 @@ void setTable() {
     double totAssegni = 0.00;
     double totBonifico = 0.00;
     double totRiba = 0.00;
+    double totAccredito = 0.00;
     for (SaldoCassaMensile saldo : cassaAttiva) {
         arrayAttiva[cont++] = saldo.toArray();
         totContante += saldo.getContanti();
         totAssegni += saldo.getAssegni();
         totBonifico += saldo.getBonifico();
         totRiba += saldo.getRiba();
+        totAccredito += saldo.getAccredito();
     }
     
     txtTotAssegniEntrate.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totAssegni)));
     txtTotContanteEntrate.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totContante)));
     txtTotBonificoEntrate.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totBonifico)));
     txtTotRibaEntrate.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totRiba)));
+    txtTotAccreditoEntrate.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totAccredito)));
     
     txtTotAssegniEntrate.setHorizontalAlignment(JTextField.RIGHT);
     txtTotContanteEntrate.setHorizontalAlignment(JTextField.RIGHT);
     txtTotBonificoEntrate.setHorizontalAlignment(JTextField.RIGHT);
     txtTotRibaEntrate.setHorizontalAlignment(JTextField.RIGHT);
-    
+    txtTotAccreditoEntrate.setHorizontalAlignment(JTextField.RIGHT);
+        
     cont = 0;
     totContante = 0.00;
     totAssegni = 0.00;
     totBonifico = 0.00;
     totRiba = 0.00;
+    totAccredito = 0.00;
     for (SaldoCassaMensile saldo : cassaPassiva) {
         arrayPassiva[cont++] = saldo.toArray();
         totContante += saldo.getContanti();
         totAssegni += saldo.getAssegni();
         totBonifico += saldo.getBonifico();
         totRiba += saldo.getRiba();
+        totAccredito += saldo.getAccredito();
     }
     
     txtTotAssegniUscite.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totAssegni)));
     txtTotContanteUscite.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totContante)));
     txtTotBonificoUscite.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totBonifico)));
     txtTotRibaUscite.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totRiba)));
+    txtTotAccreditoUscite.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totAccredito)));
     
     txtTotAssegniUscite.setHorizontalAlignment(JTextField.RIGHT);
     txtTotContanteUscite.setHorizontalAlignment(JTextField.RIGHT);
     txtTotBonificoUscite.setHorizontalAlignment(JTextField.RIGHT);
     txtTotRibaUscite.setHorizontalAlignment(JTextField.RIGHT);
+    txtTotAccreditoUscite.setHorizontalAlignment(JTextField.RIGHT);
     
     cont = 0;
     for (MovimentazioneContante m : movimenti){
@@ -864,22 +887,22 @@ void setTable() {
     };
     
     final String[] COLONNE = {
-        "PERIODO", "CONTANTE", "ASSEGNI", "BONIFICO", "RIBA"
+        "PERIODO", "CONTANTE", "ASSEGNI", "BONIFICO", "ACCREDITO C/C" , "RIBA"
     };
     
-    Class[] types = {String.class, Double.class, Double.class, Double.class, Double.class};
+    Class[] types = {String.class, Double.class, Double.class, Double.class, Double.class, Double.class};
     
     TableModel tm = new CassaTableModel(arrayAttiva, COLONNE, types, new boolean[] {
-        false, false, false, false
+        false, false, false, false, false, false
     });    
-   
+       
     tblCassaAttiva.setModel(tm);
     TableRowSorter sorter = new TableRowSorter(tm);
     sorter.setSortable(PERIODO, false);
     tblCassaAttiva.setRowSorter(sorter);
-    
+       
     tm = new CassaTableModel(arrayPassiva, COLONNE, types, new boolean[] {
-        false, false, false, false, false
+        false, false, false, false, false, false
     });    
     
     tblCassaPassiva.setModel(tm);
@@ -888,7 +911,7 @@ void setTable() {
     tblCassaPassiva.setRowSorter(sorter);
     
     boolean[] resizable = {
-        false, false, false, false, false
+        false, false, false, false, false, false
     };
     
     types = new Class[] {Object.class, String.class, Double.class, String.class};
@@ -986,10 +1009,10 @@ private void popolaSelect(List items) {
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPrelievo;
     private javax.swing.JButton btnVersamento;
     private javax.swing.JComboBox cboAnno;
     private javax.swing.JComboBox cboCliente;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1018,6 +1041,8 @@ private void popolaSelect(List items) {
     private javax.swing.JTextField txtCassaNetto;
     private javax.swing.JTextField txtPassivoContante;
     private javax.swing.JTextField txtPrelievi;
+    private javax.swing.JTextField txtTotAccreditoEntrate;
+    private javax.swing.JTextField txtTotAccreditoUscite;
     private javax.swing.JTextField txtTotAssegniEntrate;
     private javax.swing.JTextField txtTotAssegniUscite;
     private javax.swing.JTextField txtTotBonificoEntrate;
@@ -1041,7 +1066,8 @@ private void popolaSelect(List items) {
     private static final int CONTANTE = 1;
     private static final int ASSEGNI = 2;
     private static final int BONIFICO = 3;
-    private static final int RIBA = 4;
+    private static final int ACCREDITO = 4;
+    private static final int RIBA = 5;
     
     private static final int DATA = 0;
     private static final int BANCA = 1;

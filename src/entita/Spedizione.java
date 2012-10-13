@@ -16,12 +16,12 @@ public class Spedizione implements Entity {
     }
     
     private class Bolle {
-        public List<Integer> bolle = new LinkedList<Integer>();
+        public List<String> bolle = new LinkedList<String>();
 
         public Bolle() {
         }
 
-        public Bolle(List<Integer> bolle) {
+        public Bolle(List<String> bolle) {
             this.bolle = bolle;
         }
 
@@ -31,7 +31,7 @@ public class Spedizione implements Entity {
                 return null;
             
             String stringa = "";
-            for (Integer bolla : bolle) {
+            for (String bolla : bolle) {
                 stringa += bolla + "-";
             }
                 
@@ -105,7 +105,7 @@ public class Spedizione implements Entity {
         this.imponibile = imponibile;
     }
 
-    public List<Integer> getBolle() {
+    public List<String> getBolle() {
         return bolle.bolle;
     }
     
@@ -113,7 +113,7 @@ public class Spedizione implements Entity {
         return bolle.toString();
     }
     
-    public void addBolla(Integer bolla) {
+    public void addBolla(String bolla) {
         bolle.bolle.add(bolla);
     }
     

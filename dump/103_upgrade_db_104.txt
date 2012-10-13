@@ -1,0 +1,3 @@
+USE pugliatrasporti;
+
+ALTER TABLE `bolle_spedizioni` CHANGE `bolla` `bolla` VARCHAR(10) NOT NULL;

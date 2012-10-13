@@ -10,6 +10,7 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
   <Events>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
     <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
   </Events>
   <AuxValues>
@@ -30,25 +31,21 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pnl" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="pnl" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnConferma" linkSize="3" min="-2" pref="158" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnAnnulla" linkSize="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="22" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="1">
-                      <EmptySpace min="10" pref="10" max="10" attributes="0"/>
-                      <Component id="lblRiba1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="75" max="32767" attributes="0"/>
-                      <Component id="txtTot" min="-2" pref="137" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+                      <Component id="btnConferma" linkSize="3" min="-2" pref="158" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnAnnulla" linkSize="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace pref="22" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <Component id="lblRiba1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="79" max="32767" attributes="0"/>
+              <Component id="txtTot" min="-2" pref="137" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -57,12 +54,12 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pnl" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblRiba1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtTot" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="12" max="32767" attributes="0"/>
+              <EmptySpace pref="14" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnConferma" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnAnnulla" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -96,6 +93,7 @@
                       <Component id="lblRiba" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="lblAssegno" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="lblBonifico" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblBonifico1" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -103,6 +101,7 @@
                       <Component id="txtAssegno" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="txtBonifico" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="txtContante" linkSize="2" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
+                      <Component id="txtAccredito" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="37" max="32767" attributes="0"/>
               </Group>
@@ -120,6 +119,11 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txtBonifico" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblBonifico" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtAccredito" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblBonifico1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -175,6 +179,16 @@
         <Component class="javax.swing.JTextField" name="txtRiba">
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtRibaFocusLost"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblBonifico1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Accredito c/c"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtAccredito">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtAccreditoFocusLost"/>
           </Events>
         </Component>
       </SubComponents>

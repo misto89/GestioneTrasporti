@@ -135,7 +135,7 @@
                   <Component id="pnlScadenza" min="-2" max="-2" attributes="1"/>
               </Group>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-              <Component id="pnlEmesse" linkSize="12" min="-2" pref="288" max="-2" attributes="1"/>
+              <Component id="pnlEmesse" linkSize="12" min="-2" pref="292" max="-2" attributes="1"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="pnlAcquisto" linkSize="12" min="-2" max="-2" attributes="1"/>
               <EmptySpace max="32767" attributes="0"/>

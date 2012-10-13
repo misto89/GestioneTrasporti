@@ -1326,7 +1326,12 @@ void setFatture() {
     tblFatture.addMouseListener(new MouseAdapter() {
         public void mouseClicked(MouseEvent me) {
             mnuFattura.setEnabled(true);
-            
+            if (me.getClickCount() > 1) {
+                if (tblFatture.getSelectedColumn() == MOD_PAG) {
+                    FrontController.open(new ModificaModPagamento(vista, rootPaneCheckingEnabled, fattureInTabella.get(getIndexSelectedFattura())));
+                    
+                }
+            }
         }
 
     });

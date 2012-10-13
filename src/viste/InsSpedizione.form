@@ -963,12 +963,12 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/img/annulla.png"/>
+          <Image iconType="3" name="/img/pulisci.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Azzera"/>
         <Property name="toolTipText" type="java.lang.String" value="Cancella i valori inseriti"/>
+        <Property name="label" type="java.lang.String" value="Pulisci campi"/>
         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-          <Insets value="[2, -10, 2, 14]"/>
+          <Insets value="[2, 0, 2, 14]"/>
         </Property>
       </Properties>
       <Events>

@@ -22,8 +22,6 @@ import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.RootPaneContainer;
 import libs.DoubleFormatter;
 
 /**
@@ -40,6 +38,7 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         this.parent = (RegistroFattureAcquisto) parent;
         ColorManager color = new ColorManager();
         color.changeColor(pnl);
+        dialogVista = this;
     }
     
      public InsFatturaAcquisto(java.awt.Frame parent, boolean modal, Fattura selected) {
@@ -51,6 +50,7 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         color.changeColor(pnl);
         toModify = selected;
         btnMemorizza.setText("Salva modifiche");
+        dialogVista = this;
     }
      
     /** This method is called from within the constructor to
@@ -96,6 +96,9 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         txtNoteMetPag = new javax.swing.JTextField();
         lblNoteMetPag = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -126,7 +129,13 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
 
         jLabel1.setText("Numero");
 
+        txtNum.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        txtMeseFatt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
         jLabel13.setText("gg");
+
+        txtAnnoFatt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel14.setText("aaaa");
 
@@ -134,8 +143,11 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
 
         jLabel12.setText("mm");
 
+        txtGiornoFatt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
         jLabel2.setText("Importo");
 
+        txtImporto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImporto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtImportoFocusLost(evt);
@@ -144,6 +156,7 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
 
         jLabel3.setText("Sconto");
 
+        txtSconto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtSconto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtScontoFocusLost(evt);
@@ -152,6 +165,7 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
 
         jLabel4.setText("Iva");
 
+        txtIva.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtIva.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtIvaFocusLost(evt);
@@ -160,9 +174,11 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
 
         jLabel5.setText("Totale");
 
+        txtTotale.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
         jLabel9.setText("Pagamento");
 
-        cboGiorni.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "30", "45", "60", "75", "90", "105", "120" }));
+        cboGiorni.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "105", "110", "115", "120" }));
 
         jLabel10.setText("Giorni");
 
@@ -179,6 +195,7 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
 
         jLabel6.setText("Note");
 
+        txtPercIva.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPercIva.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtPercIvaFocusLost(evt);
@@ -192,6 +209,12 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         txtNoteMetPag.setEnabled(false);
 
         lblNoteMetPag.setText("Note pagamento");
+
+        jLabel16.setText("€");
+
+        jLabel17.setText("€");
+
+        jLabel18.setText("€");
 
         javax.swing.GroupLayout pnlLayout = new javax.swing.GroupLayout(pnl);
         pnl.setLayout(pnlLayout);
@@ -259,11 +282,14 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
                                         .addComponent(cboTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(pnlLayout.createSequentialGroup()
                                             .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(jLabel10))
-                                        .addComponent(txtIva, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))))
+                                        .addComponent(txtIva, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel15)
                             .addContainerGap())
@@ -304,11 +330,13 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtImporto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtImporto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16))
                 .addGap(18, 18, 18)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtSconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17))
                 .addGap(18, 18, 18)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -319,7 +347,8 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel18))
                 .addGap(18, 18, 18)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -377,8 +406,10 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     List<Entity> fornitori = FrontController.getAnagrafe(Fornitore.class);
     popolaSelect(fornitori);
     String[] metPagam = FrontController.getMetodiPagamento();
-    for (String metodo : metPagam)
-        cboMetPag.addItem((String) metodo);
+    for (int i = 0; i < metPagam.length-1; i++)
+        cboMetPag.addItem((String) metPagam[i]);
+    
+    cboMetPag.setSelectedIndex(1);
     
     txtGiornoFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
     txtMeseFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
@@ -451,12 +482,15 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                     if (toModify.getPagata() != fatt.getPagata()){
                         //List<Movimento> movimento = new LinkedList<Movimento>();
                         //movimento.add(new Movimento(num, data, Fattura.tipo.ACQ.toString(), (String)cboMetPag.getSelectedItem(), totale, codFornitore));
+                        
                         for (Movimento m : movimenti){
                             m.setFornCliente(fatt.getFornitore());
                             m.setData(fatt.getData());
                             m.setNumDoc(fatt.getNumero());
                         }
                         FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, fatt.getPagata(), movimenti);
+                        movimenti = null;
+                        
                     }
                     parent.setFatture();
                     JOptionPane.showMessageDialog(this, "Modifica eseguita con successo");
@@ -475,7 +509,6 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             } 
             
         } else {
-            fatt.setPagata(movimenti != null);
             if (FrontController.insertFattAcquisto(fatt)) {
                 if (fatt.getPagata()) {
                     //List<Movimento> movimento = new LinkedList<Movimento>();
@@ -486,6 +519,7 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                         m.setNumDoc(fatt.getNumero());
                     }
                     FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, fatt.getPagata(), movimenti);
+                    movimenti = null;                    
                 }
 
                 parent.updateCboAnno();
@@ -500,7 +534,7 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 txtSconto.setText(null);
                 txtIva.setText(null);
                 txtTotale.setText(null);
-                cboMetPag.setSelectedIndex(0);
+                cboMetPag.setSelectedIndex(1);
                 cboGiorni.setSelectedIndex(0);
                 cboTipo.setSelectedIndex(0);
                 chkPagata.setSelected(false);
@@ -700,6 +734,11 @@ private void calculateTotal(){
     
 }
 
+void unCheckPagate(){
+    chkPagata.setSelected(false);
+}
+
+
     private int codFornitore;
     private RegistroFattureAcquisto parent;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -716,6 +755,9 @@ private void calculateTotal(){
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -745,14 +787,14 @@ private void calculateTotal(){
     private static final int MAX_LENGTH_PERCIVA = 2;
     private static final Integer PERC_IVA = 21;
     
-    private RegistroFattureAcquisto vista;
+//    private RegistroFattureAcquisto vista;
     private InsFatturaAcquisto dialogVista;
     
     private Fattura toInsert = null;
     private Fattura toModify = null;
     
     //Lista temporanea di movimenti
-    public static List<Movimento> movimenti = new LinkedList<Movimento>();
+    public List<Movimento> movimenti = new LinkedList<Movimento>();
     /*
      * Campi per il calcolo
      */

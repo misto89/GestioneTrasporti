@@ -34,8 +34,8 @@ public final class StampaFattura extends StampaDocumento {
     private final float HEIGHT_NOT_LAST; //altezza del rettangolo per tutte le pagina prima dell'ultima
 
     private static final String FILENAME = "fattura.pdf";
-    private static final int MAX_PER_PAGE = 14;
-    private static final int MAX_PER_PAGE_FORFAIT = 13;
+    private static final int MAX_PER_PAGE = 18;
+    private static final int MAX_PER_PAGE_FORFAIT = 18;
 
     public StampaFattura(Fattura fattura, Fornitore cliente, boolean allegato) throws DocumentException, IOException {
         super(FILENAME);
@@ -128,14 +128,14 @@ public final class StampaFattura extends StampaDocumento {
                 rigaSped[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 rigaSped[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 
                 rigaSped[0].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
-                //rigaSped[1].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                rigaSped[1].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
                 rigaSped[2].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
                 rigaSped[3].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
                 rigaSped[4].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
@@ -196,12 +196,14 @@ public final class StampaFattura extends StampaDocumento {
                 rigaSped[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 rigaSped[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                rigaSped[0].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                
+                rigaSped[0].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);              
+                rigaSped[1].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
 
                 for (int i = 0; i < rigaSped.length; i++) {
                     rigaSped[i].setBorder(NO_BORDER);
@@ -281,7 +283,7 @@ public final class StampaFattura extends StampaDocumento {
         PdfPCell[] totali = {
             new PdfPCell(new Phrase("IMPORTO", FONT_PICCOLO_NORMALE)),
             new PdfPCell(new Phrase("SCONTO", FONT_PICCOLO_NORMALE)),
-            new PdfPCell(new Phrase("SPESE PROVVIGIONE", FONT_PICCOLO_NORMALE)),
+            new PdfPCell(new Phrase("PROVV. ASSEGNI", FONT_PICCOLO_NORMALE)),
             new PdfPCell(new Phrase("IMPONIBILE", FONT_PICCOLO_NORMALE)),
             new PdfPCell(new Phrase("IVA", FONT_PICCOLO_NORMALE)),
             new PdfPCell(new Phrase("TOTALE", FONT_PICCOLO_BOLD)),
@@ -443,6 +445,10 @@ public final class StampaFattura extends StampaDocumento {
         
         String[] metPagam = fattura.getMetPag().split("-");
         String metodoPagam = metPagam[0] + " a " + metPagam[1] + " gg";
+        if (metodoPagam.equalsIgnoreCase("Contante a 0 gg"))
+            metodoPagam = "Contante";
+        else if (metodoPagam.equalsIgnoreCase("Rimessa diretta a 0 gg"))
+            metodoPagam = "Rimessa diretta";
         
         PdfPCell[] info = {
             new PdfPCell(new Phrase("TIPO DOCUMENTO", FONT_PICCOLO_BOLD)),
@@ -491,7 +497,7 @@ public final class StampaFattura extends StampaDocumento {
         table = new PdfPTable(9);
         table.setSpacingBefore(0);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        int[] widths = {35, 45, 65, 15, 15, 40, 45, 25, 20};
+        int[] widths = {35, 40, 83, 15, 15, 39, 48, 20, 20};
         try {
             table.setWidths(widths);
         } catch (DocumentException ex) {
@@ -507,7 +513,7 @@ public final class StampaFattura extends StampaDocumento {
             new PdfPCell(new Phrase("QTA", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("PRZ.UN", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("IMPORTO", FONT_GRANDE_BOLD)),
-            new PdfPCell(new Phrase("SCONTO", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("SC.", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("IVA", FONT_GRANDE_BOLD)),
             //new PdfPCell(new Phrase("VAL. MERCE", FONT_GRANDE_BOLD)),
         };
@@ -516,8 +522,8 @@ public final class StampaFattura extends StampaDocumento {
         intestazioneSpedizioni[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         intestazioneSpedizioni[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         intestazioneSpedizioni[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        intestazioneSpedizioni[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-        intestazioneSpedizioni[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        intestazioneSpedizioni[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        intestazioneSpedizioni[5].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         intestazioneSpedizioni[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         intestazioneSpedizioni[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         intestazioneSpedizioni[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);

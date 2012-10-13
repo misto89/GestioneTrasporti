@@ -15,9 +15,9 @@ import entita.Fattura;
 import entita.Movimento;
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.Window;
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import libs.DoubleFormatter;
 
@@ -26,10 +26,15 @@ import libs.DoubleFormatter;
  * @author Michele
  */
 public class NotePagamento extends javax.swing.JDialog {
-
+    private static final String REG_EMESSE = RegistroFattureEmesse.class.getSimpleName();
+    private static final String REG_ACQUISTO = RegistroFattureAcquisto.class.getSimpleName();
+    private static final String INS_FATT_ACQUISTO = InsFatturaAcquisto.class.getSimpleName();
+    private static final String SPEDIZIONI = Spedizioni.class.getSimpleName();
+    private static final String PAGAMENTO_FATT = PagamentoFattura.class.getSimpleName();
+    
     /** Creates new form NotePagamento */
-    public NotePagamento(java.awt.Frame parent, boolean modal, Fattura fattura) {
-        super(parent, modal);
+    public NotePagamento(java.awt.Window parent, boolean modal, Fattura fattura) {       
+        super((Frame)parent, modal);
         this.fattura = fattura;
         this.metodiPagamento = FrontController.getMetodiPagamento();
         initComponents();
@@ -37,13 +42,14 @@ public class NotePagamento extends javax.swing.JDialog {
         color.changeColor(pnl);
 
         txtMetodi = new javax.swing.JTextField[] {
-            null, txtContante, txtBonifico, txtAssegno, txtRiba
+            null, txtContante, txtBonifico, txtAccredito, txtAssegno, txtRiba
         };
         
         this.parent = parent;
         setTitle(getTitle() + ": totale fattura " + fattura.getTotale());
     }
-    //Costruttore per la modifica live dei metodi di pagamento
+   
+    //Costruttore per la modifica live dei metodi di pagamento dalla dialog insFatturaAcquisto
     public NotePagamento(javax.swing.JDialog parent, boolean modal, Fattura fattura) {
         super(parent, modal);
         this.fattura = fattura;
@@ -51,13 +57,12 @@ public class NotePagamento extends javax.swing.JDialog {
         initComponents();
         ColorManager color = new ColorManager();
         color.changeColor(pnl);
-        //JOptionPane.showMessageDialog(rootPane, "ECCOMI");
-        calledByDialog = true;
+        
         txtMetodi = new javax.swing.JTextField[] {
-            null, txtContante, txtBonifico, txtAssegno, txtRiba
+            null, txtContante, txtBonifico, txtAccredito, txtAssegno, txtRiba
         };
         
-        this.dialogParent = parent;
+        this.parent = parent;
         setTitle(getTitle() + ": totale fattura " + fattura.getTotale());
     }
 
@@ -79,6 +84,8 @@ public class NotePagamento extends javax.swing.JDialog {
         txtBonifico = new javax.swing.JTextField();
         txtAssegno = new javax.swing.JTextField();
         txtRiba = new javax.swing.JTextField();
+        lblBonifico1 = new javax.swing.JLabel();
+        txtAccredito = new javax.swing.JTextField();
         btnConferma = new javax.swing.JButton();
         btnAnnulla = new javax.swing.JButton();
         lblRiba1 = new javax.swing.JLabel();
@@ -88,6 +95,9 @@ public class NotePagamento extends javax.swing.JDialog {
         setTitle("Modalità di pagamento");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -127,6 +137,14 @@ public class NotePagamento extends javax.swing.JDialog {
             }
         });
 
+        lblBonifico1.setText("Accredito c/c");
+
+        txtAccredito.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAccreditoFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlLayout = new javax.swing.GroupLayout(pnl);
         pnl.setLayout(pnlLayout);
         pnlLayout.setHorizontalGroup(
@@ -137,19 +155,21 @@ public class NotePagamento extends javax.swing.JDialog {
                     .addComponent(lblContante)
                     .addComponent(lblRiba)
                     .addComponent(lblAssegno)
-                    .addComponent(lblBonifico))
+                    .addComponent(lblBonifico)
+                    .addComponent(lblBonifico1))
                 .addGap(55, 55, 55)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtRiba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtAssegno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtBonifico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtContante, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtContante, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAccredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pnlLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblAssegno, lblBonifico, lblContante, lblRiba});
 
-        pnlLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtAssegno, txtBonifico, txtContante, txtRiba});
+        pnlLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtAccredito, txtAssegno, txtBonifico, txtContante, txtRiba});
 
         pnlLayout.setVerticalGroup(
             pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,6 +182,10 @@ public class NotePagamento extends javax.swing.JDialog {
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBonifico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblBonifico))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAccredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBonifico1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtAssegno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -207,20 +231,18 @@ public class NotePagamento extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnConferma, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAnnulla)))
-                        .addContainerGap(22, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(lblRiba1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                        .addComponent(txtTot, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66))))
+                        .addComponent(btnConferma, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAnnulla)))
+                .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lblRiba1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addComponent(txtTot, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnnulla, btnConferma});
@@ -230,11 +252,11 @@ public class NotePagamento extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRiba1)
                     .addComponent(txtTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConferma)
                     .addComponent(btnAnnulla))
@@ -251,11 +273,16 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
         String metPag = (fattura.getMetPag().split("-"))[0];
         double totale = DoubleFormatter.roundTwoDecimals(fattura.getTotale());
     
-        for (int i = 1; i < txtMetodi.length; i++)
-            if (metPag.equals(metodiPagamento[i])) {
-                txtMetodi[i].setText(String.valueOf(totale));
-                break;
-            }
+        if (metPag.equals("Rimessa diretta"))
+            txtContante.setText(String.valueOf(totale));
+        else {        
+            for (int i = 1; i < txtMetodi.length; i++)
+                if (metPag.equals(metodiPagamento[i])) {
+                    txtMetodi[i].setText(String.valueOf(totale));
+                    break;
+                }
+        }
+        
     } else {
         List<Movimento> movimenti = fattura.getMovimenti();
         for (Movimento movimento : movimenti) {
@@ -266,7 +293,7 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
                 }
         }
     }
-    
+    parentClassName = parent.getClass().getSimpleName(); 
     checkInsertedTotal();
             
 }//GEN-LAST:event_formWindowOpened
@@ -287,16 +314,23 @@ private void checkInsertedTotal(){
 
 private void btnAnnullaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnullaActionPerformed
 // TODO add your handling code here:
-    if (!calledByDialog){
-        try {
+    if (parentClassName.equalsIgnoreCase(REG_ACQUISTO))
+        ((RegistroFattureAcquisto)parent).setFatture();
+    else if (parentClassName.equalsIgnoreCase(REG_EMESSE))
         ((RegistroFattureEmesse)parent).setFatture();
-        
-        } catch (ClassCastException e) {
-            ((RegistroFattureAcquisto)parent).setFatture();
-        }
-    } else {
-        ((InsFatturaAcquisto)dialogParent).movimenti = null;
+    else if (parentClassName.equalsIgnoreCase(SPEDIZIONI)){
+        ((Spedizioni)parent).movimenti = null;
+        ((Spedizioni)parent).unCheckPagate();
     }
+    else if (parentClassName.equalsIgnoreCase(INS_FATT_ACQUISTO)){
+        ((InsFatturaAcquisto)parent).movimenti = null;
+        ((InsFatturaAcquisto)parent).unCheckPagate();
+    }
+    else if (parentClassName.equalsIgnoreCase(PAGAMENTO_FATT)){
+        ((PagamentoFattura)parent).movimenti = null;
+        ((PagamentoFattura)parent).unCheckPagate();
+    }
+ 
     dispose();
 }//GEN-LAST:event_btnAnnullaActionPerformed
 
@@ -328,7 +362,7 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     } else {
         List<Movimento> movimenti = new LinkedList<Movimento>();
         Fattura.tipo tipo;
-        if (parent instanceof RegistroFattureEmesse)
+        if (parentClassName.equalsIgnoreCase(REG_EMESSE) || parentClassName.equalsIgnoreCase(SPEDIZIONI) || parentClassName.equalsIgnoreCase(PAGAMENTO_FATT))
             tipo = Fattura.tipo.VEN;
         else
             tipo = Fattura.tipo.ACQ;
@@ -338,18 +372,24 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             if (valori[i] != 0.00)
                 movimenti.add(new Movimento(fattura.getNumero(), fattura.getData(), tipo.toString(), metodiPagamento[i + 1], valori[i], fattura.getCliente().getCod()));
         
-        if (!calledByDialog){
-            FrontController.updatePagataFattura(tipo, fattura, true, movimenti);
         
-            if (tipo == Fattura.tipo.VEN) {
+            
+         if (parentClassName.equalsIgnoreCase(INS_FATT_ACQUISTO)){
+            ((InsFatturaAcquisto)parent).movimenti = movimenti; 
+         } else if (parentClassName.equalsIgnoreCase(SPEDIZIONI)){
+            ((Spedizioni)parent).movimenti = movimenti;
+         } else if (parentClassName.equalsIgnoreCase(PAGAMENTO_FATT)){
+             ((PagamentoFattura)parent).movimenti = movimenti;
+         } else {
+             FrontController.updatePagataFattura(tipo, fattura, true, movimenti);
+        
+             if (tipo == Fattura.tipo.VEN) {
                 ((RegistroFattureEmesse)parent).setFatture();
             
-            } else {
+             } else {
                 ((RegistroFattureAcquisto)parent).setFatture();
-            }
-        } else {
-            ((InsFatturaAcquisto)dialogParent).movimenti = movimenti; 
-        }
+             }
+         }
         
         dispose();
     }
@@ -377,16 +417,28 @@ private void txtRibaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_
     checkInsertedTotal();
 }//GEN-LAST:event_txtRibaFocusLost
 
+private void txtAccreditoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAccreditoFocusLost
+// TODO add your handling code here:
+    checkInsertedTotal();
+}//GEN-LAST:event_txtAccreditoFocusLost
+
+private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+// TODO add your handling code here:
+    btnAnnullaActionPerformed(null);
+}//GEN-LAST:event_formWindowClosing
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnulla;
     private javax.swing.JButton btnConferma;
     private javax.swing.JLabel lblAssegno;
     private javax.swing.JLabel lblBonifico;
+    private javax.swing.JLabel lblBonifico1;
     private javax.swing.JLabel lblContante;
     private javax.swing.JLabel lblRiba;
     private javax.swing.JLabel lblRiba1;
     private javax.swing.JPanel pnl;
+    private javax.swing.JTextField txtAccredito;
     private javax.swing.JTextField txtAssegno;
     private javax.swing.JTextField txtBonifico;
     private javax.swing.JTextField txtContante;
@@ -396,8 +448,11 @@ private void txtRibaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_
 
     private Fattura fattura;
     private javax.swing.JTextField txtMetodi[];
-    private Frame parent;
-    private JDialog dialogParent;
-    private boolean calledByDialog = false;
+    private Window parent;
+    private String parentClassName;
+//    private JFrame spedizioniParent;
+//    private JDialog dialogParent;
+//    private boolean calledByDialog = false;
+//    private boolean calledBySpedizioni = false;
     private String[] metodiPagamento;
 }
