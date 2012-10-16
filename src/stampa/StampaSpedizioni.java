@@ -125,15 +125,16 @@ public final class StampaSpedizioni extends StampaDocumento {
         
         doc.add(table);
         
-        table = new PdfPTable(9);
+        table = new PdfPTable(10);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
         table.setSpacingBefore(30);
         table.setWidthPercentage(100);
-        widths = new int[] {40, 40, 40, 70, 25, 20, 40, 40, 40};
+        widths = new int[] {40, 30, 40, 40, 70, 20, 20, 40, 40, 45};
         table.setWidths(widths);
         
         intestazione = new PdfPCell[] {
             new PdfPCell(new Phrase("RIF. DOC.", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("STATO", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("DATA CARICO", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("DATA DOC.", FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase("DESCRIZIONE", FONT_GRANDE_BOLD)),
@@ -145,10 +146,11 @@ public final class StampaSpedizioni extends StampaDocumento {
             
         };
         
-        intestazione[5].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        intestazione[6].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        intestazione[1].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        intestazione[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         intestazione[7].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         intestazione[8].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        intestazione[9].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         
         for (PdfPCell cella : intestazione) {
             cella.setBorder(com.itextpdf.text.Rectangle.NO_BORDER);
@@ -159,10 +161,17 @@ public final class StampaSpedizioni extends StampaDocumento {
             final String NEW_FORMAT = "dd/MM/yyyy";
             SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
             String dataCarico = sdf.format(spedizione.getDataCarico());
-            String dataDoc = sdf.format(spedizione.getDataDocumento());            
-            
+            String dataDoc = sdf.format(spedizione.getDataDocumento()); 
+            String statoStr;
+            char stato = spedizione.getStato();
+            if (stato == 'C')
+                statoStr = "Consegna";
+            else
+                statoStr = "Ritiro";
+                
             PdfPCell[] rigaSped = {
                 new PdfPCell(new Phrase(spedizione.getStringaBolle(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(statoStr, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(dataCarico, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(spedizione.getDescrizione(), FONT_GRANDE_NORMALE)),
@@ -173,10 +182,11 @@ public final class StampaSpedizioni extends StampaDocumento {
                 new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getImporto())), FONT_GRANDE_NORMALE))
             };
             
-            rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            rigaSped[1].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            rigaSped[9].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             
             for (PdfPCell cella : rigaSped) {
                 cella.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);

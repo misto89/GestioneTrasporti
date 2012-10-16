@@ -17,5 +17,4 @@ public class EccezioneConnesioneNonRiuscita extends RuntimeException {
         super(message);
     }
     
-    
 }

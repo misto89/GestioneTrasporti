@@ -104,7 +104,7 @@ public class Spedizioni extends javax.swing.JFrame {
         private final String[] COLONNE;
         private boolean[] canEdit;
         private final Class[] TYPES = {
-            String.class, Object.class, Object.class, Object.class, String.class, String.class, Integer.class, Double.class,
+            String.class, String.class, Object.class, Object.class, Object.class, String.class, String.class, Integer.class, Double.class,
             Double.class, Double.class, Double.class, Double.class, String.class, Character.class, String.class, Integer.class
         };
         
@@ -420,12 +420,19 @@ public class Spedizioni extends javax.swing.JFrame {
                 iva = (percIva / 100.0) * (imponibile);
 
                 totale = imponibile + iva;
+                
+                char stato;
+                String statoString = (String) tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), STATO);
+                if (statoString.equals("Consegna"))
+                    stato = 'C';
+                else
+                    stato = 'R';
 
                 //Crea l'oggetto spedizione da modificare, aggiungendovi in seguito le bolle estratte dalla stringa
 
                 Spedizione sp = new Spedizione(num, id_fornitore, dataCaricoDate, dataDocumentoDate, descrizione, mezzo, 
                     um, qta, traz, distrib, importo, sconto, percIva, iva, 
-                    percProvv, provv, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile);
+                    percProvv, provv, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile, stato);
 
 
                 if (bolle != null) {
@@ -556,6 +563,7 @@ public class Spedizioni extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         btnModifica = new javax.swing.JButton();
         chkNonFatturate = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFiltra = new javax.swing.JMenu();
         mnuTutti = new javax.swing.JCheckBoxMenuItem();
@@ -1091,6 +1099,16 @@ public class Spedizioni extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/regfattemesse.png"))); // NOI18N
+        jButton1.setToolTipText("Vai al registro fatture emesse");
+        jButton1.setLabel("Registro fatture emesse");
+        jButton1.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         mnuFiltra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/filtra.png"))); // NOI18N
         mnuFiltra.setText("Filtra");
         mnuFiltra.setEnabled(false);
@@ -1191,6 +1209,8 @@ public class Spedizioni extends javax.swing.JFrame {
                         .addComponent(btnModifica, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnElimina, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
 
@@ -1217,14 +1237,16 @@ public class Spedizioni extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlRiepilogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModifica, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnElimina))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
+                        .addComponent(btnModifica, javax.swing.GroupLayout.PREFERRED_SIZE, 24, Short.MAX_VALUE)
+                        .addComponent(btnElimina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnElimina, btnModifica, btnNew});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnElimina, btnModifica, btnNew, jButton1});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1258,6 +1280,10 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     txtMeseFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
     txtAnnoFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
     txtPercIvaForfait.setDocument(new JTextFieldLimit(MAX_LENGTH_PERCIVA));
+    
+    
+    txtImpForfait.setDocument(new JTextFieldFormatDouble());
+    txtScontoForfait.setDocument(new JTextFieldFormatDouble());
 }//GEN-LAST:event_formWindowOpened
 
 /*
@@ -1265,10 +1291,11 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
  * separati da un un '-'
  */
 private boolean checkBolle(String bolle) {
-//    Pattern pattern = Pattern.compile("[1-9]([0-9])*(-[1-9]([0-9])*)*");
-    Pattern pattern = Pattern.compile("(\\d){1,}(/[a-z]{1,}){0,1}(-(\\d){1,}(/[a-z]{1,}){0,1})*");
-    Matcher match = pattern.matcher(bolle);
-    return match.matches();    
+//    Pattern pattern = Pattern.compile("(\\d){1,}(/[a-z]{1,}){0,1}(-(\\d){1,}(/[a-z]{1,}){0,1})*");
+//    Matcher match = pattern.matcher(bolle);
+//    return match.matches();    
+    
+    return true;
 }
 
 /*
@@ -1298,7 +1325,7 @@ private void popolaTabella(List<Spedizione> spedizioni, boolean[] canEdit) {
     }
        
     final String[] COLONNE = {
-        "BOLLE", "NUMERO", "DATA CARICO", "DATA DOCUMENTO", "DESCRIZIONE", "UM", "QTA", "TRAZ.", 
+        "BOLLE", "STATO", "NUMERO", "DATA CARICO", "DATA DOCUMENTO", "DESCRIZIONE", "UM", "QTA", "TRAZ.", 
         "DISTRIB.", "IMPORTO", "IMPONIBILE", "VAL. MERCE", "NOTE", "RIENTRATA", "MEZZO", "NUM. FATTURA"
     };
        
@@ -1343,18 +1370,22 @@ private void popolaTabella(List<Spedizione> spedizioni, boolean[] canEdit) {
     Object[] arrMezzi = mezzi.toArray();
     Mezzo[] arrayMezzi = new Mezzo[arrMezzi.length + 2];
     Character[] valoriRientrata = {'S','N'};
+    String[] valoriStato = {"Consegna", "Ritiro"};
     System.arraycopy(arrMezzi, 0, arrayMezzi, 2, arrMezzi.length);
     arrayMezzi[0] = new Mezzo(null, "", null);
     arrayMezzi[1] = new Mezzo(null, "Vettore", null);
     DefaultCellEditor comboMezziEditor = new DefaultCellEditor(new JComboBox(arrayMezzi));
     DefaultCellEditor comboUMEditor = new DefaultCellEditor(new JComboBox(FrontController.getUnitaMisura()));
     DefaultCellEditor comboEditor = new DefaultCellEditor(new JComboBox(valoriRientrata));
+    DefaultCellEditor statoEditor = new DefaultCellEditor(new JComboBox(valoriStato));
     comboEditor.setClickCountToStart(2); //Imposta l'edit della cella contente la checkbox al doppio click
     comboMezziEditor.setClickCountToStart(2); //Imposta l'edit della cella contente la combobox al doppio click
     comboUMEditor.setClickCountToStart(2);
+    statoEditor.setClickCountToStart(2);
     tblSpedizioni.getColumnModel().getColumn(MEZZO).setCellEditor(comboMezziEditor); //Imposta una combobox come elemento grafico di default per la modifica del mezzo       
     tblSpedizioni.getColumnModel().getColumn(RIENTRATA).setCellEditor(comboEditor); 
     tblSpedizioni.getColumnModel().getColumn(UM).setCellEditor(comboUMEditor);   
+    tblSpedizioni.getColumnModel().getColumn(STATO).setCellEditor(statoEditor);
     
     /*
     tblFatture.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -1387,6 +1418,7 @@ private void popolaTabella(List<Spedizione> spedizioni, boolean[] canEdit) {
                     
     jScrollPane1.setViewportView(tblSpedizioni);
     tblSpedizioni.getColumnModel().getColumn(BOLLE).setResizable(true);
+    tblSpedizioni.getColumnModel().getColumn(STATO).setResizable(true);
     tblSpedizioni.getColumnModel().getColumn(NUMERO).setResizable(true);
     tblSpedizioni.getColumnModel().getColumn(DATA_CARICO).setResizable(true);
     tblSpedizioni.getColumnModel().getColumn(DATA_DOCUMENTO).setResizable(true);
@@ -2237,6 +2269,11 @@ private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         movimenti = null;
 }//GEN-LAST:event_chkPagataActionPerformed
 
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// TODO add your handling code here:
+    FrontController.open(new RegistroFattureEmesse());
+}//GEN-LAST:event_jButton1ActionPerformed
+
 private void setNumber() {
     String anno = txtAnnoFatt.getText();
     String mese = txtMeseFatt.getText();
@@ -2343,6 +2380,7 @@ int getIndexSpedizione(Spedizione sped) {
     private javax.swing.JCheckBox chkForfait;
     private javax.swing.JCheckBox chkNonFatturate;
     private javax.swing.JCheckBox chkPagata;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2424,30 +2462,31 @@ int getIndexSpedizione(Spedizione sped) {
     public List<Movimento> movimenti = new LinkedList<Movimento>();
     
     private final boolean[] modificaCelle = new boolean[] {
-            true, false, false, true, true, true, true, true, true, true, true, true, true, true, true, false 
+            true, true, false, false, true, true, true, true, true, true, true, true, true, true, true, true, false 
     };
     
     private final boolean[] nonModificareCelle = new boolean[] {
-            false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false 
+            false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false 
     };
     
     //Le seguenti costanti indicano i numeri di colonna dei campi
     private final int BOLLE = 0;
-    private final int NUMERO = 1;
-    private final int DATA_CARICO = 2;
-    private final int DATA_DOCUMENTO = 3;
-    private final int DESCRIZIONE = 4;
-    private final int UM = 5;
-    private final int QTA = 6;
-    private final int TRAZ = 7;
-    private final int DISTRIB = 8;
-    private final int IMPORTO = 9;
-    private final int IMPONIBILE = 10;
-    private final int VAL_MERCE = 11;
-    private final int NOTE = 12;
-    private final int RIENTRATA = 13;
-    private final int MEZZO = 14;
-    private final int FATTURA = 15;
+    private final int STATO = 1;
+    private final int NUMERO = 2;
+    private final int DATA_CARICO = 3;
+    private final int DATA_DOCUMENTO = 4;
+    private final int DESCRIZIONE = 5;
+    private final int UM = 6;
+    private final int QTA = 7;
+    private final int TRAZ = 8;
+    private final int DISTRIB = 9;
+    private final int IMPORTO = 10;
+    private final int IMPONIBILE = 11;
+    private final int VAL_MERCE = 12;
+    private final int NOTE = 13;
+    private final int RIENTRATA = 14;
+    private final int MEZZO = 15;
+    private final int FATTURA = 16;
     //private final int SCONTO = 15;
     //private final int IVA = 16;
     //private final int PROVVIGIONE = 17;

@@ -419,6 +419,13 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     txtPercIva.setText(PERC_IVA.toString());
     lblNoteMetPag.setVisible(false);
     txtNoteMetPag.setVisible(false);
+    
+    //TEST di rilevazione "," e sostituzione con "."
+    txtImporto.setDocument(new JTextFieldFormatDouble());
+    txtSconto.setDocument(new JTextFieldFormatDouble());
+    txtIva.setDocument(new JTextFieldFormatDouble());
+    txtTotale.setDocument(new JTextFieldFormatDouble());
+    
     //Scrive i dati della fattura all'interno delle text.
     if (toModify != null){
         cboFornitore.setSelectedItem(toModify.getCliente());

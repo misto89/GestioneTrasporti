@@ -87,6 +87,7 @@ class Tabelle {
         public static final String DATA_FATTURA = "data_fattura";
         public static final String VALORE_MERCE = "valoremerce";
         public static final String IMPONIBILE = "imponibile";
+        public static final String STATO = "stato";
     }
     
     //Rappresenta la tabella "bolle_fatture" con i suoi campi

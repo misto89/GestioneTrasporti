@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -217,7 +218,7 @@ public abstract class DAO_ASF {
             newField[newField.length -1] = '\'';
             System.arraycopy(field, 0, newField, 1, field.length);
             campo = new String(newField);
-        } 
+        }
         return (String) campo;
     }
     
@@ -382,7 +383,7 @@ public abstract class DAO_ASF {
                         + checkNull(sped.getDescrizione()) + ", " + sped.getFornitore() + ", " + checkNull(idMezzo) + ", " + checkNull(sped.getUm()) + ", " + sped.getQta() + ", " 
                         + sped.getTraz() + ", " + sped.getDistrib() + ", " + sped.getImporto() + ", " + sped.getSconto() + ", " + sped.getPercIva() + ", " + sped.getIva() +
                         ", " + sped.getPercProvv() + ", " + sped.getProvvigione() + ", " + sped.getTotale() + ", " + checkNull(sped.getNote()) + ", " + sped.getRientrata() + 
-                        ", NULL, NULL, " + sped.getValoreMerce() + ", " + sped.getImponibile() + ")";
+                        ", NULL, NULL, " + sped.getValoreMerce() + ", " + sped.getImponibile() + ", '" + sped.getStato() + "')";
                 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
@@ -671,8 +672,8 @@ public abstract class DAO_ASF {
                     s.getProvvigione() + ", " + Tabelle.Spedizioni.TOTALE + " = " + s.getTotale() + ", " + Tabelle.Spedizioni.NOTE + " = " +
                     checkNull(s.getNote()) + ", " + Tabelle.Spedizioni.RIENTRATA + " = " + s.getRientrata() + ", " + Tabelle.Spedizioni.NUM_FATTURA + 
                     " = " + checkNull(s.getNumFattura()) + ", " + Tabelle.Spedizioni.VALORE_MERCE + " = " + s.getValoreMerce() + ", " +
-                    Tabelle.Spedizioni.IMPONIBILE + " = " + s.getImponibile() + " WHERE " + Tabelle.Spedizioni.NUMERO + " = '" + s.getNumSpedizione() +
-                    "' AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + s.getDataCarico() + "'";
+                    Tabelle.Spedizioni.IMPONIBILE + " = " + s.getImponibile() + ", " + Tabelle.Spedizioni.STATO + " = '" + s.getStato() +
+                    "' WHERE " + Tabelle.Spedizioni.NUMERO + " = '" + s.getNumSpedizione() + "' AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + s.getDataCarico() + "'";
                 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql); 
@@ -826,7 +827,7 @@ public abstract class DAO_ASF {
                 ps = conn.prepareStatement("COMMIT");
                 ps.executeUpdate();
                 
-                resetNumSpedizione(Integer.parseInt(s.getNumSpedizione()), s.getDataCarico());
+//                resetNumSpedizione(Integer.parseInt(s.getNumSpedizione()), s.getDataCarico());
                 return true;
                 
             } catch (SQLException ex) {
@@ -1003,6 +1004,7 @@ public abstract class DAO_ASF {
             Date dataFattura;
             Double valoreMerce;
             Double imponibile;
+            char stato;
                 
             while (rs.next()){
                 numero = rs.getString(Tabelle.Spedizioni.NUMERO);
@@ -1028,13 +1030,14 @@ public abstract class DAO_ASF {
                 dataFattura = rs.getDate(Tabelle.Spedizioni.DATA_FATTURA);
                 valoreMerce = rs.getDouble(Tabelle.Spedizioni.VALORE_MERCE);
                 imponibile = rs.getDouble(Tabelle.Spedizioni.IMPONIBILE);
+                stato = rs.getString(Tabelle.Spedizioni.STATO).charAt(0);
                 
                 if (numFattura == 0)
                     numFattura = null;
                     
                 Spedizione sped = new Spedizione(numero, forn, dataCarico, dataDocumento, descrizione, mezzo, 
                         um, qta, traz, distrib, importo, sconto, percIva, iva, 
-                        percProvvigione, provvigione, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile);
+                        percProvvigione, provvigione, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile, stato);
                     
                 ps = conn.prepareStatement("SELECT " + Tabelle.Bolle.BOLLA + " FROM " + Tabelle.BOLLE + " WHERE " + 
                         Tabelle.Bolle.SPEDIZIONE + " = '" + numero + "' AND " + Tabelle.Bolle.DATA_SPEDIZIONE + " = '" + dataCarico + "'");
@@ -1070,7 +1073,8 @@ public abstract class DAO_ASF {
                         " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL " +
                         " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
                         Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
-                        Tabelle.Spedizioni.NUM_FATTURA + " IS NULL ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+                        Tabelle.Spedizioni.NUM_FATTURA + " IS NULL ORDER BY " + Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + 
+                        ", " + Tabelle.Spedizioni.NUMERO;
             
             else if (type == Spedizione.tipo.F)
                 sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
@@ -1078,7 +1082,8 @@ public abstract class DAO_ASF {
                         " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL" + 
                         " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
                         Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
-                        Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+                        Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL ORDER BY "  + Tabelle.Spedizioni.STATO + ", " + 
+                        Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
             
             else if (type == Spedizione.tipo.ALL)
                 sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
@@ -1086,7 +1091,7 @@ public abstract class DAO_ASF {
                         " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + 
                         " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
                         Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL ORDER BY " + 
-                        Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+                        Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
                        
             System.out.println(sql);
             ps = conn.prepareStatement(sql);
@@ -1121,7 +1126,8 @@ public abstract class DAO_ASF {
                     " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
                     Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
                     Tabelle.Spedizioni.NUM_FATTURA + " IS NULL " + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
-                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.STATO + ", " + 
+                    Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
             
             else if (type == Spedizione.tipo.F)
                 sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
@@ -1131,7 +1137,8 @@ public abstract class DAO_ASF {
                     " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
                     Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
                     Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL " + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
-                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.STATO + ", " + 
+                    Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
             
             else if (type == Spedizione.tipo.ALL)
                 sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
@@ -1141,7 +1148,7 @@ public abstract class DAO_ASF {
                     " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
                     Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
                     Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " + Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine +
-                    "' ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + ", " + Tabelle.Spedizioni.NUMERO;
+                    "' ORDER BY "  + Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
                            
             System.out.println(sql);
             ps = conn.prepareStatement(sql);
@@ -1240,6 +1247,13 @@ public abstract class DAO_ASF {
                 ps = conn.prepareStatement(sql);
                 System.out.println(sql);
                 ps.executeUpdate(); 
+                
+                sql = "UPDATE " + Tabelle.BOLLE + " SET " + Tabelle.Bolle.SPEDIZIONE + " = " + Tabelle.Bolle.SPEDIZIONE + " -1 " 
+                        + " WHERE " + Tabelle.Bolle.SPEDIZIONE + " = " + modNum + " AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + dataCarico + "'";
+                
+                ps = conn.prepareStatement(sql);
+                System.out.println(sql);
+                ps.executeUpdate(); 
             }
             
             ps = conn.prepareStatement("COMMIT");
@@ -1290,7 +1304,6 @@ public abstract class DAO_ASF {
                 dataSucc = rs.getDate(Tabelle.Fatture.DATA);
                 numSucc = rs.getInt(Tabelle.Fatture.NUMERO);
             }
-//            System.out.println(numPrec + " " + numSucc);
             if (forcedNumber != -1) {
                 String sqlNumExistency = "SELECT " +  Tabelle.Fatture.NUMERO + " FROM " + Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.NUMERO +
                         " = " + forcedNumber + " AND " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDocYear + "-12-31'";
@@ -1302,18 +1315,23 @@ public abstract class DAO_ASF {
                     throw new CheckTuttException("Numero fattura inserito già esistente.");
                     
                 } else {
-                    
                     if (numPrec > 0) {
                        if (numSucc > 0) {
-                            if (!((forcedNumber > numPrec) && (forcedNumber < numSucc)))
+                           if ((forcedNumber < numPrec) && (forcedNumber < numSucc)) //RICONTROLLARE E AGGIUSTARE
+                                //JOptionPane.showMessageDialog(null,forcedNumber + "stesso giorno");
+                               valoreReturn = 0;    //Valore di ok
+                                 
+                           else if (!((forcedNumber > numPrec) && (forcedNumber < numSucc)))
                                 throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
                                         "oppure non c'è nessun intervallo di fatture alla data selezionata.");
-                            
                             else
                                 valoreReturn = 0;    //Valore di ok
                             
                         } else if (numSucc == 0) {
-                            if (!((forcedNumber > numPrec)))
+                            if ((forcedNumber<numPrec) && (dataDoc.equals(dataPrec))) //RICONTROLLARE E AGGIUSTARE
+                                //JOptionPane.showMessageDialog(null,forcedNumber + "stesso giorno");
+                                valoreReturn = 0;    //Valore di ok
+                            else if (!((forcedNumber > numPrec)))
                                 throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
                                         "oppure non c'è nessun intervallo di fatture alla data selezionata.");
                             

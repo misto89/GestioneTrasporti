@@ -84,25 +84,22 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="pnlAnno" min="-2" max="-2" attributes="1"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="pnlCliente" max="32767" attributes="1"/>
-                      <EmptySpace min="-2" pref="645" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="pnlEntrate" linkSize="37" min="-2" pref="668" max="-2" attributes="1"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="pnlUscite" linkSize="37" pref="668" max="32767" attributes="1"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="pnlCassa" pref="668" max="32767" attributes="1"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="pnlMovimenti" linkSize="37" min="-2" max="-2" attributes="1"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="pnlEntrate" linkSize="37" min="-2" pref="668" max="-2" attributes="1"/>
+                  <Component id="pnlCassa" linkSize="37" min="-2" pref="600" max="-2" attributes="1"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pnlUscite" linkSize="37" alignment="0" pref="668" max="32767" attributes="1"/>
+                  <Component id="pnlMovimenti" linkSize="37" alignment="0" min="-2" max="-2" attributes="1"/>
+              </Group>
+              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+              <Component id="pnlAnno" min="-2" max="-2" attributes="1"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="pnlCliente" max="32767" attributes="1"/>
+              <EmptySpace min="-2" pref="645" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -116,15 +113,18 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pnlEntrate" linkSize="39" min="-2" pref="224" max="-2" attributes="1"/>
-                  <Component id="pnlUscite" linkSize="39" min="-2" pref="312" max="-2" attributes="1"/>
+                  <Group type="102" attributes="0">
+                      <Component id="pnlEntrate" linkSize="39" min="-2" pref="224" max="-2" attributes="1"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="pnlCassa" linkSize="35" pref="245" max="32767" attributes="1"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="pnlUscite" linkSize="39" min="-2" pref="312" max="-2" attributes="1"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="pnlMovimenti" linkSize="35" pref="245" max="32767" attributes="1"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pnlCassa" linkSize="35" pref="245" max="32767" attributes="1"/>
-                  <Component id="pnlMovimenti" linkSize="35" alignment="0" pref="245" max="32767" attributes="1"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -193,7 +193,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="cboCliente" pref="480" max="32767" attributes="0"/>
+                  <Component id="cboCliente" pref="533" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -679,7 +679,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="16" y="28" width="598" height="200"/>
+              <AbsoluteConstraints x="16" y="28" width="640" height="200"/>
             </Constraint>
           </Constraints>
 

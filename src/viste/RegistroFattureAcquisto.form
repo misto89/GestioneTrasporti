@@ -400,6 +400,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextField" name="txtTotImp">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
@@ -440,6 +441,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextField" name="txtIvaTot">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
@@ -480,6 +482,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextField" name="txtTotFatture">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
@@ -520,6 +523,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextField" name="txtTotNonPagate">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
@@ -560,6 +564,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextField" name="txtTotPagate">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>

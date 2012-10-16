@@ -1,0 +1,21 @@
+USE pugliatrasporti;
+
+ALTER TABLE `spedizioni` ADD `stato` CHAR(1) NOT NULL DEFAULT  'C';
+
+ALTER TABLE `fornitori` CHANGE `nome` `nome` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `titolare` `titolare` VARCHAR(70) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `indirizzo_leg` `indirizzo_leg` VARCHAR(80) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `email` `email` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `citta_leg` `citta_leg` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `nazione_leg` `nazione_leg` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `banca` `banca` VARCHAR(70) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `nome_ref_1` `nome_ref_1` VARCHAR(80) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `email_ref_1` `email_ref_1` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `nome_ref_2` `nome_ref_2` VARCHAR(80) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `email_ref_2` `email_ref_2` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `citta_op` `citta_op` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `fornitori` CHANGE `nazione_op` `nazione_op` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+ALTER TABLE `mezzi` CHANGE `marca` `marca` VARCHAR(70) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+ALTER TABLE `movimcontante` CHANGE `banca` `banca` VARCHAR(70) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;

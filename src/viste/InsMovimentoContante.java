@@ -68,6 +68,7 @@ public class InsMovimentoContante extends javax.swing.JDialog {
         txtGiorno = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtImporto = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -102,6 +103,10 @@ public class InsMovimentoContante extends javax.swing.JDialog {
 
         jLabel5.setText("Importo");
 
+        txtImporto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel2.setText("€");
+
         javax.swing.GroupLayout pnlLayout = new javax.swing.GroupLayout(pnl);
         pnl.setLayout(pnlLayout);
         pnlLayout.setHorizontalGroup(
@@ -135,6 +140,8 @@ public class InsMovimentoContante extends javax.swing.JDialog {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
                         .addComponent(txtImporto, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
                 .addContainerGap())
         );
         pnlLayout.setVerticalGroup(
@@ -156,7 +163,8 @@ public class InsMovimentoContante extends javax.swing.JDialog {
                 .addGap(28, 28, 28)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtImporto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtImporto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addGap(258, 258, 258))
         );
 
@@ -189,6 +197,7 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     txtGiorno.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
     txtMese.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
     txtAnno.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+    txtImporto.setDocument(new JTextFieldFormatDouble());
     
     java.util.Date utilDate = new java.util.Date();    
     String today = (new java.sql.Date(utilDate.getTime())).toString();
@@ -252,6 +261,7 @@ private boolean checkData(String data) {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblData;
     private javax.swing.JPanel pnl;

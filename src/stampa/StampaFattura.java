@@ -34,8 +34,8 @@ public final class StampaFattura extends StampaDocumento {
     private final float HEIGHT_NOT_LAST; //altezza del rettangolo per tutte le pagina prima dell'ultima
 
     private static final String FILENAME = "fattura.pdf";
-    private static final int MAX_PER_PAGE = 18;
-    private static final int MAX_PER_PAGE_FORFAIT = 18;
+    private static final int MAX_PER_PAGE = 23;
+    private static final int MAX_PER_PAGE_FORFAIT = 22;
 
     public StampaFattura(Fattura fattura, Fornitore cliente, boolean allegato) throws DocumentException, IOException {
         super(FILENAME);
@@ -111,14 +111,22 @@ public final class StampaFattura extends StampaDocumento {
                 if (sped.getValoreMerce() != 0) {
                     descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
                 }
+                String importo = doubleToString(roundTwoDecimals(sped.getImporto()));
+                String przUnitario = doubleToString(roundTwoDecimals(sped.getDistrib() + sped.getTraz()));
+                String qta = String.valueOf(sped.getQta());
+                if(sped.getQta() == 0){
+                   importo = "";
+                   przUnitario = "";
+                   qta = "";
+                }
                 PdfPCell[] rigaSped = {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(sdf.format(sped.getDataDocumento()), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(descrizione, FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase(sped.getUm(), FONT_PICCOLO_NORMALE)),
-                    new PdfPCell(new Phrase(String.valueOf(sped.getQta()), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(sped.getDistrib() + sped.getTraz())), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(sped.getImporto())), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(qta, FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(przUnitario, FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(importo, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(String.valueOf(sped.getSconto() + " %"), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(String.valueOf(sped.getPercIva() + " %"), FONT_GRANDE_NORMALE)),
                     //new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(sped.getValoreMerce())), FONT_GRANDE_NORMALE)),
@@ -129,8 +137,8 @@ public final class StampaFattura extends StampaDocumento {
                 rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 rigaSped[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 
@@ -197,8 +205,8 @@ public final class StampaFattura extends StampaDocumento {
                 rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 rigaSped[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 
@@ -447,9 +455,7 @@ public final class StampaFattura extends StampaDocumento {
         String metodoPagam = metPagam[0] + " a " + metPagam[1] + " gg";
         if (metodoPagam.equalsIgnoreCase("Contante a 0 gg"))
             metodoPagam = "Contante";
-        else if (metodoPagam.equalsIgnoreCase("Rimessa diretta a 0 gg"))
-            metodoPagam = "Rimessa diretta";
-        
+               
         PdfPCell[] info = {
             new PdfPCell(new Phrase("TIPO DOCUMENTO", FONT_PICCOLO_BOLD)),
             new PdfPCell(new Phrase("NUMERO", FONT_PICCOLO_BOLD)),

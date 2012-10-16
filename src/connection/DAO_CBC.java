@@ -324,6 +324,7 @@ public class DAO_CBC {
             boolean rientrata;
             Double valoreMerce;
             Double imponibile;
+            char stato;
 
             while (rsSped.next()){
                 numero = rsSped.getString(Tabelle.Spedizioni.NUMERO);
@@ -347,10 +348,11 @@ public class DAO_CBC {
                 rientrata = rsSped.getBoolean(Tabelle.Spedizioni.RIENTRATA);
                 valoreMerce = rsSped.getDouble(Tabelle.Spedizioni.VALORE_MERCE);
                 imponibile = rsSped.getDouble(Tabelle.Spedizioni.IMPONIBILE);
-
+                stato = rsSped.getString(Tabelle.Spedizioni.STATO).charAt(0);
+                        
                 Spedizione sped = new Spedizione(numero, forn, dataCarico, dataDocumento, descrizione, null, 
                         um, qta, traz, distrib, importo, sconto, percIva, iva, 
-                        percProvvigione, provvigione, totale, note, rientrata, fattura, dataFattura, valoreMerce, imponibile);
+                        percProvvigione, provvigione, totale, note, rientrata, fattura, dataFattura, valoreMerce, imponibile, stato);
 
                 psSped = conn.prepareStatement("SELECT " + Tabelle.Bolle.BOLLA + " FROM " + Tabelle.BOLLE + " WHERE " + 
                         Tabelle.Bolle.SPEDIZIONE + " = '" + numero + "' AND " + Tabelle.Bolle.DATA_SPEDIZIONE + " = '" + dataCarico + "'");

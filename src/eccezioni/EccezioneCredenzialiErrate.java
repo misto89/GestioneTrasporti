@@ -18,5 +18,4 @@ public class EccezioneCredenzialiErrate extends RuntimeException {
         super(message);
     }
 
-    
 }

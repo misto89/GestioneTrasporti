@@ -26,8 +26,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import libs.DoubleFormatter;
 
@@ -48,10 +46,11 @@ public class InsSpedizione extends javax.swing.JDialog {
         color.changeColor(pnlPrezzo);
         color.changeColor(pnlTotale);
         blockTexts();
+        setFormatDouble();
         id_fornitore = fornitore.getCod();
         this.fornitore = fornitore;
         setTitle("Inserimento Spedizioni: " + fornitore);
-        txtPercIva.setText("21");
+        txtPercIva.setText(String.valueOf(PERC_IVA));
 //        java.util.Date utilDate = new java.util.Date();
 //        String today = (new java.sql.Date(utilDate.getTime())).toString();
 //        String[] splitted = today.split("\\-");
@@ -80,6 +79,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         color.changeColor(pnlPrezzo);
         color.changeColor(pnlTotale);
         blockTexts();
+        setFormatDouble();
         id_fornitore = fornitore.getCod();
         setTitle("Modifica Spedizione #" + spedizione.getNumSpedizione() + ", " + spedizione.getDataCarico().toString().substring(0, 4) + " - " + fornitore);
         this.parent = (Spedizioni) parent;
@@ -139,6 +139,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         double iva = DoubleFormatter.roundTwoDecimals(spedizione.getIva());
         int percProvv = spedizione.getPercProvv();
         double totale = DoubleFormatter.roundTwoDecimals(spedizione.getTotale());
+        char tipo = spedizione.getStato();
         
         txtQuantita.setText(Integer.toString(spedizione.getQta()));
         txtImporto.setText(Double.toString(importo));
@@ -164,6 +165,11 @@ public class InsSpedizione extends javax.swing.JDialog {
         txtMeseCarico.setEnabled(false);
         txtGiornoCarico.setEnabled(false);
         chkRientrata.setSelected(spedizione.getRientrata());
+        
+        if (tipo == 'C')
+            optConsegna.setSelected(true);
+        else
+            optRitiro.setSelected(true);
     }
 
     /** This method is called from within the constructor to
@@ -198,6 +204,8 @@ public class InsSpedizione extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         txtBolle = new javax.swing.JTextField();
         txtDescrizione = new javax.swing.JTextField();
+        optConsegna = new javax.swing.JRadioButton();
+        optRitiro = new javax.swing.JRadioButton();
         pnlDatiSpedizione = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -256,11 +264,6 @@ public class InsSpedizione extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
 
         pnlGenerale.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Generale", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
@@ -285,6 +288,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         });
 
         cboMezzo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleziona" }));
+        cboMezzo.setNextFocusableComponent(cboUm);
 
         jLabel10.setText("gg");
 
@@ -312,9 +316,21 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel3.setText("Bolle");
 
-        txtBolle.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtBolleFocusLost(evt);
+        txtBolle.setNextFocusableComponent(txtDescrizione);
+
+        txtDescrizione.setNextFocusableComponent(cboMezzo);
+
+        optConsegna.setText("Consegna");
+        optConsegna.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optConsegnaActionPerformed(evt);
+            }
+        });
+
+        optRitiro.setText("Ritiro");
+        optRitiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optRitiroActionPerformed(evt);
             }
         });
 
@@ -337,12 +353,16 @@ public class InsSpedizione extends javax.swing.JDialog {
                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(pnlGeneraleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtDescrizione, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
+                                            .addComponent(txtDescrizione, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlGeneraleLayout.createSequentialGroup()
                                                 .addGroup(pnlGeneraleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                     .addComponent(txtNumSpedizione, javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(txtBolle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(optConsegna)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(optRitiro)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                                                 .addGroup(pnlGeneraleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel19)
                                                     .addComponent(jLabel9))
@@ -372,7 +392,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                                                         .addComponent(jLabel20)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(txtAnnoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                            .addComponent(cboMezzo, 0, 648, Short.MAX_VALUE))))
+                                            .addComponent(cboMezzo, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(20, 20, 20)))
                         .addGap(21, 21, 21))
                     .addComponent(jLabel17)))
@@ -388,7 +408,9 @@ public class InsSpedizione extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(pnlGeneraleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(txtBolle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtBolle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(optConsegna)
+                            .addComponent(optRitiro)))
                     .addGroup(pnlGeneraleLayout.createSequentialGroup()
                         .addGroup(pnlGeneraleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtGiornoCarico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -424,11 +446,15 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel16.setText("Quantità");
 
+        txtQuantita.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtQuantita.setNextFocusableComponent(txtTrazione);
         txtQuantita.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtQuantitaFocusLost(evt);
             }
         });
+
+        cboUm.setNextFocusableComponent(txtQuantita);
 
         javax.swing.GroupLayout pnlDatiSpedizioneLayout = new javax.swing.GroupLayout(pnlDatiSpedizione);
         pnlDatiSpedizione.setLayout(pnlDatiSpedizioneLayout);
@@ -464,7 +490,9 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel33.setText("% IVA");
 
+        txtPercIva.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPercIva.setText("21");
+        txtPercIva.setNextFocusableComponent(txtNote);
         txtPercIva.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtPercIvaFocusLost(evt);
@@ -473,6 +501,7 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel34.setText("Importo IVA");
 
+        txtImpIva.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImpIva.setEnabled(false);
         txtImpIva.setFocusable(false);
 
@@ -480,9 +509,10 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel36.setText("% Provvigione");
 
-        txtImpProv.setEnabled(false);
-        txtImpProv.setFocusable(false);
+        txtImpProv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtImpProv.setNextFocusableComponent(txtPercIva);
 
+        txtPercProv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPercProv.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtPercProvFocusLost(evt);
@@ -493,6 +523,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         jLabel38.setText("Totale finale");
 
         txtTotale.setFont(new java.awt.Font("Tahoma", 1, 14));
+        txtTotale.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotale.setEnabled(false);
         txtTotale.setFocusable(false);
 
@@ -508,16 +539,13 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel42.setText("Valore Merce");
 
-        txtValMerce.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtValMerceFocusLost(evt);
-            }
-        });
+        txtValMerce.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel45.setText("€");
 
         jLabel46.setText("Imponibile");
 
+        txtImponibile.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImponibile.setEnabled(false);
         txtImponibile.setFocusable(false);
 
@@ -623,6 +651,7 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel21.setText("Trazione");
 
+        txtTrazione.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTrazione.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtTrazioneFocusLost(evt);
@@ -631,6 +660,7 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel22.setText("Distribuzione");
 
+        txtDistribuzione.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtDistribuzione.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtDistribuzioneFocusLost(evt);
@@ -641,12 +671,15 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel24.setText("Importo");
 
+        txtPercSconto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtPercSconto.setNextFocusableComponent(txtValMerce);
         txtPercSconto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtPercScontoFocusLost(evt);
             }
         });
 
+        txtImporto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImporto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtImportoFocusLost(evt);
@@ -655,11 +688,13 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel25.setText("Sconto");
 
+        txtImpSconto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImpSconto.setEnabled(false);
         txtImpSconto.setFocusable(false);
 
         jLabel26.setText("Importo Scontato");
 
+        txtImpScontato.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImpScontato.setEnabled(false);
         txtImpScontato.setFocusable(false);
 
@@ -835,9 +870,9 @@ public class InsSpedizione extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlGenerale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pnlPrezzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
+                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pnlTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -849,7 +884,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnEmetti))
                             .addComponent(pnlNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -871,26 +906,28 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(pnlPrezzo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(24, 24, 24))
+                        .addComponent(pnlPrezzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+private void setFormatDouble() {
+    txtTrazione.setDocument(new JTextFieldFormatDouble());
+    txtDistribuzione.setDocument(new JTextFieldFormatDouble());
+    txtImporto.setDocument(new JTextFieldFormatDouble());
+    txtValMerce.setDocument(new JTextFieldFormatDouble());
+    txtImpProv.setDocument(new JTextFieldFormatDouble());
+}
+    
 private void txtAnnoCaricoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAnnoCaricoFocusLost
 // TODO add your handling code here:
     txtAnnoDocumento.setText(txtAnnoCarico.getText());
 }//GEN-LAST:event_txtAnnoCaricoFocusLost
 
-private void txtBolleFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBolleFocusLost
-// TODO add your handling code here:
-    txtDescrizione.requestFocus();
-}//GEN-LAST:event_txtBolleFocusLost
-
 private void txtQuantitaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantitaFocusLost
 // TODO add your handling code here:
-    txtTrazione.requestFocus();
     calcolaImporto();
     calcolaSconto();
     calcolaTotale();
@@ -919,7 +956,6 @@ private void txtPercScontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
 // TODO add your handling code here:
     calcolaSconto();
     calcolaTotale();
-    txtValMerce.requestFocus();
 }//GEN-LAST:event_txtPercScontoFocusLost
 
 private void btnNuovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuovoActionPerformed
@@ -935,9 +971,11 @@ private void btnNuovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
  */
 private boolean checkBolle(String bolle) {
 //    Pattern pattern = Pattern.compile("[1-9]([0-9])*(-[1-9]([0-9])*)*");
-    Pattern pattern = Pattern.compile("(\\d){1,}(/[a-z]{1,}){0,1}(-(\\d){1,}(/[a-z]{1,}){0,1})*");
-    Matcher match = pattern.matcher(bolle);
-    return match.matches();
+//    Pattern pattern = Pattern.compile("(\\d){1,}(/[a-z]{1,}){0,1}(-(\\d){1,}(/[a-z]{1,}){0,1})*");
+//    Matcher match = pattern.matcher(bolle);
+//    return match.matches();
+    
+    return true;
       
 }
 
@@ -1052,7 +1090,7 @@ private Spedizione creaSpedizioneDaInserire() {
     
     String note = txtNote.getText();
     
-    int percIva = 21;
+    int percIva = PERC_IVA;
     try {
         percIva = Integer.parseInt(txtPercIva.getText());
     } catch (NumberFormatException e) {}
@@ -1111,9 +1149,21 @@ private Spedizione creaSpedizioneDaInserire() {
     
     String numero = txtNumSpedizione.getText();
     
+    char stato;
+    
+    if (!optConsegna.isSelected() && !optRitiro.isSelected()) {
+        JOptionPane.showMessageDialog(this, "Indicare se la spedizione è una Consegna o un Ritiro", "Campo mancante", JOptionPane.ERROR_MESSAGE);
+        return null;
+    }
+    
+    if (optConsegna.isSelected())
+        stato = 'C';
+    else
+        stato = 'R';
+    
     Spedizione sped = new Spedizione(numero, id_fornitore, dataCarico, dataDocumento, descrizione, targa,
             um, quantita, trazione, distrib, importo, sconto, percIva, iva, 
-            percProvv, impProv, totale, note, rientrata, null, null, valMerce, imponibile);
+            percProvv, impProv, totale, note, rientrata, null, null, valMerce, imponibile, stato);
     
     spedDaFatturare = sped;
     
@@ -1172,10 +1222,6 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
 }//GEN-LAST:event_btnMemorizzaActionPerformed
-
-private void txtValMerceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtValMerceFocusLost
-// TODO add your handling code here:
-}//GEN-LAST:event_txtValMerceFocusLost
 
 private void txtPercProvFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPercProvFocusLost
 // TODO add your handling code here:
@@ -1361,10 +1407,15 @@ private void blockTexts() {
     txtPercSconto.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
 }
 
-private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+private void optConsegnaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optConsegnaActionPerformed
 // TODO add your handling code here:
+    optRitiro.setSelected(false);
+}//GEN-LAST:event_optConsegnaActionPerformed
 
-}//GEN-LAST:event_formWindowOpened
+private void optRitiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optRitiroActionPerformed
+// TODO add your handling code here:
+    optConsegna.setSelected(false);
+}//GEN-LAST:event_optRitiroActionPerformed
 
 private void popolaSelect(List items) {
     cboMezzo.addItem(new Mezzo(null, "Vettore", null));
@@ -1418,7 +1469,7 @@ private void calcolaSconto(){
 }
 
 private void calcolaTotale(){
-    int percIva = 21;
+    int percIva = PERC_IVA;
     try {
         percIva = Integer.parseInt(txtPercIva.getText());
     } catch (NumberFormatException e) {}
@@ -1493,7 +1544,7 @@ private void pulisciText(){
     //txtNumSpedizione.setText(String.valueOf(FrontController.getNumber(Spedizione.class, dataPresunta)));
     txtNumSpedizione.setText(null);
     //txtNFatt.setText(String.valueOf(FrontController.getNumber(Fattura.class, dataPresunta)));
-    txtPercIva.setText("21");
+    txtPercIva.setText(String.valueOf(PERC_IVA));
     txtPercProv.setText(null);
     txtQuantita.setText(null);
     txtTotale.setText(null);
@@ -1504,6 +1555,8 @@ private void pulisciText(){
     txtImponibile.setText(null);
     txtValMerce.setText(null);
     cboMezzo.setSelectedIndex(0);
+    optConsegna.setSelected(false);
+    optRitiro.setSelected(false);
     txtGiornoCarico.requestFocus();
 }
 
@@ -1560,6 +1613,8 @@ private void pulisciText(){
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton optConsegna;
+    private javax.swing.JRadioButton optRitiro;
     private javax.swing.JPanel pnlDatiSpedizione;
     private javax.swing.JPanel pnlGenerale;
     private javax.swing.JPanel pnlNote;
@@ -1595,6 +1650,8 @@ private void pulisciText(){
     private boolean spedizioneInserita = false;
     private Fornitore fornitore;
     private int rigaTabellaSpedizioni; //Il numero della riga che sto modificando nella jtable delle spedizioni
+    
+    private static final int PERC_IVA = 21;
     
     private static final int MAX_LENGTH_GIORNO = 2;
     private static final int MAX_LENGTH_MESE = 2;

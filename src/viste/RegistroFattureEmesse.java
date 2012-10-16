@@ -228,6 +228,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
 
         pnlImpTot.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Imponibile", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtTotImp.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotImp.setEnabled(false);
 
         javax.swing.GroupLayout pnlImpTotLayout = new javax.swing.GroupLayout(pnlImpTot);
@@ -248,6 +249,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
 
         pnlIvaTot.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Iva", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtIvaTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtIvaTot.setEnabled(false);
 
         javax.swing.GroupLayout pnlIvaTotLayout = new javax.swing.GroupLayout(pnlIvaTot);
@@ -268,6 +270,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
 
         pnlTotFatture.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Fatture", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtTotFatture.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotFatture.setEnabled(false);
 
         javax.swing.GroupLayout pnlTotFattureLayout = new javax.swing.GroupLayout(pnlTotFatture);
@@ -288,6 +291,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
 
         pnlTotPagate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Pagate", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtTotPagate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotPagate.setEnabled(false);
 
         javax.swing.GroupLayout pnlTotPagateLayout = new javax.swing.GroupLayout(pnlTotPagate);
@@ -308,6 +312,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
 
         pnlTotNonPagate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Non pagate", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtTotNonPagate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotNonPagate.setEnabled(false);
 
         javax.swing.GroupLayout pnlTotNonPagateLayout = new javax.swing.GroupLayout(pnlTotNonPagate);
@@ -754,7 +759,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlMesi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1130, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

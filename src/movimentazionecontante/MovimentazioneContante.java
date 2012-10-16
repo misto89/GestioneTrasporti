@@ -69,10 +69,4 @@ public abstract class MovimentazioneContante {
         
     public abstract Object[] toArray();
 
-    /*
-     * Arrotonda a due cifre decimali il valore del double ricevuto come parametro
-     */
-    static double roundTwoDecimals(double d) {
-        return Math.rint(d * Math.pow(10,2)) / Math.pow(10,2);
-    }
 }

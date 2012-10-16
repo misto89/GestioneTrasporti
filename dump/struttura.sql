@@ -93,33 +93,33 @@ DROP TABLE IF EXISTS `fornitori`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fornitori` (
   `cod` int(10) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(50) DEFAULT NULL,
-  `titolare` varchar(20) DEFAULT NULL,
+  `nome` varchar(100) DEFAULT NULL,
+  `titolare` varchar(70) DEFAULT NULL,
   `piva` varchar(11) DEFAULT NULL,
   `codfiscale` varchar(16) DEFAULT NULL,
-  `indirizzo_leg` varchar(50) DEFAULT NULL,
+  `indirizzo_leg` varchar(80) DEFAULT NULL,
   `telefono1` varchar(15) DEFAULT NULL,
   `telefono2` varchar(15) DEFAULT NULL,
   `fax` varchar(15) DEFAULT NULL,
-  `email` varchar(40) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `cap_leg` varchar(5) DEFAULT NULL,
-  `citta_leg` varchar(20) DEFAULT NULL,
+  `citta_leg` varchar(50) DEFAULT NULL,
   `provincia_leg` varchar(10) DEFAULT NULL,
-  `nazione_leg` varchar(20) DEFAULT NULL,
-  `banca` varchar(30) DEFAULT NULL,
+  `nazione_leg` varchar(50) DEFAULT NULL,
+  `banca` varchar(70) DEFAULT NULL,
   `iban` varchar(27) DEFAULT NULL,
-  `nome_ref_1` varchar(30) DEFAULT NULL,
-  `email_ref_1` varchar(40) DEFAULT NULL,
+  `nome_ref_1` varchar(80) DEFAULT NULL,
+  `email_ref_1` varchar(100) DEFAULT NULL,
   `tel_ref_1` varchar(15) DEFAULT NULL,
-  `nome_ref_2` varchar(30) DEFAULT NULL,
-  `email_ref_2` varchar(40) DEFAULT NULL,
+  `nome_ref_2` varchar(80) DEFAULT NULL,
+  `email_ref_2` varchar(100) DEFAULT NULL,
   `tel_ref_2` varchar(15) DEFAULT NULL,
   `iscrizione_albo` varchar(20) DEFAULT NULL,
   `indirizzo_op` varchar(50) DEFAULT NULL,
   `cap_op` varchar(5) DEFAULT NULL,
-  `citta_op` varchar(20) DEFAULT NULL,
+  `citta_op` varchar(50) DEFAULT NULL,
   `provincia_op` varchar(10) DEFAULT NULL,
-  `nazione_op` varchar(20) DEFAULT NULL,
+  `nazione_op` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cod`),
   UNIQUE KEY `codfiscale` (`codfiscale`),
   UNIQUE KEY `piva` (`piva`)
@@ -136,7 +136,7 @@ DROP TABLE IF EXISTS `mezzi`;
 CREATE TABLE `mezzi` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `targa` varchar(10) NOT NULL,
-  `marca` varchar(30) DEFAULT NULL,
+  `marca` varchar(70) DEFAULT NULL,
   `scad_bollo` varchar(30) DEFAULT NULL,
   `scad_revisione` varchar(30) DEFAULT NULL,
   `scad_atp` varchar(30) DEFAULT NULL,
@@ -158,11 +158,11 @@ DROP TABLE IF EXISTS `movimcontante`;
 CREATE TABLE `movimcontante` (
   `numero` int(11) NOT NULL AUTO_INCREMENT,
   `data` date NOT NULL,
-  `banca` varchar(50) DEFAULT NULL,
+  `banca` varchar(70) DEFAULT NULL,
   `importo` decimal(9,2) NOT NULL,
   `tipo` varchar(11) NOT NULL,
   PRIMARY KEY (`numero`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,6 +215,7 @@ CREATE TABLE `spedizioni` (
   `data_fattura` date DEFAULT NULL,
   `valoremerce` decimal(10,2) NOT NULL DEFAULT '0.00',
   `imponibile` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `stato` char(1) NOT NULL DEFAULT 'C',
   PRIMARY KEY (`numero`,`data_carico`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -228,4 +229,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-12 17:22:18
+-- Dump completed on 2012-10-16 23:41:17

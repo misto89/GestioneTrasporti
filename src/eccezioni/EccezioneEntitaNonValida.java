@@ -17,5 +17,4 @@ public class EccezioneEntitaNonValida extends RuntimeException {
         super(message);
     }
     
-    
 }

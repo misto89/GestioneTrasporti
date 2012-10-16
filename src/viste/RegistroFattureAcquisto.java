@@ -253,6 +253,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
 
         pnlImpTot.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Imponibile", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtTotImp.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotImp.setEnabled(false);
 
         javax.swing.GroupLayout pnlImpTotLayout = new javax.swing.GroupLayout(pnlImpTot);
@@ -273,6 +274,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
 
         pnlIvaTot.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Iva", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtIvaTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtIvaTot.setEnabled(false);
 
         javax.swing.GroupLayout pnlIvaTotLayout = new javax.swing.GroupLayout(pnlIvaTot);
@@ -293,6 +295,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
 
         pnlTotFatture.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Fatture", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtTotFatture.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotFatture.setEnabled(false);
 
         javax.swing.GroupLayout pnlTotFattureLayout = new javax.swing.GroupLayout(pnlTotFatture);
@@ -313,6 +316,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
 
         pnlTotNonPagate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Non pagate", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtTotNonPagate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotNonPagate.setEnabled(false);
 
         javax.swing.GroupLayout pnlTotNonPagateLayout = new javax.swing.GroupLayout(pnlTotNonPagate);
@@ -333,6 +337,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
 
         pnlTotPagate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tot. Pagate", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        txtTotPagate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotPagate.setEnabled(false);
 
         javax.swing.GroupLayout pnlTotPagateLayout = new javax.swing.GroupLayout(pnlTotPagate);
@@ -368,7 +373,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                 .addComponent(pnlTotPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlTotNonPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(210, Short.MAX_VALUE))
+                .addContainerGap(218, Short.MAX_VALUE))
         );
         pnlRiepilogoLayout.setVerticalGroup(
             pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -815,7 +820,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                     .addComponent(optScadute)
                     .addComponent(optTutteScad)
                     .addComponent(optNonScadute))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         pnlScaduteLayout.setVerticalGroup(
             pnlScaduteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -906,7 +911,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1175, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1191, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(pnlPagate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

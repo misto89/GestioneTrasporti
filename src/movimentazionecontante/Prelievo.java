@@ -6,6 +6,7 @@ package movimentazionecontante;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import libs.DoubleFormatter;
 
 /**
  *
@@ -20,6 +21,6 @@ public class Prelievo extends MovimentazioneContante {
     public Object[] toArray(){
         final String NEW_FORMAT = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
-        return new Object[] {sdf.format(dataMovimento), this.banca, roundTwoDecimals(importo), "Prelievo"};
+        return new Object[] {sdf.format(dataMovimento), this.banca, DoubleFormatter.roundTwoDecimals(importo), "Prelievo"};
     }
 }

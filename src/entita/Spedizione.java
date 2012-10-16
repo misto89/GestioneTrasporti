@@ -64,8 +64,9 @@ public class Spedizione implements Entity {
     private Date dataFattura;
     private Double valoreMerce;
     private Double imponibile;
+    private Character stato;
    
-    public static final int NUM_CAMPI = 16; //numero campi da visualizzare
+    public static final int NUM_CAMPI = 17; //numero campi da visualizzare
     
     public Spedizione() {
     }
@@ -78,7 +79,7 @@ public class Spedizione implements Entity {
     public Spedizione(String num, Integer fornitore, Date dataCarico, Date dataDocumento, String descrizione, String mezzo,
             String um, int qta, Double traz, Double distrib, Double importo, Integer sconto, Integer percIva, Double iva, 
             Integer percProvv, Double provv, Double totale, String note, boolean rientrata, Integer fattura, Date dataFattura,
-            Double valMerce, Double imponibile) {
+            Double valMerce, Double imponibile, Character stato) {
         
         this.numero = num;
         this.fornitore = fornitore;
@@ -103,6 +104,7 @@ public class Spedizione implements Entity {
         this.dataFattura = dataFattura;
         this.valoreMerce = valMerce;
         this.imponibile = imponibile;
+        this.stato = stato;
     }
 
     public List<String> getBolle() {
@@ -284,7 +286,15 @@ public class Spedizione implements Entity {
     public void setDataFattura(Date data) {
         dataFattura = data;
     }
-    
+
+    public char getStato() {
+        return stato;
+    }
+
+    public void setStato(char stato) {
+        this.stato = stato;
+    }
+        
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -316,7 +326,13 @@ public class Spedizione implements Entity {
         else
             rientrata = 'N';
         
-        Object[] arrayFatt = {bolle.toString(), numero, sdf.format(dataCarico), dataDoc, descrizione, um, qta, traz, distrib, importo, imponibile, valoreMerce, note, rientrata, mezzo, numFattura};
+        String stato;
+        if (this.stato == 'C')
+            stato = "Consegna";
+        else
+            stato = "Ritiro";
+        
+        Object[] arrayFatt = {bolle.toString(), stato, numero, sdf.format(dataCarico), dataDoc, descrizione, um, qta, traz, distrib, importo, imponibile, valoreMerce, note, rientrata, mezzo, numFattura};
         return arrayFatt;
     }
     
