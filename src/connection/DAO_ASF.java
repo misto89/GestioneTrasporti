@@ -805,6 +805,7 @@ public abstract class DAO_ASF {
                 Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
+            
         } else if (o instanceof Spedizione) {
             Spedizione s = (Spedizione) o;
             try {
@@ -1228,43 +1229,43 @@ public abstract class DAO_ASF {
      * @param numero: il numero di spedizione eliminata
      * @param data: la data della spedizione eliminata
      */
-    public static boolean resetNumSpedizione(int numero, Date dataSped){
-        try {
-            String annoDataSped = (dataSped.toString()).substring(0, 4);
-            sql = "SELECT " + Tabelle.Spedizioni.NUMERO + ", " + Tabelle.Spedizioni.DATA_CARICO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " + Tabelle.Spedizioni.NUMERO + " > " + numero + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + annoDataSped + "-01-01' AND " + Tabelle.Spedizioni.DATA_CARICO + " <= '" + annoDataSped + "-12-31'"; 
-        
-            System.out.println(sql);
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-            
-            ps = conn.prepareStatement("START TRANSACTION");
-            ps.executeUpdate();
-            
-            while (rs.next()){
-                int modNum = rs.getInt(1);
-                Date dataCarico = rs.getDate(2);
-                sql = "UPDATE " + Tabelle.SPEDIZIONI + " SET " + Tabelle.Spedizioni.NUMERO + " = " + Tabelle.Spedizioni.NUMERO + " -1 WHERE " + Tabelle.Spedizioni.NUMERO + " = " + modNum + " AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + dataCarico + "'";
-                ps = conn.prepareStatement(sql);
-                System.out.println(sql);
-                ps.executeUpdate(); 
-                
-                sql = "UPDATE " + Tabelle.BOLLE + " SET " + Tabelle.Bolle.SPEDIZIONE + " = " + Tabelle.Bolle.SPEDIZIONE + " -1 " 
-                        + " WHERE " + Tabelle.Bolle.SPEDIZIONE + " = " + modNum + " AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + dataCarico + "'";
-                
-                ps = conn.prepareStatement(sql);
-                System.out.println(sql);
-                ps.executeUpdate(); 
-            }
-            
-            ps = conn.prepareStatement("COMMIT");
-            ps.executeUpdate();
-            
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
+//    public static boolean resetNumSpedizione(int numero, Date dataSped){
+//        try {
+//            String annoDataSped = (dataSped.toString()).substring(0, 4);
+//            sql = "SELECT " + Tabelle.Spedizioni.NUMERO + ", " + Tabelle.Spedizioni.DATA_CARICO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " + Tabelle.Spedizioni.NUMERO + " > " + numero + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + annoDataSped + "-01-01' AND " + Tabelle.Spedizioni.DATA_CARICO + " <= '" + annoDataSped + "-12-31'"; 
+//        
+//            System.out.println(sql);
+//            ps = conn.prepareStatement(sql);
+//            rs = ps.executeQuery();
+//            
+//            ps = conn.prepareStatement("START TRANSACTION");
+//            ps.executeUpdate();
+//            
+//            while (rs.next()){
+//                int modNum = rs.getInt(1);
+//                Date dataCarico = rs.getDate(2);
+//                sql = "UPDATE " + Tabelle.SPEDIZIONI + " SET " + Tabelle.Spedizioni.NUMERO + " = " + Tabelle.Spedizioni.NUMERO + " -1 WHERE " + Tabelle.Spedizioni.NUMERO + " = " + modNum + " AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + dataCarico + "'";
+//                ps = conn.prepareStatement(sql);
+//                System.out.println(sql);
+//                ps.executeUpdate(); 
+//                
+//                sql = "UPDATE " + Tabelle.BOLLE + " SET " + Tabelle.Bolle.SPEDIZIONE + " = " + Tabelle.Bolle.SPEDIZIONE + " -1 " 
+//                        + " WHERE " + Tabelle.Bolle.SPEDIZIONE + " = " + modNum + " AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + dataCarico + "'";
+//                
+//                ps = conn.prepareStatement(sql);
+//                System.out.println(sql);
+//                ps.executeUpdate(); 
+//            }
+//            
+//            ps = conn.prepareStatement("COMMIT");
+//            ps.executeUpdate();
+//            
+//            return true;
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+//            return false;
+//        }
+//    }
    
     /*
      * Effettua un controllo generico sulla data inserita e l'eventuale numero forzato dall'utente per la fattura.
@@ -1278,6 +1279,7 @@ public abstract class DAO_ASF {
             String sqlDataPrec = "SELECT " + Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO + " FROM " + 
                     Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDoc + "' ORDER BY " +
                     Tabelle.Fatture.DATA + " DESC, " + Tabelle.Fatture.NUMERO + " DESC LIMIT 1";
+            //Tabelle.Fatture.DATA + " >= '" +  dataDocYear + "-01-01' AND <'" + dataDoc ??? CONTROLLARE QUESTA QUERY
             
             System.out.println(sqlDataPrec);
             ps = conn.prepareStatement(sqlDataPrec);
@@ -1317,8 +1319,8 @@ public abstract class DAO_ASF {
                 } else {
                     if (numPrec > 0) {
                        if (numSucc > 0) {
-                           if ((forcedNumber < numPrec) && (forcedNumber < numSucc)) //RICONTROLLARE E AGGIUSTARE
-                                //JOptionPane.showMessageDialog(null,forcedNumber + "stesso giorno");
+                           if ((forcedNumber < numPrec) && dataDoc.equals(dataPrec)) //RICONTROLLARE
+                               //Fattura inserita nello stesso giorno della precedente ma con numero inferiore (lecito)                   
                                valoreReturn = 0;    //Valore di ok
                                  
                            else if (!((forcedNumber > numPrec) && (forcedNumber < numSucc)))
@@ -1328,9 +1330,11 @@ public abstract class DAO_ASF {
                                 valoreReturn = 0;    //Valore di ok
                             
                         } else if (numSucc == 0) {
-                            if ((forcedNumber<numPrec) && (dataDoc.equals(dataPrec))) //RICONTROLLARE E AGGIUSTARE
-                                //JOptionPane.showMessageDialog(null,forcedNumber + "stesso giorno");
+                            if ((forcedNumber<numPrec) && (dataDoc.equals(dataPrec)))
+                                //Fattura inserita nello stesso giorno della precedente ma con numero inferiore (questo caso specifico si ha quando la fattura relativa a 
+                                //numPrec è anche l'ultima fattura nel anno, di modo che numSucc risulta = 0)                   
                                 valoreReturn = 0;    //Valore di ok
+                            
                             else if (!((forcedNumber > numPrec)))
                                 throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
                                         "oppure non c'è nessun intervallo di fatture alla data selezionata.");

@@ -249,6 +249,7 @@ public class DAO_CBC {
      * Restituisce tutte i movimenti appartenenti ad una fattura
      */
     private static List<Movimento> ricMovimenti(int doc, Date dataDoc, int fornCliente, Fattura.tipo tipoDoc) throws SQLException {
+        
         sql = "SELECT * FROM " + Tabelle.MOVIMENTI + " WHERE " + Tabelle.Movimenti.NUM_DOC + " = " + doc + " AND " + 
                 Tabelle.Movimenti.DATA + " = '" + dataDoc + "' AND " + Tabelle.Movimenti.TIPO + " = '" + tipoDoc.toString() + "' AND " +
                 Tabelle.Movimenti.FORN_CLIENTE + " = " + fornCliente;
@@ -752,7 +753,8 @@ public class DAO_CBC {
             LinkedList<SaldoContabilitaMensile> movimMensili = new LinkedList<SaldoContabilitaMensile>();
             
             for (String meseAnno : anniMesi){
-                sqlEmesse = "SELECT DISTINCT " + Tabelle.FATTURE + "." + Tabelle.Fatture.TOTALE + " FROM " + Tabelle.FATTURE + " JOIN " + Tabelle.SPEDIZIONI + " ON " +
+                sqlEmesse = "SELECT DISTINCT " + Tabelle.FATTURE + "." + Tabelle.Fatture.NUMERO + ", " + Tabelle.FATTURE + "." + Tabelle.Fatture.DATA + ", " + 
+                        Tabelle.FATTURE + "." + Tabelle.Fatture.TOTALE + " FROM " + Tabelle.FATTURE + " JOIN " + Tabelle.SPEDIZIONI + " ON " +
                         Tabelle.Fatture.DATA + " = " + Tabelle.Spedizioni.DATA_FATTURA + " AND " + Tabelle.FATTURE + "." + Tabelle.Fatture.NUMERO + " = " +
                         Tabelle.Spedizioni.NUM_FATTURA + " WHERE "; 
                 
@@ -783,11 +785,11 @@ public class DAO_CBC {
                 
                 SaldoContabilitaMensile mese = new SaldoContabilitaMensile(meseAnno);
                 while (rsEmesse.next()) {
-                    double tot = rsEmesse.getDouble(1);
+                    double tot = rsEmesse.getDouble(Tabelle.Fatture.TOTALE);
                     mese.addPos(tot);
                 }
                 while (rsAcquisto.next()){
-                    double tot = rsAcquisto.getDouble(1);
+                    double tot = rsAcquisto.getDouble(Tabelle.FattureAcquisto.TOTALE);
                     mese.addNeg(tot);
                 }
                 mese.setSaldo();
@@ -811,7 +813,7 @@ public class DAO_CBC {
             
             for (String meseAnno : anniMesi){
                 if (tipoMov == Fattura.tipo.VEN){
-                    sql = "SELECT DISTINCT " +  Tabelle.Movimenti.MET_PAG + ", " + Tabelle.Movimenti.VALORE + " FROM " + Tabelle.MOVIMENTI +
+                    sql = "SELECT DISTINCT " +  Tabelle.Movimenti.ID + ", " + Tabelle.Movimenti.MET_PAG + ", " + Tabelle.Movimenti.VALORE + " FROM " + Tabelle.MOVIMENTI +
                                 " JOIN " + Tabelle.FATTURE + " ON " + Tabelle.MOVIMENTI + "." + Tabelle.Movimenti.DATA + " = " + Tabelle.FATTURE + "." + Tabelle.Fatture.DATA +
                                   " AND " + Tabelle.Movimenti.NUM_DOC + " = " + Tabelle.Fatture.NUMERO +
                                         " JOIN " + Tabelle.SPEDIZIONI + " ON " + Tabelle.FATTURE + "." + Tabelle.Fatture.NUMERO + " = " + Tabelle.SPEDIZIONI + "." + Tabelle.Spedizioni.NUM_FATTURA + 
@@ -841,8 +843,8 @@ public class DAO_CBC {
                 
                 SaldoCassaMensile mese = new SaldoCassaMensile(meseAnno, tipoMov);
                 while (rs.next()) {
-                    double importo = rs.getDouble(2);
-                    String metPag = rs.getString(1);
+                    double importo = rs.getDouble(Tabelle.Movimenti.VALORE);
+                    String metPag = rs.getString(Tabelle.Movimenti.MET_PAG);
                     if (metPag.equalsIgnoreCase(SaldoCassaMensile.ASSEGNO))
                         mese.addAssegno(importo);
                     else if (metPag.equalsIgnoreCase(SaldoCassaMensile.CONTANTE))
@@ -1040,11 +1042,11 @@ public class DAO_CBC {
                 SaldoIvaMensile mese = new SaldoIvaMensile(meseAnno);
                 while (rsEmesse.next()) {
                     double tot = rsEmesse.getDouble(1);
-                    mese.addIvaCredito(tot);
+                    mese.addIvaDebito(tot);
                 }
                 while (rsAcquisto.next()){
                     double tot = rsAcquisto.getDouble(1);
-                    mese.addIvaDebito(tot);
+                    mese.addIvaCredito(tot);
                 }
                 mese.setSaldo();
                 saldiMensili.add(mese);

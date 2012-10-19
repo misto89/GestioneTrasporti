@@ -34,8 +34,8 @@ public final class StampaFattura extends StampaDocumento {
     private final float HEIGHT_NOT_LAST; //altezza del rettangolo per tutte le pagina prima dell'ultima
 
     private static final String FILENAME = "fattura.pdf";
-    private static final int MAX_PER_PAGE = 23;
-    private static final int MAX_PER_PAGE_FORFAIT = 22;
+    private static final int MAX_PER_PAGE = 24;
+    private static final int MAX_PER_PAGE_FORFAIT = 23;
 
     public StampaFattura(Fattura fattura, Fornitore cliente, boolean allegato) throws DocumentException, IOException {
         super(FILENAME);
@@ -111,14 +111,20 @@ public final class StampaFattura extends StampaDocumento {
                 if (sped.getValoreMerce() != 0) {
                     descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
                 }
+                //Controlli generici sulla presenza o meno dei valori, se i valori non sono presenti (pari a 0) non appaiono nella fattura
                 String importo = doubleToString(roundTwoDecimals(sped.getImporto()));
                 String przUnitario = doubleToString(roundTwoDecimals(sped.getDistrib() + sped.getTraz()));
                 String qta = String.valueOf(sped.getQta());
                 if(sped.getQta() == 0){
-                   importo = "";
-                   przUnitario = "";
                    qta = "";
                 }
+                if(sped.getImporto() == 0){
+                    importo = "";
+                }
+                if(sped.getDistrib() + sped.getTraz() == 0){
+                    przUnitario = "";
+                }                
+                   
                 PdfPCell[] rigaSped = {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(sdf.format(sped.getDataDocumento()), FONT_GRANDE_NORMALE)),
