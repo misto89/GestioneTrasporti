@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import libs.DateUpdate;
 import libs.DoubleFormatter;
 
 /**
@@ -99,6 +100,13 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        txtGiornoScadenza = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        txtMeseScadenza = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        txtAnnoScadenza = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -132,10 +140,20 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         txtNum.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         txtMeseFatt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMeseFatt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtMeseFattFocusLost(evt);
+            }
+        });
 
         jLabel13.setText("gg");
 
         txtAnnoFatt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtAnnoFatt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAnnoFattFocusLost(evt);
+            }
+        });
 
         jLabel14.setText("aaaa");
 
@@ -144,6 +162,11 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         jLabel12.setText("mm");
 
         txtGiornoFatt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtGiornoFatt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtGiornoFattFocusLost(evt);
+            }
+        });
 
         jLabel2.setText("Importo");
 
@@ -179,6 +202,11 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
         jLabel9.setText("Pagamento");
 
         cboGiorni.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "105", "110", "115", "120" }));
+        cboGiorni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboGiorniActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Giorni");
 
@@ -216,99 +244,137 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
 
         jLabel18.setText("€");
 
+        jLabel19.setText("Scadenza");
+
+        jLabel20.setText("gg");
+
+        txtGiornoScadenza.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel21.setText("mm");
+
+        txtMeseScadenza.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel22.setText("aaaa");
+
+        txtAnnoScadenza.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
         javax.swing.GroupLayout pnlLayout = new javax.swing.GroupLayout(pnl);
         pnl.setLayout(pnlLayout);
         pnlLayout.setHorizontalGroup(
             pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkPagata))
+                .addGap(117, 117, 117))
             .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(119, Short.MAX_VALUE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel19)
+                .addGap(43, 43, 43)
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtGiornoScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtMeseScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAnnoScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(112, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
+                .addContainerGap(179, Short.MAX_VALUE)
+                .addComponent(txtMeseFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAnnoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(122, 122, 122))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(cboFornitore, 0, 377, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNoteMetPag)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtNoteMetPag)
+                    .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(pnlLayout.createSequentialGroup()
-                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cboFornitore, 0, 359, Short.MAX_VALUE)
-                                .addGroup(pnlLayout.createSequentialGroup()
-                                    .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(pnlLayout.createSequentialGroup()
-                                            .addComponent(jLabel9)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                                            .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addGroup(pnlLayout.createSequentialGroup()
-                                                                    .addComponent(jLabel11)
-                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                                                                    .addComponent(jLabel13)
-                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                    .addComponent(txtGiornoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                    .addComponent(jLabel12)
-                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                                                .addGroup(pnlLayout.createSequentialGroup()
-                                                                    .addComponent(jLabel2)
-                                                                    .addGap(121, 121, 121)))
-                                                            .addGroup(pnlLayout.createSequentialGroup()
-                                                                .addComponent(jLabel1)
-                                                                .addGap(122, 122, 122)))
-                                                        .addGroup(pnlLayout.createSequentialGroup()
-                                                            .addComponent(jLabel3)
-                                                            .addGap(126, 126, 126)))
-                                                    .addGroup(pnlLayout.createSequentialGroup()
-                                                        .addComponent(jLabel4)
-                                                        .addGap(143, 143, 143)))
-                                                .addGroup(pnlLayout.createSequentialGroup()
-                                                    .addComponent(jLabel5)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(txtSconto)
-                                                    .addComponent(txtNum)
-                                                    .addComponent(txtImporto)
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                                                        .addComponent(txtMeseFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jLabel14)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(txtAnnoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addComponent(txtTotale, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                                                .addGroup(pnlLayout.createSequentialGroup()
-                                                    .addComponent(txtPercIva, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(jLabel7))))
-                                        .addComponent(cboTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(pnlLayout.createSequentialGroup()
-                                            .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jLabel10))
-                                        .addComponent(txtIva, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel11)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                            .addComponent(jLabel13)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel15)
-                            .addContainerGap())
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                            .addGap(210, 210, 210))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblNoteMetPag)
-                                .addComponent(jLabel6))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtNoteMetPag)
-                                .addComponent(txtNote, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
-                            .addContainerGap()))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                        .addComponent(chkPagata)
-                        .addGap(161, 161, 161))))
+                            .addComponent(txtGiornoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel12)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addGroup(pnlLayout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(122, 122, 122)))
+                    .addGroup(pnlLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(121, 121, 121))
+                    .addGroup(pnlLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(126, 126, 126))
+                    .addGroup(pnlLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(143, 143, 143))
+                    .addGroup(pnlLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTotale, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                    .addGroup(pnlLayout.createSequentialGroup()
+                        .addComponent(txtPercIva, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7))
+                    .addComponent(txtSconto, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                    .addComponent(txtImporto, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlLayout.createSequentialGroup()
+                        .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10))
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIva, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel15)
+                .addGap(19, 19, 19))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(174, 174, 174)
+                .addComponent(txtNum, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                .addContainerGap(117, Short.MAX_VALUE))
         );
+
+        pnlLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel11, jLabel19});
+
+        pnlLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtSconto, txtTotale});
+
+        pnlLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel5, jLabel9});
+
         pnlLayout.setVerticalGroup(
             pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlLayout.createSequentialGroup()
@@ -355,11 +421,20 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
                     .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                    .addComponent(jLabel20)
+                    .addComponent(txtGiornoScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21)
+                    .addComponent(txtMeseScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22)
+                    .addComponent(txtAnnoScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
+                .addGap(18, 18, 18)
+                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(chkPagata)
                 .addGap(18, 18, 18)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -369,7 +444,7 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -388,9 +463,9 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMemorizza)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -414,6 +489,9 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     txtGiornoFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
     txtMeseFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
     txtAnnoFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+    txtGiornoScadenza.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+    txtMeseScadenza.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+    txtAnnoScadenza.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
     txtPercIva.setDocument(new JTextFieldLimit(MAX_LENGTH_PERCIVA));
     cboFornitore.requestFocus();
     txtPercIva.setText(PERC_IVA.toString());
@@ -630,6 +708,37 @@ private Fattura createFattura(){
             "Formato errato", JOptionPane.ERROR_MESSAGE);
             return null;
     }
+    
+    String annoScad = txtAnnoScadenza.getText();
+    String meseScad = txtMeseScadenza.getText();
+    String giornoScad = txtGiornoScadenza.getText();
+
+    if (annoScad.isEmpty() || meseScad.isEmpty() || giornoScad.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
+        JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data scadenza", 
+            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
+        return null;
+    }
+
+    if (annoScad.length() == 2)
+        annoScad = "20" + annoScad;
+    else if (annoScad.length() == 3)
+        annoScad = "2" + annoScad;
+
+    if (meseScad.length() == 1)
+        meseScad = "0" + meseScad;
+
+    if (giornoScad.length() == 1)
+        giornoScad = "0" + giornoScad;
+
+    Date dataScadenza = null;
+    try {
+        dataScadenza = Date.valueOf(annoScad + "-" + meseScad + "-"  + giornoScad);
+
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(null, "Valore inserito per la data scadenza non valido! Inserire la data nel formato gg/mm/aaaa", 
+            "Formato errato", JOptionPane.ERROR_MESSAGE);
+            return null;
+    }
 
     String metPag = "Contante-0";
     if (cboMetPag.getSelectedIndex() > 0)
@@ -697,7 +806,7 @@ private Fattura createFattura(){
 
     String note = txtNote.getText();
 
-    Fattura fattura = new Fattura(num, data, metPag, importo, sconto, iva, totale, tipo, pagata, fornitore, note);
+    Fattura fattura = new Fattura(num, data, metPag, importo, sconto, iva, totale, tipo, pagata, fornitore, note, dataScadenza);
     fattura.setCliente(new Fornitore(codFornitore));
 
     return fattura;
@@ -726,6 +835,26 @@ private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }
 }//GEN-LAST:event_chkPagataActionPerformed
 
+private void txtGiornoFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtGiornoFattFocusLost
+// TODO add your handling code here:
+    setDataScadenza();
+}//GEN-LAST:event_txtGiornoFattFocusLost
+
+private void txtMeseFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMeseFattFocusLost
+// TODO add your handling code here:
+    setDataScadenza();
+}//GEN-LAST:event_txtMeseFattFocusLost
+
+private void txtAnnoFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAnnoFattFocusLost
+// TODO add your handling code here:
+    setDataScadenza();
+}//GEN-LAST:event_txtAnnoFattFocusLost
+
+private void cboGiorniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGiorniActionPerformed
+// TODO add your handling code here:
+    setDataScadenza();
+}//GEN-LAST:event_cboGiorniActionPerformed
+
 private void calculateTotal(){
     importo = Double.parseDouble(txtImporto.getText());
     percIva = Integer.parseInt(txtPercIva.getText());
@@ -739,6 +868,36 @@ private void calculateTotal(){
     txtIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
     txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva + imponibile)));
     
+}
+
+private void setDataScadenza() {
+    
+    String giornoFatt = txtGiornoFatt.getText();
+    String meseFatt = txtMeseFatt.getText();
+    String annoFatt = txtAnnoFatt.getText();
+    
+    if (!giornoFatt.isEmpty() && !meseFatt.isEmpty() && !annoFatt.isEmpty()) {
+        
+        if (annoFatt.length() == 2)
+            annoFatt = "20" + annoFatt;
+        else if (annoFatt.length() == 3)
+            annoFatt = "2" + annoFatt;
+
+        if (meseFatt.length() == 1)
+            meseFatt = "0" + meseFatt;
+
+        if (giornoFatt.length() == 1)
+            giornoFatt = "0" + giornoFatt;
+        
+        try {
+            Date dataFattura = Date.valueOf(annoFatt + "-" + meseFatt + "-" + giornoFatt);
+            String[] nuovaScadenza = DateUpdate.update(dataFattura, Integer.parseInt((String) cboGiorni.getSelectedItem())).toString().split("-");
+            txtGiornoScadenza.setText(nuovaScadenza[2]);
+            txtMeseScadenza.setText(nuovaScadenza[1]);
+            txtAnnoScadenza.setText(nuovaScadenza[0]);
+            
+        } catch (IllegalArgumentException e) {}
+    }
 }
 
 void unCheckPagate(){
@@ -765,7 +924,11 @@ void unCheckPagate(){
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -776,10 +939,13 @@ void unCheckPagate(){
     private javax.swing.JLabel lblNoteMetPag;
     private javax.swing.JPanel pnl;
     private javax.swing.JTextField txtAnnoFatt;
+    private javax.swing.JTextField txtAnnoScadenza;
     private javax.swing.JTextField txtGiornoFatt;
+    private javax.swing.JTextField txtGiornoScadenza;
     private javax.swing.JTextField txtImporto;
     private javax.swing.JTextField txtIva;
     private javax.swing.JTextField txtMeseFatt;
+    private javax.swing.JTextField txtMeseScadenza;
     private javax.swing.JTextField txtNote;
     private javax.swing.JTextField txtNoteMetPag;
     private javax.swing.JTextField txtNum;
@@ -810,4 +976,5 @@ void unCheckPagate(){
     private Double importo;
     private Double imponibile;
     private Double sconto;
+
 }

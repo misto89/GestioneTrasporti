@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -159,19 +158,19 @@ public abstract class DAO_ASF {
                 Integer id = 0;
                 String targa = null;
                 String marca = null;
-                String scadBollo = null;
-                String scadRevisione = null;
-                String scadAtp = null;
-                String scadAssicurazione = null;
+                Date scadBollo = null;
+                Date scadRevisione = null;
+                Date scadAtp = null;
+                Date scadAssicurazione = null;
             
                 while (rs.next()){
                     id = rs.getInt(Tabelle.Mezzi.ID);
                     targa = rs.getString(Tabelle.Mezzi.TARGA);
                     marca = rs.getString(Tabelle.Mezzi.MARCA);
-                    scadBollo = rs.getString(Tabelle.Mezzi.SCAD_BOLLO);
-                    scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
-                    scadAtp = rs.getString(Tabelle.Mezzi.SCAD_ATP);
-                    scadAssicurazione = rs.getString(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
+                    scadBollo = rs.getDate(Tabelle.Mezzi.SCAD_BOLLO);
+                    scadRevisione = rs.getDate(Tabelle.Mezzi.SCAD_REVISIONE);
+                    scadAtp = rs.getDate(Tabelle.Mezzi.SCAD_ATP);
+                    scadAssicurazione = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
                 
                     mezzi.add(new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione));   
                 }
@@ -466,7 +465,8 @@ public abstract class DAO_ASF {
                 ps.executeUpdate();
                 
                 sql = "INSERT INTO " + Tabelle.FATTURE + " VALUES (" + fatt.getNumero() + ", " + checkNull(fatt.getData()) + ", " + checkNull(fatt.getMetPag()) + ", " + fatt.getImporto() + ", " + 
-                                            fatt.getSconto() + ", " + fatt.getProvvigione() + ", " + fatt.getIva() + ", " + fatt.getTotale() + ", " + fatt.getForfait() + ", " + fatt.getPagata() + ", " + checkNull(fatt.getNote()) +")";
+                                            fatt.getSconto() + ", " + fatt.getProvvigione() + ", " + fatt.getIva() + ", " + fatt.getTotale() + ", " + fatt.getForfait() + ", " + fatt.getPagata() + ", "
+                                            + checkNull(fatt.getNote()) + ", '" + fatt.getDataScadenza() + "')";
 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
@@ -874,6 +874,10 @@ public abstract class DAO_ASF {
     public static List<Fornitore> getFornitori(int tipo, String ric) {        
         switch (tipo) {
             case Fornitore.RIC_NOME: 
+                
+                ric = ric.replaceAll("'", "''");
+                ric = ric.replaceAll("\\\\", "\\\\\\\\");
+                
                 sql = "SELECT * FROM " + Tabelle.FORNITORI + " WHERE " + Tabelle.Fornitori.NOME + " LIKE '" + ric + "%' ORDER BY " + 
                         Tabelle.Fornitori.NOME + ", " + Tabelle.Fornitori.PIVA + ", " + Tabelle.Fornitori.CODFISCALE;
                 break;
@@ -950,20 +954,20 @@ public abstract class DAO_ASF {
             Integer id = 0;
             String targa = null;
             String marca = null;
-            String scadBollo = null;
-            String scadRevisione = null;
-            String scadAtp = null;
-            String scadAssicurazione = null;
+            Date scadBollo = null;
+            Date scadRevisione = null;
+            Date scadAtp = null;
+            Date scadAssicurazione = null;
             Mezzo mezzo = new Mezzo();
             
             if (rs.next()){
                 id = rs.getInt(Tabelle.Mezzi.ID);
                 targa = rs.getString(Tabelle.Mezzi.TARGA);
                 marca = rs.getString(Tabelle.Mezzi.MARCA);
-                scadBollo = rs.getString(Tabelle.Mezzi.SCAD_BOLLO);
-                scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
-                scadAtp = rs.getString(Tabelle.Mezzi.SCAD_ATP);
-                scadAssicurazione = rs.getString(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
+                scadBollo = rs.getDate(Tabelle.Mezzi.SCAD_BOLLO);
+                scadRevisione = rs.getDate(Tabelle.Mezzi.SCAD_REVISIONE);
+                scadAtp = rs.getDate(Tabelle.Mezzi.SCAD_ATP);
+                scadAssicurazione = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
 
                 mezzo = new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione);   
             }
@@ -1122,33 +1126,33 @@ public abstract class DAO_ASF {
             if (type == Spedizione.tipo.NF)
                 sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
                     Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + 
-                    " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
-                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL" + 
+                    " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.DATA_DOCUMENTO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_DOCUMENTO + " <= '" + dataFine + "' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL" + 
                     " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
                     Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
-                    Tabelle.Spedizioni.NUM_FATTURA + " IS NULL " + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
-                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.STATO + ", " + 
+                    Tabelle.Spedizioni.NUM_FATTURA + " IS NULL " + " AND " + Tabelle.Spedizioni.DATA_DOCUMENTO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_DOCUMENTO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.STATO + ", " + 
                     Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
             
             else if (type == Spedizione.tipo.F)
                 sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
                     Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + 
-                    " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
-                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL" +
+                    " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.DATA_DOCUMENTO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_DOCUMENTO + " <= '" + dataFine + "' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL" +
                     " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
                     Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
-                    Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL " + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
-                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.STATO + ", " + 
+                    Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL " + " AND " + Tabelle.Spedizioni.DATA_DOCUMENTO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_DOCUMENTO + " <= '" + dataFine + "' ORDER BY " + Tabelle.Spedizioni.STATO + ", " + 
                     Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
             
             else if (type == Spedizione.tipo.ALL)
                 sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
                     Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + 
-                    " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " +
-                    Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine + "'" + 
+                    " AND " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.DATA_DOCUMENTO + " >= '" + dataInizio + "' AND " +
+                    Tabelle.Spedizioni.DATA_DOCUMENTO + " <= '" + dataFine + "'" + 
                     " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
                     Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornitore.getCod() + " AND " + Tabelle.Spedizioni.MEZZO + " IS NULL AND " + 
-                    Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataInizio + "' AND " + Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataFine +
+                    Tabelle.Spedizioni.DATA_DOCUMENTO + " >= '" + dataInizio + "' AND " + Tabelle.Spedizioni.DATA_DOCUMENTO + " <= '" + dataFine +
                     "' ORDER BY "  + Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
                            
             System.out.println(sql);
@@ -1271,7 +1275,7 @@ public abstract class DAO_ASF {
      * Effettua un controllo generico sulla data inserita e l'eventuale numero forzato dall'utente per la fattura.
      * Restituisce un numero intero che caratterizza il numero della fattura proposto dal sistema
      */
-    public static int checkTutt(Date dataDoc, int forcedNumber){
+    /*public static int checkTutt(Date dataDoc, int forcedNumber){
         int valoreReturn = 1;
         try {
             String dataDocYear = (dataDoc.toString()).substring(0, 4);
@@ -1279,7 +1283,6 @@ public abstract class DAO_ASF {
             String sqlDataPrec = "SELECT " + Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO + " FROM " + 
                     Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDoc + "' ORDER BY " +
                     Tabelle.Fatture.DATA + " DESC, " + Tabelle.Fatture.NUMERO + " DESC LIMIT 1";
-            //Tabelle.Fatture.DATA + " >= '" +  dataDocYear + "-01-01' AND <'" + dataDoc ??? CONTROLLARE QUESTA QUERY
             
             System.out.println(sqlDataPrec);
             ps = conn.prepareStatement(sqlDataPrec);
@@ -1371,13 +1374,181 @@ public abstract class DAO_ASF {
             throw new CheckTuttException("Numero fattura inserito già esistente.");
             
         }
+    }*/
+    public static int checkTutt(Date dataDoc, int forcedNumber){
+        int valoreReturn = 1;
+        if (forcedNumber != -1){
+             valoreReturn = checkForcedNumber(forcedNumber, dataDoc);
+             if(valoreReturn == 1) //numero esistente
+                 throw new CheckTuttException("Il numero inserito corrisponde a una fattura esistente.");
+             else if (valoreReturn == 2) //Nessun intervallo disponibile
+                throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
+                                            "oppure non c'è nessun intervallo di fatture alla data selezionata.");
+             else 
+             return valoreReturn; 
+        }else {
+            //Il sistema suggerisce automaticamente un numero
+            try {
+                String dataDocYear = (dataDoc.toString()).substring(0, 4);
+                String sqlDataPrec = "SELECT " + Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO + " FROM " + 
+                        Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDoc + "' ORDER BY " +
+                        Tabelle.Fatture.DATA + " DESC, " + Tabelle.Fatture.NUMERO + " DESC LIMIT 1";
+
+                System.out.println(sqlDataPrec);
+                ps = conn.prepareStatement(sqlDataPrec);
+                rs = ps.executeQuery();
+
+                Date dataPrec = null;
+                int numPrec = 0;
+                if (rs.next()){
+                    dataPrec = rs.getDate(Tabelle.Fatture.DATA);
+                    numPrec = rs.getInt(Tabelle.Fatture.NUMERO);
+                }
+
+                String sqlDataSucc = "SELECT " + Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO + " FROM " + 
+                        Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.DATA + " BETWEEN '" + dataDoc + "' AND '" + dataDocYear+"-12-31' AND " + Tabelle.Fatture.NUMERO + " > " + numPrec + " ORDER BY " +
+                        Tabelle.Fatture.DATA + " ASC, " + Tabelle.Fatture.NUMERO + " ASC LIMIT 1";
+
+                System.out.println(sqlDataSucc);
+                ps = conn.prepareStatement(sqlDataSucc);
+                rs = ps.executeQuery();
+
+                Date dataSucc = null;
+                int numSucc = 0;
+                if (rs.next()){
+                    dataSucc = rs.getDate(Tabelle.Fatture.DATA);
+                    numSucc = rs.getInt(Tabelle.Fatture.NUMERO);
+                }
+                //System.out.println("Nprec: " + numPrec + "\nNsucc: " + numSucc);
+                //L'utente forza la data e il sistema tenta di trovare un intervallo
+                if (numSucc - numPrec == 1) {
+                    throw new CheckTuttException("Nessun intervallo di fatture presente alla data selezionata.");
+
+                } else 
+                    valoreReturn = numPrec + 1;
+
+                return valoreReturn;
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                throw new CheckTuttException("C'è stato un problema nella ricerca dei numeri fattura. Ti preghiamo di riprovare");
+            }
+        }
+    }
+    
+    /*
+     * Gestisce l'inserimento della fattura nel caso in cui il numero venga forzato dall'utente
+     */
+    private static int checkForcedNumber(int forcedNumber, Date documentDate){
+        int valoreReturn = -1;
+        //Controllo di esistenza del numero
+        String dataDocYear = (documentDate.toString()).substring(0, 4);
+        String sqlNumExistency = "SELECT " +  Tabelle.Fatture.NUMERO + " FROM " + Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.NUMERO +
+                        " = " + forcedNumber + " AND " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDocYear + "-12-31'";
+        System.out.println(sqlNumExistency);
+        try{
+            PreparedStatement psNumExistency = conn.prepareStatement(sqlNumExistency);
+            ResultSet rsNumExistency = psNumExistency.executeQuery();
+            if (rsNumExistency.next())
+                valoreReturn = 1; //Valore di esistenza del numero
+            
+            else {
+                String sqlLeftJoin = "SELECT " +
+                                        "COALESCE(PRECPARTITION."+Tabelle.Fatture.NUMERO+", 0) AS NUMPREC, " +
+                                        "PRECPARTITION."+Tabelle.Fatture.DATA+" AS DATAPREC,"+ 
+                                        "COALESCE(POSTPARTITION."+Tabelle.Fatture.NUMERO+", 0) AS NUMSUCC," +                        
+                                        "POSTPARTITION."+Tabelle.Fatture.DATA+" AS DATASUCC " + 
+                                     "FROM ( " +
+                                       "SELECT "+Tabelle.Fatture.NUMERO+", " +
+                                       Tabelle.Fatture.DATA +" FROM fatture " + 
+                                       "WHERE " +Tabelle.Fatture.NUMERO+" < " + forcedNumber + " " +
+                                       "and " +Tabelle.Fatture.DATA+ " between '" + dataDocYear + "-01-01' and '" + dataDocYear + "-12-31'" +  
+                                       "ORDER BY " +Tabelle.Fatture.NUMERO+ " DESC " + 
+	                               "LIMIT 1" + 
+                                     ") PRECPARTITION " + 
+                                     "left join " +
+                                     "(SELECT "+Tabelle.Fatture.NUMERO+", " +
+                                       Tabelle.Fatture.DATA +" FROM fatture " + 
+                                       "WHERE " +Tabelle.Fatture.NUMERO+" > " + forcedNumber + " " +
+                                       "and " +Tabelle.Fatture.DATA+ " between '" + dataDocYear + "-01-01' and '" + dataDocYear + "-12-31'" +  
+                                       "ORDER BY " +Tabelle.Fatture.NUMERO+ " " + 
+	                               "LIMIT 1" + 
+                                       ")POSTPARTITION "+ 
+                                       "on 1=1";
+                String sqlRightJoin = "SELECT " +
+                                        "COALESCE(PRECPARTITION."+Tabelle.Fatture.NUMERO+", 0) AS NUMPREC, " +
+                                        "PRECPARTITION."+Tabelle.Fatture.DATA+" AS DATAPREC,"+ 
+                                        "COALESCE(POSTPARTITION."+Tabelle.Fatture.NUMERO+", 0) AS NUMSUCC," +                        
+                                        "POSTPARTITION."+Tabelle.Fatture.DATA+" AS DATASUCC " + 
+                                     "FROM ( " +
+                                       "SELECT "+Tabelle.Fatture.NUMERO+", " +
+                                       Tabelle.Fatture.DATA +" FROM fatture " + 
+                                       "WHERE " +Tabelle.Fatture.NUMERO+" < " + forcedNumber + " " +
+                                       "and " +Tabelle.Fatture.DATA+ " between '" + dataDocYear + "-01-01' and '" + dataDocYear + "-12-31'" +  
+                                       "ORDER BY " +Tabelle.Fatture.NUMERO+ " DESC " + 
+	                               "LIMIT 1" + 
+                                     ") PRECPARTITION " + 
+                                     "right join " +
+                                     "(SELECT "+Tabelle.Fatture.NUMERO+", " +
+                                       Tabelle.Fatture.DATA +" FROM fatture " + 
+                                       "WHERE " +Tabelle.Fatture.NUMERO+" > " + forcedNumber + " " +
+                                       "and " +Tabelle.Fatture.DATA+ " between '" + dataDocYear + "-01-01' and '" + dataDocYear + "-12-31'" +  
+                                       "ORDER BY " +Tabelle.Fatture.NUMERO+ " " + 
+	                               "LIMIT 1" + 
+                                       ")POSTPARTITION "+ 
+                                       "on 1=1";
+                
+                String sql = sqlLeftJoin + " UNION " + sqlRightJoin;
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                rs = ps.executeQuery();
+                int numPrec = 0;
+                Date dataPrec = null;
+                int numSucc = 0;
+                Date dataSucc = null;
+                if (rs.next()){
+                    numPrec = rs.getInt("NUMPREC");
+                    dataPrec = rs.getDate("DATAPREC");
+                    numSucc = rs.getInt("NUMSUCC");
+                    dataSucc = rs.getDate("DATASUCC");
+                }else 
+                    valoreReturn = 0; //Nessun numero di fattura nell'anno
+                
+                if (valoreReturn != 0){ //viene posto a 0 nell'istruzione precedente se il resultset è vuoto
+                    //La data è minore o uguale a quella della fattura successiva e non ci sono fatture precedenti 
+                    if ((numPrec == 0) && (documentDate.compareTo(dataSucc) <= 0)){
+                        valoreReturn = 0;
+                    }
+                    //La data è maggiore o uguale a quella della fattura precedente e non ci sono fatture successive 
+                    else if ((numSucc == 0) && (documentDate.compareTo(dataPrec) >= 0)){
+                        valoreReturn = 0;
+                    }
+                    //La data è maggiore o uguale a quella della fattura precedente, minore o uguale a quella della fattura successiva
+                    else if ((numPrec > 0) && (numSucc > 0)){
+                        if ((documentDate.compareTo(dataPrec) >=0 ) && (documentDate.compareTo(dataSucc) <= 0)){
+                            valoreReturn = 0;
+                        } else
+                            valoreReturn = 2;
+                    } else
+                        valoreReturn = 2;
+                }
+            }
+        } catch(SQLException ex){
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return valoreReturn;
     }
 
-    public static boolean updateMetodoPagamento(Fattura fattura) {
+    public static boolean updateModalitaPagamento(Fattura fattura) {
         try {
             
-            sql = "UPDATE " + Tabelle.FATTURE + " SET " + Tabelle.Fatture.METODO_PAGAMENTO + " = " + checkNull(fattura.getMetPag()) + " WHERE " +
-                    Tabelle.Fatture.NUMERO + " = " + fattura.getNumero() + " AND " + Tabelle.Fatture.DATA + " = '" + fattura.getData() + "'";
+            sql = "UPDATE " + 
+                    Tabelle.FATTURE + 
+                    " SET " + Tabelle.Fatture.METODO_PAGAMENTO + " = " + checkNull(fattura.getMetPag()) + 
+                    ", " + Tabelle.Fatture.SCADENZA + " = '" + fattura.getDataScadenza() + "' " +
+                    " WHERE " +
+                    Tabelle.Fatture.NUMERO + " = " + fattura.getNumero() + 
+                        " AND " + Tabelle.Fatture.DATA + " = '" + fattura.getData() + "'";
             
             System.out.println(sql);
             ps = conn.prepareStatement(sql);

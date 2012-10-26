@@ -271,7 +271,7 @@ public abstract class FrontController {
         return DAO_CBC.updateFatturaAcquisto(fatt, old);
     }
 
-    public static boolean updateMetodoPagamento(Fattura fattura) {
-        return DAO_ASF.updateMetodoPagamento(fattura);
+    public static boolean updateModalitaPagamento(Fattura fattura) {
+        return DAO_ASF.updateModalitaPagamento(fattura);
     }
 }

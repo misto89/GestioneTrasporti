@@ -110,6 +110,7 @@ class Tabelle {
         public static final String FORFAIT = "forfait";
         public static final String PAGATA = "pagata";
         public static final String NOTE = "note";
+        public static final String SCADENZA = "data_scadenza";
     }
     
     //Rappresenta la tabella "fatture acquisto" con i suoi campi
@@ -125,6 +126,7 @@ class Tabelle {
         public static final String PAGATA = "pagata";
         public static final String NOTE = "note";
         public static final String FORNITORE = "fornitore";
+        public static final String SCADENZA = "data_scadenza";
     }
     
     static class Movimenti {

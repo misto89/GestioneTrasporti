@@ -32,6 +32,7 @@ public class Fattura implements Entity {
     private boolean forfait;
     private Fornitore cliente;
     private String note;
+    private Date dataScadenza;
     private String tipo; //solo per fatture d'acquisto
     private int fornitore; //solo per fatture d'acquisto
     private List<Movimento> movimenti = new LinkedList<Movimento>();
@@ -69,7 +70,8 @@ public class Fattura implements Entity {
         
     }
     
-    public Fattura(int num, Date data, String metPag, double imp, double prov, double sc, double iva, double tot, List<Spedizione> spedizioni, boolean forfait, boolean pagata, String n){
+    public Fattura(int num, Date data, String metPag, double imp, double prov, double sc, double iva, double tot, List<Spedizione> spedizioni, boolean forfait, boolean pagata, String n,
+            Date dataScadenza){
         numero = num;
         dataFattura = data;
         metodoPagamento = metPag;
@@ -83,10 +85,12 @@ public class Fattura implements Entity {
         this.forfait = forfait;
         this.spedizioni = spedizioni;
         this.pagata = pagata;
+        this.dataScadenza = dataScadenza;
     }
     
     //costruttore per la fattura d'acquisto
-    public Fattura (int num,  Date data, String metPag, double imp, double sc, double iva, double tot, String tipo, boolean pagata, int codForn, String note){
+    public Fattura (int num,  Date data, String metPag, double imp, double sc, double iva, double tot, String tipo, boolean pagata, int codForn, String note,
+            Date dataScadenza){
         numero = num;
         dataFattura = data;
         metodoPagamento = metPag;
@@ -99,6 +103,7 @@ public class Fattura implements Entity {
         this.pagata = pagata;
         fornitore = codForn;
         this.note = note;
+        this.dataScadenza = dataScadenza;
     }
     
     public int getNumero() {
@@ -305,13 +310,18 @@ public class Fattura implements Entity {
     }
     
     public Date getDataScadenza() {
-        String[] mP = metodoPagamento.split("\\-");
-        int giorni = Integer.parseInt(mP[1]);
+//        String[] mP = metodoPagamento.split("\\-");
+//        int giorni = Integer.parseInt(mP[1]);
+//
+//        return DateUpdate.update(dataFattura, giorni);
 
-        return DateUpdate.update(dataFattura, giorni);
-
+        return dataScadenza;
     }
 
+    public void setDataScadenza(Date dataScadenza) {
+        this.dataScadenza = dataScadenza;
+    }
+   
     public String getFormattedDataScadenza() {
         final String NEW_FORMAT = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);

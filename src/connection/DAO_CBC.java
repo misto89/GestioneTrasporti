@@ -85,6 +85,7 @@ public class DAO_CBC {
         boolean pagata;
         boolean forfait;
         String note;
+        Date dataScadenza;
 
         while (rs.next()){
             numero = rs.getInt(Tabelle.Fatture.NUMERO);
@@ -98,8 +99,11 @@ public class DAO_CBC {
             pagata = rs.getBoolean(Tabelle.Fatture.PAGATA);
             forfait = rs.getBoolean(Tabelle.Fatture.FORFAIT);
             note = rs.getString(Tabelle.Fatture.NOTE);
+            dataScadenza = rs.getDate(Tabelle.Fatture.SCADENZA);
 
-            Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, ricSpedizioni(numero, dataFattura) , forfait, pagata, note);
+            Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, ricSpedizioni(numero, dataFattura) , forfait, pagata, note,
+                    dataScadenza);
+            
             int codFornCliente = 0;
             if (!recuperaCliente)
                 fatt.setCliente(cliente);
@@ -295,7 +299,8 @@ public class DAO_CBC {
     private static List<Spedizione> ricSpedizioni(int fattura, Date dataFattura) throws SQLException {
         
         sql = "SELECT * FROM " + Tabelle.SPEDIZIONI + " WHERE " + Tabelle.Spedizioni.NUM_FATTURA + " = " + fattura + " AND " + 
-                Tabelle.Spedizioni.DATA_FATTURA + " = '" + dataFattura + "'";
+                Tabelle.Spedizioni.DATA_FATTURA + " = '" + dataFattura + "' ORDER BY " + Tabelle.Spedizioni.STATO + ", " +
+                Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
 
         System.out.println(sql);
         PreparedStatement psSped = conn.prepareStatement(sql);
@@ -436,7 +441,7 @@ public class DAO_CBC {
 
                 sql = "INSERT INTO " + Tabelle.FATT_ACQUISTO + " VALUES (" + fatt.getNumero() + ", " + checkNull(fatt.getData()) + ", " + checkNull(fatt.getMetPag()) + ", " + fatt.getImporto() + ", " + 
                                             fatt.getSconto() + ", " + fatt.getIva() + ", " + fatt.getTotale() + ", " + fatt.getPagata() + ", '" + fatt.getTipo() + "', " + checkNull(fatt.getNote()) +
-                                            ", " + fatt.getFornitore() +")";
+                                            ", " + fatt.getFornitore() + ", '" + fatt.getDataScadenza() + "')";
 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
@@ -490,6 +495,7 @@ public class DAO_CBC {
         String note;
         String tipoAcquisto;
         int codForn;
+        Date dataScadenza;
 
         while (rs.next()){
             numero = rs.getInt(Tabelle.FattureAcquisto.NUMERO);
@@ -503,8 +509,10 @@ public class DAO_CBC {
             tipoAcquisto = rs.getString(Tabelle.FattureAcquisto.TIPO);
             codForn = rs.getInt(Tabelle.FattureAcquisto.FORNITORE);
             note = rs.getString(Tabelle.FattureAcquisto.NOTE);
+            dataScadenza = rs.getDate(Tabelle.FattureAcquisto.SCADENZA);
 
-            Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, sconto, ivaTot, totale, tipoAcquisto, pagata, codForn, note);
+            Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, sconto, ivaTot, totale, tipoAcquisto, pagata, codForn, note,
+                    dataScadenza);
 
             int codFornCliente = 0;
             if (!recuperaForn)
@@ -1085,6 +1093,7 @@ public class DAO_CBC {
                     ", " + Tabelle.FattureAcquisto.METODO_PAGAMENTO + " = " + checkNull(toUpdate.getMetPag()) + ", " + Tabelle.FattureAcquisto.NOTE + " = " + checkNull(toUpdate.getNote()) + 
                     ", " + Tabelle.FattureAcquisto.PAGATA + " = " + toUpdate.getPagata() + ", " + Tabelle.FattureAcquisto.SCONTO + " = " + toUpdate.getSconto() + 
                     ", " + Tabelle.FattureAcquisto.TIPO + " = '" + toUpdate.getTipo() + "', " + Tabelle.FattureAcquisto.TOTALE + " = " + toUpdate.getTotale() + 
+                    ", " + Tabelle.FattureAcquisto.SCADENZA + " = '" + toUpdate.getDataScadenza() + "' " +
                     " WHERE " + Tabelle.FattureAcquisto.NUMERO + " = " + old.getNumero() + " AND " + Tabelle.FattureAcquisto.DATA + " = '" + old.getData()
                     + "' AND " + Tabelle.FattureAcquisto.FORNITORE + " = " + old.getFornitore();
             

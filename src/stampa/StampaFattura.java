@@ -34,8 +34,8 @@ public final class StampaFattura extends StampaDocumento {
     private final float HEIGHT_NOT_LAST; //altezza del rettangolo per tutte le pagina prima dell'ultima
 
     private static final String FILENAME = "fattura.pdf";
-    private static final int MAX_PER_PAGE = 24;
-    private static final int MAX_PER_PAGE_FORFAIT = 23;
+    private static final int MAX_PER_PAGE = 25;
+    private static final int MAX_PER_PAGE_FORFAIT = 24;
 
     public StampaFattura(Fattura fattura, Fornitore cliente, boolean allegato) throws DocumentException, IOException {
         super(FILENAME);
@@ -458,10 +458,12 @@ public final class StampaFattura extends StampaDocumento {
             numero = "0" + numero;
         
         String[] metPagam = fattura.getMetPag().split("-");
-        String metodoPagam = metPagam[0] + " a " + metPagam[1] + " gg";
-        if (metodoPagam.equalsIgnoreCase("Contante a 0 gg"))
-            metodoPagam = "Contante";
-               
+        String metodoPagam = "";
+        if (metPagam[1].equals("0"))
+            metodoPagam = metPagam[0];
+        else
+            metodoPagam = metPagam[0] + " a " + metPagam[1] + " gg";
+                
         PdfPCell[] info = {
             new PdfPCell(new Phrase("TIPO DOCUMENTO", FONT_PICCOLO_BOLD)),
             new PdfPCell(new Phrase("NUMERO", FONT_PICCOLO_BOLD)),

@@ -10,6 +10,9 @@
  */
 package viste;
 
+import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import libs.DoubleFormatter;
 import com.itextpdf.text.DocumentException;
 import controllo.FrontController;
@@ -21,6 +24,7 @@ import entita.Spedizione;
 import entita.Fornitore;
 import entita.Mezzo;
 import entita.Movimento;
+import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -38,8 +42,10 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import libs.DateUpdate;
 import stampa.StampaSpedizioni;
 
 /**
@@ -172,14 +178,14 @@ public class Spedizioni extends javax.swing.JFrame {
 
             }
         }
-        
+               
         @Override
         public void setValueAt(Object aValue, int row, int column) {
             super.setValueAt(aValue, row, column);
             //if (!mnuSelezionate.isSelected())
                 //mnuSelezionate.setEnabled(false);
             
-            if (!chkEmesse.isSelected()) {
+//            if (!chkEmesse.isSelected()) {
                 /*
                  * Dopo aver acquisito la stringa corrispondente alle bolle, dal campo della tabella, verifica
                  * che la stringa rispetti il formato corretto, dopodiché ad ogni '-' le separa mettendole in un
@@ -237,6 +243,14 @@ public class Spedizioni extends javax.swing.JFrame {
                     }
 
                 String descrizione = (String) tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), DESCRIZIONE);
+                if (descrizione.length() > MAX_LENGTH_DESCRIZIONE) {
+                    JOptionPane.showMessageDialog(null, "Valore inserito per il campo " + COLONNE[DESCRIZIONE] + " troppo lungo! Sono ammessi massimo " + MAX_LENGTH_DESCRIZIONE + 
+                            " caratteri", "Formato errato", JOptionPane.ERROR_MESSAGE);
+                    ricaricaTabella();
+                    return;
+                }
+                
+                
                 String um = (String) tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), UM);
 
                 String mezzo = null;
@@ -474,7 +488,7 @@ public class Spedizioni extends javax.swing.JFrame {
                     ricaricaTabella();
                 }
                 //}
-            }
+//            }
         }
     }
     
@@ -561,9 +575,16 @@ public class Spedizioni extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        txtGiornoScadenza = new javax.swing.JTextField();
+        jLabel30 = new javax.swing.JLabel();
+        txtMeseScadenza = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        txtAnnoScadenza = new javax.swing.JTextField();
         btnModifica = new javax.swing.JButton();
         chkNonFatturate = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        btnRegistroEmesse = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFiltra = new javax.swing.JMenu();
         mnuTutti = new javax.swing.JCheckBoxMenuItem();
@@ -719,6 +740,11 @@ public class Spedizioni extends javax.swing.JFrame {
         jLabel2.setText("Pagamento");
 
         cboGiorni.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "105", "110", "115", "120" }));
+        cboGiorni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboGiorniActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Giorni");
 
@@ -903,71 +929,89 @@ public class Spedizioni extends javax.swing.JFrame {
 
         jLabel14.setText("€");
 
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel28.setText("Scadenza");
+
+        jLabel29.setText("gg");
+
+        jLabel30.setText("mm");
+
+        jLabel31.setText("aaaa");
+
         javax.swing.GroupLayout pnlRiepilogoLayout = new javax.swing.GroupLayout(pnlRiepilogo);
         pnlRiepilogo.setLayout(pnlRiepilogoLayout);
         pnlRiepilogoLayout.setHorizontalGroup(
             pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                        .addComponent(chkPagata)
-                        .addGap(56, 56, 56)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNote))
+                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                                 .addComponent(jLabel27)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtNumFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(149, 149, 149)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtGiornoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtMeseFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel12)
+                                .addGap(1, 1, 1)
+                                .addComponent(txtAnnoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(28, 28, 28)
+                                .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel3))
+                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                                .addComponent(chkPagata)
+                                .addGap(56, 56, 56)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                                 .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel21)))
-                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel2))
-                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel3))
-                                    .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                                        .addGap(38, 38, 38)
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtGiornoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel11)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtMeseFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel12)
-                                        .addGap(1, 1, 1)
-                                        .addComponent(txtAnnoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chkForfait)
-                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                                    .addComponent(jLabel21))
+                                .addGap(18, 18, 18)
                                 .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtScontoTot)
-                                    .addComponent(txtImpTot, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
+                                    .addComponent(txtImpTot, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(chkForfait)))
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                        .addComponent(btnEmetti, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel28)
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel29)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtGiornoScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMeseScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel31)
+                        .addGap(1, 1, 1)
+                        .addComponent(txtAnnoScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEmetti, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel24)
                             .addComponent(jLabel23))
@@ -993,33 +1037,26 @@ public class Spedizioni extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21))
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(pnlForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(154, Short.MAX_VALUE))
+                        .addComponent(pnlForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
+
+        pnlRiepilogoLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel28, jLabel9});
+
         pnlRiepilogoLayout.setVerticalGroup(
             pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
                         .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel21)
                             .addComponent(txtImpTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(6, 6, 6)
-                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtScontoTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel22)
-                            .addComponent(jLabel6)))
-                    .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
                             .addComponent(jLabel27)
-                            .addComponent(txtNumFatt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNumFatt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
                             .addComponent(txtGiornoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10)
@@ -1027,45 +1064,68 @@ public class Spedizioni extends javax.swing.JFrame {
                             .addComponent(txtMeseFatt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12)
                             .addComponent(txtAnnoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chkForfait))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(chkPagata)
-                            .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(9, 9, 9)
-                        .addComponent(btnEmetti))
+                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtScontoTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel22)
+                                    .addComponent(jLabel6)))
+                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                            .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel13))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel25)
+                                .addComponent(jLabel14)))
+                        .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                            .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtProvvigioneTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel23)
+                                .addComponent(jLabel26)
+                                .addComponent(jLabel7))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtImponibile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel24)
+                                .addComponent(jLabel8)))))
+                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel13))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel25)
-                                    .addComponent(jLabel14)))
-                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
-                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtProvvigioneTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel23)
-                                    .addComponent(jLabel26)
-                                    .addComponent(jLabel7))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtImponibile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel24)
-                                    .addComponent(jLabel8))))
                         .addGap(18, 18, 18)
-                        .addComponent(pnlForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(pnlForfait, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                        .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                                .addGap(54, 54, 54)
+                                .addComponent(chkForfait))
+                            .addGroup(pnlRiepilogoLayout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel28)
+                                    .addComponent(txtGiornoScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel29)
+                                    .addComponent(jLabel30)
+                                    .addComponent(txtMeseScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel31)
+                                    .addComponent(txtAnnoScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(chkPagata)
+                                    .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4))))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEmetti)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlRiepilogoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel5, txtImpTot});
@@ -1099,13 +1159,13 @@ public class Spedizioni extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/regfattemesse.png"))); // NOI18N
-        jButton1.setToolTipText("Vai al registro fatture emesse");
-        jButton1.setLabel("Registro fatture emesse");
-        jButton1.setMargin(new java.awt.Insets(2, -10, 2, 14));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistroEmesse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/regfattemesse.png"))); // NOI18N
+        btnRegistroEmesse.setToolTipText("Vai al registro fatture emesse");
+        btnRegistroEmesse.setLabel("Registro fatture emesse");
+        btnRegistroEmesse.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        btnRegistroEmesse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRegistroEmesseActionPerformed(evt);
             }
         });
 
@@ -1126,7 +1186,7 @@ public class Spedizioni extends javax.swing.JFrame {
 
         mnuIntervalloDate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
         mnuIntervalloDate.setSelected(true);
-        mnuIntervalloDate.setText("Per intervallo date carico");
+        mnuIntervalloDate.setText("Per intervallo date documento");
         mnuIntervalloDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/intervallodate.png"))); // NOI18N
         mnuIntervalloDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1196,12 +1256,12 @@ public class Spedizioni extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(pnlRiepilogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1187, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1175, Short.MAX_VALUE)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1188, Short.MAX_VALUE)
                         .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1210,8 +1270,8 @@ public class Spedizioni extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnElimina, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(btnRegistroEmesse, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(430, Short.MAX_VALUE))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnElimina, btnModifica, btnNew});
@@ -1236,17 +1296,17 @@ public class Spedizioni extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlRiepilogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
                         .addComponent(btnModifica, javax.swing.GroupLayout.PREFERRED_SIZE, 24, Short.MAX_VALUE)
-                        .addComponent(btnElimina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addComponent(btnElimina))
+                    .addComponent(btnRegistroEmesse, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnElimina, btnModifica, btnNew, jButton1});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnElimina, btnModifica, btnNew, btnRegistroEmesse});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1279,8 +1339,10 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     txtGiornoFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
     txtMeseFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
     txtAnnoFatt.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+    txtGiornoScadenza.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+    txtMeseScadenza.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+    txtAnnoScadenza.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
     txtPercIvaForfait.setDocument(new JTextFieldLimit(MAX_LENGTH_PERCIVA));
-    
     
     txtImpForfait.setDocument(new JTextFieldFormatDouble());
     txtScontoForfait.setDocument(new JTextFieldFormatDouble());
@@ -1725,10 +1787,38 @@ private void btnEmettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     String mese = txtMeseFatt.getText();
     String giorno = txtGiornoFatt.getText();
     if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-        JOptionPane.showMessageDialog(null, "Inserire la data carico nel formato gg mm aaaa", 
+        JOptionPane.showMessageDialog(null, "Inserire la data fattura nel formato gg mm aaaa", 
             "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
         return;
     }
+    
+    if (anno.length() == 2)
+        anno = "20" + anno;
+    
+    if (mese.length() == 1)
+        mese = "0" + mese;
+    
+    if (giorno.length() == 1) 
+        giorno = "0" + giorno;
+    
+    Date dataScadenza = null;
+    String annoScad = txtAnnoScadenza.getText();
+    String meseScad = txtMeseScadenza.getText();
+    String giornoScad = txtGiornoScadenza.getText();
+    if (annoScad.isEmpty() || meseScad.isEmpty() || giornoScad.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
+        JOptionPane.showMessageDialog(null, "Inserire la data scadenza nel formato gg mm aaaa", 
+            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    if (annoScad.length() == 2)
+        anno = "20" + anno;
+    
+    if (meseScad.length() == 1)
+        mese = "0" + mese;
+    
+    if (giornoScad.length() == 1) 
+        giorno = "0" + giorno;
         
     /*
      * Se la data non è inserita nel formato corretto, mostra un messaggio di errore.
@@ -1739,7 +1829,15 @@ private void btnEmettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     try {
         dataFattura = Date.valueOf(anno + "-" + mese + "-" + giorno);
     } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, "Valore inserito per la data carico non valido! Inserire la data nel formato gg/mm/aaaa", 
+        JOptionPane.showMessageDialog(null, "Valore inserito per la data fattura non valido! Inserire la data nel formato gg/mm/aaaa", 
+            "Formato errato", JOptionPane.ERROR_MESSAGE);
+            return;
+    }
+    
+    try {
+        dataScadenza = Date.valueOf(annoScad + "-" + meseScad + "-" + giornoScad);
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(null, "Valore inserito per la data scadenza non valido! Inserire la data nel formato gg/mm/aaaa", 
             "Formato errato", JOptionPane.ERROR_MESSAGE);
             return;
     }
@@ -1812,7 +1910,9 @@ private void btnEmettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     
     final int RESPONSE = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler procedere con l'emissione della fattura?", "Conferma fatturazione", JOptionPane.OK_CANCEL_OPTION);
     if (RESPONSE == JOptionPane.OK_OPTION) {
-        Fattura fatt = new Fattura(numFattura, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, spedizioniDaFatt, forfait, pagata, note);
+        Fattura fatt = new Fattura(numFattura, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, spedizioniDaFatt, 
+                forfait, pagata, note, dataScadenza);
+        
         fatt.setCliente(new Fornitore(id_fornitore));
         try {
             if (FrontController.insert(fatt)) {
@@ -2269,15 +2369,35 @@ private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         movimenti = null;
 }//GEN-LAST:event_chkPagataActionPerformed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+private void btnRegistroEmesseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroEmesseActionPerformed
 // TODO add your handling code here:
     FrontController.open(new RegistroFattureEmesse());
-}//GEN-LAST:event_jButton1ActionPerformed
+}//GEN-LAST:event_btnRegistroEmesseActionPerformed
+
+private void cboGiorniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGiorniActionPerformed
+// TODO add your handling code here:  
+    String[] nuovaScadenza = DateUpdate.update(dataPresunta, Integer.parseInt((String) cboGiorni.getSelectedItem())).toString().split("-");
+    txtGiornoScadenza.setText(nuovaScadenza[2]);
+    txtMeseScadenza.setText(nuovaScadenza[1]);
+    txtAnnoScadenza.setText(nuovaScadenza[0]);
+}//GEN-LAST:event_cboGiorniActionPerformed
 
 private void setNumber() {
     String anno = txtAnnoFatt.getText();
     String mese = txtMeseFatt.getText();
     String giorno = txtGiornoFatt.getText();
+    
+    if (anno.length() == 2)
+        anno = "20" + anno;
+    else if (anno.length() == 3)
+        anno = "2" + anno;
+
+    if (mese.length() == 1)
+        mese = "0" + mese;
+
+    if (giorno.length() == 1)
+        giorno = "0" + giorno;
+    
     dataPresunta = Date.valueOf(anno + "-" + mese + "-" + giorno);
     int textNumber = Integer.parseInt(txtNumFatt.getText());
     if (forced) {
@@ -2298,6 +2418,11 @@ private void setNumber() {
 //            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
+    String[] nuovaScadenza = DateUpdate.update(dataPresunta, Integer.parseInt((String) cboGiorni.getSelectedItem())).toString().split("-");
+    txtGiornoScadenza.setText(nuovaScadenza[2]);
+    txtMeseScadenza.setText(nuovaScadenza[1]);
+    txtAnnoScadenza.setText(nuovaScadenza[0]);
+
 }
 
 private void setRiepilogoFattura(List<Spedizione> spedizioni){
@@ -2346,6 +2471,9 @@ private void setRiepilogoFattura(List<Spedizione> spedizioni){
         }
         
         //txtNumFatt.setText(String.valueOf(FrontController.getNumber(Fattura.class, dataPresunta)));
+        txtAnnoScadenza.setText(anno);
+        txtMeseScadenza.setText(mese);
+        txtGiornoScadenza.setText(giorno);
 
     } else
         pnlRiepilogo.setVisible(false);
@@ -2373,6 +2501,7 @@ int getIndexSpedizione(Spedizione sped) {
     private javax.swing.JButton btnEmetti;
     private javax.swing.JButton btnModifica;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnRegistroEmesse;
     private javax.swing.JComboBox cboFornitori;
     private javax.swing.JComboBox cboGiorni;
     private javax.swing.JComboBox cboMetPag;
@@ -2380,7 +2509,6 @@ int getIndexSpedizione(Spedizione sped) {
     private javax.swing.JCheckBox chkForfait;
     private javax.swing.JCheckBox chkNonFatturate;
     private javax.swing.JCheckBox chkPagata;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2401,7 +2529,11 @@ int getIndexSpedizione(Spedizione sped) {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2429,7 +2561,9 @@ int getIndexSpedizione(Spedizione sped) {
     private javax.swing.JPanel pnlRiepilogo;
     private javax.swing.JTable tblSpedizioni;
     private javax.swing.JTextField txtAnnoFatt;
+    private javax.swing.JTextField txtAnnoScadenza;
     private javax.swing.JTextField txtGiornoFatt;
+    private javax.swing.JTextField txtGiornoScadenza;
     private javax.swing.JTextField txtImpForfait;
     private javax.swing.JTextField txtImpTot;
     private javax.swing.JTextField txtImponibile;
@@ -2437,6 +2571,7 @@ int getIndexSpedizione(Spedizione sped) {
     private javax.swing.JTextField txtIva;
     private javax.swing.JTextField txtIvaForfait;
     private javax.swing.JTextField txtMeseFatt;
+    private javax.swing.JTextField txtMeseScadenza;
     private javax.swing.JTextField txtNote;
     private javax.swing.JTextField txtNumFatt;
     private javax.swing.JTextField txtPercIvaForfait;
@@ -2466,7 +2601,7 @@ int getIndexSpedizione(Spedizione sped) {
     };
     
     private final boolean[] nonModificareCelle = new boolean[] {
-            false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false 
+            false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false 
     };
     
     //Le seguenti costanti indicano i numeri di colonna dei campi
@@ -2496,4 +2631,5 @@ int getIndexSpedizione(Spedizione sped) {
     private static final int MAX_LENGTH_MESE = 2;
     private static final int MAX_LENGTH_ANNO = 4;
     private static final int MAX_LENGTH_PERCIVA = 2;
+    private static final int MAX_LENGTH_DESCRIZIONE = 54;
 }

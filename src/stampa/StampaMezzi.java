@@ -68,10 +68,10 @@ public class StampaMezzi extends StampaDocumento {
             riga = new PdfPCell[] {
                 new PdfPCell(new Phrase(mezzo.getTarga(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(mezzo.getMarca(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(mezzo.getScadBollo(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(mezzo.getScadRevisione(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(mezzo.getScadAtp(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(mezzo.getScadAssicurazione(), FONT_GRANDE_NORMALE))
+                new PdfPCell(new Phrase(mezzo.getFormattedScadBollo(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(mezzo.getFormattedScadRevisione(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(mezzo.getFormattedScadAtp(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(mezzo.getFormattedScadAssicurazione(), FONT_GRANDE_NORMALE))
             };
             
             for (PdfPCell cella : riga) {

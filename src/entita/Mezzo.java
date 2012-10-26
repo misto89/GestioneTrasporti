@@ -4,14 +4,17 @@
  */
 package entita;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 public class Mezzo implements Entity {
     private Integer id;
     private String targa;
     private String marca;
-    private String scadBollo;
-    private String scadRevisione;
-    private String scadAtp;
-    private String scadAssicurazione;
+    private Date scadBollo;
+    private Date scadRevisione;
+    private Date scadAtp;
+    private Date scadAssicurazione;
     
     public static final int NUM_CAMPI = 6;
 
@@ -28,7 +31,7 @@ public class Mezzo implements Entity {
         this.marca = marca;
     }
 
-    public Mezzo(Integer id, String targa, String marca, String scadBollo, String scadRevisione, String scadAtp, String scadAssicurazione) {
+    public Mezzo(Integer id, String targa, String marca, Date scadBollo, Date scadRevisione, Date scadAtp, Date scadAssicurazione) {
         this.id = id;
         this.targa = targa;
         this.marca = marca;
@@ -62,35 +65,71 @@ public class Mezzo implements Entity {
         this.marca = marca;
     }
 
-    public String getScadAtp() {
+    public Date getScadAtp() {
         return scadAtp;
     }
 
-    public String getScadAssicurazione() {
+    public Date getScadAssicurazione() {
         return scadAssicurazione;
     }
 
-    public String getScadBollo() {
+    public Date getScadBollo() {
         return scadBollo;
     }
 
-    public String getScadRevisione() {
+    public Date getScadRevisione() {
         return scadRevisione;
     }
 
-    public void setScadAtp(String scadAtp) {
+    public String getFormattedScadAtp() {
+        if (scadAtp == null)
+            return "";
+        
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
+        return sdf.format(scadAtp);
+    }
+
+    public String getFormattedScadAssicurazione() {
+        if (scadAssicurazione == null)
+            return "";
+        
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
+        return sdf.format(scadAssicurazione);
+    }
+
+    public String getFormattedScadBollo() {
+        if (scadBollo == null)
+            return "";
+        
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
+        return sdf.format(scadBollo);
+    }
+
+    public String getFormattedScadRevisione() {
+        if (scadRevisione == null)
+            return "";
+        
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
+        return sdf.format(scadRevisione);
+    }
+    
+    public void setScadAtp(Date scadAtp) {
         this.scadAtp = scadAtp;
     }
 
-    public void setScadAssicurazione(String scadAssicurazione) {
+    public void setScadAssicurazione(Date scadAssicurazione) {
         this.scadAssicurazione = scadAssicurazione;
     }
 
-    public void setScadBollo(String scadBollo) {
+    public void setScadBollo(Date scadBollo) {
         this.scadBollo = scadBollo;
     }
 
-    public void setScadRevisione(String scadRevisione) {
+    public void setScadRevisione(Date scadRevisione) {
         this.scadRevisione = scadRevisione;
     }
         
@@ -121,7 +160,26 @@ public class Mezzo implements Entity {
     }
     
     public Object[] toArray(){
-        Object[] arrayMezzi = {this.targa, this.marca, this.scadBollo, this.scadRevisione, this.scadAtp, this.scadAssicurazione};
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
+        
+        String scadBollo = "";
+        if (this.scadBollo != null)
+            scadBollo = sdf.format(this.scadBollo);
+        
+        String scadRevisione = "";
+        if (this.scadRevisione != null)
+            scadRevisione = sdf.format(this.scadRevisione);
+        
+        String scadAtp = "";
+        if (this.scadAtp != null)
+            scadAtp = sdf.format(this.scadAtp);
+        
+        String scadAssicurazione = "";
+        if (this.scadAssicurazione != null)
+            scadAssicurazione = sdf.format(this.scadAssicurazione);
+        
+        Object[] arrayMezzi = {this.targa, this.marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione};
         return arrayMezzi;
     }
 }

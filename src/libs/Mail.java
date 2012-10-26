@@ -12,6 +12,7 @@ import javax.mail.*;
 import java.util.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+import javax.swing.JOptionPane;
 
 public class Mail {
     private static String host;  //tuo smtp
@@ -58,10 +59,10 @@ public class Mail {
         msg.setSubject(subject);
         
         BodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(text);
+        messageBodyPart.setContent(text, "text/html; charset=utf-8");
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messageBodyPart);
-
+        
         // Part two is attachment
         if (file != null) {
             messageBodyPart = new MimeBodyPart();
@@ -72,7 +73,6 @@ public class Mail {
         }
         
         msg.setContent(multipart);
-        //msg.setContent(messageText, "text/html"); // use setText if you want to send text
         Transport transport = mailSession.getTransport("smtp");
         try {
             transport.connect(host, user, pass);

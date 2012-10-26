@@ -38,54 +38,66 @@ import javax.swing.SwingWorker;
  * @author Michele
  */
 public class InvioMail extends javax.swing.JDialog {
-    
+        
     /** Creates new form InvioMail */
     public InvioMail(java.awt.Frame parent, boolean modal, Fattura f) {
         super(parent, modal);
         initComponents();
-        ColorManager color = new ColorManager();
-        color.changeColor(pnlDest);
-        color.changeColor(pnlOggetto);
-        color.changeColor(pnlTesto);
         
         fattura = f;
         cliente = f.getCliente();
-        chkAzienda.setText("Email aziendale: " + cliente.getEmail());
-        chkRef1.setText(cliente.getNomeRef1() + ": " + cliente.getEmailRef1());
-        chkRef2.setText(cliente.getNomeRef2() + ": " + cliente.getEmailRef2());
+
+        setColorAndEmailList();
+        
         setTitle(getTitle() + " a " + cliente);
         txtOggetto.setText("Invio fattura numero " + fattura.getNumero() + " in data " + fattura.getFormattedData());
-        txtTesto.setText("Spett.le " + cliente.getNome() + ",\nin allegato fattura per la/e spedizione/i effettuata/e per vostro conto. \n\n" +
-                "Cordialmente, \nFranco Rotunno & Figli s.r.l.");
+        testo = "Spett.le <span style='font-weight:bold'>" + cliente.getNome()+ "</span>,<br />in allegato fattura per la/e spedizione/i effettuata/e per vostro conto. <br /><br />" +
+                "Cordialmente, <br />Franco Rotunno & Figli s.r.l.";
 
+        txtTesto.setText(testo);
         prgBar.setVisible(false);
     }
     
-        public InvioMail(java.awt.Frame parent, boolean modal, List<Fattura> fatture) {
+    public InvioMail(java.awt.Frame parent, boolean modal, List<Fattura> fatture) {
         super(parent, modal);
         initComponents();
-        ColorManager color = new ColorManager();
-        color.changeColor(pnlDest);
-        color.changeColor(pnlOggetto);
-        color.changeColor(pnlTesto);
-        
+                
         cliente = fatture.get(0).getCliente();
-        chkAzienda.setText("Email aziendale: " + cliente.getEmail());
-        chkRef1.setText(cliente.getNomeRef1() + ": " + cliente.getEmailRef1());
-        chkRef2.setText(cliente.getNomeRef2() + ": " + cliente.getEmailRef2());
+       
+        setColorAndEmailList();
+        
         setTitle(getTitle() + " a " + cliente);
-        txtOggetto.setText("Sollecito per fatture non pagate");
+        txtOggetto.setText("Sollecito di pagamento");
 
-        String stringaFatt = "";
+        String stringaFatt = "<table>"+
+                                "<tr>"+
+                                   "<th>NUMERO</th>"+
+                                   "<th>DATA</th>"+
+                                   "<th>TOTALE</th>"+
+                                "</tr>";
         for (Fattura fatt : fatture) {          
             
-            stringaFatt += "NUMERO:\t" + fatt.getNumero() + "\nDATA:\t" + fatt.getFormattedData() + "\nIMPONIBILE:\t€ " + fatt.getImponibile() + 
-                    "\nIVA:\t€ " + fatt.getIva() + "\nTOTALE:\t€ " + fatt.getTotale() + "\nSCADENZA:\t" + fatt.getFormattedDataScadenza() + "\n\n";
+            //stringaFatt += "NUMERO:\t" + fatt.getNumero() + "\nDATA:\t" + fatt.getFormattedData() + "\nIMPONIBILE:\t€ " + fatt.getImponibile() + 
+                   // "\nIVA:\t€ " + fatt.getIva() + "\nTOTALE:</p>\t€ " + fatt.getTotale() + "\nSCADENZA:\t" + fatt.getFormattedDataScadenza() + "<br /><br />";
+            //Fatture in formato table html
+            stringaFatt += "<tr>"+
+                            "<td>"+fatt.getNumero()+"</td>"+
+                            "<td>"+fatt.getFormattedData()+"</td>"+
+                            "<td style='border:1px solid black;text-align:right'>&euro;   "+String.format("%1$,.2f", fatt.getTotale())+"</td>"+
+                          "</tr>";
         }
-        
-        txtTesto.setText("Spett.le " + cliente.getNome() + ",\n\nla invitiamo al pagamento della/e seguente/i fattura/e:\n\n" + stringaFatt + 
-                "Cordialmente, \nFranco Rotunno & Figli s.r.l.");
-        
+        stringaFatt += "</table><br />";
+        testo = "Spett.le <span style='font-weight:bold'>" + cliente.getNome()+ "</span>"+
+                            ",<br />dal controllo della vostra partita contabile, risultano scadute le fatture di seguito elencate:<br /><br />"+
+                            stringaFatt +
+                            "Vi preghiamo di voler cortesemente provvedere al saldo tramite bonifico bancario:<br /><br />"+
+                            "<span style='font-weight:bold'>COORDINATE BANCARIE:<br />"+
+                            "IBAN: IT84O0538541471000001449453</span><br /><br />" +
+                            "Nel caso aveste nel frattempo già provveduto, vogliate ritenere nullo il presente sollecito.<br /><br />"+
+                            "Distinti saluti,<br />"+
+                            "Franco Rotunno & Figli S.r.l.";
+                        
+        txtTesto.setText(testo);
         prgBar.setVisible(false);
     }
 
@@ -106,7 +118,7 @@ public class InvioMail extends javax.swing.JDialog {
         txtOggetto = new javax.swing.JTextField();
         pnlTesto = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtTesto = new javax.swing.JTextArea();
+        txtTesto = new javax.swing.JEditorPane();
         btnInvia = new javax.swing.JButton();
         prgBar = new javax.swing.JProgressBar();
 
@@ -126,7 +138,7 @@ public class InvioMail extends javax.swing.JDialog {
                     .addComponent(chkRef2)
                     .addComponent(chkRef1)
                     .addComponent(chkAzienda))
-                .addContainerGap(463, Short.MAX_VALUE))
+                .addContainerGap(519, Short.MAX_VALUE))
         );
         pnlDestLayout.setVerticalGroup(
             pnlDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,7 +160,7 @@ public class InvioMail extends javax.swing.JDialog {
             pnlOggettoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlOggettoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtOggetto, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                .addComponent(txtOggetto, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlOggettoLayout.setVerticalGroup(
@@ -161,8 +173,7 @@ public class InvioMail extends javax.swing.JDialog {
 
         pnlTesto.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Testo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        txtTesto.setColumns(20);
-        txtTesto.setRows(5);
+        txtTesto.setContentType("text/html");
         jScrollPane1.setViewportView(txtTesto);
 
         javax.swing.GroupLayout pnlTestoLayout = new javax.swing.GroupLayout(pnlTesto);
@@ -171,14 +182,13 @@ public class InvioMail extends javax.swing.JDialog {
             pnlTestoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTestoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlTestoLayout.setVerticalGroup(
             pnlTestoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTestoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -196,16 +206,16 @@ public class InvioMail extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pnlOggetto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlDest, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlTesto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlOggetto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlDest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnInvia)
                         .addGap(18, 18, 18)
-                        .addComponent(prgBar, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE))
-                    .addComponent(pnlTesto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(prgBar, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -226,8 +236,60 @@ public class InvioMail extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+private void setColorAndEmailList() {
+    ColorManager color = new ColorManager();
+    color.changeColor(pnlDest);
+    color.changeColor(pnlOggetto);
+    color.changeColor(pnlTesto);
+
+    String email = cliente.getEmail();
+    String emailRef1 = cliente.getEmailRef1();
+    String emailRef2 = cliente.getEmailRef2();
+
+    String nomeRef1 = cliente.getNomeRef1();
+    String nomeRef2 = cliente.getNomeRef2();
+
+    if (email == null) {
+        email = "Nessuna e-mail aziendale presente";
+        chkAzienda.setEnabled(false);
+    } else {
+        email = "E-mail aziendale: " + email;
+    }
+
+    chkAzienda.setText(email);
+
+    if (nomeRef1 == null) {
+        nomeRef1 = "Referente 1";
+    }
+
+    if (emailRef1 == null) {
+        emailRef1 = "Nessuna e-mail presente";
+        chkRef1.setEnabled(false);
+    }
+
+    chkRef1.setText(nomeRef1 + ": " + emailRef1);
+
+    if (nomeRef2 == null) {
+        nomeRef2 = "Referente 2";
+    }
+
+    if (emailRef2 == null) {
+        emailRef2 = "Nessuna e-mail presente";
+        chkRef2.setEnabled(false);
+    }
+
+    chkRef2.setText(nomeRef2 + ": " + emailRef2);
+
+}    
+    
 private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInviaActionPerformed
 // TODO add your handling code here:
+    //Replace dei tag html in modo da aggiungere lo stile voluto
+    testo = txtTesto.getText();
+    testo = testo.replaceAll("<table>", "<table style='border:1px solid black;border-collapse:collapse;font-weight:bold'>");
+    testo = testo.replaceAll("<th>", "<th style='font-weight:bold;background-color:blue;color:white;border:1px solid black;width:120px'>");
+    testo = testo.replaceAll("<td>", "<td style='border:1px solid black;text-align:center'>");
+    
     boolean checked = false;
     List<String> to = new LinkedList<String>();
     
@@ -253,7 +315,7 @@ private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     
     if (fattura != null) {
         try {
-            new MailProgressBarManager(prgBar, to, txtOggetto.getText(), txtTesto.getText(), new stampa.StampaFattura(fattura, cliente, true).printAndGet(), this).actionPerformed(null);
+            new MailProgressBarManager(prgBar, to, txtOggetto.getText(), testo, new stampa.StampaFattura(fattura, cliente, true).printAndGet(), this).actionPerformed(null);
         } catch (DocumentException ex) {
             Logger.getLogger(InvioMail.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -261,7 +323,7 @@ private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         } 
         
     } else {
-        new MailProgressBarManager(prgBar, to, txtOggetto.getText(), txtTesto.getText(), this).actionPerformed(null);
+        new MailProgressBarManager(prgBar, to, txtOggetto.getText(), testo, this).actionPerformed(null);
         
     }
            
@@ -288,11 +350,12 @@ void showResultSendingMail(boolean success, String msg) {
     private javax.swing.JPanel pnlTesto;
     private javax.swing.JProgressBar prgBar;
     private javax.swing.JTextField txtOggetto;
-    private javax.swing.JTextArea txtTesto;
+    private javax.swing.JEditorPane txtTesto;
     // End of variables declaration//GEN-END:variables
     
     private Fattura fattura;
     private Fornitore cliente;
+    private String testo;
     
 }
 

@@ -605,7 +605,10 @@ void setTableEmesse() {
             colonna.setCellRenderer(new DoubleFormatter());
     }
     
-    tblScadenzeEmesse.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+    if (forn_cliente.getCod() == null) //Tutti
+        tblScadenzeEmesse.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    else
+        tblScadenzeEmesse.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     
     tblScadenzeEmesse.addMouseListener(new MouseAdapter() {
 

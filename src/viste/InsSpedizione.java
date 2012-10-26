@@ -34,7 +34,7 @@ import libs.DoubleFormatter;
  * @author Michele
  */
 public class InsSpedizione extends javax.swing.JDialog {
-
+    
     /** Creates new form NewJDialog */
     public InsSpedizione(java.awt.Frame parent, boolean modal, Fornitore fornitore) {
         super(parent, modal);
@@ -1234,7 +1234,8 @@ private void txtImportoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:eve
     calcolaTotale();
 }//GEN-LAST:event_txtImportoFocusLost
 
-void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boolean pagata, boolean forfait, String note, List<Movimento> movimenti) {
+void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boolean pagata, boolean forfait, String note, List<Movimento> movimenti,
+        Date dataScadenza) {
            
     Double importo = 0.00;
     try {
@@ -1267,7 +1268,9 @@ void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boo
     List<Spedizione> speds = new LinkedList<Spedizione>();
     speds.add(spedDaFatturare);
 
-    Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, speds, forfait, pagata, note);
+    Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, speds, forfait, pagata, note,
+            dataScadenza);
+    
     fatt.setCliente(fornitore);
     try {
         if (FrontController.insert(fatt)) {
@@ -1405,6 +1408,7 @@ private void blockTexts() {
     txtPercIva.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
     txtPercProv.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
     txtPercSconto.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
+    txtDescrizione.setDocument(new JTextFieldLimit(MAX_LENGTH_DESCRIZIONE));
 }
 
 private void optConsegnaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optConsegnaActionPerformed
@@ -1657,4 +1661,5 @@ private void pulisciText(){
     private static final int MAX_LENGTH_MESE = 2;
     private static final int MAX_LENGTH_ANNO = 4;
     private static final int MAX_LENGTH_PERC = 2;
+    private static final int MAX_LENGTH_DESCRIZIONE = 54;
 }

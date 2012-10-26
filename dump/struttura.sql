@@ -57,6 +57,7 @@ CREATE TABLE `fatture` (
   `forfait` tinyint(1) NOT NULL DEFAULT '0',
   `pagata` tinyint(1) NOT NULL DEFAULT '0',
   `note` varchar(200) DEFAULT NULL,
+  `data_scadenza` date NOT NULL,
   PRIMARY KEY (`numero`,`data`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -80,6 +81,7 @@ CREATE TABLE `fattureacq` (
   `tipo` varchar(20) NOT NULL,
   `note` varchar(200) DEFAULT NULL,
   `fornitore` int(11) NOT NULL,
+  `data_scadenza` date NOT NULL,
   PRIMARY KEY (`numero`,`data`,`fornitore`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -137,10 +139,10 @@ CREATE TABLE `mezzi` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `targa` varchar(10) NOT NULL,
   `marca` varchar(70) DEFAULT NULL,
-  `scad_bollo` varchar(30) DEFAULT NULL,
-  `scad_revisione` varchar(30) DEFAULT NULL,
-  `scad_atp` varchar(30) DEFAULT NULL,
-  `scad_assicurazione` varchar(30) DEFAULT NULL,
+  `scad_bollo` date DEFAULT NULL,
+  `scad_revisione` date DEFAULT NULL,
+  `scad_atp` date DEFAULT NULL,
+  `scad_assicurazione` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `targa` (`targa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -229,4 +231,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-19 10:56:30
+-- Dump completed on 2012-10-26 16:54:18
