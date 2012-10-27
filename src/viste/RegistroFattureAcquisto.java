@@ -1714,7 +1714,14 @@ void setFatture() {
     private int getIndexSelectedFattura() {
         Fattura fatt = new Fattura();
         //JOptionPane.showMessageDialog(rootPane, tblFatture.getSelectedRow());
-        fatt.setNumero((Integer) tblFatture.getValueAt(tblFatture.getSelectedRow(), NUM));
+        String colonnaNumero = String.valueOf(tblFatture.getValueAt(tblFatture.getSelectedRow(), NUM));
+        String[] colonnaArray = colonnaNumero.split("-");
+        
+        fatt.setNumero(Integer.parseInt(colonnaArray[0]));
+        
+        try {
+            fatt.setSpecificaNumero(colonnaArray[1]);
+        } catch (ArrayIndexOutOfBoundsException e) {}
         
         String[] data = ((String) tblFatture.getValueAt(tblFatture.getSelectedRow(), DATA)).split("/");
         Date dataFatt = Date.valueOf(data[2] + "-" + data[1] + "-" + data[0]);

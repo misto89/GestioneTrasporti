@@ -55,7 +55,7 @@ public class Spedizione implements Entity {
     private Integer sconto;
     private Integer percIva;
     private Double iva;
-    private Integer percProvvigione;
+    private Double percProvvigione;
     private Double provvigione;
     private Double totale;
     private String note;
@@ -78,7 +78,7 @@ public class Spedizione implements Entity {
 
     public Spedizione(String num, Integer fornitore, Date dataCarico, Date dataDocumento, String descrizione, String mezzo,
             String um, int qta, Double traz, Double distrib, Double importo, Integer sconto, Integer percIva, Double iva, 
-            Integer percProvv, Double provv, Double totale, String note, boolean rientrata, Integer fattura, Date dataFattura,
+            Double percProvv, Double provv, Double totale, String note, boolean rientrata, Integer fattura, Date dataFattura,
             Double valMerce, Double imponibile, Character stato) {
         
         this.numero = num;
@@ -227,7 +227,7 @@ public class Spedizione implements Entity {
         this.iva = iva;
     }
     
-    public Integer getPercProvv() {
+    public Double getPercProvv() {
         return percProvvigione;
     }
 

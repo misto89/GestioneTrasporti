@@ -235,12 +235,12 @@ public abstract class FrontController {
         return DAO_CBC.getCashMovements(anniMesi);
     }
     
-    public static boolean sendMail(List<String> to, String subject, String text, File file) throws AddressException, MessagingException {
-        return Mail.send(to, subject, text, file);
+    public static boolean sendMail(List<String> to, String cc, String subject, String text, File file) throws AddressException, MessagingException {
+        return Mail.send(to, cc, subject, text, file);
     }
     
-    public static boolean sendMail(List<String> to, String subject, String text) throws AddressException, MessagingException {
-        return Mail.send(to, subject, text);
+    public static boolean sendMail(List<String> to, String cc, String subject, String text) throws AddressException, MessagingException {
+        return Mail.send(to, cc, subject, text);
     }
     
     public static MailManager getMailParams() {

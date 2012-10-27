@@ -4,7 +4,6 @@
  */
 package entita;
 
-import libs.DateUpdate;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,6 +34,7 @@ public class Fattura implements Entity {
     private Date dataScadenza;
     private String tipo; //solo per fatture d'acquisto
     private int fornitore; //solo per fatture d'acquisto
+    private String specificaNumero; //solo per le fatture d'acquisto
     private List<Movimento> movimenti = new LinkedList<Movimento>();
     
     public static int NUM_CAMPI_EMESSE = 11;
@@ -90,7 +90,7 @@ public class Fattura implements Entity {
     
     //costruttore per la fattura d'acquisto
     public Fattura (int num,  Date data, String metPag, double imp, double sc, double iva, double tot, String tipo, boolean pagata, int codForn, String note,
-            Date dataScadenza){
+            Date dataScadenza, String specificaNumero){
         numero = num;
         dataFattura = data;
         metodoPagamento = metPag;
@@ -104,6 +104,7 @@ public class Fattura implements Entity {
         fornitore = codForn;
         this.note = note;
         this.dataScadenza = dataScadenza;
+        this.specificaNumero = specificaNumero;
     }
     
     public int getNumero() {
@@ -225,7 +226,15 @@ public class Fattura implements Entity {
     public String getNote(){
         return note;
     }
-    
+
+    public String getSpecificaNumero() {
+        return specificaNumero;
+    }
+
+    public void setSpecificaNumero(String specificaNumero) {
+        this.specificaNumero = specificaNumero;
+    }
+       
     public String getNotePag(){
         if (movimenti.isEmpty())
             return null;
@@ -287,8 +296,8 @@ public class Fattura implements Entity {
             pagata = 'S';
         else
             pagata = 'N';
-
-        return new Object[] {cliente.getNome(), tipo, numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
+        
+        return new Object[] {cliente.getNome(), tipo, (specificaNumero != null) ? numero + "-" + specificaNumero : numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
     }
     
     public boolean isScaduta() {

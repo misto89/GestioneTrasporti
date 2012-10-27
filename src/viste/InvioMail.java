@@ -27,6 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.swing.JOptionPane;
@@ -65,7 +67,7 @@ public class InvioMail extends javax.swing.JDialog {
         cliente = fatture.get(0).getCliente();
        
         setColorAndEmailList();
-        
+        Double totale = 0.0;
         setTitle(getTitle() + " a " + cliente);
         txtOggetto.setText("Sollecito di pagamento");
 
@@ -85,7 +87,15 @@ public class InvioMail extends javax.swing.JDialog {
                             "<td>"+fatt.getFormattedData()+"</td>"+
                             "<td style='border:1px solid black;text-align:right'>&euro;   "+String.format("%1$,.2f", fatt.getTotale())+"</td>"+
                           "</tr>";
+            totale += fatt.getTotale();
         }
+        if (fatture.size() > 1) {
+            stringaFatt += "<tr id='tot'>" + 
+                                "<td colspan='2' style='text-align:left'>Totale Complessivo</td>" +
+                                "<td style='text-align:right'>&euro;   "+String.format("%1$,.2f", totale) + "</td>" +
+                           "</tr>";
+        }
+        
         stringaFatt += "</table><br />";
         testo = "Spett.le <span style='font-weight:bold'>" + cliente.getNome()+ "</span>"+
                             ",<br />dal controllo della vostra partita contabile, risultano scadute le fatture di seguito elencate:<br /><br />"+
@@ -121,6 +131,8 @@ public class InvioMail extends javax.swing.JDialog {
         txtTesto = new javax.swing.JEditorPane();
         btnInvia = new javax.swing.JButton();
         prgBar = new javax.swing.JProgressBar();
+        pnlConoscenza = new javax.swing.JPanel();
+        txtConoscenza = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Invio mail");
@@ -202,20 +214,40 @@ public class InvioMail extends javax.swing.JDialog {
             }
         });
 
+        pnlConoscenza.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Cc", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        javax.swing.GroupLayout pnlConoscenzaLayout = new javax.swing.GroupLayout(pnlConoscenza);
+        pnlConoscenza.setLayout(pnlConoscenzaLayout);
+        pnlConoscenzaLayout.setHorizontalGroup(
+            pnlConoscenzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlConoscenzaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtConoscenza, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlConoscenzaLayout.setVerticalGroup(
+            pnlConoscenzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlConoscenzaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtConoscenza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlTesto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlOggetto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlDest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlOggetto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlDest, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlTesto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(btnInvia)
                         .addGap(18, 18, 18)
-                        .addComponent(prgBar, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)))
+                        .addComponent(prgBar, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE))
+                    .addComponent(pnlConoscenza, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -223,14 +255,16 @@ public class InvioMail extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlDest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlConoscenza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlOggetto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(1, 1, 1)
                 .addComponent(pnlTesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(prgBar, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                     .addComponent(btnInvia))
-                .addGap(18, 18, 18))
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -241,6 +275,7 @@ private void setColorAndEmailList() {
     color.changeColor(pnlDest);
     color.changeColor(pnlOggetto);
     color.changeColor(pnlTesto);
+    color.changeColor(pnlConoscenza);
 
     String email = cliente.getEmail();
     String emailRef1 = cliente.getEmailRef1();
@@ -289,9 +324,11 @@ private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     testo = testo.replaceAll("<table>", "<table style='border:1px solid black;border-collapse:collapse;font-weight:bold'>");
     testo = testo.replaceAll("<th>", "<th style='font-weight:bold;background-color:blue;color:white;border:1px solid black;width:120px'>");
     testo = testo.replaceAll("<td>", "<td style='border:1px solid black;text-align:center'>");
+    testo = testo.replaceAll("<tr id=\"tot\">","<tr style='border-top:2px solid black'>");
     
     boolean checked = false;
     List<String> to = new LinkedList<String>();
+    String cc = null;
     
     if (chkAzienda.isSelected()){
         checked = true;
@@ -308,6 +345,15 @@ private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         to.add(cliente.getEmailRef2());
     }
     
+    if (!txtConoscenza.getText().isEmpty())
+        if (checkEmail(txtConoscenza.getText()))
+            cc = txtConoscenza.getText();
+        else {
+            JOptionPane.showMessageDialog(this, "Campo Cc: formato mail non valido", "Email non valida", JOptionPane.ERROR_MESSAGE);
+            txtConoscenza.requestFocus();
+            return;
+        }
+    
     if (!checked){
         JOptionPane.showMessageDialog(this, "Selezionare almeno un destinatario!", "Destinatario mancante", JOptionPane.WARNING_MESSAGE);
         return;
@@ -315,7 +361,7 @@ private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     
     if (fattura != null) {
         try {
-            new MailProgressBarManager(prgBar, to, txtOggetto.getText(), testo, new stampa.StampaFattura(fattura, cliente, true).printAndGet(), this).actionPerformed(null);
+            new MailProgressBarManager(prgBar, to, cc, txtOggetto.getText(), testo, new stampa.StampaFattura(fattura, cliente, true).printAndGet(), this).actionPerformed(null);
         } catch (DocumentException ex) {
             Logger.getLogger(InvioMail.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -323,7 +369,7 @@ private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         } 
         
     } else {
-        new MailProgressBarManager(prgBar, to, txtOggetto.getText(), testo, this).actionPerformed(null);
+        new MailProgressBarManager(prgBar, to, cc, txtOggetto.getText(), testo, this).actionPerformed(null);
         
     }
            
@@ -339,16 +385,28 @@ void showResultSendingMail(boolean success, String msg) {
         JOptionPane.showMessageDialog(this, msg, "Errore", JOptionPane.ERROR_MESSAGE);
 }
 
+private boolean checkEmail(String email) {
+    Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
+    Matcher match = pattern.matcher(email);
+    return match.matches();
+}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInvia;
     private javax.swing.JCheckBox chkAzienda;
     private javax.swing.JCheckBox chkRef1;
     private javax.swing.JCheckBox chkRef2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel pnlConoscenza;
     private javax.swing.JPanel pnlDest;
     private javax.swing.JPanel pnlOggetto;
+    private javax.swing.JPanel pnlOggetto1;
+    private javax.swing.JPanel pnlOggetto2;
     private javax.swing.JPanel pnlTesto;
     private javax.swing.JProgressBar prgBar;
+    private javax.swing.JTextField txtConoscenza;
+    private javax.swing.JTextField txtConoscenza1;
+    private javax.swing.JTextField txtConoscenza2;
     private javax.swing.JTextField txtOggetto;
     private javax.swing.JEditorPane txtTesto;
     // End of variables declaration//GEN-END:variables
@@ -364,6 +422,7 @@ class MailProgressBarManager implements ActionListener, PropertyChangeListener {
     private JProgressBar progressBar;
     private Task task;
     private List<String> to;
+    private String cc;
     private String subject;
     private String text;
     private File allegato;
@@ -382,12 +441,12 @@ class MailProgressBarManager implements ActionListener, PropertyChangeListener {
             
             try {
                 if (allegato != null) {
-                    if (FrontController.sendMail(to, subject, text, allegato))
+                    if (FrontController.sendMail(to, cc, subject, text, allegato))
                         success = true;
                     else
                         success = false;
                 } else {
-                    if (FrontController.sendMail(to, subject, text))
+                    if (FrontController.sendMail(to, cc, subject, text))
                         success = true;
                     else
                         success = false;
@@ -427,14 +486,15 @@ class MailProgressBarManager implements ActionListener, PropertyChangeListener {
         }
     }
 
-    public MailProgressBarManager(JProgressBar bar, List<String> to, String subject, String text, File allegato, InvioMail dialog) {    
-        this(bar, to, subject, text, dialog);
+    public MailProgressBarManager(JProgressBar bar, List<String> to, String cc, String subject, String text, File allegato, InvioMail dialog) {    
+        this(bar, to, cc, subject, text, dialog);
         this.allegato = allegato;
     }
     
-    public MailProgressBarManager(JProgressBar bar, List<String> to, String subject, String text, InvioMail dialog) {
+    public MailProgressBarManager(JProgressBar bar, List<String> to, String cc, String subject, String text, InvioMail dialog) {
         progressBar = bar;
         this.to = to;
+        this.cc = cc;
         this.subject = subject;
         this.text = text;
         dialogMail = dialog;

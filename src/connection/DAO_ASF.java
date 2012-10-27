@@ -1000,7 +1000,7 @@ public abstract class DAO_ASF {
             Integer sconto;
             Integer percIva;
             Double iva;
-            Integer percProvvigione;
+            Double percProvvigione;
             Double provvigione;
             Double totale;
             String note;
@@ -1027,7 +1027,7 @@ public abstract class DAO_ASF {
                 percIva = rs.getInt(Tabelle.Spedizioni.PERC_IVA);
                 iva = rs.getDouble(Tabelle.Spedizioni.IVA);
                 sconto = rs.getInt(Tabelle.Spedizioni.SCONTO);
-                percProvvigione = rs.getInt(Tabelle.Spedizioni.PERC_PROVV);
+                percProvvigione = rs.getDouble(Tabelle.Spedizioni.PERC_PROVV);
                 provvigione = rs.getDouble(Tabelle.Spedizioni.IMPORTO_PROVV);
                 totale = rs.getDouble(Tabelle.Spedizioni.TOTALE);
                 rientrata = rs.getBoolean(Tabelle.Spedizioni.RIENTRATA);

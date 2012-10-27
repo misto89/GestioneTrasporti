@@ -30,11 +30,11 @@ public class Mail {
         pass = params.getPass();
     }
     
-    public static boolean send(List<String> to, String subject, String text) throws AddressException, MessagingException {
-        return send(to, subject, text, null);
+    public static boolean send(List<String> to, String cc, String subject, String text) throws AddressException, MessagingException {
+        return send(to, cc, subject, text, null);
     }
 
-    public static boolean send(List<String> to, String subject, String text, File file) throws AddressException, MessagingException {
+    public static boolean send(List<String> to, String cc, String subject, String text, File file) throws AddressException, MessagingException {
         String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
         boolean sessionDebug = true;
         Properties props = System.getProperties();
@@ -50,12 +50,20 @@ public class Mail {
         Message msg = new MimeMessage(mailSession);
         msg.setFrom(new InternetAddress(from));
         InternetAddress[] address = new InternetAddress[to.size()];
+        InternetAddress knowledge = null;
+        if (cc != null)
+            knowledge = new InternetAddress(cc);
         
         int cont = 0;
         for (String ad : to) {
             address[cont++] = new InternetAddress(ad);
         }
+        
         msg.setRecipients(Message.RecipientType.TO, address);
+        //Controllo l'esistenza del cc
+        if (cc != null)
+            msg.setRecipient(Message.RecipientType.CC, knowledge);
+        
         msg.setSubject(subject);
         
         BodyPart messageBodyPart = new MimeBodyPart();

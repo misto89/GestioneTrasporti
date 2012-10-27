@@ -415,7 +415,7 @@ public class Spedizioni extends javax.swing.JFrame {
                 Date dataFattura = spedizioniInTabella.get(getIndexSpedizioneAt(tblSpedizioni.getSelectedRow())).getDataFattura();
                 
                 int sconto = spedizioniInTabella.get(getIndexSpedizioneAt(tblSpedizioni.getSelectedRow())).getSconto();
-                int percProvv = spedizioniInTabella.get(getIndexSpedizioneAt(tblSpedizioni.getSelectedRow())).getPercProvv();
+                double percProvv = spedizioniInTabella.get(getIndexSpedizioneAt(tblSpedizioni.getSelectedRow())).getPercProvv();
                 int percIva = spedizioniInTabella.get(getIndexSpedizioneAt(tblSpedizioni.getSelectedRow())).getPercIva();
 
                 //Effettua il calcolo dei valori per determinare il totale

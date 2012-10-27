@@ -137,7 +137,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         double imponibile = DoubleFormatter.roundTwoDecimals(impScontato + impProvv);
         int percIva = spedizione.getPercIva();
         double iva = DoubleFormatter.roundTwoDecimals(spedizione.getIva());
-        int percProvv = spedizione.getPercProvv();
+        double percProvv = spedizione.getPercProvv();
         double totale = DoubleFormatter.roundTwoDecimals(spedizione.getTotale());
         char tipo = spedizione.getStato();
         
@@ -540,6 +540,11 @@ public class InsSpedizione extends javax.swing.JDialog {
         jLabel42.setText("Valore Merce");
 
         txtValMerce.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtValMerce.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtValMerceFocusLost(evt);
+            }
+        });
 
         jLabel45.setText("€");
 
@@ -759,7 +764,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         pnlPrezzoLayout.setVerticalGroup(
             pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrezzoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(txtTrazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -872,7 +877,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pnlPrezzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pnlTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -919,6 +924,7 @@ private void setFormatDouble() {
     txtImporto.setDocument(new JTextFieldFormatDouble());
     txtValMerce.setDocument(new JTextFieldFormatDouble());
     txtImpProv.setDocument(new JTextFieldFormatDouble());
+    txtPercProv.setDocument(new JTextFieldFormatDouble());
 }
     
 private void txtAnnoCaricoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAnnoCaricoFocusLost
@@ -1095,9 +1101,9 @@ private Spedizione creaSpedizioneDaInserire() {
         percIva = Integer.parseInt(txtPercIva.getText());
     } catch (NumberFormatException e) {}
     
-    int percProvv = 0;
+    double percProvv = 0.0;
     try {
-        percProvv = Integer.parseInt(txtPercProv.getText());
+        percProvv = Double.parseDouble(txtPercProv.getText());
     } catch (NumberFormatException e) {}
     
     int sconto = 0;
@@ -1406,7 +1412,6 @@ private void blockTexts() {
     txtMeseDocumento.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
     txtAnnoDocumento.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
     txtPercIva.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
-    txtPercProv.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
     txtPercSconto.setDocument(new JTextFieldLimit(MAX_LENGTH_PERC));
     txtDescrizione.setDocument(new JTextFieldLimit(MAX_LENGTH_DESCRIZIONE));
 }
@@ -1420,6 +1425,11 @@ private void optRitiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 // TODO add your handling code here:
     optConsegna.setSelected(false);
 }//GEN-LAST:event_optRitiroActionPerformed
+
+private void txtValMerceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtValMerceFocusLost
+// TODO add your handling code here:
+    calcolaTotale();
+}//GEN-LAST:event_txtValMerceFocusLost
 
 private void popolaSelect(List items) {
     cboMezzo.addItem(new Mezzo(null, "Vettore", null));
@@ -1479,7 +1489,7 @@ private void calcolaTotale(){
     } catch (NumberFormatException e) {}
     
     double importo = 0.0;
-    int percProv = 0;
+    double percProv = 0;
     double valMerce = 0.0;
     
     if (!(txtImpScontato.getText().equals("")) && (!((Double.parseDouble(txtImpScontato.getText())) == 0.0)))
@@ -1504,7 +1514,7 @@ private void calcolaTotale(){
         
          if (!(txtPercProv.getText().equals(""))) 
              try {
-                 percProv = Integer.parseInt(txtPercProv.getText());
+                 percProv = Double.parseDouble(txtPercProv.getText());
              } catch (NumberFormatException e) {}      
     }
     

@@ -15,6 +15,7 @@ import controllo.FrontController;
 import entita.Entity;
 import entita.Fattura;
 import entita.Fornitore;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -31,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -336,8 +338,11 @@ private void setPanelBorderTitle(){
     for (Fattura f: fattureAcquisto)
         totFattAcquisto += f.getTotale();
     
-    Border borderEmesse = new TitledBorder("Fatture emesse - TOTALE: € " + String.format("%1$,.2f", totFattEmesse));
-    Border borderAcquisto = new TitledBorder("Fatture acquisto  - TOTALE: € " + String.format("%1$,.2f", totFattAcquisto));
+    String titleFattEmesse = "Fatture emesse - TOTALE: € " + String.format("%1$,.2f", totFattEmesse);
+    String titleFattAcquisto = "Fatture acquisto  - TOTALE: € " + String.format("%1$,.2f", totFattAcquisto);
+    
+    Border borderEmesse = new TitledBorder(new EtchedBorder(), titleFattEmesse, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 14), Color.blue);
+    Border borderAcquisto = new TitledBorder(new EtchedBorder(), titleFattAcquisto, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 14), Color.red);
     pnlEmesse.setBorder(borderEmesse);
     pnlAcquisto.setBorder(borderAcquisto);
 }

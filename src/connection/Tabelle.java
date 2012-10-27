@@ -127,6 +127,7 @@ class Tabelle {
         public static final String NOTE = "note";
         public static final String FORNITORE = "fornitore";
         public static final String SCADENZA = "data_scadenza";
+        public static final String SPECIFICA_NUMERO = "specifica_numero";
     }
     
     static class Movimenti {
