@@ -1,0 +1,6 @@
+Configuration file loaded: G:\Documenti\GitHub\GestioneTrasporti\conf.properties
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+INSERT INTO mezzi VALUES (NULL, 'CK986TT', 'matiz', '2012-11-11', '2012-11-11', '2012-11-11', '2012-11-11')
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa

@@ -1,0 +1,5 @@
+Configuration file loaded: G:\Documenti\GitHub\GestioneTrasporti\conf.properties
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale

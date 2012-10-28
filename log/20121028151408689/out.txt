@@ -1,0 +1,18 @@
+Configuration file loaded: G:\Documenti\GitHub\GestioneTrasporti\conf.properties
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+DELETE FROM mezzi WHERE id = 8
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+INSERT INTO mezzi VALUES (NULL, 'CK986TT', 'matiz', NULL, NULL, NULL, NULL)
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+UPDATE mezzi SET targa = 'CK986TT', marca = 'matiz', scad_bollo = NULL, scad_revisione = NULL, scad_atp = '2012-12-11', scad_assicurazione = NULL WHERE id = 9
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+UPDATE mezzi SET targa = 'CK986TT', marca = 'matiz', scad_bollo = '2012-06-24', scad_revisione = NULL, scad_atp = '2012-12-11', scad_assicurazione = NULL WHERE id = 9
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+UPDATE mezzi SET targa = 'CK986TT', marca = 'matiz', scad_bollo = '2012-06-24', scad_revisione = NULL, scad_atp = '2012-12-11', scad_assicurazione = '2012-02-15' WHERE id = 9
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+UPDATE mezzi SET targa = 'CK986TT', marca = 'matiz', scad_bollo = '2012-06-24', scad_revisione = '2012-07-04', scad_atp = '2012-12-11', scad_assicurazione = '2012-02-15' WHERE id = 9
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+UPDATE mezzi SET targa = 'CK986TT', marca = 'matiz', scad_bollo = '2012-06-24', scad_revisione = '2012-07-04', scad_atp = NULL, scad_assicurazione = '2012-02-15' WHERE id = 9
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa

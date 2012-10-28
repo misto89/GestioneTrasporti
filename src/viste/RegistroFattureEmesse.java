@@ -163,13 +163,14 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFattura = new javax.swing.JMenu();
         mnuRistampa = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mnuAnteprima = new javax.swing.JMenuItem();
         mnuAnnullaFattura = new javax.swing.JMenuItem();
         mnuInviaEmail = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         mnuIntervalloDate = new javax.swing.JCheckBoxMenuItem();
         mnuProspetto = new javax.swing.JMenu();
-        mnuStampa = new javax.swing.JMenuItem();
+        mnuStampaCompleta = new javax.swing.JMenuItem();
+        mnuStampaParziale = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro Fatture Emesse");
@@ -672,15 +673,15 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
         });
         mnuFattura.add(mnuRistampa);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/anteprimastampa.png"))); // NOI18N
-        jMenuItem1.setText("Anteprima di stampa");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mnuAnteprima.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        mnuAnteprima.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/anteprimastampa.png"))); // NOI18N
+        mnuAnteprima.setText("Anteprima di stampa");
+        mnuAnteprima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mnuAnteprimaActionPerformed(evt);
             }
         });
-        mnuFattura.add(jMenuItem1);
+        mnuFattura.add(mnuAnteprima);
 
         mnuAnnullaFattura.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuAnnullaFattura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/annulla.png"))); // NOI18N
@@ -725,15 +726,25 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
         mnuProspetto.setText("Prospetto");
         mnuProspetto.setEnabled(false);
 
-        mnuStampa.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        mnuStampa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
-        mnuStampa.setText("Stampa");
-        mnuStampa.addActionListener(new java.awt.event.ActionListener() {
+        mnuStampaCompleta.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        mnuStampaCompleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
+        mnuStampaCompleta.setText("Stampa completa");
+        mnuStampaCompleta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuStampaActionPerformed(evt);
+                mnuStampaCompletaActionPerformed(evt);
             }
         });
-        mnuProspetto.add(mnuStampa);
+        mnuProspetto.add(mnuStampaCompleta);
+
+        mnuStampaParziale.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+        mnuStampaParziale.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
+        mnuStampaParziale.setText("Stampa parziale");
+        mnuStampaParziale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuStampaParzialeActionPerformed(evt);
+            }
+        });
+        mnuProspetto.add(mnuStampaParziale);
 
         jMenuBar1.add(mnuProspetto);
 
@@ -1080,7 +1091,7 @@ private void mnuInviaEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     FrontController.open(new InvioMail(this, rootPaneCheckingEnabled, fattura));
 }//GEN-LAST:event_mnuInviaEmailActionPerformed
 
-private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaActionPerformed
+private void mnuStampaCompletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaCompletaActionPerformed
 // TODO add your handling code here:
 
     Object[] riepilogo = {
@@ -1088,6 +1099,24 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         Double.parseDouble(txtTotFatture.getText()), Double.parseDouble(txtTotPagate.getText()), Double.parseDouble(txtTotNonPagate.getText())
     };
     
+    Stampa(true, riepilogo);
+}//GEN-LAST:event_mnuStampaCompletaActionPerformed
+
+private void mnuAnteprimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnteprimaActionPerformed
+// TODO add your handling code here:
+    Fattura fattura = fattureInTabella.get(getIndexSelectedFattura());
+    
+    try {
+        new stampa.StampaFattura(fattura, fattura.getCliente(), true).printAndOpen();
+
+    } catch (DocumentException ex) {
+        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}//GEN-LAST:event_mnuAnteprimaActionPerformed
+
+private void Stampa(boolean isCompleta, Object[] riepilogo) {
     Fattura.pagata filtroP;
     if (optPagate.isSelected())
         filtroP = Fattura.pagata.P;
@@ -1115,30 +1144,26 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     
     try {
         if (mnuIntervalloDate.isSelected())
-            new StampaRegistroEmesse(dataIniziale, dataFinale, filtroP, filtroS, cliente, riepilogo, mesi, fattureInTabella).printAndOpen();
+            new StampaRegistroEmesse(dataIniziale, dataFinale, filtroP, filtroS, cliente, riepilogo, mesi, fattureInTabella, isCompleta).printAndOpen();
         else
-            new StampaRegistroEmesse((Integer)cboAnno.getSelectedItem(), filtroP, filtroS, cliente, riepilogo, mesi, fattureInTabella).printAndOpen();
+            new StampaRegistroEmesse((Integer)cboAnno.getSelectedItem(), filtroP, filtroS, cliente, riepilogo, mesi, fattureInTabella, isCompleta).printAndOpen();
         
     } catch (DocumentException ex) {
         Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
     } catch (IOException ex) {
         Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
     }
-}//GEN-LAST:event_mnuStampaActionPerformed
+}
 
-private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+private void mnuStampaParzialeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaParzialeActionPerformed
 // TODO add your handling code here:
-    Fattura fattura = fattureInTabella.get(getIndexSelectedFattura());
+    Object[] riepilogo = {
+        Integer.parseInt(txtNumFatt.getText()), Double.parseDouble(txtTotFatture.getText()), 
+        Double.parseDouble(txtTotPagate.getText()), Double.parseDouble(txtTotNonPagate.getText())
+    };
     
-    try {
-        new stampa.StampaFattura(fattura, fattura.getCliente(), true).printAndOpen();
-
-    } catch (DocumentException ex) {
-        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
-    }
-}//GEN-LAST:event_jMenuItem1ActionPerformed
+    Stampa(false, riepilogo);
+}//GEN-LAST:event_mnuStampaParzialeActionPerformed
 
 private String meseToString(int mese) {
     String stringa = null;
@@ -1388,15 +1413,16 @@ void setFatture() {
     private javax.swing.JCheckBox chkTutti;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnuAnnullaFattura;
+    private javax.swing.JMenuItem mnuAnteprima;
     private javax.swing.JMenu mnuFattura;
     private javax.swing.JCheckBoxMenuItem mnuIntervalloDate;
     private javax.swing.JMenuItem mnuInviaEmail;
     private javax.swing.JMenu mnuProspetto;
     private javax.swing.JMenuItem mnuRistampa;
-    private javax.swing.JMenuItem mnuStampa;
+    private javax.swing.JMenuItem mnuStampaCompleta;
+    private javax.swing.JMenuItem mnuStampaParziale;
     private javax.swing.JRadioButton optNonPagate;
     private javax.swing.JRadioButton optNonScadute;
     private javax.swing.JRadioButton optPagate;

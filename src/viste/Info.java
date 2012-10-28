@@ -46,7 +46,7 @@ public class Info extends javax.swing.JDialog {
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14));
-        jLabel1.setText("Gestione trasporti Versione 1.0.7");
+        jLabel1.setText("Gestione trasporti Versione 1.0.8");
 
         jLabel2.setText("Realizzato da:");
 

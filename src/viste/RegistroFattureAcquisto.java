@@ -188,7 +188,8 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         mnuIntervalloDate = new javax.swing.JCheckBoxMenuItem();
         mnuProspetto = new javax.swing.JMenu();
-        mnuStampa = new javax.swing.JMenuItem();
+        mnuStampaCompleta = new javax.swing.JMenuItem();
+        mnuStampaParziale = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar2.add(jMenu1);
@@ -373,7 +374,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                 .addComponent(pnlTotPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlTotNonPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(218, Short.MAX_VALUE))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
         pnlRiepilogoLayout.setVerticalGroup(
             pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -820,7 +821,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                     .addComponent(optScadute)
                     .addComponent(optTutteScad)
                     .addComponent(optNonScadute))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         pnlScaduteLayout.setVerticalGroup(
             pnlScaduteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -890,15 +891,25 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
         mnuProspetto.setText("Prospetto");
         mnuProspetto.setEnabled(false);
 
-        mnuStampa.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        mnuStampa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
-        mnuStampa.setText("Stampa");
-        mnuStampa.addActionListener(new java.awt.event.ActionListener() {
+        mnuStampaCompleta.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        mnuStampaCompleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
+        mnuStampaCompleta.setText("Stampa completa");
+        mnuStampaCompleta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuStampaActionPerformed(evt);
+                mnuStampaCompletaActionPerformed(evt);
             }
         });
-        mnuProspetto.add(mnuStampa);
+        mnuProspetto.add(mnuStampaCompleta);
+
+        mnuStampaParziale.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+        mnuStampaParziale.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
+        mnuStampaParziale.setText("Stampa parziale");
+        mnuStampaParziale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuStampaParzialeActionPerformed(evt);
+            }
+        });
+        mnuProspetto.add(mnuStampaParziale);
 
         jMenuBar1.add(mnuProspetto);
 
@@ -911,7 +922,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1191, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1199, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(pnlPagate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1416,13 +1427,7 @@ private void optAcqStruttureActionPerformed(java.awt.event.ActionEvent evt) {//G
     setFatture();       
 }//GEN-LAST:event_optAcqStruttureActionPerformed
 
-private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaActionPerformed
-// TODO add your handling code here:
-    Object[] riepilogo = {
-        Integer.parseInt(txtNumFatt.getText()), Double.parseDouble(txtTotImp.getText()), Double.parseDouble(txtIvaTot.getText()),
-        Double.parseDouble(txtTotFatture.getText()), Double.parseDouble(txtTotPagate.getText()), Double.parseDouble(txtTotNonPagate.getText())
-    };
-    
+private void Stampa(boolean completa, Object[] riepilogo) {
     Fattura.pagata filtroP;
     if (optPagate.isSelected())
         filtroP = Fattura.pagata.P;
@@ -1450,16 +1455,26 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     
     try {
         if (mnuIntervalloDate.isSelected())
-            new StampaRegistroAcquisto(dataIniziale, dataFinale, filtroP, filtroS, fornitore, riepilogo, mesi, fattureInTabella, tipoFatt).printAndOpen();
+            new StampaRegistroAcquisto(dataIniziale, dataFinale, filtroP, filtroS, fornitore, riepilogo, mesi, fattureInTabella, tipoFatt, completa).printAndOpen();
         else
-            new StampaRegistroAcquisto((Integer)cboAnno.getSelectedItem(), filtroP, filtroS, fornitore, riepilogo, mesi, fattureInTabella, tipoFatt).printAndOpen();
+            new StampaRegistroAcquisto((Integer)cboAnno.getSelectedItem(), filtroP, filtroS, fornitore, riepilogo, mesi, fattureInTabella, tipoFatt, completa).printAndOpen();
         
     } catch (DocumentException ex) {
         Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
     } catch (IOException ex) {
         Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
     }
-}//GEN-LAST:event_mnuStampaActionPerformed
+}
+
+private void mnuStampaCompletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaCompletaActionPerformed
+// TODO add your handling code here:
+    Object[] riepilogo = {
+        Integer.parseInt(txtNumFatt.getText()), Double.parseDouble(txtTotImp.getText()), Double.parseDouble(txtIvaTot.getText()),
+        Double.parseDouble(txtTotFatture.getText()), Double.parseDouble(txtTotPagate.getText()), Double.parseDouble(txtTotNonPagate.getText())
+    };
+    
+    Stampa(true, riepilogo);
+}//GEN-LAST:event_mnuStampaCompletaActionPerformed
 
 private void mnuModFatturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuModFatturaActionPerformed
 // TODO add your handling code here:
@@ -1483,6 +1498,16 @@ private void mnuEliminaFatturaActionPerformed(java.awt.event.ActionEvent evt) {/
     
     
 }//GEN-LAST:event_mnuEliminaFatturaActionPerformed
+
+private void mnuStampaParzialeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaParzialeActionPerformed
+// TODO add your handling code here:
+    Object[] riepilogo = {
+        Integer.parseInt(txtNumFatt.getText()),Double.parseDouble(txtTotFatture.getText()), 
+        Double.parseDouble(txtTotPagate.getText()), Double.parseDouble(txtTotNonPagate.getText())
+    };
+    
+    Stampa(false, riepilogo);
+}//GEN-LAST:event_mnuStampaParzialeActionPerformed
 
 private String meseToString(int mese) {
     String stringa = null;
@@ -1781,7 +1806,8 @@ void setFatture() {
     private javax.swing.JCheckBoxMenuItem mnuIntervalloDate;
     private javax.swing.JMenuItem mnuModFattura;
     private javax.swing.JMenu mnuProspetto;
-    private javax.swing.JMenuItem mnuStampa;
+    private javax.swing.JMenuItem mnuStampaCompleta;
+    private javax.swing.JMenuItem mnuStampaParziale;
     private javax.swing.JRadioButton optAcqStrutture;
     private javax.swing.JRadioButton optManutenzione;
     private javax.swing.JRadioButton optNCred;

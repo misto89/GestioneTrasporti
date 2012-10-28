@@ -35,8 +35,9 @@ public class StampaRegistroAcquisto extends StampaDocumento {
     private String tipo;
     private List<String> mesi;
     private List<Fattura> fatture;
+    private boolean completa;
     
-    private StampaRegistroAcquisto(Fattura.pagata filtroPagate, Fattura.scaduta filtroScadute, Fornitore cliente, Object[] riepilogo, List<String> mesi, List<Fattura> fatture, String tipo) throws DocumentException {
+    private StampaRegistroAcquisto(Fattura.pagata filtroPagate, Fattura.scaduta filtroScadute, Fornitore cliente, Object[] riepilogo, List<String> mesi, List<Fattura> fatture, String tipo, boolean completa) throws DocumentException {
         super(FILENAME);
         this.filtroPagate = filtroPagate;
         this.filtroScadute = filtroScadute;
@@ -44,6 +45,7 @@ public class StampaRegistroAcquisto extends StampaDocumento {
         this.riepilogo = riepilogo;
         this.mesi = mesi;
         this.fatture = fatture;
+        this.completa = completa;
         if (tipo.equals("all"))
             this.tipo = "Tutte";
         else
@@ -51,13 +53,13 @@ public class StampaRegistroAcquisto extends StampaDocumento {
         doc.setPageSize(PageSize.A4.rotate());
     }
     
-    public StampaRegistroAcquisto(int anno, Fattura.pagata filtroPagate, Fattura.scaduta filtroScadute, Fornitore cliente, Object[] riepilogo, List<String> mesi, List<Fattura> fatture, String tipo) throws DocumentException {
-        this(filtroPagate, filtroScadute, cliente, riepilogo, mesi, fatture, tipo);
+    public StampaRegistroAcquisto(int anno, Fattura.pagata filtroPagate, Fattura.scaduta filtroScadute, Fornitore cliente, Object[] riepilogo, List<String> mesi, List<Fattura> fatture, String tipo, boolean completa) throws DocumentException {
+        this(filtroPagate, filtroScadute, cliente, riepilogo, mesi, fatture, tipo, completa);
         this.anno = anno;
     }
     
-    public StampaRegistroAcquisto(Date dataI, Date dataF, Fattura.pagata filtroPagate, Fattura.scaduta filtroScadute, Fornitore cliente, Object[] riepilogo, List<String> mesi, List<Fattura> fatture, String tipo) throws DocumentException {
-        this(filtroPagate, filtroScadute, cliente, riepilogo, mesi, fatture, tipo);
+    public StampaRegistroAcquisto(Date dataI, Date dataF, Fattura.pagata filtroPagate, Fattura.scaduta filtroScadute, Fornitore cliente, Object[] riepilogo, List<String> mesi, List<Fattura> fatture, String tipo, boolean completa) throws DocumentException {
+        this(filtroPagate, filtroScadute, cliente, riepilogo, mesi, fatture, tipo, completa);
         this.dataIniziale = dataI;
         this.dataFinale = dataF;
     }
@@ -154,6 +156,143 @@ public class StampaRegistroAcquisto extends StampaDocumento {
         }
         
         doc.add(table);
+               
+        table = new PdfPTable(1);
+        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+        table.setSpacingBefore(30);
+        table.setWidthPercentage(100);
+        titolo = new PdfPCell(new Phrase("Fatture"));
+        titolo.setBorder(NO_BORDER);
+        titolo.setHorizontalAlignment(Element.ALIGN_LEFT);
+        table.addCell(titolo);
+                
+        doc.add(table);
+        
+        if (completa) {
+            table = new PdfPTable(9);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(10);
+            table.setWidthPercentage(100);
+            widths = new int[] {60, 50, 20, 35, 35, 35, 55, 20, 35};
+            table.setWidths(widths);
+
+            intestazione = new PdfPCell[] {
+                    new PdfPCell(new Phrase("FORNITORE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TIPO", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("NUMERO", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("DATA", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("IVA", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOTALE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("MOD. PAGAM.", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("PAGATA", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("SCADENZA", FONT_GRANDE_BOLD)),
+            };
+        
+            for (PdfPCell cella : intestazione) {
+                cella.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                table.addCell(cella);
+            }
+        
+            for (int j = 0; j < fatture.size(); j++) {
+
+                String pagata = null;
+                if (fatture.get(j).getPagata())
+                    pagata = "S";
+                else
+                    pagata = "N";
+
+                PdfPCell[] riga = new PdfPCell[] {
+                        new PdfPCell(new Phrase(fatture.get(j).getCliente().getNome(), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getTipo(), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(String.valueOf(fatture.get(j).getNumero()), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getFormattedData(), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getIva())), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getTotale())), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getMetPag().replace("-", " a ") + " gg", FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(pagata, FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getFormattedDataScadenza(), FONT_GRANDE_NORMALE))
+                };
+
+                for (int i = 0; i < riga.length; i++) {
+                    if (i == 4 || i == 5)
+                        riga[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                    else if (i == 2 || i == 3 || i == 7 || i == 8)
+                        riga[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    else
+                        riga[i].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+                    if (j == fatture.size()-1)
+                        riga[i].setBorder(BORDER_BOTTOM_RIGHT_LEFT);
+                    else
+                        riga[i].setBorder(BORDER_LEFT_RIGHT);
+
+                    table.addCell(riga[i]);
+
+                }
+            }
+        } else {
+            table = new PdfPTable(8);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(10);
+            table.setWidthPercentage(100);
+            widths = new int[] {60, 50, 20, 35, 35, 55, 20, 35};
+            table.setWidths(widths);
+
+            intestazione = new PdfPCell[] {
+                    new PdfPCell(new Phrase("FORNITORE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TIPO", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("NUMERO", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("DATA", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOTALE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("MOD. PAGAM.", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("PAGATA", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("SCADENZA", FONT_GRANDE_BOLD)),
+            };
+        
+            for (PdfPCell cella : intestazione) {
+                cella.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                table.addCell(cella);
+            }
+        
+            for (int j = 0; j < fatture.size(); j++) {
+
+                String pagata = null;
+                if (fatture.get(j).getPagata())
+                    pagata = "S";
+                else
+                    pagata = "N";
+
+                PdfPCell[] riga = new PdfPCell[] {
+                        new PdfPCell(new Phrase(fatture.get(j).getCliente().getNome(), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getTipo(), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(String.valueOf(fatture.get(j).getNumero()), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getFormattedData(), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getTotale())), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getMetPag().replace("-", " a ") + " gg", FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(pagata, FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getFormattedDataScadenza(), FONT_GRANDE_NORMALE))
+                };
+
+                for (int i = 0; i < riga.length; i++) {
+                    if (i == 4)
+                        riga[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                    else if (i == 2 || i == 3 || i == 6 || i == 7)
+                        riga[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    else
+                        riga[i].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+                    if (j == fatture.size()-1)
+                        riga[i].setBorder(BORDER_BOTTOM_RIGHT_LEFT);
+                    else
+                        riga[i].setBorder(BORDER_LEFT_RIGHT);
+
+                    table.addCell(riga[i]);
+
+                }
+            }
+        }
+        
+        doc.add(table);
         
         table = new PdfPTable(1);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
@@ -166,127 +305,99 @@ public class StampaRegistroAcquisto extends StampaDocumento {
                 
         doc.add(table);
         
-        table = new PdfPTable(6);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(10);
-        table.setWidthPercentage(100);
-        widths = new int[] {40, 40, 40, 40, 40, 40};
-        table.setWidths(widths);
-        
-        PdfPCell[] tot = new PdfPCell[] {
-                new PdfPCell(new Phrase("NUM. FATTURE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("TOT. IMPONIBILE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("TOT. IVA", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("TOT. FATTURE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("TOT. PAGATE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("TOT. NON PAGATE", FONT_GRANDE_BOLD))
-        };
-        
-        for (int i = 0; i < tot.length; i++) {
-            tot[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        if (completa) {
+            table = new PdfPTable(6);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(10);
+            table.setWidthPercentage(100);
+            widths = new int[] {40, 40, 40, 40, 40, 40};
+            table.setWidths(widths);
 
-            if (i == 0)
-                tot[i].setBorder(BORDER_TOP_RIGHT_LEFT);
-            else
-                tot[i].setBorder(BORDER_TOP_RIGHT);
-            
-            table.addCell(tot[i]);
-        }
-        
-        tot = new PdfPCell[] {
-            new PdfPCell(new Phrase(String.valueOf((Integer)riepilogo[0]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[1]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[2]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[3]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[4]), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(doubleToString((Double)riepilogo[5]), FONT_GRANDE_NORMALE))
-        };
-        
-        for (int i = 0; i < tot.length; i++) {
-            if (i == 0) {
-                tot[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                tot[i].setBorder(BORDER_BOTTOM_RIGHT_LEFT);
-                
-            } else {
-                tot[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                tot[i].setBorder(BORDER_BOTTOM_RIGHT);
-            }
-            
-            table.addCell(tot[i]);
-        }
-        
-        doc.add(table);
-        
-        table = new PdfPTable(1);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(30);
-        table.setWidthPercentage(100);
-        titolo = new PdfPCell(new Phrase("Fatture"));
-        titolo.setBorder(NO_BORDER);
-        titolo.setHorizontalAlignment(Element.ALIGN_LEFT);
-        table.addCell(titolo);
-                
-        doc.add(table);
-        
-        table = new PdfPTable(9);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(10);
-        table.setWidthPercentage(100);
-        widths = new int[] {60, 50, 20, 35, 35, 35, 55, 20, 35};
-        table.setWidths(widths);
-        
-        intestazione = new PdfPCell[] {
-                new PdfPCell(new Phrase("FORNITORE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("TIPO", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("NUMERO", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("DATA", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("IVA", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("TOTALE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("MOD. PAGAM.", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("PAGATA", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("SCADENZA", FONT_GRANDE_BOLD)),
-        };
-        
-        for (PdfPCell cella : intestazione) {
-            cella.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            table.addCell(cella);
-        }
-        
-        for (int j = 0; j < fatture.size(); j++) {
-                        
-            String pagata = null;
-            if (fatture.get(j).getPagata())
-                pagata = "S";
-            else
-                pagata = "N";
-            
-            PdfPCell[] riga = new PdfPCell[] {
-                    new PdfPCell(new Phrase(fatture.get(j).getCliente().getNome(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(fatture.get(j).getTipo(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(String.valueOf(fatture.get(j).getNumero()), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(fatture.get(j).getFormattedData(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getIva())), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getTotale())), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(fatture.get(j).getMetPag().replace("-", " a ") + " gg", FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(pagata, FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(fatture.get(j).getFormattedDataScadenza(), FONT_GRANDE_NORMALE))
+            PdfPCell[] tot = new PdfPCell[] {
+                    new PdfPCell(new Phrase("NUM. FATTURE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOT. IMPONIBILE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOT. IVA", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOT. FATTURE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOT. PAGATE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOT. NON PAGATE", FONT_GRANDE_BOLD))
             };
-            
-            for (int i = 0; i < riga.length; i++) {
-                if (i == 4 || i == 5)
-                    riga[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                else if (i == 2 || i == 3 || i == 7 || i == 8)
-                    riga[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+
+            for (int i = 0; i < tot.length; i++) {
+                tot[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+
+                if (i == 0)
+                    tot[i].setBorder(BORDER_TOP_RIGHT_LEFT);
                 else
-                    riga[i].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                
-                if (j == fatture.size()-1)
-                    riga[i].setBorder(BORDER_BOTTOM_RIGHT_LEFT);
+                    tot[i].setBorder(BORDER_TOP_RIGHT);
+
+                table.addCell(tot[i]);
+            }
+
+            tot = new PdfPCell[] {
+                new PdfPCell(new Phrase(String.valueOf((Integer)riepilogo[0]), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString((Double)riepilogo[1]), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString((Double)riepilogo[2]), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString((Double)riepilogo[3]), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString((Double)riepilogo[4]), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString((Double)riepilogo[5]), FONT_GRANDE_NORMALE))
+            };
+
+            for (int i = 0; i < tot.length; i++) {
+                if (i == 0) {
+                    tot[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    tot[i].setBorder(BORDER_BOTTOM_RIGHT_LEFT);
+
+                } else {
+                    tot[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                    tot[i].setBorder(BORDER_BOTTOM_RIGHT);
+                }
+
+                table.addCell(tot[i]);
+            }
+        } else {
+            table = new PdfPTable(4);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(10);
+            table.setWidthPercentage(100);
+            widths = new int[] {40, 40, 40, 40};
+            table.setWidths(widths);
+
+            PdfPCell[] tot = new PdfPCell[] {
+                    new PdfPCell(new Phrase("NUM. FATTURE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOT. FATTURE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOT. PAGATE", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("TOT. NON PAGATE", FONT_GRANDE_BOLD))
+            };
+
+            for (int i = 0; i < tot.length; i++) {
+                tot[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+
+                if (i == 0)
+                    tot[i].setBorder(BORDER_TOP_RIGHT_LEFT);
                 else
-                    riga[i].setBorder(BORDER_LEFT_RIGHT);
-                
-                table.addCell(riga[i]);
-                                
+                    tot[i].setBorder(BORDER_TOP_RIGHT);
+
+                table.addCell(tot[i]);
+            }
+
+            tot = new PdfPCell[] {
+                new PdfPCell(new Phrase(String.valueOf((Integer)riepilogo[0]), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString((Double)riepilogo[1]), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString((Double)riepilogo[2]), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString((Double)riepilogo[3]), FONT_GRANDE_NORMALE))
+            };
+
+            for (int i = 0; i < tot.length; i++) {
+                if (i == 0) {
+                    tot[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    tot[i].setBorder(BORDER_BOTTOM_RIGHT_LEFT);
+
+                } else {
+                    tot[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                    tot[i].setBorder(BORDER_BOTTOM_RIGHT);
+                }
+
+                table.addCell(tot[i]);
             }
         }
         

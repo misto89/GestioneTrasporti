@@ -243,7 +243,7 @@ public class Spedizioni extends javax.swing.JFrame {
                     }
 
                 String descrizione = (String) tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), DESCRIZIONE);
-                if (descrizione.length() > MAX_LENGTH_DESCRIZIONE) {
+                if (descrizione!= null && descrizione.length() > MAX_LENGTH_DESCRIZIONE) {
                     JOptionPane.showMessageDialog(null, "Valore inserito per il campo " + COLONNE[DESCRIZIONE] + " troppo lungo! Sono ammessi massimo " + MAX_LENGTH_DESCRIZIONE + 
                             " caratteri", "Formato errato", JOptionPane.ERROR_MESSAGE);
                     ricaricaTabella();

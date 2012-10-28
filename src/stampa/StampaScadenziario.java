@@ -123,8 +123,11 @@ public class StampaScadenziario extends StampaDocumento {
             table.addCell(cella);
         }
         
+        double totale = 0.00;
         for (int j = 0; j < elencoFatture1.size(); j++) {
                         
+            totale += elencoFatture1.get(j).getTotale();
+            
             PdfPCell[] riga = new PdfPCell[] {
                     new PdfPCell(new Phrase(elencoFatture1.get(j).getCliente().getNome(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(String.valueOf(elencoFatture1.get(j).getNumero()), FONT_GRANDE_NORMALE)),
@@ -149,7 +152,46 @@ public class StampaScadenziario extends StampaDocumento {
                 
                 table.addCell(riga[i]);
                                 
+            }   
+        }
+        
+        //Aggiunge una riga vuota prima dei totali
+//        for (int i = 0; i < table.getNumberOfColumns(); i++) {
+//            
+//            PdfPCell cella = new PdfPCell(new Phrase("\n"));
+//            if (i == 0)
+//                cella.setBorder(BORDER_LEFT);
+//            else if (i == table.getNumberOfColumns()-1)
+//                cella.setBorder(BORDER_RIGHT);
+//            else
+//                cella.setBorder(NO_BORDER);
+//            table.addCell(cella);
+//        }
+
+        PdfPCell[] riga = new PdfPCell[] {
+            new PdfPCell(new Phrase("TOTALE FATTURE", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(totale)), FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("", FONT_GRANDE_BOLD))
+        };
+        
+        for (int i = 0; i < riga.length; i++) {
+            if (i == 0) {
+                riga[i].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                riga[i].setBorder(BORDER_BOTTOM_LEFT);
+                
+            } else if (i == riga.length-1) {
+                riga[i].setBorder(BORDER_BOTTOM_RIGHT);
+                
+            } else if (i == riga.length-2) { 
+                riga[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                riga[i].setBorder(BORDER_BOTTOM);
+            } else {
+                riga[i].setBorder(BORDER_BOTTOM);
             }
+            table.addCell(riga[i]);
         }
         
         doc.add(table);
@@ -192,8 +234,11 @@ public class StampaScadenziario extends StampaDocumento {
             table.addCell(cella);
         }
         
+        double totale = 0.00;
         for (int j = 0; j < elencoFatture.size(); j++) {
                         
+            totale += elencoFatture.get(j).getTotale();
+            
             PdfPCell[] riga = new PdfPCell[] {
                     new PdfPCell(new Phrase(elencoFatture.get(j).getCliente().getNome(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(elencoFatture.get(j).getTipo(), FONT_GRANDE_NORMALE)),
@@ -220,6 +265,33 @@ public class StampaScadenziario extends StampaDocumento {
                 table.addCell(riga[i]);
                                 
             }
+        }
+        
+        PdfPCell[] riga = new PdfPCell[] {
+            new PdfPCell(new Phrase("TOTALE FATTURE", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(totale)), FONT_GRANDE_BOLD)),
+            new PdfPCell(new Phrase("", FONT_GRANDE_BOLD))
+        };
+        
+        for (int i = 0; i < riga.length; i++) {
+            if (i == 0) {
+                riga[i].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                riga[i].setBorder(BORDER_BOTTOM_LEFT);
+                
+            } else if (i == riga.length-1) {
+                riga[i].setBorder(BORDER_BOTTOM_RIGHT);
+                
+            } else if (i == riga.length-2) { 
+                riga[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                riga[i].setBorder(BORDER_BOTTOM);
+            } else {
+                riga[i].setBorder(BORDER_BOTTOM);
+            }
+            table.addCell(riga[i]);
         }
         
         doc.add(table);

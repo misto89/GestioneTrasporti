@@ -1231,6 +1231,7 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
 private void txtPercProvFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPercProvFocusLost
 // TODO add your handling code here:
+    calcolaProvvigione();
     calcolaTotale();
 }//GEN-LAST:event_txtPercProvFocusLost
 
@@ -1428,6 +1429,7 @@ private void optRitiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
 private void txtValMerceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtValMerceFocusLost
 // TODO add your handling code here:
+    calcolaProvvigione();
     calcolaTotale();
 }//GEN-LAST:event_txtValMerceFocusLost
 
@@ -1482,6 +1484,25 @@ private void calcolaSconto(){
     txtImpSconto.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(importoSconto)));
 }
 
+private void calcolaProvvigione() {
+    double valMerce = 0.0;
+    double percProv = 0;
+    
+    if (!(txtValMerce.getText().equals(""))) {
+        try {
+            valMerce = Double.parseDouble(txtValMerce.getText());
+        } catch (NumberFormatException e) {}
+        
+         if (!(txtPercProv.getText().equals(""))) 
+             try {
+                 percProv = Double.parseDouble(txtPercProv.getText());
+             } catch (NumberFormatException e) {}      
+    }
+    
+    double provvigione = (valMerce * percProv) / 100.0;
+    txtImpProv.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(provvigione)));
+}
+
 private void calcolaTotale(){
     int percIva = PERC_IVA;
     try {
@@ -1489,8 +1510,6 @@ private void calcolaTotale(){
     } catch (NumberFormatException e) {}
     
     double importo = 0.0;
-    double percProv = 0;
-    double valMerce = 0.0;
     
     if (!(txtImpScontato.getText().equals("")) && (!((Double.parseDouble(txtImpScontato.getText())) == 0.0)))
         try {
@@ -1507,24 +1526,22 @@ private void calcolaTotale(){
         txtImpSconto.setText("0.0");
     }
     
-    if (!(txtValMerce.getText().equals(""))) {
-        try {
-            valMerce = Double.parseDouble(txtValMerce.getText());
-        } catch (NumberFormatException e) {}
-        
-         if (!(txtPercProv.getText().equals(""))) 
-             try {
-                 percProv = Double.parseDouble(txtPercProv.getText());
-             } catch (NumberFormatException e) {}      
-    }
+    String provvigione = txtImpProv.getText();
     
-    double provvigione = (valMerce * percProv) / 100.0;
-    double imponibile = importo + provvigione;
+    double imponibile;
+    if (provvigione.isEmpty())
+        imponibile = importo;
+    else
+        try {
+            imponibile = importo + Double.parseDouble(provvigione);
+        } catch (NumberFormatException e) {
+            imponibile = importo;
+        }
+    
     double iva = (imponibile * percIva) / 100.0;
     double totale = imponibile + iva;
     txtImponibile.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(imponibile)));
     txtImpIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
-    txtImpProv.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(provvigione)));
     txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totale)));
 }
 

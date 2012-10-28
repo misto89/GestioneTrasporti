@@ -153,6 +153,9 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnNuovo">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/img/nuovaspedizione.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Nuovo"/>
         <Property name="toolTipText" type="java.lang.String" value="Inserisci un nuovo fornitore"/>
       </Properties>
@@ -162,6 +165,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnSalva">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/img/save.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Salva"/>
       </Properties>
       <Events>
@@ -170,6 +176,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnElimina">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/img/cancella.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Elimina"/>
       </Properties>
       <Events>

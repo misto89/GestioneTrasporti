@@ -125,6 +125,7 @@ public class Mezzi extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblMezzi);
 
+        btnNuovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nuovaspedizione.png"))); // NOI18N
         btnNuovo.setText("Nuovo");
         btnNuovo.setToolTipText("Inserisci un nuovo fornitore");
         btnNuovo.addActionListener(new java.awt.event.ActionListener() {
@@ -133,6 +134,7 @@ public class Mezzi extends javax.swing.JFrame {
             }
         });
 
+        btnSalva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
         btnSalva.setText("Salva");
         btnSalva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +142,7 @@ public class Mezzi extends javax.swing.JFrame {
             }
         });
 
+        btnElimina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancella.png"))); // NOI18N
         btnElimina.setText("Elimina");
         btnElimina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -508,29 +511,40 @@ private void popolaTabella(List mezzi) {
             String scadAtp = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_ATP);
             String scadAssic = (String) tblMezzi.getValueAt(tblMezzi.getSelectedRow(), SCAD_ASSIC);
 
+            pulisciText();
             //Imposta le text con i valori estratti dalla tabella
             txtTarga.setText(targa);
             txtMarca.setText(marca);
             
-            String[] scadenza = scadBollo.split("/");
-            txtGiornoBollo.setText(scadenza[0]);
-            txtMeseBollo.setText(scadenza[1]);
-            txtAnnoBollo.setText(scadenza[2]);
-                    
-            scadenza = scadAtp.split("/");
-            txtGiornoAtp.setText(scadenza[0]);
-            txtMeseAtp.setText(scadenza[1]);
-            txtAnnoAtp.setText(scadenza[2]);
-                    
-            scadenza = scadAssic.split("/");
-            txtGiornoAssicurazione.setText(scadenza[0]);
-            txtMeseAssicurazione.setText(scadenza[1]);
-            txtAnnoAssicurazione.setText(scadenza[2]);
-                    
-            scadenza = scadRevisione.split("/");
-            txtGiornoRevisione.setText(scadenza[0]);
-            txtMeseRevisione.setText(scadenza[1]);
-            txtAnnoRevisione.setText(scadenza[2]);
+            String[] scadenza = null;
+            
+            if (!scadBollo.isEmpty()) {
+                scadenza = scadBollo.split("/");
+                txtGiornoBollo.setText(scadenza[0]);
+                txtMeseBollo.setText(scadenza[1]);
+                txtAnnoBollo.setText(scadenza[2]);
+            }
+            
+            if (!scadAtp.isEmpty()) {
+                scadenza = scadAtp.split("/");
+                txtGiornoAtp.setText(scadenza[0]);
+                txtMeseAtp.setText(scadenza[1]);
+                txtAnnoAtp.setText(scadenza[2]);
+            }
+             
+            if (!scadAssic.isEmpty()) {
+                scadenza = scadAssic.split("/");
+                txtGiornoAssicurazione.setText(scadenza[0]);
+                txtMeseAssicurazione.setText(scadenza[1]);
+                txtAnnoAssicurazione.setText(scadenza[2]);
+            }
+             
+            if (!scadRevisione.isEmpty()) {
+                scadenza = scadRevisione.split("/");
+                txtGiornoRevisione.setText(scadenza[0]);
+                txtMeseRevisione.setText(scadenza[1]);
+                txtAnnoRevisione.setText(scadenza[2]);
+            }
            
         }
     });
