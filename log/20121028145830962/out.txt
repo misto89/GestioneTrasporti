@@ -1,3 +1,0 @@
-Configuration file loaded: G:\Documenti\GitHub\GestioneTrasporti\conf.properties
-ERROR. Connection to database pugliatrasporti not executed!
-ERROR. Connection to database pugliatrasporti not executed!

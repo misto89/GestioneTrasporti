@@ -1,9 +1,0 @@
-Configuration file loaded: G:\Documenti\GitHub\GestioneTrasporti\conf.properties
-Connection to database pugliatrasporti successfully executed
-Connection to database pugliatrasporti successfully executed
-SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
-UPDATE mezzi SET targa = 'AE95628', marca = 'RIMORCHIO BARTOLETTI DE', scad_bollo = '2012-11-11', scad_revisione = NULL, scad_atp = NULL, scad_assicurazione = NULL WHERE id = 6
-SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
-UPDATE mezzi SET targa = 'AE95628', marca = 'RIMORCHIO BARTOLETTI DE', scad_bollo = '2012-11-11', scad_revisione = '2012-12-12', scad_atp = NULL, scad_assicurazione = NULL WHERE id = 6
-SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
-SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
