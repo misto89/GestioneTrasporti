@@ -48,7 +48,7 @@ public class Spedizione implements Entity {
     private Integer fornitore;
     private String mezzo;
     private String um;
-    private Integer qta;
+    private Double qta;
     private Double traz;
     private Double distrib;
     private Double importo;
@@ -77,7 +77,7 @@ public class Spedizione implements Entity {
     }
 
     public Spedizione(String num, Integer fornitore, Date dataCarico, Date dataDocumento, String descrizione, String mezzo,
-            String um, int qta, Double traz, Double distrib, Double importo, Integer sconto, Integer percIva, Double iva, 
+            String um, Double qta, Double traz, Double distrib, Double importo, Integer sconto, Integer percIva, Double iva, 
             Double percProvv, Double provv, Double totale, String note, boolean rientrata, Integer fattura, Date dataFattura,
             Double valMerce, Double imponibile, Character stato) {
         
@@ -175,11 +175,11 @@ public class Spedizione implements Entity {
         this.um = um;
     }
 
-    public int getQta() {
+    public Double getQta() {
         return qta;
     }
 
-    public void setQta(int qta) {
+    public void setQta(double qta) {
         this.qta = qta;
     }
 

@@ -993,7 +993,7 @@ public abstract class DAO_ASF {
             Integer forn;
             String mezzo;
             String um;
-            Integer qta;
+            Double qta;
             Double traz;
             Double distrib;
             Double importo;
@@ -1019,7 +1019,7 @@ public abstract class DAO_ASF {
                 forn = rs.getInt(Tabelle.Spedizioni.FORN_CLIENTE);
                 mezzo = rs.getString(Tabelle.Mezzi.TARGA);
                 um = rs.getString(Tabelle.Spedizioni.UM);
-                qta = rs.getInt(Tabelle.Spedizioni.QTA);
+                qta = rs.getDouble(Tabelle.Spedizioni.QTA);
                 traz = rs.getDouble(Tabelle.Spedizioni.TRAZ);
                 distrib = rs.getDouble(Tabelle.Spedizioni.DISTRIB);
                 importo = rs.getDouble(Tabelle.Spedizioni.IMPORTO);

@@ -316,7 +316,7 @@ public class DAO_CBC {
             Integer forn;
             //String mezzo; Il mezzo non viene recuperato perché non è necessario per la stampa
             String um;
-            Integer qta;
+            Double qta;
             Double traz;
             Double distrib;
             Double importo;
@@ -340,7 +340,7 @@ public class DAO_CBC {
                 forn = rsSped.getInt(Tabelle.Spedizioni.FORN_CLIENTE);
                 //mezzo = rsSped.getString(Tabelle.Mezzi.TARGA);
                 um = rsSped.getString(Tabelle.Spedizioni.UM);
-                qta = rsSped.getInt(Tabelle.Spedizioni.QTA);
+                qta = rsSped.getDouble(Tabelle.Spedizioni.QTA);
                 traz = rsSped.getDouble(Tabelle.Spedizioni.TRAZ);
                 distrib = rsSped.getDouble(Tabelle.Spedizioni.DISTRIB);
                 importo = rsSped.getDouble(Tabelle.Spedizioni.IMPORTO);

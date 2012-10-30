@@ -1,0 +1,4 @@
+Configuration file loaded: G:\Documenti\GitHub\GestioneTrasporti\conf.properties
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed

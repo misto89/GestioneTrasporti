@@ -141,7 +141,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         double totale = DoubleFormatter.roundTwoDecimals(spedizione.getTotale());
         char tipo = spedizione.getStato();
         
-        txtQuantita.setText(Integer.toString(spedizione.getQta()));
+        txtQuantita.setText(Double.toString(spedizione.getQta()));
         txtImporto.setText(Double.toString(importo));
         txtTrazione.setText(String.valueOf(traz));
         txtDistribuzione.setText(String.valueOf(distrib));
@@ -925,6 +925,7 @@ private void setFormatDouble() {
     txtValMerce.setDocument(new JTextFieldFormatDouble());
     txtImpProv.setDocument(new JTextFieldFormatDouble());
     txtPercProv.setDocument(new JTextFieldFormatDouble());
+    txtQuantita.setDocument(new JTextFieldFormatDouble());
 }
     
 private void txtAnnoCaricoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAnnoCaricoFocusLost
@@ -1111,9 +1112,9 @@ private Spedizione creaSpedizioneDaInserire() {
         sconto = Integer.parseInt(txtPercSconto.getText());
     } catch (NumberFormatException e) {}
     
-    int quantita = 0;
+    double quantita = 0.00;
     try {
-        quantita = Integer.parseInt(txtQuantita.getText());
+        quantita = Double.parseDouble(txtQuantita.getText());
     } catch (NumberFormatException e) {}
     
     double totale = 0.00;
@@ -1442,7 +1443,7 @@ private void popolaSelect(List items) {
 private void calcolaImporto(){
     double traz = 0.0;
     double distrib = 0.0;
-    int qta = 0;
+    double qta = 0.00;
     if (!(txtTrazione.getText().equals("")))
         try {
             traz = Double.parseDouble(txtTrazione.getText());
@@ -1457,7 +1458,7 @@ private void calcolaImporto(){
     
     if (!(txtQuantita.getText().equals("")))
         try {
-            qta = Integer.parseInt(txtQuantita.getText());
+            qta = Double.parseDouble(txtQuantita.getText());
         } catch (NumberFormatException e) {}
     
     double importo = (qta * traz) + (qta * distrib);

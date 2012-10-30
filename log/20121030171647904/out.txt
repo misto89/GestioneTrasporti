@@ -1,0 +1,66 @@
+Configuration file loaded: G:\Documenti\GitHub\GestioneTrasporti\conf.properties
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 65 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 65 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+Connection to database pugliatrasporti successfully executed
+SELECT data FROM fattureacq ORDER BY data DESC
+SELECT DISTINCT fattureacq.*, fornitori.* FROM fattureacq JOIN fornitori ON fornitore = cod AND (data BETWEEN '2012-01-01' AND '2012-12-31') ORDER BY data, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-03-27' AND tipo = 'ACQ' AND forncliente = 1
+SELECT * FROM movimenti WHERE num_doc = 750 AND data = '2012-03-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1025 AND data = '2012-04-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1308 AND data = '2012-05-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-06-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-18' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-27' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1587 AND data = '2012-06-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 193 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 5
+SELECT * FROM movimenti WHERE num_doc = 825 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 6
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-07-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-22' AND tipo = 'ACQ' AND forncliente = 11
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 65 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 65 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 11 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 11 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 46 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 46 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 63 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 63 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 32 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 32 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+UPDATE spedizioni SET data_carico = '2012-10-01', data_documento = '2012-09-26', descrizione = 'Corato-Terlizzi (Lonardelli L.)', mezzo = NULL, um = 'Pz', qta = 1.0, traz = 1.0, distrib = 0.0, importo = 1.0, sconto = 0, perciva = 21, iva = 0.21, percprovvigione = 0.0, importoprovvigione = 0.0, totale = 1.21, note = NULL, rientrata = true, fattura = NULL, valoremerce = 0.0, imponibile = 1.0, stato = 'C' WHERE numero = '119' AND data_carico = '2012-10-01'
+DELETE FROM bolle_spedizioni WHERE num_spedizione = '119' AND data_spedizione = '2012-10-01'
+INSERT INTO bolle_spedizioni VALUES ('119', '2012-10-01', '5988740')
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 32 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 32 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+UPDATE spedizioni SET data_carico = '2012-10-01', data_documento = '2012-09-26', descrizione = 'Corato-Terlizzi (Lonardelli L.)', mezzo = NULL, um = 'Pz', qta = 100.0, traz = 1.0, distrib = 0.0, importo = 100.0, sconto = 0, perciva = 21, iva = 21.0, percprovvigione = 0.0, importoprovvigione = 0.0, totale = 121.0, note = NULL, rientrata = true, fattura = NULL, valoremerce = 0.0, imponibile = 100.0, stato = 'C' WHERE numero = '119' AND data_carico = '2012-10-01'
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 32 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 32 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+UPDATE spedizioni SET data_carico = '2012-10-01', data_documento = '2012-09-26', descrizione = 'Corato-Terlizzi (Lonardelli L.)', mezzo = NULL, um = 'Pz', qta = 100.0, traz = 1.0, distrib = 0.0, importo = 100.0, sconto = 0, perciva = 21, iva = 21.0, percprovvigione = 0.0, importoprovvigione = 0.0, totale = 121.0, note = NULL, rientrata = true, fattura = NULL, valoremerce = 0.0, imponibile = 100.0, stato = 'C' WHERE numero = '119' AND data_carico = '2012-10-01'
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 32 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 32 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+UPDATE spedizioni SET data_carico = '2012-10-01', data_documento = '2012-09-26', descrizione = 'Corato-Terlizzi (Lonardelli L.)', mezzo = NULL, um = 'Pz', qta = 100.0, traz = 1.0, distrib = 0.0, importo = 100.0, sconto = 0, perciva = 21, iva = 21.0, percprovvigione = 0.0, importoprovvigione = 0.0, totale = 121.0, note = NULL, rientrata = true, fattura = NULL, valoremerce = 0.0, imponibile = 100.0, stato = 'C' WHERE numero = '119' AND data_carico = '2012-10-01'
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 32 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 32 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+UPDATE spedizioni SET data_carico = '2012-10-01', data_documento = '2012-09-26', descrizione = 'Corato-Terlizzi (Lonardelli L.)', mezzo = NULL, um = 'Pz', qta = 100.0, traz = 1.0, distrib = 0.0, importo = 100.0, sconto = 0, perciva = 21, iva = 21.0, percprovvigione = 0.0, importoprovvigione = 0.0, totale = 121.0, note = NULL, rientrata = true, fattura = NULL, valoremerce = 0.0, imponibile = 100.0, stato = 'C' WHERE numero = '119' AND data_carico = '2012-10-01'

@@ -110,7 +110,7 @@ public class Spedizioni extends javax.swing.JFrame {
         private final String[] COLONNE;
         private boolean[] canEdit;
         private final Class[] TYPES = {
-            String.class, String.class, Object.class, Object.class, Object.class, String.class, String.class, Integer.class, Double.class,
+            String.class, String.class, Object.class, Object.class, Object.class, String.class, String.class, Double.class, Double.class,
             Double.class, Double.class, Double.class, Double.class, String.class, Character.class, String.class, Integer.class
         };
         
@@ -270,7 +270,7 @@ public class Spedizioni extends javax.swing.JFrame {
                  */
 
                 Object quant = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), QTA);
-                Integer qta = checkIntField(QTA, quant);
+                Double qta = checkDoubleField(QTA, quant);
                 if (qta == null) {
                     ricaricaTabella();
                     return;
