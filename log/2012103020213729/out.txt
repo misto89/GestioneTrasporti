@@ -1,0 +1,16 @@
+Configuration file loaded: C:\Users\Andle\Documents\GitHub\GestioneTrasporti\conf.properties
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 46 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 46 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT MAX(data_carico) AS MAXDATE FROM spedizioni
+SELECT MAX(numero) AS MAXNUM FROM spedizioni WHERE data_carico >= '2012-01-01' AND data_carico <= '2012-12-31'
+INSERT INTO spedizioni VALUES (214, '2012-10-10', '2012-10-10', NULL, 46, NULL, NULL, 0.0, 0.0, 0.0, 0.0, 0, 21, 16.8, 4.0, 80.0, 96.8, NULL, false, NULL, NULL, 1000.0, 80.0, 'R')
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 46 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 46 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1

@@ -511,6 +511,11 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         txtImpProv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImpProv.setNextFocusableComponent(txtPercIva);
+        txtImpProv.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtImpProvFocusLost(evt);
+            }
+        });
 
         txtPercProv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPercProv.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -630,7 +635,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addComponent(jLabel35)
                     .addComponent(txtImpProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel44))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(pnlTotaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel46)
                     .addComponent(txtImponibile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -764,7 +769,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         pnlPrezzoLayout.setVerticalGroup(
             pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrezzoLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(txtTrazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1433,6 +1438,11 @@ private void txtValMerceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:ev
     calcolaProvvigione();
     calcolaTotale();
 }//GEN-LAST:event_txtValMerceFocusLost
+
+private void txtImpProvFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImpProvFocusLost
+// TODO add your handling code here:
+    calcolaTotale();
+}//GEN-LAST:event_txtImpProvFocusLost
 
 private void popolaSelect(List items) {
     cboMezzo.addItem(new Mezzo(null, "Vettore", null));

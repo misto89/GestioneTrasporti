@@ -1,0 +1,128 @@
+Configuration file loaded: C:\Users\Andle\Documents\GitHub\GestioneTrasporti\conf.properties
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+Connection to database pugliatrasporti successfully executed
+SELECT data FROM fatture ORDER BY data DESC
+SELECT DISTINCT fatture.*, fornitori.* FROM fatture, spedizioni, fornitori WHERE fatture.numero = spedizioni.fattura AND data = data_fattura AND forn_cliente = cod AND (data BETWEEN '2012-01-01' AND '2012-12-31') ORDER BY data, numero
+SELECT * FROM spedizioni WHERE fattura = 1 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 45
+SELECT * FROM spedizioni WHERE fattura = 2 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 13
+SELECT * FROM spedizioni WHERE fattura = 3 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 3 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 46
+SELECT * FROM spedizioni WHERE fattura = 4 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 4 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 44
+SELECT * FROM spedizioni WHERE fattura = 5 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 5 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 47
+SELECT * FROM spedizioni WHERE fattura = 6 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 48
+SELECT * FROM spedizioni WHERE fattura = 7 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 49
+SELECT * FROM spedizioni WHERE fattura = 8 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 8 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 50
+SELECT * FROM spedizioni WHERE fattura = 9 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 9 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 52
+SELECT * FROM spedizioni WHERE fattura = 10 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 10 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 53
+SELECT * FROM spedizioni WHERE fattura = 11 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 11 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 54
+SELECT * FROM spedizioni WHERE fattura = 12 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 12 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 55
+SELECT * FROM spedizioni WHERE fattura = 13 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 13 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 56
+SELECT * FROM spedizioni WHERE fattura = 14 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 57
+SELECT * FROM spedizioni WHERE fattura = 15 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 15 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 51
+SELECT * FROM spedizioni WHERE fattura = 16 AND data_fattura = '2012-10-06' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 16 AND data = '2012-10-06' AND tipo = 'VEN' AND forncliente = 65
+SELECT * FROM spedizioni WHERE fattura = 17 AND data_fattura = '2012-10-06' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 17 AND data = '2012-10-06' AND tipo = 'VEN' AND forncliente = 59
+SELECT * FROM spedizioni WHERE fattura = 18 AND data_fattura = '2012-10-07' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 18 AND data = '2012-10-07' AND tipo = 'VEN' AND forncliente = 8
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+SELECT data FROM fattureacq ORDER BY data DESC
+SELECT DISTINCT fattureacq.*, fornitori.* FROM fattureacq JOIN fornitori ON fornitore = cod AND (data BETWEEN '2012-01-01' AND '2012-12-31') ORDER BY data, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-03-27' AND tipo = 'ACQ' AND forncliente = 1
+SELECT * FROM movimenti WHERE num_doc = 750 AND data = '2012-03-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1025 AND data = '2012-04-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1308 AND data = '2012-05-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-06-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-18' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-27' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1587 AND data = '2012-06-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 193 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 5
+SELECT * FROM movimenti WHERE num_doc = 825 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 6
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-07-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-22' AND tipo = 'ACQ' AND forncliente = 11
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+INSERT INTO fattureacq VALUES (30, '2012-10-10', 'Contante-0', 1200.0, 50.0, 15.0, 1165.0, false, 'Terzi', NULL, 46, '2012-10-10' , 'bb')
+SELECT data FROM fattureacq ORDER BY data DESC
+SELECT DISTINCT fattureacq.*, fornitori.* FROM fattureacq JOIN fornitori ON fornitore = cod AND (data BETWEEN '2012-01-01' AND '2012-12-31') ORDER BY data, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-03-27' AND tipo = 'ACQ' AND forncliente = 1
+SELECT * FROM movimenti WHERE num_doc = 750 AND data = '2012-03-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1025 AND data = '2012-04-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1308 AND data = '2012-05-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-06-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-18' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-27' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1587 AND data = '2012-06-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 193 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 5
+SELECT * FROM movimenti WHERE num_doc = 825 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 6
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-07-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 30 AND data = '2012-10-10' AND tipo = 'ACQ' AND forncliente = 46
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-22' AND tipo = 'ACQ' AND forncliente = 11
+SELECT DISTINCT fattureacq.*, fornitori.* FROM fattureacq JOIN fornitori ON fornitore = cod AND (data BETWEEN '2012-01-01' AND '2012-12-31') ORDER BY data, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-03-27' AND tipo = 'ACQ' AND forncliente = 1
+SELECT * FROM movimenti WHERE num_doc = 750 AND data = '2012-03-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1025 AND data = '2012-04-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1308 AND data = '2012-05-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-06-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-18' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-27' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1587 AND data = '2012-06-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 193 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 5
+SELECT * FROM movimenti WHERE num_doc = 825 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 6
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-07-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 30 AND data = '2012-10-10' AND tipo = 'ACQ' AND forncliente = 46
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-22' AND tipo = 'ACQ' AND forncliente = 11
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 46 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 46 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT MAX(data_carico) AS MAXDATE FROM spedizioni
+SELECT MAX(numero) AS MAXNUM FROM spedizioni WHERE data_carico >= '2012-01-01' AND data_carico <= '2012-12-31'
+INSERT INTO spedizioni VALUES (213, '2012-11-20', '2012-11-20', NULL, 46, NULL, NULL, 30.5, 100.0, 0.0, 3050.0, 0, 21, 651.0, 1.5, 50.0, 3751.0, NULL, false, NULL, NULL, 2300.0, 3100.0, 'R')
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 46 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 46 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+UPDATE spedizioni SET data_carico = '2012-11-20', data_documento = '2012-11-20', descrizione = NULL, mezzo = NULL, um = NULL, qta = 30.5, traz = 100.0, distrib = 0.0, importo = 3050.0, sconto = 0, perciva = 21, iva = 647.745, percprovvigione = 1.5, importoprovvigione = 34.5, totale = 3732.245, note = NULL, rientrata = false, fattura = NULL, valoremerce = 2300.0, imponibile = 3084.5, stato = 'R' WHERE numero = '213' AND data_carico = '2012-11-20'
+DELETE FROM bolle_spedizioni WHERE num_spedizione = '213' AND data_spedizione = '2012-11-20'
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 46 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 46 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+UPDATE spedizioni SET data_carico = '2012-11-20', data_documento = '2012-11-20', descrizione = NULL, mezzo = NULL, um = NULL, qta = 30.5, traz = 100.0, distrib = 0.0, importo = 3050.0, sconto = 0, perciva = 21, iva = 658.24, percprovvigione = 1.5, importoprovvigione = 50.0, totale = 3792.74, note = NULL, rientrata = false, fattura = NULL, valoremerce = 2300.0, imponibile = 3134.5, stato = 'R' WHERE numero = '213' AND data_carico = '2012-11-20'
+DELETE FROM bolle_spedizioni WHERE num_spedizione = '213' AND data_spedizione = '2012-11-20'
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 46 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 46 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+SELECT spedizioni.*, mezzi.targa FROM spedizioni, mezzi WHERE forn_cliente = 63 AND mezzo = id AND fattura IS NULL  UNION SELECT spedizioni.*, mezzo FROM spedizioni WHERE forn_cliente = 63 AND mezzo IS NULL AND fattura IS NULL ORDER BY stato, data_documento, numero
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-01-01' AND '2012-10-30' ORDER BY data DESC, numero DESC LIMIT 1
+SELECT data, numero FROM fatture WHERE data BETWEEN '2012-10-30' AND '2012-12-31' AND numero > 18 ORDER BY data ASC, numero ASC LIMIT 1
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT * FROM mezzi WHERE targa <> 'Vettore' ORDER BY targa
+SELECT MAX(data_carico) AS MAXDATE FROM spedizioni
+SELECT MAX(numero) AS MAXNUM FROM spedizioni WHERE data_carico >= '2012-01-01' AND data_carico <= '2012-12-31'
+SELECT MAX(data_carico) AS MAXDATE FROM spedizioni
+SELECT MAX(numero) AS MAXNUM FROM spedizioni WHERE data_carico >= '2012-01-01' AND data_carico <= '2012-12-31'
+SELECT MAX(data_carico) AS MAXDATE FROM spedizioni
+SELECT MAX(numero) AS MAXNUM FROM spedizioni WHERE data_carico >= '2012-01-01' AND data_carico <= '2012-12-31'

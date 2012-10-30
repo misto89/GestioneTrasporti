@@ -635,6 +635,9 @@
               <ComponentRef name="txtPercIva"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtImpProvFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtPercProv">
           <Properties>
@@ -800,7 +803,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace pref="15" max="32767" attributes="0"/>
+                  <EmptySpace pref="19" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtTrazione" alignment="3" min="-2" max="-2" attributes="0"/>

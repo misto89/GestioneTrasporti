@@ -662,7 +662,8 @@ private void txtPercIvaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:eve
 
 private void txtIvaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIvaFocusLost
 // TODO add your handling code here:
-    calculateTotal();
+    //calculateTotal();
+    calculateTotalOnForcedIva();
 }//GEN-LAST:event_txtIvaFocusLost
 
 private Fattura createFattura(){
@@ -877,7 +878,21 @@ private void calculateTotal(){
     
     imponibile = importo - sconto;
     iva = (imponibile * percIva)/100.0;
+    
     txtIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
+    txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva + imponibile)));
+    
+}
+//Funzione che scatta quando il valore in € dell'iva viene forzato dall'utente
+private void calculateTotalOnForcedIva(){
+    Double ivaFromText = 0.0;
+    if (!txtIva.getText().isEmpty()){
+         ivaFromText = Double.parseDouble(txtIva.getText());
+    }
+    
+    if (ivaFromText != iva){
+        iva = ivaFromText;
+    }
     txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva + imponibile)));
     
 }
