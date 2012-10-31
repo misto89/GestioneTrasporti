@@ -47,6 +47,7 @@ public abstract class StampaDocumento {
     protected static final int BORDER_LEFT = 20;
     protected static final int BORDER_TOP_RIGHT_LEFT = 13;
     protected static final int BORDER_BOTTOM_RIGHT_LEFT = 14;
+    protected static final int BORDER_TOP_AND_BOTTOM = 3;
     
     protected Document doc;
     protected PdfWriter writer;

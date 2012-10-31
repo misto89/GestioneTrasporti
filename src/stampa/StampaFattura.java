@@ -114,9 +114,19 @@ public final class StampaFattura extends StampaDocumento {
                 //Controlli generici sulla presenza o meno dei valori, se i valori non sono presenti (pari a 0) non appaiono nella fattura
                 String importo = doubleToString(roundTwoDecimals(sped.getImporto()));
                 String przUnitario = doubleToString(roundTwoDecimals(sped.getDistrib() + sped.getTraz()));
-                String qta = String.valueOf(sped.getQta());
-                if(sped.getQta() == 0){
+                String qta = null;
+                int qtaInt = 0;
+                double qtaDouble = 0.00;
+                
+                if(sped.getQta() == 0.00){
                    qta = "";
+                } else {
+                    qtaDouble = sped.getQta();
+                    qtaInt = (int) qtaDouble;
+                    if ( (qtaDouble - qtaInt) == 0 )
+                        qta = String.valueOf(qtaInt);
+                    else
+                        qta = String.format("%1$,.1f", qtaDouble);
                 }
                 if(sped.getImporto() == 0){
                     importo = "";
@@ -511,7 +521,7 @@ public final class StampaFattura extends StampaDocumento {
         table = new PdfPTable(9);
         table.setSpacingBefore(0);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        int[] widths = {35, 40, 83, 15, 15, 39, 48, 20, 20};
+        int[] widths = {35, 40, 83, 15, 20, 34, 48, 20, 20};
         try {
             table.setWidths(widths);
         } catch (DocumentException ex) {

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import libs.DoubleFormatter;
 
 /**
  *
@@ -157,7 +158,10 @@ public final class StampaSpedizioni extends StampaDocumento {
             table.addCell(cella);
         }
         
+        double totale = 0.00;
+        
         for (Spedizione spedizione : spedizioni) {
+            totale += spedizione.getImporto();
             final String NEW_FORMAT = "dd/MM/yyyy";
             SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
             String dataCarico = sdf.format(spedizione.getDataCarico());
@@ -168,6 +172,21 @@ public final class StampaSpedizioni extends StampaDocumento {
                 statoStr = "Consegna";
             else
                 statoStr = "Ritiro";
+            
+            String qta = null;
+                int qtaInt = 0;
+                double qtaDouble = 0.00;
+                
+                if(spedizione.getQta() == 0.00){
+                   qta = "";
+                } else {
+                    qtaDouble = spedizione.getQta();
+                    qtaInt = (int) qtaDouble;
+                    if ( (qtaDouble - qtaInt) == 0 )
+                        qta = String.valueOf(qtaInt);
+                    else
+                        qta = String.format("%1$,.1f", qtaDouble);
+                }
                 
             PdfPCell[] rigaSped = {
                 new PdfPCell(new Phrase(spedizione.getStringaBolle(), FONT_GRANDE_NORMALE)),
@@ -176,7 +195,7 @@ public final class StampaSpedizioni extends StampaDocumento {
                 new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(spedizione.getDescrizione(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(spedizione.getUm(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(String.valueOf(spedizione.getQta()), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(qta, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getTraz())), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getDistrib())), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getImporto())), FONT_GRANDE_NORMALE))
@@ -194,6 +213,27 @@ public final class StampaSpedizioni extends StampaDocumento {
             }
         }
 
+        PdfPCell[] riga = {
+                new PdfPCell(new Phrase("IMPORTO TOTALE", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(DoubleFormatter.doubleToString(totale), FONT_GRANDE_BOLD))
+        };
+        
+        for (int i = 0; i < riga.length; i++) {
+            if (i == riga.length-1)
+                riga[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            
+            riga[i].setBorder(BORDER_TOP_AND_BOTTOM);
+            table.addCell(riga[i]);
+        }
+        
         doc.add(table);
         
         doc.close();
