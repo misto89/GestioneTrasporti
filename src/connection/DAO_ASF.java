@@ -1168,6 +1168,51 @@ public abstract class DAO_ASF {
             return null;
         }
     }
+    /*
+     * Restituisce tutte le spedizioni all'interno di un determinato anno
+     */
+    public static List<Spedizione> getStoricoSpedizioni(int anno, Spedizione.tipo type){
+        try {
+            if (type == Spedizione.tipo.NF)
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
+                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " 
+                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL" + 
+                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
+                    Tabelle.Spedizioni.MEZZO + " IS NULL AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL " + " AND " 
+                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31'" 
+                    + " ORDER BY " + Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
+            
+            else if (type == Spedizione.tipo.F)
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
+                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " 
+                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL" + 
+                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
+                    Tabelle.Spedizioni.MEZZO + " IS NULL AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL " + " AND " 
+                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31'" 
+                    + " ORDER BY " + Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
+            
+            else if (type == Spedizione.tipo.ALL)
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
+                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " 
+                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL" + 
+                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
+                    Tabelle.Spedizioni.MEZZO + " IS NULL AND " 
+                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31'" 
+                    + " ORDER BY " + Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
+                           
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            List<Spedizione> spedizioni = new LinkedList<Spedizione>();
+            ricSpedizioni(spedizioni);    
+            
+            return spedizioni;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
     
     /**
      * Restituisce il prossimo numero della fattura o spedizione

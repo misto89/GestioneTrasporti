@@ -65,9 +65,22 @@
               <Image iconType="3" name="/img/spedizioni.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Spedizioni"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuStorico">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+A"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/storico_spedizioni.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Storico Spedizioni"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuStoricoActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuCambiaCliente">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
@@ -77,6 +90,7 @@
                   <Image iconType="3" name="/img/cambiacliente.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cambia cliente"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCambiaClienteActionPerformed"/>
@@ -91,6 +105,7 @@
                   <Image iconType="3" name="/img/stampa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Stampa"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuStampaActionPerformed"/>

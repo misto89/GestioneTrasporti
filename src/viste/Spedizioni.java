@@ -591,6 +591,7 @@ public class Spedizioni extends javax.swing.JFrame {
         mnuIntervalloDate = new javax.swing.JCheckBoxMenuItem();
         mnuSelezionate = new javax.swing.JCheckBoxMenuItem();
         mnuSped = new javax.swing.JMenu();
+        mnuStorico = new javax.swing.JMenuItem();
         mnuCambiaCliente = new javax.swing.JMenuItem();
         mnuStampa = new javax.swing.JMenuItem();
 
@@ -1209,11 +1210,21 @@ public class Spedizioni extends javax.swing.JFrame {
 
         mnuSped.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/spedizioni.png"))); // NOI18N
         mnuSped.setText("Spedizioni");
-        mnuSped.setEnabled(false);
+
+        mnuStorico.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        mnuStorico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/storico_spedizioni.png"))); // NOI18N
+        mnuStorico.setText("Storico Spedizioni");
+        mnuStorico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuStoricoActionPerformed(evt);
+            }
+        });
+        mnuSped.add(mnuStorico);
 
         mnuCambiaCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         mnuCambiaCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cambiacliente.png"))); // NOI18N
         mnuCambiaCliente.setText("Cambia cliente");
+        mnuCambiaCliente.setEnabled(false);
         mnuCambiaCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuCambiaClienteActionPerformed(evt);
@@ -1224,6 +1235,7 @@ public class Spedizioni extends javax.swing.JFrame {
         mnuStampa.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         mnuStampa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
         mnuStampa.setText("Stampa");
+        mnuStampa.setEnabled(false);
         mnuStampa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuStampaActionPerformed(evt);
@@ -2053,9 +2065,9 @@ private void chkEmesseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             } else 
                 spedizioni = spedizioniInTabella;
             
-            if (!chkNonFatturate.isSelected())
+            if (!chkNonFatturate.isSelected()){
                 mnuSped.setEnabled(false);
-            else
+            }else
                 mnuSped.setEnabled(true);
             
             mnuCambiaCliente.setEnabled(true);
@@ -2085,7 +2097,7 @@ private void cboFornitoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 btnModifica.setEnabled(true);
                 mnuSped.setEnabled(true);
                 mnuCambiaCliente.setEnabled(true);
-                
+                mnuStampa.setEnabled(true);
             } else
                 popolaTabella(new LinkedList<Spedizione>(), modificaCelle);
             
@@ -2123,7 +2135,9 @@ private void cboFornitoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         mnuFiltra.setEnabled(false);
         pnlRiepilogo.setVisible(false);
         chkEmesse.setSelected(false);
-        mnuSped.setEnabled(false);
+        //mnuSped.setEnabled(false);
+        mnuCambiaCliente.setEnabled(false);
+        mnuStampa.setEnabled(false);
         popolaTabella(new LinkedList<Spedizione>(), nonModificareCelle);
     }
 }//GEN-LAST:event_cboFornitoriActionPerformed
@@ -2382,6 +2396,11 @@ private void cboGiorniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     txtAnnoScadenza.setText(nuovaScadenza[0]);
 }//GEN-LAST:event_cboGiorniActionPerformed
 
+private void mnuStoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStoricoActionPerformed
+// TODO add your handling code here:
+    FrontController.open(new StoricoSpedizioni(this, true));
+}//GEN-LAST:event_mnuStoricoActionPerformed
+
 private void setNumber() {
     String anno = txtAnnoFatt.getText();
     String mese = txtMeseFatt.getText();
@@ -2556,6 +2575,7 @@ int getIndexSpedizione(Spedizione sped) {
     private javax.swing.JCheckBoxMenuItem mnuSelezionate;
     private javax.swing.JMenu mnuSped;
     private javax.swing.JMenuItem mnuStampa;
+    private javax.swing.JMenuItem mnuStorico;
     private javax.swing.JCheckBoxMenuItem mnuTutti;
     private javax.swing.JPanel pnlForfait;
     private javax.swing.JPanel pnlRiepilogo;

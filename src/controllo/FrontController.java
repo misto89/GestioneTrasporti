@@ -274,4 +274,8 @@ public abstract class FrontController {
     public static boolean updateModalitaPagamento(Fattura fattura) {
         return DAO_ASF.updateModalitaPagamento(fattura);
     }
+    
+    public static List<Spedizione> getStoricoSpedizioni(int anno, Spedizione.tipo type){
+        return DAO_ASF.getStoricoSpedizioni(anno, type);
+    }
 }
