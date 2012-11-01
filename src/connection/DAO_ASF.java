@@ -984,7 +984,7 @@ public abstract class DAO_ASF {
      * Ricevuta in input una List di Spedizioni, cicla sul ResultSet avvalorato precedentemente
      * e aggiunge ciclicamente gli elementi alla lista
      */
-    private static void ricSpedizioni(List<Spedizione> spedizioni) {
+    private static void ricSpedizioni(List<Spedizione> spedizioni, boolean memCliente) {
         try {
             String numero;
             Date dataCarico;
@@ -1010,6 +1010,8 @@ public abstract class DAO_ASF {
             Double valoreMerce;
             Double imponibile;
             char stato;
+            Fornitore cliente = null;
+            
                 
             while (rs.next()){
                 numero = rs.getString(Tabelle.Spedizioni.NUMERO);
@@ -1037,13 +1039,21 @@ public abstract class DAO_ASF {
                 imponibile = rs.getDouble(Tabelle.Spedizioni.IMPONIBILE);
                 stato = rs.getString(Tabelle.Spedizioni.STATO).charAt(0);
                 
+                if (memCliente){
+                    cliente = new Fornitore(forn);
+                    cliente.setNome(rs.getString(Tabelle.Fornitori.NOME));    
+                }
+                
                 if (numFattura == 0)
                     numFattura = null;
                     
                 Spedizione sped = new Spedizione(numero, forn, dataCarico, dataDocumento, descrizione, mezzo, 
                         um, qta, traz, distrib, importo, sconto, percIva, iva, 
                         percProvvigione, provvigione, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile, stato);
-                    
+                
+                if (memCliente)
+                    sped.setCliente(cliente);
+                
                 ps = conn.prepareStatement("SELECT " + Tabelle.Bolle.BOLLA + " FROM " + Tabelle.BOLLE + " WHERE " + 
                         Tabelle.Bolle.SPEDIZIONE + " = '" + numero + "' AND " + Tabelle.Bolle.DATA_SPEDIZIONE + " = '" + dataCarico + "'");
                     
@@ -1102,7 +1112,7 @@ public abstract class DAO_ASF {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             List<Spedizione> spedizioni = new LinkedList<Spedizione>();
-            ricSpedizioni(spedizioni);
+            ricSpedizioni(spedizioni, false);
             
             return spedizioni;
             
@@ -1159,7 +1169,7 @@ public abstract class DAO_ASF {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             List<Spedizione> spedizioni = new LinkedList<Spedizione>();
-            ricSpedizioni(spedizioni);    
+            ricSpedizioni(spedizioni, false);    
             
             return spedizioni;
             
@@ -1174,29 +1184,29 @@ public abstract class DAO_ASF {
     public static List<Spedizione> getStoricoSpedizioni(int anno, Spedizione.tipo type){
         try {
             if (type == Spedizione.tipo.NF)
-                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
-                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " 
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + "," + Tabelle.FORNITORI + "." + Tabelle.Fornitori.NOME + " FROM " + 
+                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + ", " + Tabelle.FORNITORI + " WHERE " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + Tabelle.Fornitori.COD + " AND "
                     + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL" + 
-                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
-                    Tabelle.Spedizioni.MEZZO + " IS NULL AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL " + " AND " 
+                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " , " + Tabelle.FORNITORI + "." + Tabelle.Fornitori.NOME + " FROM " + Tabelle.SPEDIZIONI + ", " + Tabelle.FORNITORI + " WHERE " +
+                    Tabelle.Spedizioni.MEZZO + " IS NULL AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL " + " AND " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + Tabelle.Fornitori.COD + " AND "
                     + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31'" 
                     + " ORDER BY " + Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
             
             else if (type == Spedizione.tipo.F)
-                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
-                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " 
-                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL" + 
-                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
-                    Tabelle.Spedizioni.MEZZO + " IS NULL AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL " + " AND " 
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + "," + Tabelle.FORNITORI + "." + Tabelle.Fornitori.NOME + " FROM " + 
+                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + ", " + Tabelle.FORNITORI + " WHERE " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + Tabelle.Fornitori.COD + " AND "
+                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL" + 
+                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " , " + Tabelle.FORNITORI + "." + Tabelle.Fornitori.NOME + " FROM " + Tabelle.SPEDIZIONI + ", " + Tabelle.FORNITORI + " WHERE " +
+                    Tabelle.Spedizioni.MEZZO + " IS NULL AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NOT NULL " + " AND " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + Tabelle.Fornitori.COD + " AND "
                     + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31'" 
                     + " ORDER BY " + Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
             
             else if (type == Spedizione.tipo.ALL)
-                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + " FROM " + 
-                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + " WHERE " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " 
-                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31' AND " + Tabelle.Spedizioni.NUM_FATTURA + " IS NULL" + 
-                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " FROM " + Tabelle.SPEDIZIONI + " WHERE " +
-                    Tabelle.Spedizioni.MEZZO + " IS NULL AND " 
+                sql = "SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.MEZZI + "." + Tabelle.Mezzi.TARGA + "," + Tabelle.FORNITORI + "." + Tabelle.Fornitori.NOME + " FROM " + 
+                    Tabelle.SPEDIZIONI + ", " + Tabelle.MEZZI + ", " + Tabelle.FORNITORI + " WHERE " + Tabelle.Spedizioni.MEZZO + " = " + Tabelle.Mezzi.ID + " AND " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + Tabelle.Fornitori.COD + " AND "
+                    + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31'"  + 
+                    " UNION SELECT " + Tabelle.SPEDIZIONI + ".*, " + Tabelle.Spedizioni.MEZZO + " , " + Tabelle.FORNITORI + "." + Tabelle.Fornitori.NOME + " FROM " + Tabelle.SPEDIZIONI + ", " + Tabelle.FORNITORI + " WHERE " +
+                    Tabelle.Spedizioni.MEZZO + " IS NULL AND " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + Tabelle.Fornitori.COD + " AND "
                     + Tabelle.Spedizioni.DATA_DOCUMENTO + " BETWEEN '" + anno +"-01-01' AND '" + anno + "-12-31'" 
                     + " ORDER BY " + Tabelle.Spedizioni.STATO + ", " + Tabelle.Spedizioni.DATA_DOCUMENTO + ", " + Tabelle.Spedizioni.NUMERO;
                            
@@ -1204,7 +1214,7 @@ public abstract class DAO_ASF {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             List<Spedizione> spedizioni = new LinkedList<Spedizione>();
-            ricSpedizioni(spedizioni);    
+            ricSpedizioni(spedizioni, true);    
             
             return spedizioni;
             

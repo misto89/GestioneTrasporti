@@ -240,21 +240,19 @@ private void setTable(){
     
     int contSped = 0;
     for (Object sped : arSped) {
-        arraySped[contSped++] = ((Spedizione) sped).toArray();
+        arraySped[contSped++] = ((Spedizione) sped).toArrayForStorico();
     }
        
     final String[] COLONNE = {
-        "BOLLE", "STATO", "NUMERO", "DATA CARICO", "DATA DOCUMENTO", "DESCRIZIONE", "UM", "QTA", "TRAZ.", 
-        "DISTRIB.", "IMPORTO", "IMPONIBILE", "VAL. MERCE", "NOTE", "RIENTRATA", "MEZZO", "NUM. FATTURA"
+        "NUMERO", "CLIENTE", "BOLLE", "DATA DOCUMENTO", "STATO", "DESCRIZIONE", "TOTALE", "MEZZO", "NUM. FATTURA"
     };
     
     boolean[] canEdit = new boolean[] {
-            false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false 
+            false, false, false, false, false, false, false, false, false
     };
     
     Class[] types = {
-            String.class, String.class, Object.class, Object.class, Object.class, String.class, String.class, Double.class, Double.class,
-            Double.class, Double.class, Double.class, Double.class, String.class, Character.class, String.class, Integer.class
+            Integer.class, String.class, String.class, Object.class, String.class, String.class, Double.class, String.class, Integer.class
         };
     
     StoricoSpedizioniTableModel model = new StoricoSpedizioniTableModel(arraySped, COLONNE, types, canEdit);
@@ -279,7 +277,6 @@ private void setTable(){
 
         @Override
         public void sort() {
-            setComparator(DATA_CARICO, new DateComparator());
             setComparator(DATA_DOCUMENTO, new DateComparator());
             setComparator(NUMERO, new Comparator() {
 
@@ -297,29 +294,21 @@ private void setTable(){
     
    
     
-    for (int i = TRAZ; i <= VAL_MERCE; i++)
-        tblSpedizioni.getColumnModel().getColumn(i).setCellRenderer(new DoubleFormatter());
+    //tblSpedizioni.getColumnModel().getColumn(TOTALE).setCellRenderer(new DoubleFormatter());
  
 }
 
 private Spedizioni parent; //Indica il jframe delle spedizioni, dal quale è stata istanziata questa (this) jdialog
 private List<Spedizione> spedizioniInTable = null;
-private final int STATO = 1;
-private final int NUMERO = 2;
-private final int DATA_CARICO = 3;
+private final int NUMERO = 1;
+private final int CLIENTE = 2;
+private final int BOLLE = 3;
 private final int DATA_DOCUMENTO = 4;
-private final int DESCRIZIONE = 5;
-private final int UM = 6;
-private final int QTA = 7;
-private final int TRAZ = 8;
-private final int DISTRIB = 9;
-private final int IMPORTO = 10;
-private final int IMPONIBILE = 11;
-private final int VAL_MERCE = 12;
-private final int NOTE = 13;
-private final int RIENTRATA = 14;
-private final int MEZZO = 15;
-private final int FATTURA = 16;
+private final int STATO = 5;
+private final int DESCRIZIONE = 6;
+private final int TOTALE = 7;
+private final int MEZZO = 8;
+private final int FATTURA = 9;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cboAnno;
     private javax.swing.JCheckBox chkEmesse;

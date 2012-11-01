@@ -65,8 +65,11 @@ public class Spedizione implements Entity {
     private Double valoreMerce;
     private Double imponibile;
     private Character stato;
-   
+    private Fornitore cliente;
+    
     public static final int NUM_CAMPI = 17; //numero campi da visualizzare
+    public static final int NUM_CAMPI_STORICO = 9; //numero campi da visualizzare per lo storico
+    
     
     public Spedizione() {
     }
@@ -294,7 +297,15 @@ public class Spedizione implements Entity {
     public void setStato(char stato) {
         this.stato = stato;
     }
-        
+    
+    public void setCliente(Fornitore cliente){
+        this.cliente = cliente;
+    }
+    
+    public Fornitore getCliente(){
+        return cliente;
+    }
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -311,6 +322,17 @@ public class Spedizione implements Entity {
     @Override
     public String toString() {
         return "entita.Fattura[ numFattura = " + numero + ", fornitore/cliente = " + fornitore + " ]";
+    }
+    
+    public Object[] toArrayForStorico(){
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
+        String dataDoc = "";
+        if (dataDocumento != null) 
+           dataDoc = sdf.format(dataDocumento);
+        
+        Object[] arrayFatt = {numero, cliente.getNome(), bolle.toString(), dataDoc, stato, descrizione, totale, mezzo, numFattura};
+        return arrayFatt;
     }
     
     public Object[] toArray(){
