@@ -79,7 +79,7 @@ public class DAO_CBC {
      */
     public static List<Integer> getAnniEsercizioForSpedizioni(){
         try {
-            sql = "SELECT DISTINCT YEAR(" + Tabelle.Spedizioni.DATA_DOCUMENTO + ") as ANNO FROM " + Tabelle.SPEDIZIONI + " ORDER BY " + Tabelle.Spedizioni.DATA_DOCUMENTO + " DESC";
+            sql = "SELECT DISTINCT YEAR(" + Tabelle.Spedizioni.DATA_CARICO + ") as ANNO FROM " + Tabelle.SPEDIZIONI + " ORDER BY " + Tabelle.Spedizioni.DATA_CARICO + " DESC";
             
             System.out.println(sql);
             ps = conn.prepareStatement(sql);

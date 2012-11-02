@@ -10,27 +10,14 @@
  */
 package viste;
 
-import contabilizzazione.SaldoIvaMensile;
 import controllo.FrontController;
-import entita.Entity;
-import entita.Fattura;
-import entita.Mezzo;
+
 import entita.Spedizione;
 import entita.Spedizione.tipo;
-import java.awt.Color;
 import java.sql.Date;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import libs.DoubleFormatter;
 
@@ -45,7 +32,10 @@ public class StoricoSpedizioni extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setTitle("Storico spedizioni");
-        this.parent = (Spedizioni) parent;
+//        this.parent = (Spedizioni) parent;
+        ColorManager color = new ColorManager();
+        color.changeColor(pnlAnno);
+        color.changeColor(pnlParametri);
         //setTable();
     }
 
@@ -83,7 +73,7 @@ public class StoricoSpedizioni extends javax.swing.JDialog {
         cboAnno = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSpedizioni = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
+        pnlParametri = new javax.swing.JPanel();
         chkNonFatturate = new javax.swing.JCheckBox();
         chkEmesse = new javax.swing.JCheckBox();
 
@@ -115,9 +105,8 @@ public class StoricoSpedizioni extends javax.swing.JDialog {
         pnlAnnoLayout.setVerticalGroup(
             pnlAnnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAnnoLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addComponent(cboAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tblSpedizioni.setModel(new javax.swing.table.DefaultTableModel(
@@ -130,7 +119,7 @@ public class StoricoSpedizioni extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tblSpedizioni);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Parametri"));
+        pnlParametri.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Parametri", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
         chkNonFatturate.setSelected(true);
         chkNonFatturate.setText("Non Fatturate");
@@ -148,25 +137,24 @@ public class StoricoSpedizioni extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlParametriLayout = new javax.swing.GroupLayout(pnlParametri);
+        pnlParametri.setLayout(pnlParametriLayout);
+        pnlParametriLayout.setHorizontalGroup(
+            pnlParametriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlParametriLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(chkEmesse)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chkNonFatturate)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+        pnlParametriLayout.setVerticalGroup(
+            pnlParametriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlParametriLayout.createSequentialGroup()
+                .addGroup(pnlParametriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(chkEmesse)
                     .addComponent(chkNonFatturate))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,26 +164,24 @@ public class StoricoSpedizioni extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 912, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 912, Short.MAX_VALUE))
+                        .addComponent(pnlParametri, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(34, 34, 34)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlParametri, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlAnno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel1, pnlAnno});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -223,19 +209,19 @@ private void popolaSelect(List items) {
 private void cboAnnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAnnoActionPerformed
 // TODO add your handling code here:
     setSpedizioniToShow();
-    setTable();
+//    setTable();
 }//GEN-LAST:event_cboAnnoActionPerformed
 
 private void chkEmesseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEmesseActionPerformed
 // TODO add your handling code here:
     setSpedizioniToShow();
-    setTable();
+//    setTable();
 }//GEN-LAST:event_chkEmesseActionPerformed
 
 private void chkNonFatturateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNonFatturateActionPerformed
 // TODO add your handling code here:ù
     setSpedizioniToShow();
-    setTable();
+//    setTable();
 }//GEN-LAST:event_chkNonFatturateActionPerformed
 
 private void setSpedizioniToShow(){
@@ -255,7 +241,7 @@ private void setSpedizioniToShow(){
 
 private void setTable(){
     Object[] arSped = spedizioniInTable.toArray();
-    Object[][] arraySped = new Object[arSped.length][Spedizione.NUM_CAMPI];
+    Object[][] arraySped = new Object[arSped.length][Spedizione.NUM_CAMPI_STORICO];
     
     int contSped = 0;
     for (Object sped : arSped) {
@@ -268,6 +254,10 @@ private void setTable(){
     
     boolean[] canEdit = new boolean[] {
             false, false, false, false, false, false, false, false, false
+    };
+    
+    boolean[] resizable = new boolean[] {
+            true, true, true, true, true, true, true, true, true
     };
     
     Class[] types = {
@@ -313,27 +303,18 @@ private void setTable(){
     
     jScrollPane1.setViewportView(tblSpedizioni);
     //Settaggio del resize dei campi
-    tblSpedizioni.getColumnModel().getColumn(NUMERO).setResizable(true);
-    tblSpedizioni.getColumnModel().getColumn(CLIENTE).setResizable(true);
-    tblSpedizioni.getColumnModel().getColumn(BOLLE).setResizable(true);
-    tblSpedizioni.getColumnModel().getColumn(BOLLE).setResizable(true);
-    tblSpedizioni.getColumnModel().getColumn(DATA_DOCUMENTO).setResizable(true);
-    tblSpedizioni.getColumnModel().getColumn(STATO).setResizable(true);
-    tblSpedizioni.getColumnModel().getColumn(DESCRIZIONE).setResizable(true);
-    tblSpedizioni.getColumnModel().getColumn(TOTALE).setResizable(true);
-    tblSpedizioni.getColumnModel().getColumn(MEZZO).setResizable(true);
-    tblSpedizioni.getColumnModel().getColumn(FATTURA).setResizable(true);
+    for (int i = NUMERO; i <= FATTURA; i++)
+        tblSpedizioni.getColumnModel().getColumn(i).setResizable(resizable[i]);
     
     //Settaggio delle width dei campi
     tblSpedizioni.getColumnModel().getColumn(CLIENTE).setPreferredWidth(170);
     tblSpedizioni.getColumnModel().getColumn(DESCRIZIONE).setPreferredWidth(210);
-    tblSpedizioni.getColumnModel().getColumn(FATTURA).setResizable(true);
     
     tblSpedizioni.getColumnModel().getColumn(TOTALE).setCellRenderer(new DoubleFormatter());
  
 }
 
-private Spedizioni parent; //Indica il jframe delle spedizioni, dal quale è stata istanziata questa (this) jdialog
+//private Spedizioni parent; //Indica il jframe delle spedizioni, dal quale è stata istanziata questa (this) jdialog
 private List<Spedizione> spedizioniInTable = null;
 private final int NUMERO = 0;
 private final int CLIENTE = 1;
@@ -348,9 +329,9 @@ private final int FATTURA = 8;
     private javax.swing.JComboBox cboAnno;
     private javax.swing.JCheckBox chkEmesse;
     private javax.swing.JCheckBox chkNonFatturate;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlAnno;
+    private javax.swing.JPanel pnlParametri;
     private javax.swing.JTable tblSpedizioni;
     // End of variables declaration//GEN-END:variables
 }
