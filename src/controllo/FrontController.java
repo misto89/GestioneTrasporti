@@ -190,6 +190,10 @@ public abstract class FrontController {
     public static List<Integer> getAnniEsercizio(Fattura.tipo tipo) {
         return DAO_CBC.getAnniEsercizio(tipo);
     }
+    
+    public static List<Integer> getAnniEsercizioForSpedizioni(){
+        return DAO_CBC.getAnniEsercizioForSpedizioni();
+    }
 
     public static List<Fattura> getFatture(Integer anno, Fornitore cliente, boolean[] mesi, Fattura.pagata pagata, Date dataIntIn, Date dataIntFin) {
         return DAO_CBC.getFatture(anno, cliente, mesi, pagata, dataIntIn, dataIntFin);

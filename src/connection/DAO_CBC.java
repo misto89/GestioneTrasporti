@@ -48,12 +48,12 @@ public class DAO_CBC {
     public static List<Integer> getAnniEsercizio(Fattura.tipo tipo){
         try {
             if (tipo == Fattura.tipo.VEN) 
-                sql = "SELECT " + Tabelle.Fatture.DATA + " FROM " + Tabelle.FATTURE + " ORDER BY " + Tabelle.Fatture.DATA + " DESC";
+                sql = "SELECT DISTINCT YEAR(" + Tabelle.Fatture.DATA + ") as ANNO FROM " + Tabelle.FATTURE + " ORDER BY " + Tabelle.Fatture.DATA + " DESC";
             else if (tipo == Fattura.tipo.ACQ)
-                sql = "SELECT " + Tabelle.FattureAcquisto.DATA + " FROM " + Tabelle.FATT_ACQUISTO + " ORDER BY " + Tabelle.FattureAcquisto.DATA + " DESC";
+                sql = "SELECT DISTINCT YEAR(" + Tabelle.FattureAcquisto.DATA + ") as ANNO FROM " + Tabelle.FATT_ACQUISTO + " ORDER BY " + Tabelle.FattureAcquisto.DATA + " DESC";
             else
-                sql = "SELECT " + Tabelle.Fatture.DATA + " FROM " + Tabelle.FATTURE + " UNION " + 
-                        "SELECT " + Tabelle.FattureAcquisto.DATA + " FROM " + Tabelle.FATT_ACQUISTO + " ORDER BY " + Tabelle.FattureAcquisto.DATA + " DESC";
+                sql = "SELECT YEAR(" + Tabelle.Fatture.DATA + ") as ANNO FROM " + Tabelle.FATTURE + " UNION " + 
+                        "SELECT YEAR(" + Tabelle.FattureAcquisto.DATA + ") as ANNO FROM " + Tabelle.FATT_ACQUISTO + " ORDER BY ANNO DESC";
                 
             System.out.println(sql);
             ps = conn.prepareStatement(sql);
@@ -61,9 +61,34 @@ public class DAO_CBC {
             List<Integer> anni = new LinkedList<Integer>();
             
             while (rs.next()) {
-                int anno = Integer.parseInt(rs.getDate(Tabelle.Fatture.DATA).toString().substring(0, 4));
+                int anno = rs.getInt("ANNO");
                 if (!anni.contains(anno))
                     anni.add(anno);
+            }
+            
+            return anni;
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    /**
+     * Recupera tutti gli anni in cui sono state effettuate spedizioni.
+     * @return Una lista di interi.
+     */
+    public static List<Integer> getAnniEsercizioForSpedizioni(){
+        try {
+            sql = "SELECT DISTINCT YEAR(" + Tabelle.Spedizioni.DATA_DOCUMENTO + ") as ANNO FROM " + Tabelle.SPEDIZIONI + " ORDER BY " + Tabelle.Spedizioni.DATA_DOCUMENTO + " DESC";
+            
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            List<Integer> anni = new LinkedList<Integer>();
+            
+            while (rs.next()) {
+                int anno = rs.getInt("ANNO");                
+                anni.add(anno);
             }
             
             return anni;

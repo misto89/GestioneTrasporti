@@ -331,6 +331,12 @@ public class Spedizione implements Entity {
         if (dataDocumento != null) 
            dataDoc = sdf.format(dataDocumento);
         
+        String stato;
+        if (this.stato == 'C')
+            stato = "Consegna";
+        else
+            stato = "Ritiro";
+        
         Object[] arrayFatt = {numero, cliente.getNome(), bolle.toString(), dataDoc, stato, descrizione, totale, mezzo, numFattura};
         return arrayFatt;
     }
