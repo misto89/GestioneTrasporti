@@ -159,7 +159,7 @@ public abstract class DAO_ASF {
                 String targa = null;
                 String marca = null;
                 Date scadBollo = null;
-                Date scadRevisione = null;
+                String scadRevisione = null;
                 Date scadAtp = null;
                 Date scadAssicurazione = null;
             
@@ -168,7 +168,7 @@ public abstract class DAO_ASF {
                     targa = rs.getString(Tabelle.Mezzi.TARGA);
                     marca = rs.getString(Tabelle.Mezzi.MARCA);
                     scadBollo = rs.getDate(Tabelle.Mezzi.SCAD_BOLLO);
-                    scadRevisione = rs.getDate(Tabelle.Mezzi.SCAD_REVISIONE);
+                    scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
                     scadAtp = rs.getDate(Tabelle.Mezzi.SCAD_ATP);
                     scadAssicurazione = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
                 
@@ -955,7 +955,7 @@ public abstract class DAO_ASF {
             String targa = null;
             String marca = null;
             Date scadBollo = null;
-            Date scadRevisione = null;
+            String scadRevisione = null;
             Date scadAtp = null;
             Date scadAssicurazione = null;
             Mezzo mezzo = new Mezzo();
@@ -965,7 +965,7 @@ public abstract class DAO_ASF {
                 targa = rs.getString(Tabelle.Mezzi.TARGA);
                 marca = rs.getString(Tabelle.Mezzi.MARCA);
                 scadBollo = rs.getDate(Tabelle.Mezzi.SCAD_BOLLO);
-                scadRevisione = rs.getDate(Tabelle.Mezzi.SCAD_REVISIONE);
+                scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
                 scadAtp = rs.getDate(Tabelle.Mezzi.SCAD_ATP);
                 scadAssicurazione = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
 

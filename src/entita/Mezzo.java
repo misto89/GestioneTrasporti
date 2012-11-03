@@ -12,7 +12,7 @@ public class Mezzo implements Entity {
     private String targa;
     private String marca;
     private Date scadBollo;
-    private Date scadRevisione;
+    private String scadRevisione;
     private Date scadAtp;
     private Date scadAssicurazione;
     
@@ -31,7 +31,7 @@ public class Mezzo implements Entity {
         this.marca = marca;
     }
 
-    public Mezzo(Integer id, String targa, String marca, Date scadBollo, Date scadRevisione, Date scadAtp, Date scadAssicurazione) {
+    public Mezzo(Integer id, String targa, String marca, Date scadBollo, String scadRevisione, Date scadAtp, Date scadAssicurazione) {
         this.id = id;
         this.targa = targa;
         this.marca = marca;
@@ -77,7 +77,7 @@ public class Mezzo implements Entity {
         return scadBollo;
     }
 
-    public Date getScadRevisione() {
+    public String getScadRevisione() {
         return scadRevisione;
     }
 
@@ -107,15 +107,6 @@ public class Mezzo implements Entity {
         SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
         return sdf.format(scadBollo);
     }
-
-    public String getFormattedScadRevisione() {
-        if (scadRevisione == null)
-            return "";
-        
-        final String NEW_FORMAT = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
-        return sdf.format(scadRevisione);
-    }
     
     public void setScadAtp(Date scadAtp) {
         this.scadAtp = scadAtp;
@@ -129,7 +120,7 @@ public class Mezzo implements Entity {
         this.scadBollo = scadBollo;
     }
 
-    public void setScadRevisione(Date scadRevisione) {
+    public void setScadRevisione(String scadRevisione) {
         this.scadRevisione = scadRevisione;
     }
         
@@ -166,11 +157,7 @@ public class Mezzo implements Entity {
         String scadBollo = "";
         if (this.scadBollo != null)
             scadBollo = sdf.format(this.scadBollo);
-        
-        String scadRevisione = "";
-        if (this.scadRevisione != null)
-            scadRevisione = sdf.format(this.scadRevisione);
-        
+                
         String scadAtp = "";
         if (this.scadAtp != null)
             scadAtp = sdf.format(this.scadAtp);
@@ -179,7 +166,7 @@ public class Mezzo implements Entity {
         if (this.scadAssicurazione != null)
             scadAssicurazione = sdf.format(this.scadAssicurazione);
         
-        Object[] arrayMezzi = {this.targa, this.marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione};
+        Object[] arrayMezzi = {this.targa, this.marca, scadBollo, scadAtp, scadAssicurazione, scadRevisione};
         return arrayMezzi;
     }
 }
