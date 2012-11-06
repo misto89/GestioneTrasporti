@@ -1,6 +1,0 @@
-use pugliatrasporti;
-
-ALTER TABLE  `spedizioni` CHANGE  `percprovvigione`  `percprovvigione` DECIMAL(4,2) NOT NULL DEFAULT  '0.0';
-ALTER TABLE  `spedizioni` CHANGE  `qta`  `qta` DECIMAL(7,2) NOT NULL DEFAULT  '0.00'
-ALTER TABLE  `fattureacq` ADD  `specifica_numero` VARCHAR(20) NULL DEFAULT NULL;
-ALTER TABLE  `mezzi` CHANGE  `scad_revisione`  `scad_revisione` VARCHAR(8) NULL DEFAULT NULL;
