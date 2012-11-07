@@ -194,9 +194,13 @@ public class StampaRegistroEmesse extends StampaDocumento {
                     pagata = "S";
                 else
                     pagata = "N";
-
+                
+                String titolare = "";
+                if (fatture.get(j).getCliente().getTitolare() != null)
+                    titolare = " di " + fatture.get(j).getCliente().getTitolare();
+                
                 PdfPCell[] riga = new PdfPCell[] {
-                        new PdfPCell(new Phrase(fatture.get(j).getCliente().getNome(), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getCliente().getNome() + titolare, FONT_GRANDE_NORMALE)),
                         new PdfPCell(new Phrase(String.valueOf(fatture.get(j).getNumero()), FONT_GRANDE_NORMALE)),
                         new PdfPCell(new Phrase(fatture.get(j).getFormattedData(), FONT_GRANDE_NORMALE)),
                         new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getImponibile())), FONT_GRANDE_NORMALE)),
@@ -254,9 +258,13 @@ public class StampaRegistroEmesse extends StampaDocumento {
                     pagata = "S";
                 else
                     pagata = "N";
-
+                
+                String titolare = "";
+                if (fatture.get(j).getCliente().getTitolare() != null)
+                    titolare = " di " + fatture.get(j).getCliente().getTitolare();
+                
                 PdfPCell[] riga = new PdfPCell[] {
-                        new PdfPCell(new Phrase(fatture.get(j).getCliente().getNome(), FONT_GRANDE_NORMALE)),
+                        new PdfPCell(new Phrase(fatture.get(j).getCliente().getNome() + titolare, FONT_GRANDE_NORMALE)),
                         new PdfPCell(new Phrase(String.valueOf(fatture.get(j).getNumero()), FONT_GRANDE_NORMALE)),
                         new PdfPCell(new Phrase(fatture.get(j).getFormattedData(), FONT_GRANDE_NORMALE)),
                         new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fatture.get(j).getTotale())), FONT_GRANDE_NORMALE)),

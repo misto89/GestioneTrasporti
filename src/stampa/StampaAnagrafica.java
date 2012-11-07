@@ -189,42 +189,47 @@ public class StampaAnagrafica extends StampaDocumento {
         titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(titolo);
                 
-        doc.add(table);
-        
-        table = new PdfPTable(2);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(10);
-        table.setWidthPercentage(70);
-        
         String indirizzoLeg = anagrafe.getIndirizzoLeg();
         String capLeg = anagrafe.getCapLeg();
         String cittaLeg = anagrafe.getCittaLeg();
         String provLeg = anagrafe.getProvLeg();
         String nazioneLeg = anagrafe.getNazioneLeg();
         
-        tabella = new PdfPCell[] {
-                new PdfPCell(new Phrase("Indirizzo", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((indirizzoLeg != null) ? indirizzoLeg : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("CAP", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((capLeg != null) ? capLeg : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("Città", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((cittaLeg != null) ? cittaLeg : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("Provincia", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((provLeg != null) ? provLeg : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("Nazione", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((nazioneLeg != null) ? nazioneLeg : "-", FONT_GRANDE_NORMALE))
-        };
+        if (indirizzoLeg != null || capLeg != null || cittaLeg != null || provLeg != null || nazioneLeg != null){
         
-        widths = new int[] {25, 45};
-        table.setWidths(widths);
+            doc.add(table);
         
-        for (PdfPCell cella : tabella) {
-//            cella.setBorder(BORDER_LEFT_RIGHT);
-            cella.setFixedHeight(25);
-            table.addCell(cella);
+            table = new PdfPTable(2);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(10);
+            table.setWidthPercentage(70);
+
+        
+        
+            tabella = new PdfPCell[] {
+                    new PdfPCell(new Phrase("Indirizzo", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((indirizzoLeg != null) ? indirizzoLeg : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("CAP", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((capLeg != null) ? capLeg : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("Città", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((cittaLeg != null) ? cittaLeg : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("Provincia", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((provLeg != null) ? provLeg : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("Nazione", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((nazioneLeg != null) ? nazioneLeg : "-", FONT_GRANDE_NORMALE))
+            };
+
+            widths = new int[] {25, 45};
+            table.setWidths(widths);
+
+            for (PdfPCell cella : tabella) {
+    //            cella.setBorder(BORDER_LEFT_RIGHT);
+                cella.setFixedHeight(25);
+                table.addCell(cella);
+            }
+
+            doc.add(table);
         }
-        
-        doc.add(table);
         
         table = new PdfPTable(1);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
@@ -234,13 +239,6 @@ public class StampaAnagrafica extends StampaDocumento {
         titolo.setBorder(NO_BORDER);
         titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(titolo);
-                
-        doc.add(table);
-        
-        table = new PdfPTable(2);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(10);
-        table.setWidthPercentage(70);
         
         String indirizzoOp = anagrafe.getIndirizzoOp();
         String capOp = anagrafe.getCapOp();
@@ -248,29 +246,40 @@ public class StampaAnagrafica extends StampaDocumento {
         String provOp = anagrafe.getProvOp();
         String nazioneOp = anagrafe.getNazioneOp();
         
-        tabella = new PdfPCell[] {
-                new PdfPCell(new Phrase("Indirizzo", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((indirizzoOp != null) ? indirizzoOp : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("CAP", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((capOp != null) ? capOp : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("Città", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((cittaOp != null) ? cittaOp : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("Provincia", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((provOp != null) ? provOp : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("Nazione", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((nazioneOp != null) ? nazioneOp : "-", FONT_GRANDE_NORMALE))
-        };
+        if (indirizzoOp != null || capOp != null || cittaOp != null || provOp != null || nazioneOp != null){
         
-        widths = new int[] {25, 45};
-        table.setWidths(widths);
-        
-        for (PdfPCell cella : tabella) {
-//            cella.setBorder(BORDER_LEFT_RIGHT);
-            cella.setFixedHeight(25);
-            table.addCell(cella);
+            doc.add(table);
+
+            table = new PdfPTable(2);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(10);
+            table.setWidthPercentage(70);
+
+
+            tabella = new PdfPCell[] {
+                    new PdfPCell(new Phrase("Indirizzo", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((indirizzoOp != null) ? indirizzoOp : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("CAP", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((capOp != null) ? capOp : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("Città", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((cittaOp != null) ? cittaOp : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("Provincia", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((provOp != null) ? provOp : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("Nazione", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((nazioneOp != null) ? nazioneOp : "-", FONT_GRANDE_NORMALE))
+            };
+
+            widths = new int[] {25, 45};
+            table.setWidths(widths);
+
+            for (PdfPCell cella : tabella) {
+    //            cella.setBorder(BORDER_LEFT_RIGHT);
+                cella.setFixedHeight(25);
+                table.addCell(cella);
+            }
+
+            doc.add(table);
         }
-        
-        doc.add(table);
         
         table = new PdfPTable(1);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
@@ -281,36 +290,41 @@ public class StampaAnagrafica extends StampaDocumento {
         titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(titolo);
                 
-        doc.add(table);
-        
-        table = new PdfPTable(2);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(10);
-        table.setWidthPercentage(70);
-        
         String nomeRef1 = anagrafe.getNomeRef1();
         String emailRef1 = anagrafe.getEmailRef1();
         String telRef1 = anagrafe.getTelRef1();
         
-        tabella = new PdfPCell[] {
-                new PdfPCell(new Phrase("Nome", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((nomeRef1 != null) ? nomeRef1 : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("E-mail", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((emailRef1 != null) ? emailRef1 : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("Telefono", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((telRef1 != null) ? telRef1 : "-", FONT_GRANDE_NORMALE))
-        };
+        if (nomeRef1 != null || emailRef1 != null || telRef1 != null){
         
-        widths = new int[] {25, 45};
-        table.setWidths(widths);
-        
-        for (PdfPCell cella : tabella) {
-//            cella.setBorder(BORDER_LEFT_RIGHT);
-            cella.setFixedHeight(25);
-            table.addCell(cella);
+            doc.add(table);
+
+            table = new PdfPTable(2);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(10);
+            table.setWidthPercentage(70);
+
+
+
+            tabella = new PdfPCell[] {
+                    new PdfPCell(new Phrase("Nome", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((nomeRef1 != null) ? nomeRef1 : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("E-mail", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((emailRef1 != null) ? emailRef1 : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("Telefono", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((telRef1 != null) ? telRef1 : "-", FONT_GRANDE_NORMALE))
+            };
+
+            widths = new int[] {25, 45};
+            table.setWidths(widths);
+
+            for (PdfPCell cella : tabella) {
+    //            cella.setBorder(BORDER_LEFT_RIGHT);
+                cella.setFixedHeight(25);
+                table.addCell(cella);
+            }
+
+            doc.add(table);
         }
-        
-        doc.add(table);
         
         table = new PdfPTable(1);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
@@ -320,37 +334,42 @@ public class StampaAnagrafica extends StampaDocumento {
         titolo.setBorder(NO_BORDER);
         titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(titolo);
-                
-        doc.add(table);
-        
-        table = new PdfPTable(2);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(10);
-        table.setWidthPercentage(70);
-        
+         
         String nomeRef2 = anagrafe.getNomeRef2();
         String emailRef2 = anagrafe.getEmailRef2();
         String telRef2 = anagrafe.getTelRef2();
         
-        tabella = new PdfPCell[] {
-                new PdfPCell(new Phrase("Nome", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((nomeRef2 != null) ? nomeRef2 : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("E-mail", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((emailRef2 != null) ? emailRef2 : "-", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("Telefono", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase((telRef2 != null) ? telRef2 : "-", FONT_GRANDE_NORMALE))
-        };
+        if (nomeRef2 != null || emailRef2 != null || telRef2 != null){
         
-        widths = new int[] {25, 45};
-        table.setWidths(widths);
-        
-        for (PdfPCell cella : tabella) {
-//            cella.setBorder(BORDER_LEFT_RIGHT);
-            cella.setFixedHeight(25);
-            table.addCell(cella);
+            doc.add(table);
+
+            table = new PdfPTable(2);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(10);
+            table.setWidthPercentage(70);
+
+
+
+            tabella = new PdfPCell[] {
+                    new PdfPCell(new Phrase("Nome", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((nomeRef2 != null) ? nomeRef2 : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("E-mail", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((emailRef2 != null) ? emailRef2 : "-", FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("Telefono", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase((telRef2 != null) ? telRef2 : "-", FONT_GRANDE_NORMALE))
+            };
+
+            widths = new int[] {25, 45};
+            table.setWidths(widths);
+
+            for (PdfPCell cella : tabella) {
+    //            cella.setBorder(BORDER_LEFT_RIGHT);
+                cella.setFixedHeight(25);
+                table.addCell(cella);
+            }
+
+            doc.add(table);
         }
-        
-        doc.add(table);
 
         
     }

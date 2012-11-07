@@ -110,7 +110,9 @@ public final class StampaFattura extends StampaDocumento {
                 String descrizione = sped.getDescrizione();
                 if (sped.getValoreMerce() != 0) {
                     descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
-                }
+                } else if (sped.getProvvigione() != 0)
+                    descrizione += "\nSpese Contrassegno € " + String.format("%1$,.2f", sped.getProvvigione());
+                
                 //Controlli generici sulla presenza o meno dei valori, se i valori non sono presenti (pari a 0) non appaiono nella fattura
                 String importo = doubleToString(roundTwoDecimals(sped.getImporto()));
                 String przUnitario = doubleToString(roundTwoDecimals(sped.getDistrib() + sped.getTraz()));
@@ -203,7 +205,9 @@ public final class StampaFattura extends StampaDocumento {
                 String descrizione = sped.getDescrizione();
                 if (sped.getValoreMerce() != 0) {
                     descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
-                }
+                } else if (sped.getProvvigione() != 0)
+                    descrizione += "\nSpese Contrassegno € " + String.format("%1$,.2f", sped.getProvvigione());
+                
                 PdfPCell[] rigaSped = {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(sdf.format(sped.getDataDocumento()), FONT_GRANDE_NORMALE)),
@@ -259,19 +263,19 @@ public final class StampaFattura extends StampaDocumento {
             doc.add(table);
 
             PdfPTable rigaForfait = new PdfPTable(8);
-            int[] widths = {105, 25, 20, 25, 45, 25, 20, 40};
+            int[] widths = {115, 25, 20, 25, 45, 60, 20, 23};
             rigaForfait.setWidths(widths);
             rigaForfait.setWidthPercentage(100);
 
             PdfPCell[] riga = {
-                new PdfPCell(new Phrase("Per importo forfettario di:", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("Per importo totale di:", FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),           
                 new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fattura.getImporto())), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase(fattura.getPercIva() + " %", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
             };
 
             riga[0].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -279,9 +283,9 @@ public final class StampaFattura extends StampaDocumento {
             riga[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             riga[3].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             riga[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            riga[5].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            riga[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             riga[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            riga[7].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            riga[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
             for (int i = 0; i < riga.length; i++) {
                 riga[i].setBorder(NO_BORDER);

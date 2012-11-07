@@ -1,0 +1,4 @@
+Configuration file loaded: C:\Users\Andle\Documents\GitHub\GestioneTrasporti\conf.properties
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
