@@ -179,16 +179,7 @@ public class StampaAnagrafica extends StampaDocumento {
         }
         
         doc.add(table);
-        
-        table = new PdfPTable(1);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(30);
-        table.setWidthPercentage(100);
-        titolo = new PdfPCell(new Phrase("Sede legale"));
-        titolo.setBorder(NO_BORDER);
-        titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(titolo);
-                
+                        
         String indirizzoLeg = anagrafe.getIndirizzoLeg();
         String capLeg = anagrafe.getCapLeg();
         String cittaLeg = anagrafe.getCittaLeg();
@@ -196,6 +187,15 @@ public class StampaAnagrafica extends StampaDocumento {
         String nazioneLeg = anagrafe.getNazioneLeg();
         
         if (indirizzoLeg != null || capLeg != null || cittaLeg != null || provLeg != null || nazioneLeg != null){
+            
+            table = new PdfPTable(1);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(30);
+            table.setWidthPercentage(100);
+            titolo = new PdfPCell(new Phrase("Sede legale"));
+            titolo.setBorder(NO_BORDER);
+            titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(titolo);
         
             doc.add(table);
         
@@ -230,16 +230,7 @@ public class StampaAnagrafica extends StampaDocumento {
 
             doc.add(table);
         }
-        
-        table = new PdfPTable(1);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(30);
-        table.setWidthPercentage(100);
-        titolo = new PdfPCell(new Phrase("Sede operativa"));
-        titolo.setBorder(NO_BORDER);
-        titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(titolo);
-        
+               
         String indirizzoOp = anagrafe.getIndirizzoOp();
         String capOp = anagrafe.getCapOp();
         String cittaOp = anagrafe.getCittaOp();
@@ -247,6 +238,15 @@ public class StampaAnagrafica extends StampaDocumento {
         String nazioneOp = anagrafe.getNazioneOp();
         
         if (indirizzoOp != null || capOp != null || cittaOp != null || provOp != null || nazioneOp != null){
+            
+            table = new PdfPTable(1);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(30);
+            table.setWidthPercentage(100);
+            titolo = new PdfPCell(new Phrase("Sede operativa"));
+            titolo.setBorder(NO_BORDER);
+            titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(titolo);
         
             doc.add(table);
 
@@ -280,21 +280,21 @@ public class StampaAnagrafica extends StampaDocumento {
 
             doc.add(table);
         }
-        
-        table = new PdfPTable(1);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(30);
-        table.setWidthPercentage(100);
-        titolo = new PdfPCell(new Phrase("Referente 1"));
-        titolo.setBorder(NO_BORDER);
-        titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(titolo);
-                
+                        
         String nomeRef1 = anagrafe.getNomeRef1();
         String emailRef1 = anagrafe.getEmailRef1();
         String telRef1 = anagrafe.getTelRef1();
         
         if (nomeRef1 != null || emailRef1 != null || telRef1 != null){
+            
+            table = new PdfPTable(1);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(30);
+            table.setWidthPercentage(100);
+            titolo = new PdfPCell(new Phrase("Referente 1"));
+            titolo.setBorder(NO_BORDER);
+            titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(titolo);
         
             doc.add(table);
 
@@ -325,21 +325,21 @@ public class StampaAnagrafica extends StampaDocumento {
 
             doc.add(table);
         }
-        
-        table = new PdfPTable(1);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
-        table.setSpacingBefore(30);
-        table.setWidthPercentage(100);
-        titolo = new PdfPCell(new Phrase("Referente 2"));
-        titolo.setBorder(NO_BORDER);
-        titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(titolo);
-         
+                 
         String nomeRef2 = anagrafe.getNomeRef2();
         String emailRef2 = anagrafe.getEmailRef2();
         String telRef2 = anagrafe.getTelRef2();
         
         if (nomeRef2 != null || emailRef2 != null || telRef2 != null){
+            
+            table = new PdfPTable(1);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
+            table.setSpacingBefore(30);
+            table.setWidthPercentage(100);
+            titolo = new PdfPCell(new Phrase("Referente 2"));
+            titolo.setBorder(NO_BORDER);
+            titolo.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(titolo);
         
             doc.add(table);
 

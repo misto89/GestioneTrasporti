@@ -15,6 +15,7 @@ import entita.Fattura;
 import entita.Fornitore;
 import entita.Spedizione;
 import java.net.MalformedURLException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -135,11 +136,16 @@ public final class StampaFattura extends StampaDocumento {
                 }
                 if(sped.getDistrib() + sped.getTraz() == 0){
                     przUnitario = "";
-                }                
+                }            
+                
+                Date dataDocumento = sped.getDataDocumento();
+                String dataDoc = "";
+                if (dataDocumento != null)
+                    dataDoc = sdf.format(dataDocumento);
                    
                 PdfPCell[] rigaSped = {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(sdf.format(sped.getDataDocumento()), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(descrizione, FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase(sped.getUm(), FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase(qta, FONT_GRANDE_NORMALE)),
@@ -208,9 +214,14 @@ public final class StampaFattura extends StampaDocumento {
                 } else if (sped.getProvvigione() != 0)
                     descrizione += "\nSpese Contrassegno € " + String.format("%1$,.2f", sped.getProvvigione());
                 
+                Date dataDocumento = sped.getDataDocumento();
+                String dataDoc = "";
+                if (dataDocumento != null)
+                    dataDoc = sdf.format(dataDocumento);
+                
                 PdfPCell[] rigaSped = {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(sdf.format(sped.getDataDocumento()), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(descrizione, FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase("", FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),

@@ -10,9 +10,6 @@
  */
 package viste;
 
-import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import libs.DoubleFormatter;
 import com.itextpdf.text.DocumentException;
 import controllo.FrontController;
@@ -24,7 +21,6 @@ import entita.Spedizione;
 import entita.Fornitore;
 import entita.Mezzo;
 import entita.Movimento;
-import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -42,7 +38,6 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import libs.DateUpdate;
@@ -111,7 +106,7 @@ public class Spedizioni extends javax.swing.JFrame {
         private boolean[] canEdit;
         private final Class[] TYPES = {
             String.class, String.class, Object.class, Object.class, Object.class, String.class, String.class, Double.class, Double.class,
-            Double.class, Double.class, Double.class, Double.class, String.class, Character.class, String.class, Integer.class
+            Double.class, Double.class, Double.class, Double.class, Double.class, String.class, Character.class, String.class, Integer.class
         };
         
         
@@ -290,6 +285,13 @@ public class Spedizioni extends javax.swing.JFrame {
                     return;
                 }
 
+                Object impProv = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), PROVVIGIONE);
+                Double importoProvv = checkDoubleField(PROVVIGIONE, impProv);
+                if (importoProvv == null) {
+                    ricaricaTabella();
+                    return;
+                }
+                
                 /*
                 Object sc = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), SCONTO);
                 Integer sconto = checkIntField(SCONTO, sc);
@@ -357,7 +359,6 @@ public class Spedizioni extends javax.swing.JFrame {
 
                 double totale;
                 double iva;
-                double provv;
 
                 //Converte la data carico nel formato corretto da poter inserire nel db
                 String[] dataArray = dataCarico.split("/");
@@ -429,8 +430,8 @@ public class Spedizioni extends javax.swing.JFrame {
                     importo = (qta * traz) + (qta * distrib);
 
                 double valoreSconto = importo * (sconto / 100.0); 
-                provv = valoreMerce * (percProvv / 100.0);
-                imponibile = importo - valoreSconto + provv;
+//                provv = valoreMerce * (percProvv / 100.0);
+                imponibile = importo - valoreSconto + importoProvv;
                 iva = (percIva / 100.0) * (imponibile);
 
                 totale = imponibile + iva;
@@ -446,7 +447,7 @@ public class Spedizioni extends javax.swing.JFrame {
 
                 Spedizione sp = new Spedizione(num, id_fornitore, dataCaricoDate, dataDocumentoDate, descrizione, mezzo, 
                     um, qta, traz, distrib, importo, sconto, percIva, iva, 
-                    percProvv, provv, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile, stato);
+                    percProvv, importoProvv, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile, stato);
 
 
                 if (bolle != null) {
@@ -1400,7 +1401,7 @@ private void popolaTabella(List<Spedizione> spedizioni, boolean[] canEdit) {
        
     final String[] COLONNE = {
         "BOLLE", "STATO", "NUMERO", "DATA CARICO", "DATA DOCUMENTO", "DESCRIZIONE", "UM", "QTA", "TRAZ.", 
-        "DISTRIB.", "IMPORTO", "IMPONIBILE", "VAL. MERCE", "NOTE", "RIENTRATA", "MEZZO", "NUM. FATTURA"
+        "DISTRIB.", "IMPORTO", "IMPONIBILE", "VAL. MERCE", "PROVVIGIONE", "NOTE", "RIENTRATA", "MEZZO", "NUM. FATTURA"
     };
        
     SpedizioniTableModel model = new SpedizioniTableModel(arraySped, COLONNE, canEdit);
@@ -1505,7 +1506,7 @@ private void popolaTabella(List<Spedizione> spedizioni, boolean[] canEdit) {
     tblSpedizioni.getColumnModel().getColumn(IMPORTO).setResizable(true);
     //tblSpedizioni.getColumnModel().getColumn(SCONTO).setResizable(true);
     //tblSpedizioni.getColumnModel().getColumn(IVA).setResizable(true);
-    //tblSpedizioni.getColumnModel().getColumn(PROVVIGIONE).setResizable(true);
+    tblSpedizioni.getColumnModel().getColumn(PROVVIGIONE).setResizable(true);
     //tblSpedizioni.getColumnModel().getColumn(TOTALE).setResizable(true);
     tblSpedizioni.getColumnModel().getColumn(NOTE).setResizable(true);
     tblSpedizioni.getColumnModel().getColumn(RIENTRATA).setResizable(true);
@@ -1519,7 +1520,7 @@ private void popolaTabella(List<Spedizione> spedizioni, boolean[] canEdit) {
     tblSpedizioni.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     //tblSpedizioni.getColumnModel().getColumn(SCONTO).setPreferredWidth(5);
     //tblSpedizioni.getColumnModel().getColumn(IVA).setPreferredWidth(5);
-    //tblSpedizioni.getColumnModel().getColumn(PROVVIGIONE).setPreferredWidth(5);
+//    tblSpedizioni.getColumnModel().getColumn(PROVVIGIONE).setPreferredWidth(5);
     //tblSpedizioni.getColumnModel().getColumn(TOTALE).setPreferredWidth(5);
     tblSpedizioni.getColumnModel().getColumn(DESCRIZIONE).setPreferredWidth(170);
     tblSpedizioni.getColumnModel().getColumn(NOTE).setPreferredWidth(165);
@@ -1576,7 +1577,7 @@ private void popolaTabella(List<Spedizione> spedizioni, boolean[] canEdit) {
     tblSpedizioni.getColumnModel().getColumn(BOLLE).setCellRenderer(new GraphButtonCellRenderer());
     */
     
-    for (int i = TRAZ; i <= VAL_MERCE; i++)
+    for (int i = TRAZ; i <= PROVVIGIONE; i++)
         tblSpedizioni.getColumnModel().getColumn(i).setCellRenderer(new DoubleFormatter());
     
 }
@@ -2300,18 +2301,18 @@ private void txtAnnoFattFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:ev
 private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaActionPerformed
 // TODO add your handling code here:
     
-    List<Spedizione> spedizioni = null;
-    int[] righeSelezionate = tblSpedizioni.getSelectedRows();
-    if (righeSelezionate.length == 0) {
-        spedizioni = spedizioniInTabella;
-
-    } else {
-        spedizioni = new ArrayList<Spedizione>();
-        for (int riga : righeSelezionate) {
-            spedizioni.add(spedizioniInTabella.get(getIndexSpedizioneAt(riga)));
-        }
-    }
-    
+    List<Spedizione> spedizioni = spedizioniInTabella;
+//    int[] righeSelezionate = tblSpedizioni.getSelectedRows();
+//    if (righeSelezionate.length == 0) {
+//        spedizioni = spedizioniInTabella;
+//
+//    } else {
+//        spedizioni = new ArrayList<Spedizione>();
+//        for (int riga : righeSelezionate) {
+//            spedizioni.add(spedizioniInTabella.get(getIndexSpedizioneAt(riga)));
+//        }
+//    }
+       
     try {
         if (mnuIntervalloDate.isSelected()) {
             if (chkEmesse.isSelected() && chkNonFatturate.isSelected()) {
@@ -2617,11 +2618,11 @@ int getIndexSpedizione(Spedizione sped) {
     public List<Movimento> movimenti = new LinkedList<Movimento>();
     
     private final boolean[] modificaCelle = new boolean[] {
-            true, true, false, false, true, true, true, true, true, true, true, true, true, true, true, true, false 
+            true, true, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, false 
     };
     
     private final boolean[] nonModificareCelle = new boolean[] {
-            false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false 
+            false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false 
     };
     
     //Le seguenti costanti indicano i numeri di colonna dei campi
@@ -2638,10 +2639,11 @@ int getIndexSpedizione(Spedizione sped) {
     private final int IMPORTO = 10;
     private final int IMPONIBILE = 11;
     private final int VAL_MERCE = 12;
-    private final int NOTE = 13;
-    private final int RIENTRATA = 14;
-    private final int MEZZO = 15;
-    private final int FATTURA = 16;
+    private final int PROVVIGIONE = 13;
+    private final int NOTE = 14;
+    private final int RIENTRATA = 15;
+    private final int MEZZO = 16;
+    private final int FATTURA = 17;
     //private final int SCONTO = 15;
     //private final int IVA = 16;
     //private final int PROVVIGIONE = 17;

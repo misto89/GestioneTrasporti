@@ -147,7 +147,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         txtDistribuzione.setText(String.valueOf(distrib));
         txtPercSconto.setText(String.valueOf(percSconto));
         txtImpSconto.setText(String.valueOf(impSconto));
-        txtImpScontato.setText(String.valueOf(imponibile));
+        txtImpScontato.setText(String.valueOf(impScontato));
         txtPercIva.setText(String.valueOf(percIva));
         txtImpIva.setText(String.valueOf(iva));
         txtPercProv.setText(String.valueOf(percProvv));

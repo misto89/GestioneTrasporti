@@ -67,7 +67,7 @@ public class Spedizione implements Entity {
     private Character stato;
     private Fornitore cliente;
     
-    public static final int NUM_CAMPI = 17; //numero campi da visualizzare
+    public static final int NUM_CAMPI = 18; //numero campi da visualizzare
     public static final int NUM_CAMPI_STORICO = 9; //numero campi da visualizzare per lo storico
     
     
@@ -360,7 +360,7 @@ public class Spedizione implements Entity {
         else
             stato = "Ritiro";
         
-        Object[] arrayFatt = {bolle.toString(), stato, numero, sdf.format(dataCarico), dataDoc, descrizione, um, qta, traz, distrib, importo, imponibile, valoreMerce, note, rientrata, mezzo, numFattura};
+        Object[] arrayFatt = {bolle.toString(), stato, numero, sdf.format(dataCarico), dataDoc, descrizione, um, qta, traz, distrib, importo, imponibile, valoreMerce, provvigione, note, rientrata, mezzo, numFattura};
         return arrayFatt;
     }
     
