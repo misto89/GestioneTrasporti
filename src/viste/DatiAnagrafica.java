@@ -811,7 +811,7 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             checkData=false;
         } 
         
-        if (!codfisc.isEmpty() && codfisc.length() != MAX_LENGTH_CODFISC) {
+        if (!codfisc.isEmpty() && codfisc.length() > MAX_LENGTH_CODFISC) {
             JOptionPane.showMessageDialog(null, "Il codice fiscale deve contenere " + MAX_LENGTH_CODFISC + " cifre!", "Campo obbligatorio errato", JOptionPane.ERROR_MESSAGE);
             checkData=false;
         }

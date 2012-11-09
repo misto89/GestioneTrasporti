@@ -931,6 +931,7 @@ private void setFormatDouble() {
     txtImpProv.setDocument(new JTextFieldFormatDouble());
     txtPercProv.setDocument(new JTextFieldFormatDouble());
     txtQuantita.setDocument(new JTextFieldFormatDouble());
+    txtImpIva.setDocument(new JTextFieldFormatDouble());
 }
     
 private void txtAnnoCaricoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAnnoCaricoFocusLost
@@ -1552,7 +1553,7 @@ private void calcolaTotale(){
     double iva = (imponibile * percIva) / 100.0;
     double totale = imponibile + iva;
     txtImponibile.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(imponibile)));
-    txtImpIva.setText(String.valueOf(iva));
+    txtImpIva.setText(String.format("%.5f", iva));JOptionPane.showMessageDialog(this, iva);
     txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totale)));
 }
 

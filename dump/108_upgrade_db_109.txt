@@ -1,3 +1,0 @@
-USE pugliatrasporti;
-
-ALTER TABLE  `spedizioni` CHANGE  `iva` `iva` DECIMAL(9,5) NOT NULL DEFAULT  '0.00';
