@@ -126,7 +126,7 @@ CREATE TABLE `fornitori` (
   PRIMARY KEY (`cod`),
   UNIQUE KEY `codfiscale` (`codfiscale`),
   UNIQUE KEY `piva` (`piva`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +208,7 @@ CREATE TABLE `spedizioni` (
   `importo` decimal(10,2) NOT NULL DEFAULT '0.00',
   `sconto` int(2) NOT NULL DEFAULT '0',
   `perciva` int(2) NOT NULL DEFAULT '21',
-  `iva` decimal(7,2) NOT NULL DEFAULT '0.00',
+  `iva` decimal(9,5) NOT NULL DEFAULT '0.00000',
   `percprovvigione` decimal(4,2) NOT NULL DEFAULT '0.00',
   `importoprovvigione` decimal(10,2) NOT NULL DEFAULT '0.00',
   `totale` decimal(10,2) NOT NULL DEFAULT '0.00',
@@ -232,4 +232,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-06 16:37:25
+-- Dump completed on 2012-11-09 22:38:58

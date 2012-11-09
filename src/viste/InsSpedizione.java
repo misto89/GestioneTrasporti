@@ -136,7 +136,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         double impProvv = DoubleFormatter.roundTwoDecimals(spedizione.getProvvigione());
         double imponibile = DoubleFormatter.roundTwoDecimals(impScontato + impProvv);
         int percIva = spedizione.getPercIva();
-        double iva = DoubleFormatter.roundTwoDecimals(spedizione.getIva());
+        double iva = spedizione.getIva();
         double percProvv = spedizione.getPercProvv();
         double totale = DoubleFormatter.roundTwoDecimals(spedizione.getTotale());
         char tipo = spedizione.getStato();
@@ -635,7 +635,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addComponent(jLabel35)
                     .addComponent(txtImpProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel44))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addGroup(pnlTotaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel46)
                     .addComponent(txtImponibile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1552,7 +1552,7 @@ private void calcolaTotale(){
     double iva = (imponibile * percIva) / 100.0;
     double totale = imponibile + iva;
     txtImponibile.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(imponibile)));
-    txtImpIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
+    txtImpIva.setText(String.valueOf(iva));
     txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totale)));
 }
 
