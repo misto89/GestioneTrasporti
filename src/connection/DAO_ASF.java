@@ -158,21 +158,23 @@ public abstract class DAO_ASF {
                 Integer id = 0;
                 String targa = null;
                 String marca = null;
-                Date scadBollo = null;
-                String scadRevisione = null;
+                String scadBollo = null;
+                Date scadRevisione = null;
                 Date scadAtp = null;
-                Date scadAssicurazione = null;
+                Date scadAssicurazione1 = null;
+                Date scadAssicurazione2 = null;
             
                 while (rs.next()){
                     id = rs.getInt(Tabelle.Mezzi.ID);
                     targa = rs.getString(Tabelle.Mezzi.TARGA);
                     marca = rs.getString(Tabelle.Mezzi.MARCA);
-                    scadBollo = rs.getDate(Tabelle.Mezzi.SCAD_BOLLO);
-                    scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
+                    scadBollo = rs.getString(Tabelle.Mezzi.SCAD_BOLLO);
+                    scadRevisione = rs.getDate(Tabelle.Mezzi.SCAD_REVISIONE);
                     scadAtp = rs.getDate(Tabelle.Mezzi.SCAD_ATP);
-                    scadAssicurazione = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
+                    scadAssicurazione1 = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE1);
+                    scadAssicurazione2 = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE2);
                 
-                    mezzi.add(new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione));   
+                    mezzi.add(new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione1, scadAssicurazione2));   
                 }
             
                 return mezzi;
@@ -347,7 +349,7 @@ public abstract class DAO_ASF {
             try {
                 sql = "INSERT INTO " + Tabelle.MEZZI + " VALUES (NULL, '" + m.getTarga() + "', " + checkNull(m.getMarca()) + 
                         ", " + checkNull(m.getScadBollo()) + ", " + checkNull(m.getScadRevisione()) + ", " + checkNull(m.getScadAtp()) +
-                        ", " + checkNull(m.getScadAssicurazione()) + ")";
+                        ", " + checkNull(m.getScadAssicurazione1()) + ", " + checkNull(m.getScadAssicurazione2()) +")";
                 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
@@ -630,7 +632,8 @@ public abstract class DAO_ASF {
                         ", " + Tabelle.Mezzi.SCAD_BOLLO + " = " + checkNull(m.getScadBollo()) + 
                         ", " + Tabelle.Mezzi.SCAD_REVISIONE + " = " + checkNull(m.getScadRevisione()) +
                         ", " + Tabelle.Mezzi.SCAD_ATP + " = " + checkNull(m.getScadAtp()) +
-                        ", " + Tabelle.Mezzi.SCAD_ASSICURAZIONE + " = " + checkNull(m.getScadAssicurazione()) +
+                        ", " + Tabelle.Mezzi.SCAD_ASSICURAZIONE1 + " = " + checkNull(m.getScadAssicurazione1()) +
+                        ", " + Tabelle.Mezzi.SCAD_ASSICURAZIONE2 + " = " + checkNull(m.getScadAssicurazione2()) +
                         " WHERE " + Tabelle.Mezzi.ID + " = " + m.getId();
                 
                 System.out.println(sql);
@@ -954,22 +957,24 @@ public abstract class DAO_ASF {
             Integer id = 0;
             String targa = null;
             String marca = null;
-            Date scadBollo = null;
-            String scadRevisione = null;
+            String scadBollo = null;
+            Date scadRevisione = null;
             Date scadAtp = null;
-            Date scadAssicurazione = null;
+            Date scadAssicurazione1 = null;
+            Date scadAssicurazione2= null;
             Mezzo mezzo = new Mezzo();
             
             if (rs.next()){
                 id = rs.getInt(Tabelle.Mezzi.ID);
                 targa = rs.getString(Tabelle.Mezzi.TARGA);
                 marca = rs.getString(Tabelle.Mezzi.MARCA);
-                scadBollo = rs.getDate(Tabelle.Mezzi.SCAD_BOLLO);
-                scadRevisione = rs.getString(Tabelle.Mezzi.SCAD_REVISIONE);
+                scadBollo = rs.getString(Tabelle.Mezzi.SCAD_BOLLO);
+                scadRevisione = rs.getDate(Tabelle.Mezzi.SCAD_REVISIONE);
                 scadAtp = rs.getDate(Tabelle.Mezzi.SCAD_ATP);
-                scadAssicurazione = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE);
+                scadAssicurazione1 = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE1);
+                scadAssicurazione2 = rs.getDate(Tabelle.Mezzi.SCAD_ASSICURAZIONE2);
 
-                mezzo = new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione);   
+                mezzo = new Mezzo(id, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssicurazione1, scadAssicurazione2);   
             }
             
             return mezzo;

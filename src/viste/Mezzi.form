@@ -96,7 +96,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="pnlDati" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -204,73 +204,86 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblTarga" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
-                      <Component id="lblTarga1" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
-                      <Component id="lblTarga5" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblTarga4" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
-                      <Component id="lblTarga2" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
-                      <Component id="lblTarga3" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="43" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblTarga" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                              <Component id="lblTarga1" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                              <Component id="lblTarga5" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblTarga4" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                              <Component id="lblTarga2" linkSize="1" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="43" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="txtGiornoRevisione" min="-2" pref="34" max="-2" attributes="1"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="txtGiornoAtp" min="-2" pref="34" max="-2" attributes="1"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="txtGiornoAssicurazione1" min="-2" pref="34" max="-2" attributes="1"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="txtGiornoAssicurazione2" min="-2" pref="34" max="-2" attributes="1"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel21" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel27" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel30" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel33" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txtMeseRevisione" linkSize="3" alignment="0" min="-2" pref="33" max="-2" attributes="1"/>
+                                      <Component id="txtMeseAtp" alignment="0" min="-2" pref="33" max="-2" attributes="1"/>
+                                      <Component id="txtMeseAssicurazione1" alignment="0" min="-2" pref="33" max="-2" attributes="1"/>
+                                      <Component id="txtMeseAssicurazione2" alignment="0" min="-2" pref="33" max="-2" attributes="1"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel28" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel31" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel34" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txtAnnoRevisione" min="-2" pref="44" max="-2" attributes="1"/>
+                                      <Component id="txtAnnoAssicurazione1" alignment="0" min="-2" pref="44" max="-2" attributes="1"/>
+                                      <Component id="txtAnnoAtp" min="-2" pref="44" max="-2" attributes="1"/>
+                                      <Component id="txtAnnoAssicurazione2" alignment="0" min="-2" pref="44" max="-2" attributes="1"/>
+                                  </Group>
+                              </Group>
+                              <Component id="txtMarca" min="-2" pref="288" max="-2" attributes="1"/>
+                              <Component id="txtTarga" min="-2" pref="288" max="-2" attributes="1"/>
+                          </Group>
+                          <EmptySpace pref="22" max="32767" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
+                          <Component id="lblTarga3" linkSize="1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="43" max="32767" attributes="0"/>
                           <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txtRevisioneMese1" min="-2" pref="34" max="-2" attributes="1"/>
+                          <Component id="txtBolloMese1" min="-2" pref="34" max="-2" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtRevisioneMese2" min="-2" pref="33" max="-2" attributes="1"/>
+                          <Component id="txtBolloMese2" min="-2" pref="33" max="-2" attributes="1"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txtRevisioneMese3" linkSize="3" min="-2" pref="22" max="-2" attributes="1"/>
-                      </Group>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtGiornoBollo" min="-2" pref="34" max="-2" attributes="1"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtGiornoAtp" min="-2" pref="34" max="-2" attributes="1"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtGiornoAssicurazione" min="-2" pref="34" max="-2" attributes="1"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel21" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel27" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel30" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtMeseBollo" linkSize="3" alignment="0" min="-2" pref="33" max="-2" attributes="1"/>
-                                  <Component id="txtMeseAtp" alignment="0" min="-2" pref="33" max="-2" attributes="1"/>
-                                  <Component id="txtMeseAssicurazione" alignment="0" min="-2" pref="33" max="-2" attributes="1"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel28" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel31" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtAnnoBollo" min="-2" pref="44" max="-2" attributes="1"/>
-                                  <Component id="txtAnnoAssicurazione" alignment="0" min="-2" pref="44" max="-2" attributes="1"/>
-                                  <Component id="txtAnnoAtp" min="-2" pref="44" max="-2" attributes="1"/>
-                              </Group>
-                          </Group>
-                          <Component id="txtMarca" min="-2" pref="288" max="-2" attributes="1"/>
-                          <Component id="txtTarga" min="-2" pref="288" max="-2" attributes="1"/>
+                          <Component id="txtBolloMese3" linkSize="3" min="-2" pref="22" max="-2" attributes="1"/>
+                          <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="22" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -283,22 +296,22 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblTarga" pref="20" max="32767" attributes="0"/>
+                      <Component id="lblTarga" pref="29" max="32767" attributes="0"/>
                       <Component id="txtMarca" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtAnnoBollo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtAnnoRevisione" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtMeseBollo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtMeseRevisione" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtGiornoBollo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtGiornoRevisione" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblTarga2" linkSize="4" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -322,27 +335,41 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtAnnoAssicurazione" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtAnnoAssicurazione1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="txtMeseAssicurazione" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtMeseAssicurazione1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="txtGiornoAssicurazione" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtGiornoAssicurazione1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel29" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblTarga5" alignment="3" pref="24" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtAnnoAssicurazione2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="txtMeseAssicurazione2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="txtGiornoAssicurazione2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel32" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtRevisioneMese1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtRevisioneMese2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtRevisioneMese3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtBolloMese1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtBolloMese2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtBolloMese3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblTarga3" alignment="3" pref="20" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -362,7 +389,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblTarga3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Scadenza revisione"/>
+            <Property name="text" type="java.lang.String" value="Scadenza bollo"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
@@ -376,7 +403,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblTarga2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Scadenza bollo"/>
+            <Property name="text" type="java.lang.String" value="Scadenza revisione"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
@@ -393,7 +420,7 @@
             <Property name="text" type="java.lang.String" value="gg"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtGiornoBollo">
+        <Component class="javax.swing.JTextField" name="txtGiornoRevisione">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
@@ -403,7 +430,7 @@
             <Property name="text" type="java.lang.String" value="mm"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtMeseBollo">
+        <Component class="javax.swing.JTextField" name="txtMeseRevisione">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
@@ -413,7 +440,7 @@
             <Property name="text" type="java.lang.String" value="aaaa"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtAnnoBollo">
+        <Component class="javax.swing.JTextField" name="txtAnnoRevisione">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
@@ -423,17 +450,17 @@
             <Property name="text" type="java.lang.String" value="Mesi"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtRevisioneMese1">
+        <Component class="javax.swing.JTextField" name="txtBolloMese1">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtRevisioneMese2">
+        <Component class="javax.swing.JTextField" name="txtBolloMese2">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtRevisioneMese3">
+        <Component class="javax.swing.JTextField" name="txtBolloMese3">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
@@ -473,7 +500,7 @@
             <Property name="text" type="java.lang.String" value="gg"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtGiornoAssicurazione">
+        <Component class="javax.swing.JTextField" name="txtGiornoAssicurazione1">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
@@ -483,7 +510,7 @@
             <Property name="text" type="java.lang.String" value="mm"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtMeseAssicurazione">
+        <Component class="javax.swing.JTextField" name="txtMeseAssicurazione1">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
@@ -493,7 +520,37 @@
             <Property name="text" type="java.lang.String" value="aaaa"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtAnnoAssicurazione">
+        <Component class="javax.swing.JTextField" name="txtAnnoAssicurazione1">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel32">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="gg"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtGiornoAssicurazione2">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel33">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="mm"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtMeseAssicurazione2">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel34">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="aaaa"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtAnnoAssicurazione2">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>

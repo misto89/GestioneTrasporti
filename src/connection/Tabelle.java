@@ -59,7 +59,8 @@ class Tabelle {
         public static final String SCAD_BOLLO = "scad_bollo";
         public static final String SCAD_REVISIONE = "scad_revisione";
         public static final String SCAD_ATP = "scad_atp";
-        public static final String SCAD_ASSICURAZIONE = "scad_assicurazione";
+        public static final String SCAD_ASSICURAZIONE1 = "scad_assicurazione1";
+        public static final String SCAD_ASSICURAZIONE2 = "scad_assicurazione2";
     }
     
     //Rappresenta la tabella "spedizioni" con i suoi campi

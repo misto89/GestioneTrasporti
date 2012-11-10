@@ -40,18 +40,21 @@ public class Mezzi extends javax.swing.JFrame {
         ColorManager color = new ColorManager();
         color.changeColor(pnlDati);
         txtTarga.setDocument(new JTextFieldLimit(MAX_LENGTH_TARGA));
-        txtAnnoAssicurazione.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+        txtAnnoAssicurazione1.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+        txtAnnoAssicurazione2.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
         txtAnnoAtp.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
-        txtAnnoBollo.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
-        txtRevisioneMese3.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
-        txtGiornoAssicurazione.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+        txtAnnoRevisione.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+        txtBolloMese3.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+        txtGiornoAssicurazione1.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+        txtGiornoAssicurazione2.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
         txtGiornoAtp.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
-        txtGiornoBollo.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
-        txtRevisioneMese1.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
-        txtMeseAssicurazione.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+        txtGiornoRevisione.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+        txtBolloMese1.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+        txtMeseAssicurazione1.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+        txtMeseAssicurazione2.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
         txtMeseAtp.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
-        txtMeseBollo.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
-        txtRevisioneMese2.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+        txtMeseRevisione.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+        txtBolloMese2.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
     }
 
     /** This method is called from within the constructor to
@@ -78,15 +81,15 @@ public class Mezzi extends javax.swing.JFrame {
         txtTarga = new javax.swing.JTextField();
         lblTarga4 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        txtGiornoBollo = new javax.swing.JTextField();
+        txtGiornoRevisione = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        txtMeseBollo = new javax.swing.JTextField();
+        txtMeseRevisione = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        txtAnnoBollo = new javax.swing.JTextField();
+        txtAnnoRevisione = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
-        txtRevisioneMese1 = new javax.swing.JTextField();
-        txtRevisioneMese2 = new javax.swing.JTextField();
-        txtRevisioneMese3 = new javax.swing.JTextField();
+        txtBolloMese1 = new javax.swing.JTextField();
+        txtBolloMese2 = new javax.swing.JTextField();
+        txtBolloMese3 = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         txtGiornoAtp = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
@@ -94,11 +97,17 @@ public class Mezzi extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         txtAnnoAtp = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
-        txtGiornoAssicurazione = new javax.swing.JTextField();
+        txtGiornoAssicurazione1 = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
-        txtMeseAssicurazione = new javax.swing.JTextField();
+        txtMeseAssicurazione1 = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
-        txtAnnoAssicurazione = new javax.swing.JTextField();
+        txtAnnoAssicurazione1 = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        txtGiornoAssicurazione2 = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
+        txtMeseAssicurazione2 = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
+        txtAnnoAssicurazione2 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFiltra = new javax.swing.JMenu();
         mnuTutti = new javax.swing.JCheckBoxMenuItem();
@@ -156,13 +165,13 @@ public class Mezzi extends javax.swing.JFrame {
         lblTarga1.setText("Targa");
         lblTarga1.setToolTipText("");
 
-        lblTarga3.setText("Scadenza revisione");
+        lblTarga3.setText("Scadenza bollo");
         lblTarga3.setToolTipText("");
 
         lblTarga.setText("Marca");
         lblTarga.setToolTipText("");
 
-        lblTarga2.setText("Scadenza bollo");
+        lblTarga2.setText("Scadenza revisione");
         lblTarga2.setToolTipText("");
 
         lblTarga4.setText("Scadenza atp");
@@ -170,23 +179,23 @@ public class Mezzi extends javax.swing.JFrame {
 
         jLabel20.setText("gg");
 
-        txtGiornoBollo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtGiornoRevisione.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel21.setText("mm");
 
-        txtMeseBollo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMeseRevisione.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel22.setText("aaaa");
 
-        txtAnnoBollo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtAnnoRevisione.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel23.setText("Mesi");
 
-        txtRevisioneMese1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtBolloMese1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        txtRevisioneMese2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtBolloMese2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        txtRevisioneMese3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtBolloMese3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel26.setText("gg");
 
@@ -202,15 +211,27 @@ public class Mezzi extends javax.swing.JFrame {
 
         jLabel29.setText("gg");
 
-        txtGiornoAssicurazione.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtGiornoAssicurazione1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel30.setText("mm");
 
-        txtMeseAssicurazione.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMeseAssicurazione1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel31.setText("aaaa");
 
-        txtAnnoAssicurazione.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtAnnoAssicurazione1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel32.setText("gg");
+
+        txtGiornoAssicurazione2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel33.setText("mm");
+
+        txtMeseAssicurazione2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel34.setText("aaaa");
+
+        txtAnnoAssicurazione2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         javax.swing.GroupLayout pnlDatiLayout = new javax.swing.GroupLayout(pnlDati);
         pnlDati.setLayout(pnlDatiLayout);
@@ -219,65 +240,76 @@ public class Mezzi extends javax.swing.JFrame {
             .addGroup(pnlDatiLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTarga, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTarga1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTarga5)
-                    .addComponent(lblTarga4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTarga2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTarga3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlDatiLayout.createSequentialGroup()
+                        .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTarga, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTarga1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTarga5)
+                            .addComponent(lblTarga4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTarga2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                        .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlDatiLayout.createSequentialGroup()
+                                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlDatiLayout.createSequentialGroup()
+                                        .addComponent(jLabel20)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtGiornoRevisione, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlDatiLayout.createSequentialGroup()
+                                        .addComponent(jLabel26)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtGiornoAtp, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlDatiLayout.createSequentialGroup()
+                                        .addComponent(jLabel29)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtGiornoAssicurazione1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlDatiLayout.createSequentialGroup()
+                                        .addComponent(jLabel32)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtGiornoAssicurazione2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(32, 32, 32)
+                                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel21)
+                                    .addComponent(jLabel27)
+                                    .addComponent(jLabel30)
+                                    .addComponent(jLabel33))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtMeseRevisione, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMeseAtp, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMeseAssicurazione1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMeseAssicurazione2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)
+                                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel22)
+                                    .addComponent(jLabel28)
+                                    .addComponent(jLabel31)
+                                    .addComponent(jLabel34))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtAnnoRevisione, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtAnnoAssicurazione1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtAnnoAtp, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtAnnoAssicurazione2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTarga, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(22, Short.MAX_VALUE))
+                    .addGroup(pnlDatiLayout.createSequentialGroup()
+                        .addComponent(lblTarga3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtRevisioneMese1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBolloMese1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtRevisioneMese2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBolloMese2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtRevisioneMese3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(pnlDatiLayout.createSequentialGroup()
-                            .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(pnlDatiLayout.createSequentialGroup()
-                                    .addComponent(jLabel20)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtGiornoBollo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(pnlDatiLayout.createSequentialGroup()
-                                    .addComponent(jLabel26)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtGiornoAtp, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(pnlDatiLayout.createSequentialGroup()
-                                    .addComponent(jLabel29)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtGiornoAssicurazione, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(32, 32, 32)
-                            .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel21)
-                                .addComponent(jLabel27)
-                                .addComponent(jLabel30))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtMeseBollo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtMeseAtp, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtMeseAssicurazione, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(32, 32, 32)
-                            .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel22)
-                                .addComponent(jLabel28)
-                                .addComponent(jLabel31))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtAnnoBollo, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtAnnoAssicurazione, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtAnnoAtp, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtTarga, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addComponent(txtBolloMese3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(163, 163, 163))))
         );
 
         pnlDatiLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblTarga, lblTarga1, lblTarga2, lblTarga3, lblTarga4, lblTarga5});
 
-        pnlDatiLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtMeseBollo, txtRevisioneMese3});
+        pnlDatiLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtBolloMese3, txtMeseRevisione});
 
         pnlDatiLayout.setVerticalGroup(
             pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,19 +319,19 @@ public class Mezzi extends javax.swing.JFrame {
                     .addComponent(txtTarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTarga, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(lblTarga, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                     .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel22)
-                        .addComponent(txtAnnoBollo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtAnnoRevisione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel21)
-                        .addComponent(txtMeseBollo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtMeseRevisione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel20)
-                        .addComponent(txtGiornoBollo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtGiornoRevisione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblTarga2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10)
                 .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,22 +349,32 @@ public class Mezzi extends javax.swing.JFrame {
                 .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel31)
-                        .addComponent(txtAnnoAssicurazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtAnnoAssicurazione1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtMeseAssicurazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtMeseAssicurazione1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel30))
                     .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtGiornoAssicurazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtGiornoAssicurazione1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel29)
                         .addComponent(lblTarga5, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel34)
+                        .addComponent(txtAnnoAssicurazione2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtMeseAssicurazione2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel33))
+                    .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtGiornoAssicurazione2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel32)))
+                .addGap(22, 22, 22)
                 .addGroup(pnlDatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtRevisioneMese1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRevisioneMese2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRevisioneMese3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBolloMese1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBolloMese2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBolloMese3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23)
-                    .addComponent(lblTarga3, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(lblTarga3, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)))
         );
 
         pnlDatiLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblTarga2, lblTarga4});
@@ -434,7 +476,7 @@ private void popolaTabella(List mezzi) {
         arrayMezzi,
             
         new String [] {
-                "TARGA", "MARCA", "SCADENZA BOLLO ", "SCADENZA ATP ", "SCADENZA ASSICURAZIONE ", "SCADENZA REVISIONE "
+                "TARGA", "MARCA", "SCADENZA REVISIONE ", "SCADENZA ATP ", "SCADENZA ASSICURAZIONE ", "SCADENZA BOLLO "
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -464,10 +506,10 @@ private void popolaTabella(List mezzi) {
     //Le seguenti costanti indicano i numeri di colonna dei campi
     final int TARGA = 0;
     final int MARCA = 1;
-    final int SCAD_BOLLO = 2;
+    final int SCAD_REVISIONE = 2;
     final int SCAD_ATP = 3;
     final int SCAD_ASSIC = 4;
-    final int SCAD_REVISIONE = 5;
+    final int SCAD_BOLLO = 5;
     
     boolean[] resizable = {false, false, false, false, false, false};
     
@@ -499,11 +541,11 @@ private void popolaTabella(List mezzi) {
             
             String[] scadenza = null;
             
-            if (!scadBollo.isEmpty()) {
-                scadenza = scadBollo.split("/");
-                txtGiornoBollo.setText(scadenza[0]);
-                txtMeseBollo.setText(scadenza[1]);
-                txtAnnoBollo.setText(scadenza[2]);
+            if (!scadRevisione.isEmpty()) {
+                scadenza = scadRevisione.split("/");
+                txtGiornoRevisione.setText(scadenza[0]);
+                txtMeseRevisione.setText(scadenza[1]);
+                txtAnnoRevisione.setText(scadenza[2]);
             }
             
             if (!scadAtp.isEmpty()) {
@@ -514,17 +556,26 @@ private void popolaTabella(List mezzi) {
             }
              
             if (!scadAssic.isEmpty()) {
-                scadenza = scadAssic.split("/");
-                txtGiornoAssicurazione.setText(scadenza[0]);
-                txtMeseAssicurazione.setText(scadenza[1]);
-                txtAnnoAssicurazione.setText(scadenza[2]);
+                String[] scadenzeAssic = scadAssic.split(" - ");
+                
+                scadenza = scadenzeAssic[0].split("/");
+                txtGiornoAssicurazione1.setText(scadenza[0]);
+                txtMeseAssicurazione1.setText(scadenza[1]);
+                txtAnnoAssicurazione1.setText(scadenza[2]);
+                
+                try {
+                    scadenza = scadenzeAssic[1].split("/");
+                    txtGiornoAssicurazione2.setText(scadenza[0]);
+                    txtMeseAssicurazione2.setText(scadenza[1]);
+                    txtAnnoAssicurazione2.setText(scadenza[2]);
+                } catch (ArrayIndexOutOfBoundsException e) {}
             }
              
-            if (!scadRevisione.isEmpty()) {
-                scadenza = scadRevisione.split("-");
-                txtRevisioneMese1.setText(scadenza[0]);
-                txtRevisioneMese2.setText(scadenza[1]);
-                txtRevisioneMese3.setText(scadenza[2]);
+            if (!scadBollo.isEmpty()) {
+                scadenza = scadBollo.split("-");
+                txtBolloMese1.setText(scadenza[0]);
+                txtBolloMese2.setText(scadenza[1]);
+                txtBolloMese3.setText(scadenza[2]);
             }
            
         }
@@ -560,10 +611,11 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 // TODO add your handling code here:
     String targa = txtTarga.getText().toUpperCase();
     String marca = txtMarca.getText();
-    Date scadBollo = null;
-    String scadRevisione = null;
+    String scadBollo = null;
+    Date scadRevisione = null;
     Date scadAtp = null;
-    Date scadAssic = null;
+    Date scadAssic1 = null;
+    Date scadAssic2 = null;
     
     Integer ID = null;
     try {
@@ -591,7 +643,7 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
     
     try {
-        scadBollo = getData(txtAnnoBollo, txtMeseBollo, txtGiornoBollo, "bollo");
+        scadRevisione = getData(txtAnnoRevisione, txtMeseRevisione, txtGiornoRevisione, "revisione");
         
     } catch (IllegalArgumentException e) {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Campo errato o mancante", JOptionPane.ERROR_MESSAGE);
@@ -607,16 +659,29 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
     
     try {
-        scadAssic = getData(txtAnnoAssicurazione, txtMeseAssicurazione, txtGiornoAssicurazione, "assicurazione");
+        scadAssic1 = getData(txtAnnoAssicurazione1, txtMeseAssicurazione1, txtGiornoAssicurazione1, "assicurazione");
         
     } catch (IllegalArgumentException e) {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Campo errato o mancante", JOptionPane.ERROR_MESSAGE);
         return;
     }
     
-    String mese1 = txtRevisioneMese1.getText();
-    String mese2 = txtRevisioneMese2.getText();
-    String mese3 = txtRevisioneMese3.getText();
+    try {
+        scadAssic2 = getData(txtAnnoAssicurazione2, txtMeseAssicurazione2, txtGiornoAssicurazione2, "assicurazione");
+        
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(this, e.getMessage(), "Campo errato o mancante", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    if (scadAssic1 == null && scadAssic2 != null) {
+        JOptionPane.showMessageDialog(this, "Non è possibile inserire solo la seconda scadenza per l'assicurazione", "Errore", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    String mese1 = txtBolloMese1.getText();
+    String mese2 = txtBolloMese2.getText();
+    String mese3 = txtBolloMese3.getText();
         
     if ( !(mese1.isEmpty() && mese2.isEmpty() && mese3.isEmpty()) ) { //Non sono tutte tre vuote
        
@@ -634,7 +699,7 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             if (!mese1.isEmpty()) {
                 int mese1Int = Integer.parseInt(mese1);
                 if (mese1Int < 1 || mese1Int > 12) {
-                    JOptionPane.showMessageDialog(this, "Inserire un valore compreso tra 1 e 12 per il primo mese della revisione", "Valore non valido", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Inserire un valore compreso tra 1 e 12 per il primo mese del bollo", "Valore non valido", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -642,7 +707,7 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             if (!mese2.isEmpty()) {
                 int mese2Int = Integer.parseInt(mese2);
                 if (mese2Int < 1 || mese2Int > 12) {
-                    JOptionPane.showMessageDialog(this, "Inserire un valore compreso tra 1 e 12 per il secondo mese della revisione", "Valore non valido", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Inserire un valore compreso tra 1 e 12 per il secondo mese del bollo", "Valore non valido", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -650,19 +715,19 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             if (!mese3.isEmpty()) {
                 int mese3Int = Integer.parseInt(mese3);
                 if (mese3Int < 1 || mese3Int > 12) {
-                    JOptionPane.showMessageDialog(this, "Inserire un valore compreso tra 1 e 12 per il terzo mese della revisione", "Valore non valido", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Inserire un valore compreso tra 1 e 12 per il terzo mese del bollo", "Valore non valido", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
                 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Inserire un valore intero per i mesi della scadenza revisione!", "Valore non intero", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Inserire un valore intero per i mesi della scadenza bollo!", "Valore non intero", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        scadRevisione = mese1 + "-" + mese2 + "-" + mese3;
-        if (scadRevisione.length() != 8) {
-            JOptionPane.showMessageDialog(this, "Inserire tutti e tre mesi per la scadenza revisione!", "Mese/i mancante/i", JOptionPane.ERROR_MESSAGE);
+        scadBollo = mese1 + "-" + mese2 + "-" + mese3;
+        if (scadBollo.length() != 8) {
+            JOptionPane.showMessageDialog(this, "Inserire tutti e tre mesi per la scadenza bollo!", "Mese/i mancante/i", JOptionPane.ERROR_MESSAGE);
             return;
         }
     
@@ -674,7 +739,7 @@ private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
      * riga della tabella.
      */
     if (checkData){
-        Mezzo mezzo = new Mezzo(ID, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssic);
+        Mezzo mezzo = new Mezzo(ID, targa, marca, scadBollo, scadRevisione, scadAtp, scadAssic1, scadAssic2);
         
         /*
          * Se l'id è != null vuol dire che è stata selezionata una riga dalla tabella, quindi si cerca di 
@@ -809,18 +874,21 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 private void pulisciText() {
     txtMarca.setText(null);
     txtTarga.setText(null);
-    txtAnnoAssicurazione.setText(null);
+    txtAnnoAssicurazione1.setText(null);
+    txtAnnoAssicurazione2.setText(null);
     txtAnnoAtp.setText(null);
-    txtAnnoBollo.setText(null);
-    txtRevisioneMese3.setText(null);
-    txtGiornoAssicurazione.setText(null);
+    txtAnnoRevisione.setText(null);
+    txtBolloMese3.setText(null);
+    txtGiornoAssicurazione1.setText(null);
+    txtGiornoAssicurazione2.setText(null);
     txtGiornoAtp.setText(null);
-    txtGiornoBollo.setText(null);
-    txtRevisioneMese1.setText(null);
-    txtMeseAssicurazione.setText(null);
+    txtGiornoRevisione.setText(null);
+    txtBolloMese1.setText(null);
+    txtMeseAssicurazione1.setText(null);
+    txtMeseAssicurazione2.setText(null);
     txtMeseAtp.setText(null);
-    txtMeseBollo.setText(null);
-    txtRevisioneMese2.setText(null);
+    txtMeseRevisione.setText(null);
+    txtBolloMese2.setText(null);
     txtTarga.requestFocus();
 }
 
@@ -868,6 +936,9 @@ private Date getData(JTextField txtAnno, JTextField txtMese, JTextField txtGiorn
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTarga;
@@ -883,19 +954,22 @@ private Date getData(JTextField txtAnno, JTextField txtMese, JTextField txtGiorn
     private javax.swing.JCheckBoxMenuItem mnuTutti;
     private javax.swing.JPanel pnlDati;
     private javax.swing.JTable tblMezzi;
-    private javax.swing.JTextField txtAnnoAssicurazione;
+    private javax.swing.JTextField txtAnnoAssicurazione1;
+    private javax.swing.JTextField txtAnnoAssicurazione2;
     private javax.swing.JTextField txtAnnoAtp;
-    private javax.swing.JTextField txtAnnoBollo;
-    private javax.swing.JTextField txtGiornoAssicurazione;
+    private javax.swing.JTextField txtAnnoRevisione;
+    private javax.swing.JTextField txtBolloMese1;
+    private javax.swing.JTextField txtBolloMese2;
+    private javax.swing.JTextField txtBolloMese3;
+    private javax.swing.JTextField txtGiornoAssicurazione1;
+    private javax.swing.JTextField txtGiornoAssicurazione2;
     private javax.swing.JTextField txtGiornoAtp;
-    private javax.swing.JTextField txtGiornoBollo;
+    private javax.swing.JTextField txtGiornoRevisione;
     private javax.swing.JTextField txtMarca;
-    private javax.swing.JTextField txtMeseAssicurazione;
+    private javax.swing.JTextField txtMeseAssicurazione1;
+    private javax.swing.JTextField txtMeseAssicurazione2;
     private javax.swing.JTextField txtMeseAtp;
-    private javax.swing.JTextField txtMeseBollo;
-    private javax.swing.JTextField txtRevisioneMese1;
-    private javax.swing.JTextField txtRevisioneMese2;
-    private javax.swing.JTextField txtRevisioneMese3;
+    private javax.swing.JTextField txtMeseRevisione;
     private javax.swing.JTextField txtTarga;
     // End of variables declaration//GEN-END:variables
 
