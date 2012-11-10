@@ -1553,7 +1553,7 @@ private void calcolaTotale(){
     double iva = (imponibile * percIva) / 100.0;
     double totale = imponibile + iva;
     txtImponibile.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(imponibile)));
-    txtImpIva.setText(String.format("%.5f", iva));JOptionPane.showMessageDialog(this, iva);
+    txtImpIva.setText(String.format("%.5f", iva));
     txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(totale)));
 }
 
