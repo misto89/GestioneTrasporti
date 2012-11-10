@@ -282,7 +282,11 @@ public class Fattura implements Entity {
         else
             pagata = 'N';
         
-        return new Object[] {cliente.getNome(), numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
+        String strCliente = cliente.getNome();
+        if (cliente.getTitolare() != null)
+            strCliente += " di " + cliente.getTitolare();
+        
+        return new Object[] {strCliente, numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
     }
     
     public Object[] fattAcquistoToArray() {
@@ -297,7 +301,11 @@ public class Fattura implements Entity {
         else
             pagata = 'N';
         
-        return new Object[] {cliente.getNome(), tipo, (specificaNumero != null) ? numero + "-" + specificaNumero : numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
+        String strCliente = cliente.getNome();
+        if (cliente.getTitolare() != null)
+            strCliente += " di " + cliente.getTitolare();
+        
+        return new Object[] {strCliente, tipo, (specificaNumero != null) ? numero + "-" + specificaNumero : numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
     }
     
     public boolean isScaduta() {

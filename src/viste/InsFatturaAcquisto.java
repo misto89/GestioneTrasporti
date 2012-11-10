@@ -628,7 +628,12 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 txtSconto.setText(null);
                 txtIva.setText(null);
                 txtTotale.setText(null);
+                txtNote.setText(null);
+                txtAnnoScadenza.setText(null);
+                txtMeseScadenza.setText(null);
+                txtGiornoScadenza.setText(null);
                 txtSpecifica.setText(null);
+                txtPercIva.setText(String.valueOf(PERC_IVA));
                 cboMetPag.setSelectedIndex(1);
                 cboGiorni.setSelectedIndex(0);
                 cboTipo.setSelectedIndex(0);
@@ -869,6 +874,27 @@ private void cboGiorniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 }//GEN-LAST:event_cboGiorniActionPerformed
 
 private void calculateTotal(){
+    getValuesForCalculation();
+    
+    txtIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
+    txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva + imponibile)));
+    
+}
+//Funzione che scatta quando il valore in € dell'iva viene forzato dall'utente
+private void calculateTotalOnForcedIva(){
+    getValuesForCalculation();
+    Double ivaFromText = 0.0;
+    if (!txtIva.getText().isEmpty()){
+         ivaFromText = Double.parseDouble(txtIva.getText());
+    }
+    if (ivaFromText != iva){
+        iva = ivaFromText;
+    }
+    txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva + imponibile)));
+    
+}
+
+private void getValuesForCalculation(){
     importo = Double.parseDouble(txtImporto.getText());
     percIva = Integer.parseInt(txtPercIva.getText());
     if (txtSconto.getText().isEmpty())
@@ -878,23 +904,6 @@ private void calculateTotal(){
     
     imponibile = importo - sconto;
     iva = (imponibile * percIva)/100.0;
-    
-    txtIva.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva)));
-    txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva + imponibile)));
-    
-}
-//Funzione che scatta quando il valore in € dell'iva viene forzato dall'utente
-private void calculateTotalOnForcedIva(){
-    Double ivaFromText = 0.0;
-    if (!txtIva.getText().isEmpty()){
-         ivaFromText = Double.parseDouble(txtIva.getText());
-    }
-    
-    if (ivaFromText != iva){
-        iva = ivaFromText;
-    }
-    txtTotale.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(iva + imponibile)));
-    
 }
 
 private void setDataScadenza() {

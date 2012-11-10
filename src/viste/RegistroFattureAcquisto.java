@@ -1755,9 +1755,13 @@ void setFatture() {
         int index = fattureInTabella.indexOf(fatt);
         Fornitore fornitore = fattureInTabella.get(index).getCliente();
         
-        String forn = (String) tblFatture.getValueAt(tblFatture.getSelectedRow(), FORNITORE);
         
-        if (fornitore.getNome().equals(forn)) {
+        String forn = (String) tblFatture.getValueAt(tblFatture.getSelectedRow(), FORNITORE);
+        String fornit = forn;
+        if (forn.indexOf(" di ") != -1)
+            fornit = forn.split(" di ")[0];
+        
+        if (fornitore.getNome().equals(fornit)) {
             fatt.setCliente(fornitore);
             return index;
             
