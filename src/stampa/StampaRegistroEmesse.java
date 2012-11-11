@@ -74,7 +74,7 @@ public class StampaRegistroEmesse extends StampaDocumento {
                 
         doc.add(table);
         
-        table = new PdfPTable(2);
+        table = new PdfPTable(4);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
         table.setSpacingBefore(30);
         
@@ -137,10 +137,12 @@ public class StampaRegistroEmesse extends StampaDocumento {
                     new PdfPCell(new Phrase(strTitolo, FONT_GRANDE_BOLD)),
                     new PdfPCell(new Phrase(strPeriodo, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(titMesi, FONT_GRANDE_BOLD)),
-                    new PdfPCell(new Phrase(strMesi, FONT_GRANDE_NORMALE))
+                    new PdfPCell(new Phrase(strMesi, FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
+                    new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE))
         };
 
-        int[] widths = {80, 160};
+        int[] widths = {80, 160, 80, 160};
         table.setWidths(widths);
         
         for (PdfPCell cella : intestazione) {
