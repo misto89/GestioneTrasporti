@@ -1761,6 +1761,7 @@ private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {/
    else
        popolaTabella(spedizioniInDate, nonModificareCelle);
       
+   setRiepilogoFattura(spedizioniInDate);
    mnuTutti.setSelected(false);
    mnuIntervalloDate.setSelected(true);
    mnuSelezionate.setSelected(false);
