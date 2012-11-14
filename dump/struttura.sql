@@ -126,7 +126,7 @@ CREATE TABLE `fornitori` (
   PRIMARY KEY (`cod`),
   UNIQUE KEY `codfiscale` (`codfiscale`),
   UNIQUE KEY `piva` (`piva`)
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,10 +140,11 @@ CREATE TABLE `mezzi` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `targa` varchar(10) NOT NULL,
   `marca` varchar(70) DEFAULT NULL,
-  `scad_bollo` date DEFAULT NULL,
-  `scad_revisione` varchar(8) DEFAULT NULL,
+  `scad_bollo` varchar(8) DEFAULT NULL,
+  `scad_revisione` date DEFAULT NULL,
   `scad_atp` date DEFAULT NULL,
-  `scad_assicurazione` date DEFAULT NULL,
+  `scad_assicurazione1` date DEFAULT NULL,
+  `scad_assicurazione2` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `targa` (`targa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -232,4 +233,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-09 22:38:58
+-- Dump completed on 2012-11-14 17:25:28
