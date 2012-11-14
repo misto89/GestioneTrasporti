@@ -1360,8 +1360,10 @@ void setFatture() {
                 if (tblFatture.getSelectedColumn() == MOD_PAG) {
                     FrontController.open(new ModificaModPagamento(vista, rootPaneCheckingEnabled, fattureInTabella.get(getIndexSelectedFattura())));
                     
+                } else {
+                    mnuAnteprimaActionPerformed(null);
                 }
-            }
+            } 
         }
 
     });
