@@ -1,6 +1,0 @@
-USE pugliatrasporti;
-
-ALTER TABLE `mezzi` CHANGE `scad_revisione` `scad_revisione` DATE NULL DEFAULT NULL;
-ALTER TABLE `mezzi` CHANGE `scad_bollo` `scad_bollo` VARCHAR(8) NULL DEFAULT NULL;
-ALTER TABLE `mezzi` CHANGE `scad_assicurazione` `scad_assicurazione1` DATE NULL DEFAULT NULL;
-ALTER TABLE `mezzi` ADD `scad_assicurazione2` DATE NULL DEFAULT NULL;
