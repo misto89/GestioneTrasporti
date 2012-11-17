@@ -381,8 +381,8 @@ public abstract class DAO_ASF {
                 ps.executeUpdate();
                 
                 sql = "INSERT INTO " + Tabelle.SPEDIZIONI + " VALUES ("+Integer.parseInt(sped.getNumSpedizione())+", " + checkNull(sped.getDataCarico()) + ", " + checkNull(sped.getDataDocumento()) + ", " 
-                        + checkNull(sped.getDescrizione()) + ", " + sped.getFornitore() + ", " + checkNull(idMezzo) + ", " + checkNull(sped.getUm()) + ", " + sped.getQta() + ", " 
-                        + sped.getTraz() + ", " + sped.getDistrib() + ", " + sped.getImporto() + ", " + sped.getSconto() + ", " + sped.getPercIva() + ", " + sped.getIva() +
+                        + checkNull(sped.getDescrizione()) + ", " + sped.getFornitore() + ", " + checkNull(idMezzo) + ", " + checkNull(sped.getUm1()) + ", " + sped.getQta1() + ", " 
+                        + sped.getTraz1() + ", " + sped.getDistrib1() + ", " + sped.getImporto() + ", " + sped.getSconto() + ", " + sped.getPercIva() + ", " + sped.getIva() +
                         ", " + sped.getPercProvv() + ", " + sped.getProvvigione() + ", " + sped.getTotale() + ", " + checkNull(sped.getNote()) + ", " + sped.getRientrata() + 
                         ", NULL, NULL, " + sped.getValoreMerce() + ", " + sped.getImponibile() + ", '" + sped.getStato() + "')";
                 
@@ -416,16 +416,16 @@ public abstract class DAO_ASF {
                     else if (errorMsg.contains(Tabelle.Spedizioni.DESCRIZIONE))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Descrizione troppo lungo!");
                     
-                    else if (errorMsg.contains(Tabelle.Spedizioni.UM))
+                    else if (errorMsg.contains(Tabelle.Spedizioni.UM1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo UM troppo lungo!");
                     
-                    else if (errorMsg.contains(Tabelle.Spedizioni.QTA))
+                    else if (errorMsg.contains(Tabelle.Spedizioni.QTA1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Quantità troppo lungo!");
                     
-                    else if (errorMsg.contains(Tabelle.Spedizioni.TRAZ))
+                    else if (errorMsg.contains(Tabelle.Spedizioni.TRAZ1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Traz. troppo lungo!");
                     
-                    else if (errorMsg.contains(Tabelle.Spedizioni.DISTRIB))
+                    else if (errorMsg.contains(Tabelle.Spedizioni.DISTRIB1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Distrib. troppo lungo!");
                     
                     else if (errorMsg.contains(Tabelle.Spedizioni.IMPORTO))
@@ -667,8 +667,8 @@ public abstract class DAO_ASF {
                 sql = "UPDATE " + Tabelle.SPEDIZIONI + " SET " + Tabelle.Spedizioni.DATA_CARICO + " = " + checkNull(s.getDataCarico()) + ", " + 
                     Tabelle.Spedizioni.DATA_DOCUMENTO + " = " + checkNull(s.getDataDocumento()) + ", " + Tabelle.Spedizioni.DESCRIZIONE + 
                     " = " + checkNull(s.getDescrizione()) + ", " + Tabelle.Spedizioni.MEZZO + " = " + checkNull(idMezzo) + ", " + 
-                    Tabelle.Spedizioni.UM + " = " + checkNull(s.getUm()) + ", " + Tabelle.Spedizioni.QTA + " = " + s.getQta() + ", " + 
-                    Tabelle.Spedizioni.TRAZ + " = " + s.getTraz() + ", " + Tabelle.Spedizioni.DISTRIB + " = " + s.getDistrib() + ", " +
+                    Tabelle.Spedizioni.UM1 + " = " + checkNull(s.getUm1()) + ", " + Tabelle.Spedizioni.QTA1 + " = " + s.getQta1() + ", " + 
+                    Tabelle.Spedizioni.TRAZ1 + " = " + s.getTraz1() + ", " + Tabelle.Spedizioni.DISTRIB1 + " = " + s.getDistrib1() + ", " +
                     Tabelle.Spedizioni.IMPORTO + " = " + s.getImporto() + ", " + Tabelle.Spedizioni.SCONTO + " = " + checkNull(s.getSconto()) + 
                     ", " + Tabelle.Spedizioni.PERC_IVA + " = " + s.getPercIva() + ", " + Tabelle.Spedizioni.IVA + " = " + s.getIva() + 
                     ", " + Tabelle.Spedizioni.PERC_PROVV + " = " + s.getPercProvv() + ", " + Tabelle.Spedizioni.IMPORTO_PROVV + " = " + 
@@ -710,16 +710,16 @@ public abstract class DAO_ASF {
                     else if (errorMsg.contains(Tabelle.Spedizioni.DESCRIZIONE))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Descrizione troppo lungo!");
                     
-                    else if (errorMsg.contains(Tabelle.Spedizioni.UM))
+                    else if (errorMsg.contains(Tabelle.Spedizioni.UM1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo UM troppo lungo!");
                     
-                    else if (errorMsg.contains(Tabelle.Spedizioni.QTA))
+                    else if (errorMsg.contains(Tabelle.Spedizioni.QTA1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Quantità troppo lungo!");
                     
-                    else if (errorMsg.contains(Tabelle.Spedizioni.TRAZ))
+                    else if (errorMsg.contains(Tabelle.Spedizioni.TRAZ1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Traz. troppo lungo!");
                     
-                    else if (errorMsg.contains(Tabelle.Spedizioni.DISTRIB))
+                    else if (errorMsg.contains(Tabelle.Spedizioni.DISTRIB1))
                         throw new EccezioneValoreCampoTroppoLungo("Valore immesso per il campo Distrib. troppo lungo!");
                     
                     else if (errorMsg.contains(Tabelle.Spedizioni.IMPORTO))
@@ -997,10 +997,10 @@ public abstract class DAO_ASF {
             String descrizione;
             Integer forn;
             String mezzo;
-            String um;
-            Double qta;
-            Double traz;
-            Double distrib;
+            String um1;
+            Double qta1;
+            Double traz1;
+            Double distrib1;
             Double importo;
             Integer sconto;
             Integer percIva;
@@ -1025,10 +1025,10 @@ public abstract class DAO_ASF {
                 descrizione = rs.getString(Tabelle.Spedizioni.DESCRIZIONE);
                 forn = rs.getInt(Tabelle.Spedizioni.FORN_CLIENTE);
                 mezzo = rs.getString(Tabelle.Mezzi.TARGA);
-                um = rs.getString(Tabelle.Spedizioni.UM);
-                qta = rs.getDouble(Tabelle.Spedizioni.QTA);
-                traz = rs.getDouble(Tabelle.Spedizioni.TRAZ);
-                distrib = rs.getDouble(Tabelle.Spedizioni.DISTRIB);
+                um1 = rs.getString(Tabelle.Spedizioni.UM1);
+                qta1 = rs.getDouble(Tabelle.Spedizioni.QTA1);
+                traz1 = rs.getDouble(Tabelle.Spedizioni.TRAZ1);
+                distrib1 = rs.getDouble(Tabelle.Spedizioni.DISTRIB1);
                 importo = rs.getDouble(Tabelle.Spedizioni.IMPORTO);
                 note = rs.getString(Tabelle.Spedizioni.NOTE);
                 percIva = rs.getInt(Tabelle.Spedizioni.PERC_IVA);
@@ -1053,7 +1053,7 @@ public abstract class DAO_ASF {
                     numFattura = null;
                     
                 Spedizione sped = new Spedizione(numero, forn, dataCarico, dataDocumento, descrizione, mezzo, 
-                        um, qta, traz, distrib, importo, sconto, percIva, iva, 
+                        um1, qta1, traz1, distrib1, importo, sconto, percIva, iva, 
                         percProvvigione, provvigione, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile, stato);
                 
                 if (memCliente)

@@ -47,10 +47,10 @@ public class Spedizione implements Entity {
     private String descrizione;
     private Integer fornitore;
     private String mezzo;
-    private String um;
-    private Double qta;
-    private Double traz;
-    private Double distrib;
+    private String um1;
+    private Double qta1;
+    private Double traz1;
+    private Double distrib1;
     private Double importo;
     private Integer sconto;
     private Integer percIva;
@@ -80,7 +80,7 @@ public class Spedizione implements Entity {
     }
 
     public Spedizione(String num, Integer fornitore, Date dataCarico, Date dataDocumento, String descrizione, String mezzo,
-            String um, Double qta, Double traz, Double distrib, Double importo, Integer sconto, Integer percIva, Double iva, 
+            String um1, Double qta1, Double traz1, Double distrib1, Double importo, Integer sconto, Integer percIva, Double iva, 
             Double percProvv, Double provv, Double totale, String note, boolean rientrata, Integer fattura, Date dataFattura,
             Double valMerce, Double imponibile, Character stato) {
         
@@ -89,12 +89,12 @@ public class Spedizione implements Entity {
         this.dataCarico = dataCarico;
         this.dataDocumento = dataDocumento;
         this.descrizione = descrizione;
-        this.qta = qta;
-        this.traz = traz;
-        this.distrib = distrib;
+        this.qta1 = qta1;
+        this.traz1 = traz1;
+        this.distrib1 = distrib1;
         this.importo = importo;
         this.mezzo = mezzo;
-        this.um = um;
+        this.um1 = um1;
         this.iva = iva;
         this.totale = totale;
         this.sconto = sconto;
@@ -170,36 +170,36 @@ public class Spedizione implements Entity {
         this.mezzo = mezzo;
     }
 
-    public String getUm() {
-        return um;
+    public String getUm1() {
+        return um1;
     }
 
-    public void setUm(String um) {
-        this.um = um;
+    public void setUm1(String um) {
+        this.um1 = um;
     }
 
-    public Double getQta() {
-        return qta;
+    public Double getQta1() {
+        return qta1;
     }
 
-    public void setQta(double qta) {
-        this.qta = qta;
+    public void setQta1(double qta) {
+        this.qta1 = qta;
     }
 
-    public Double getTraz() {
-        return traz;
+    public Double getTraz1() {
+        return traz1;
     }
 
-    public void setTraz(Double traz) {
-        this.traz = traz;
+    public void setTraz1(Double traz) {
+        this.traz1 = traz;
     }
 
-    public Double getDistrib() {
-        return distrib;
+    public Double getDistrib1() {
+        return distrib1;
     }
 
-    public void setDistrib(Double distrib) {
-        this.distrib = distrib;
+    public void setDistrib1(Double distrib) {
+        this.distrib1 = distrib;
     }
 
     public Double getImporto() {
@@ -360,7 +360,7 @@ public class Spedizione implements Entity {
         else
             stato = "Ritiro";
         
-        Object[] arrayFatt = {bolle.toString(), stato, numero, sdf.format(dataCarico), dataDoc, descrizione, um, qta, traz, distrib, importo, imponibile, valoreMerce, provvigione, note, rientrata, mezzo, numFattura};
+        Object[] arrayFatt = {bolle.toString(), stato, numero, sdf.format(dataCarico), dataDoc, descrizione, um1, qta1, traz1, distrib1, importo, imponibile, valoreMerce, provvigione, note, rientrata, mezzo, numFattura};
         return arrayFatt;
     }
     

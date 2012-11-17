@@ -1,0 +1,10 @@
+USE pugliatrasporti;
+
+ALTER TABLE `spedizioni` CHANGE `qta` `qta1` DECIMAL(7,2) NOT NULL DEFAULT '0.00';
+ALTER TABLE `spedizioni` CHANGE `um` `um1` VARCHAR(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `spedizioni` CHANGE `traz` `traz1` DECIMAL(7,2) NOT NULL DEFAULT  '0.00';
+ALTER TABLE `spedizioni` CHANGE `distrib` `distrib1` DECIMAL(7,2) NOT NULL DEFAULT  '0.00';
+ALTER TABLE `spedizioni` ADD `um2` VARCHAR(10) NULL DEFAULT NULL;
+ALTER TABLE `spedizioni` ADD `qta2` DECIMAL(7,2) NOT NULL DEFAULT '0.00';
+ALTER TABLE `spedizioni` ADD `traz2` DECIMAL(7,2) NOT NULL DEFAULT '0.00';
+ALTER TABLE `spedizioni` ADD `distrib2` DECIMAL(7,2) NOT NULL DEFAULT '0.00';

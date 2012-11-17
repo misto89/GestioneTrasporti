@@ -116,15 +116,15 @@ public final class StampaFattura extends StampaDocumento {
                 
                 //Controlli generici sulla presenza o meno dei valori, se i valori non sono presenti (pari a 0) non appaiono nella fattura
                 String importo = doubleToString(roundTwoDecimals(sped.getImporto()));
-                String przUnitario = doubleToString(roundTwoDecimals(sped.getDistrib() + sped.getTraz()));
+                String przUnitario = doubleToString(roundTwoDecimals(sped.getDistrib1() + sped.getTraz1()));
                 String qta = null;
                 int qtaInt = 0;
                 double qtaDouble = 0.00;
                 
-                if(sped.getQta() == 0.00){
+                if(sped.getQta1() == 0.00){
                    qta = "";
                 } else {
-                    qtaDouble = sped.getQta();
+                    qtaDouble = sped.getQta1();
                     qtaInt = (int) qtaDouble;
                     if ( (qtaDouble - qtaInt) == 0 )
                         qta = String.valueOf(qtaInt);
@@ -134,7 +134,7 @@ public final class StampaFattura extends StampaDocumento {
                 if(sped.getImporto() == 0){
                     importo = "";
                 }
-                if(sped.getDistrib() + sped.getTraz() == 0){
+                if(sped.getDistrib1() + sped.getTraz1() == 0){
                     przUnitario = "";
                 }            
                 
@@ -147,7 +147,7 @@ public final class StampaFattura extends StampaDocumento {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(descrizione, FONT_PICCOLO_NORMALE)),
-                    new PdfPCell(new Phrase(sped.getUm(), FONT_PICCOLO_NORMALE)),
+                    new PdfPCell(new Phrase(sped.getUm1(), FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase(qta, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(przUnitario, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(importo, FONT_GRANDE_NORMALE)),

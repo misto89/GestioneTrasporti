@@ -120,15 +120,15 @@ public class InsSpedizione extends javax.swing.JDialog {
         else
             cboMezzo.setSelectedIndex(0);
         
-        String um = spedizione.getUm();
+        String um = spedizione.getUm1();
         if (um != null)
             cboUm.setSelectedItem(um);
         else
             cboUm.setSelectedIndex(0);
         
         double importo = DoubleFormatter.roundTwoDecimals(spedizione.getImporto());
-        double traz = DoubleFormatter.roundTwoDecimals(spedizione.getTraz());
-        double distrib = DoubleFormatter.roundTwoDecimals(spedizione.getDistrib());
+        double traz = DoubleFormatter.roundTwoDecimals(spedizione.getTraz1());
+        double distrib = DoubleFormatter.roundTwoDecimals(spedizione.getDistrib1());
         int percSconto = spedizione.getSconto();
         double impSconto = DoubleFormatter.roundTwoDecimals(importo * percSconto / 100);
         double impScontato = DoubleFormatter.roundTwoDecimals(importo - impSconto);
@@ -141,7 +141,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         double totale = DoubleFormatter.roundTwoDecimals(spedizione.getTotale());
         char tipo = spedizione.getStato();
         
-        txtQuantita.setText(Double.toString(spedizione.getQta()));
+        txtQuantita.setText(Double.toString(spedizione.getQta1()));
         txtImporto.setText(Double.toString(importo));
         txtTrazione.setText(String.valueOf(traz));
         txtDistribuzione.setText(String.valueOf(distrib));
@@ -1081,9 +1081,9 @@ private Spedizione creaSpedizioneDaInserire() {
      * imposta il valore delle corrispettive variabili al valore di default per il tipo del valore.
      */
     
-    double distrib = 0.00;
+    double distrib1 = 0.00;
     try {
-        distrib = (Double.parseDouble(txtDistribuzione.getText()));
+        distrib1 = (Double.parseDouble(txtDistribuzione.getText()));
     } catch (NumberFormatException e) {}
     
     double iva = 0.00;
@@ -1118,9 +1118,9 @@ private Spedizione creaSpedizioneDaInserire() {
         sconto = Integer.parseInt(txtPercSconto.getText());
     } catch (NumberFormatException e) {}
     
-    double quantita = 0.00;
+    double quantita1 = 0.00;
     try {
-        quantita = Double.parseDouble(txtQuantita.getText());
+        quantita1 = Double.parseDouble(txtQuantita.getText());
     } catch (NumberFormatException e) {}
     
     double totale = 0.00;
@@ -1128,12 +1128,12 @@ private Spedizione creaSpedizioneDaInserire() {
         totale = (Double.parseDouble(txtTotale.getText()));
     } catch (NumberFormatException e) {}
     
-    double trazione = 0.00;
+    double trazione1 = 0.00;
     try {
-        trazione = (Double.parseDouble(txtTrazione.getText()));
+        trazione1 = (Double.parseDouble(txtTrazione.getText()));
     } catch (NumberFormatException e) {}
     
-    String  um = (String) cboUm.getSelectedItem();
+    String um1 = (String) cboUm.getSelectedItem();
     
     //Acquisisce il mezzo selezionato. Se non è stato selezionato alcun mezzo, viene lanciata e gestita una eccezione.      
     Mezzo mezzo = null;
@@ -1175,7 +1175,7 @@ private Spedizione creaSpedizioneDaInserire() {
         stato = 'R';
     
     Spedizione sped = new Spedizione(numero, id_fornitore, dataCarico, dataDocumento, descrizione, targa,
-            um, quantita, trazione, distrib, importo, sconto, percIva, iva, 
+            um1, quantita1, trazione1, distrib1, importo, sconto, percIva, iva, 
             percProvv, impProv, totale, note, rientrata, null, null, valMerce, imponibile, stato);
     
     spedDaFatturare = sped;

@@ -340,10 +340,10 @@ public class DAO_CBC {
             String descrizione;
             Integer forn;
             //String mezzo; Il mezzo non viene recuperato perché non è necessario per la stampa
-            String um;
-            Double qta;
-            Double traz;
-            Double distrib;
+            String um1;
+            Double qta1;
+            Double traz1;
+            Double distrib1;
             Double importo;
             Integer sconto;
             Integer percIva;
@@ -364,10 +364,10 @@ public class DAO_CBC {
                 descrizione = rsSped.getString(Tabelle.Spedizioni.DESCRIZIONE);
                 forn = rsSped.getInt(Tabelle.Spedizioni.FORN_CLIENTE);
                 //mezzo = rsSped.getString(Tabelle.Mezzi.TARGA);
-                um = rsSped.getString(Tabelle.Spedizioni.UM);
-                qta = rsSped.getDouble(Tabelle.Spedizioni.QTA);
-                traz = rsSped.getDouble(Tabelle.Spedizioni.TRAZ);
-                distrib = rsSped.getDouble(Tabelle.Spedizioni.DISTRIB);
+                um1 = rsSped.getString(Tabelle.Spedizioni.UM1);
+                qta1 = rsSped.getDouble(Tabelle.Spedizioni.QTA1);
+                traz1 = rsSped.getDouble(Tabelle.Spedizioni.TRAZ1);
+                distrib1 = rsSped.getDouble(Tabelle.Spedizioni.DISTRIB1);
                 importo = rsSped.getDouble(Tabelle.Spedizioni.IMPORTO);
                 note = rsSped.getString(Tabelle.Spedizioni.NOTE);
                 percIva = rsSped.getInt(Tabelle.Spedizioni.PERC_IVA);
@@ -382,7 +382,7 @@ public class DAO_CBC {
                 stato = rsSped.getString(Tabelle.Spedizioni.STATO).charAt(0);
                         
                 Spedizione sped = new Spedizione(numero, forn, dataCarico, dataDocumento, descrizione, null, 
-                        um, qta, traz, distrib, importo, sconto, percIva, iva, 
+                        um1, qta1, traz1, distrib1, importo, sconto, percIva, iva, 
                         percProvvigione, provvigione, totale, note, rientrata, fattura, dataFattura, valoreMerce, imponibile, stato);
 
                 psSped = conn.prepareStatement("SELECT " + Tabelle.Bolle.BOLLA + " FROM " + Tabelle.BOLLE + " WHERE " + 

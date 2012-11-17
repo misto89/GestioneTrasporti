@@ -246,7 +246,7 @@ public class Spedizioni extends javax.swing.JFrame {
                 }
                 
                 
-                String um = (String) tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), UM);
+                String um1 = (String) tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), UM);
 
                 String mezzo = null;
                 Object mezz = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), MEZZO);
@@ -264,23 +264,23 @@ public class Spedizioni extends javax.swing.JFrame {
                  * la tabella con in valori precedenti.
                  */
 
-                Object quant = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), QTA);
-                Double qta = checkDoubleField(QTA, quant);
-                if (qta == null) {
+                Object quant1 = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), QTA);
+                Double qta1 = checkDoubleField(QTA, quant1);
+                if (qta1 == null) {
                     ricaricaTabella();
                     return;
                 }
 
-                Object tr = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), TRAZ);
-                Double traz = checkDoubleField(TRAZ, tr);
-                if (traz == null) {
+                Object tr1 = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), TRAZ);
+                Double traz1 = checkDoubleField(TRAZ, tr1);
+                if (traz1 == null) {
                     ricaricaTabella();
                     return;
                 }
 
-                Object distr = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), DISTRIB);
-                Double distrib = checkDoubleField(DISTRIB, distr);
-                if (distrib == null) {
+                Object distr1 = tblSpedizioni.getValueAt(tblSpedizioni.getSelectedRow(), DISTRIB);
+                Double distrib1 = checkDoubleField(DISTRIB, distr1);
+                if (distrib1 == null) {
                     ricaricaTabella();
                     return;
                 }
@@ -426,8 +426,8 @@ public class Spedizioni extends javax.swing.JFrame {
                 if (tblSpedizioni.getSelectedColumn() == IMPORTO)
                     forfettario = true;
                 
-                if ((traz != 0 || distrib != 0) && !forfettario)
-                    importo = (qta * traz) + (qta * distrib);
+                if ((traz1 != 0 || distrib1 != 0) && !forfettario)
+                    importo = (qta1 * traz1) + (qta1 * distrib1);
 
                 double valoreSconto = importo * (sconto / 100.0); 
 //                provv = valoreMerce * (percProvv / 100.0);
@@ -446,7 +446,7 @@ public class Spedizioni extends javax.swing.JFrame {
                 //Crea l'oggetto spedizione da modificare, aggiungendovi in seguito le bolle estratte dalla stringa
 
                 Spedizione sp = new Spedizione(num, id_fornitore, dataCaricoDate, dataDocumentoDate, descrizione, mezzo, 
-                    um, qta, traz, distrib, importo, sconto, percIva, iva, 
+                    um1, qta1, traz1, distrib1, importo, sconto, percIva, iva, 
                     percProvv, importoProvv, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile, stato);
 
 

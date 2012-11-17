@@ -177,10 +177,10 @@ public final class StampaSpedizioni extends StampaDocumento {
                 int qtaInt = 0;
                 double qtaDouble = 0.00;
                 
-                if(spedizione.getQta() == 0.00){
+                if(spedizione.getQta1() == 0.00){
                    qta = "";
                 } else {
-                    qtaDouble = spedizione.getQta();
+                    qtaDouble = spedizione.getQta1();
                     qtaInt = (int) qtaDouble;
                     if ( (qtaDouble - qtaInt) == 0 )
                         qta = String.valueOf(qtaInt);
@@ -194,10 +194,10 @@ public final class StampaSpedizioni extends StampaDocumento {
                 new PdfPCell(new Phrase(dataCarico, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(spedizione.getDescrizione(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(spedizione.getUm(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(spedizione.getUm1(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(qta, FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getTraz())), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getDistrib())), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getTraz1())), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getDistrib1())), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getImporto())), FONT_GRANDE_NORMALE))
             };
             
