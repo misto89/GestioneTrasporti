@@ -66,6 +66,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         String[] unitMis = FrontController.getUnitaMisura();
         for (String um : unitMis) {
             cboUm.addItem(um);
+            cboUm2.addItem(um);
         }
     }
     
@@ -93,6 +94,7 @@ public class InsSpedizione extends javax.swing.JDialog {
         String[] unitMis = FrontController.getUnitaMisura();
         for (String um : unitMis) {
             cboUm.addItem(um);
+            cboUm2.addItem(um);
         }
                 
         txtNumSpedizione.setText(spedizione.getNumSpedizione());
@@ -121,14 +123,21 @@ public class InsSpedizione extends javax.swing.JDialog {
             cboMezzo.setSelectedIndex(0);
         
         String um = spedizione.getUm1();
+        String um2 = spedizione.getUm2();
         if (um != null)
             cboUm.setSelectedItem(um);
         else
             cboUm.setSelectedIndex(0);
+        if (um2 != null)
+            cboUm2.setSelectedItem(um2);
+        else
+            cboUm2.setSelectedIndex(0);
         
         double importo = DoubleFormatter.roundTwoDecimals(spedizione.getImporto());
         double traz = DoubleFormatter.roundTwoDecimals(spedizione.getTraz1());
         double distrib = DoubleFormatter.roundTwoDecimals(spedizione.getDistrib1());
+        double traz2 = DoubleFormatter.roundTwoDecimals(spedizione.getTraz2());
+        double distrib2 = DoubleFormatter.roundTwoDecimals(spedizione.getDistrib2());
         int percSconto = spedizione.getSconto();
         double impSconto = DoubleFormatter.roundTwoDecimals(importo * percSconto / 100);
         double impScontato = DoubleFormatter.roundTwoDecimals(importo - impSconto);
@@ -142,9 +151,12 @@ public class InsSpedizione extends javax.swing.JDialog {
         char tipo = spedizione.getStato();
         
         txtQuantita.setText(Double.toString(spedizione.getQta1()));
+        txtQuantita2.setText(Double.toString(spedizione.getQta2()));
         txtImporto.setText(Double.toString(importo));
         txtTrazione.setText(String.valueOf(traz));
         txtDistribuzione.setText(String.valueOf(distrib));
+        txtTrazione2.setText(String.valueOf(traz2));
+        txtDistribuzione2.setText(String.valueOf(distrib2));
         txtPercSconto.setText(String.valueOf(percSconto));
         txtImpSconto.setText(String.valueOf(impSconto));
         txtImpScontato.setText(String.valueOf(impScontato));
@@ -211,6 +223,8 @@ public class InsSpedizione extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         txtQuantita = new javax.swing.JTextField();
         cboUm = new javax.swing.JComboBox();
+        cboUm2 = new javax.swing.JComboBox();
+        txtQuantita2 = new javax.swing.JTextField();
         pnlTotale = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
         txtPercIva = new javax.swing.JTextField();
@@ -252,6 +266,10 @@ public class InsSpedizione extends javax.swing.JDialog {
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
+        txtTrazione2 = new javax.swing.JTextField();
+        jLabel48 = new javax.swing.JLabel();
+        txtDistribuzione2 = new javax.swing.JTextField();
+        jLabel49 = new javax.swing.JLabel();
         pnlNote = new javax.swing.JPanel();
         jLabel39 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -353,7 +371,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(pnlGeneraleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtDescrizione, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
+                                            .addComponent(txtDescrizione, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlGeneraleLayout.createSequentialGroup()
                                                 .addGroup(pnlGeneraleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                     .addComponent(txtNumSpedizione, javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,7 +380,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                                                 .addComponent(optConsegna)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(optRitiro)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                                                 .addGroup(pnlGeneraleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel19)
                                                     .addComponent(jLabel9))
@@ -447,14 +465,24 @@ public class InsSpedizione extends javax.swing.JDialog {
         jLabel16.setText("Quantità");
 
         txtQuantita.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtQuantita.setNextFocusableComponent(txtTrazione);
+        txtQuantita.setNextFocusableComponent(txtQuantita2);
         txtQuantita.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtQuantitaFocusLost(evt);
             }
         });
 
-        cboUm.setNextFocusableComponent(txtQuantita);
+        cboUm.setNextFocusableComponent(cboUm2);
+
+        cboUm2.setNextFocusableComponent(txtQuantita);
+
+        txtQuantita2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtQuantita2.setNextFocusableComponent(txtTrazione);
+        txtQuantita2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtQuantita2FocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlDatiSpedizioneLayout = new javax.swing.GroupLayout(pnlDatiSpedizione);
         pnlDatiSpedizione.setLayout(pnlDatiSpedizioneLayout);
@@ -465,24 +493,36 @@ public class InsSpedizione extends javax.swing.JDialog {
                 .addGroup(pnlDatiSpedizioneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15)
                     .addComponent(jLabel16))
-                .addGap(65, 65, 65)
+                .addGap(29, 29, 29)
                 .addGroup(pnlDatiSpedizioneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cboUm, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtQuantita, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))
-                .addGap(53, 53, 53))
+                    .addComponent(txtQuantita)
+                    .addComponent(cboUm, 0, 62, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDatiSpedizioneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cboUm2, 0, 71, Short.MAX_VALUE)
+                    .addComponent(txtQuantita2, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        pnlDatiSpedizioneLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cboUm, cboUm2});
+
+        pnlDatiSpedizioneLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtQuantita, txtQuantita2});
+
         pnlDatiSpedizioneLayout.setVerticalGroup(
             pnlDatiSpedizioneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDatiSpedizioneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDatiSpedizioneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel15)
-                    .addGroup(pnlDatiSpedizioneLayout.createSequentialGroup()
+                    .addGroup(pnlDatiSpedizioneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel15)
                         .addComponent(cboUm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(cboUm2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDatiSpedizioneLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
                         .addGroup(pnlDatiSpedizioneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
                             .addComponent(txtQuantita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16))))
+                            .addComponent(txtQuantita2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -536,6 +576,7 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel41.setText("%");
 
+        jLabel43.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel43.setText("€");
 
         jLabel44.setText("€");
@@ -568,13 +609,6 @@ public class InsSpedizione extends javax.swing.JDialog {
             .addGroup(pnlTotaleLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlTotaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlTotaleLayout.createSequentialGroup()
-                        .addComponent(jLabel38)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotale, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5))
                     .addGroup(pnlTotaleLayout.createSequentialGroup()
                         .addGroup(pnlTotaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel36)
@@ -612,10 +646,17 @@ public class InsSpedizione extends javax.swing.JDialog {
                                     .addComponent(txtImpIva)
                                     .addComponent(txtPercIva, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnlTotaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap())))
+                                .addGroup(pnlTotaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE))))
+                        .addGap(18, 18, 18))
+                    .addGroup(pnlTotaleLayout.createSequentialGroup()
+                        .addComponent(jLabel38)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtTotale, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2))))
         );
         pnlTotaleLayout.setVerticalGroup(
             pnlTotaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -635,7 +676,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addComponent(jLabel35)
                     .addComponent(txtImpProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel44))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(pnlTotaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel46)
                     .addComponent(txtImponibile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -650,11 +691,12 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addComponent(jLabel34)
                     .addComponent(txtImpIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel40))
-                .addGap(38, 38, 38)
+                .addGap(27, 27, 27)
                 .addGroup(pnlTotaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
-                    .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel43)))
+                    .addComponent(jLabel43)
+                    .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pnlPrezzo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Prezzo Spedizione", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
@@ -720,6 +762,24 @@ public class InsSpedizione extends javax.swing.JDialog {
 
         jLabel32.setText("%");
 
+        txtTrazione2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtTrazione2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTrazione2FocusLost(evt);
+            }
+        });
+
+        jLabel48.setText("€");
+
+        txtDistribuzione2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtDistribuzione2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDistribuzione2FocusLost(evt);
+            }
+        });
+
+        jLabel49.setText("€");
+
         javax.swing.GroupLayout pnlPrezzoLayout = new javax.swing.GroupLayout(pnlPrezzo);
         pnlPrezzo.setLayout(pnlPrezzoLayout);
         pnlPrezzoLayout.setHorizontalGroup(
@@ -734,51 +794,56 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addComponent(jLabel21)
                     .addComponent(jLabel22))
                 .addGap(22, 22, 22)
-                .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtImpScontato, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                    .addComponent(txtTrazione, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                    .addComponent(txtDistribuzione, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                    .addComponent(txtImporto, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                    .addComponent(txtPercSconto, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                    .addComponent(txtImpSconto, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtImpScontato)
+                    .addComponent(txtImpSconto)
+                    .addComponent(txtPercSconto)
+                    .addComponent(txtImporto)
+                    .addGroup(pnlPrezzoLayout.createSequentialGroup()
+                        .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtDistribuzione, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTrazione, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel27))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtDistribuzione2)
+                            .addComponent(txtTrazione2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPrezzoLayout.createSequentialGroup()
-                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(pnlPrezzoLayout.createSequentialGroup()
-                            .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap())
-                        .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlPrezzoLayout.createSequentialGroup()
-                                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(pnlPrezzoLayout.createSequentialGroup()
-                                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addContainerGap())
-                                .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnlPrezzoLayout.createSequentialGroup()
-                                        .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
-                                        .addGap(27, 27, 27))
-                                    .addGroup(pnlPrezzoLayout.createSequentialGroup()
-                                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap())))))))
+                    .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel48))
+                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
+
+        pnlPrezzoLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtDistribuzione, txtTrazione});
+
+        pnlPrezzoLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtDistribuzione2, txtTrazione2});
+
         pnlPrezzoLayout.setVerticalGroup(
             pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrezzoLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(txtTrazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel27))
+                    .addComponent(jLabel27)
+                    .addComponent(txtTrazione2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
                     .addComponent(txtDistribuzione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel28))
+                    .addComponent(jLabel28)
+                    .addComponent(txtDistribuzione2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel49))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
@@ -798,7 +863,8 @@ public class InsSpedizione extends javax.swing.JDialog {
                 .addGroup(pnlPrezzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
                     .addComponent(txtImpScontato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel31)))
+                    .addComponent(jLabel31))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlNote.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Note", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
@@ -822,8 +888,8 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addGroup(pnlNoteLayout.createSequentialGroup()
                         .addComponent(jLabel39)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnlNoteLayout.setVerticalGroup(
             pnlNoteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -835,7 +901,7 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(chkRientrata)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnNuovo.setBackground(new java.awt.Color(255, 255, 255));
@@ -881,44 +947,51 @@ public class InsSpedizione extends javax.swing.JDialog {
                     .addComponent(pnlGenerale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlPrezzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnlTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pnlPrezzo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(pnlTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(btnNuovo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnMemorizza, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEmetti))
-                            .addComponent(pnlNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnNuovo)
+                                    .addComponent(btnMemorizza, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEmetti)
+                                .addGap(93, 93, 93))
+                            .addComponent(pnlNote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnlDatiSpedizione, pnlPrezzo});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnEmetti, btnMemorizza, btnNuovo});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlGenerale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnMemorizza)
-                            .addComponent(btnEmetti))
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEmetti, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnMemorizza, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNuovo))
-                    .addComponent(pnlTotale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(pnlTotale, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(pnlDatiSpedizione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pnlPrezzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlPrezzo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnEmetti, btnMemorizza, btnNuovo});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -926,11 +999,14 @@ public class InsSpedizione extends javax.swing.JDialog {
 private void setFormatDouble() {
     txtTrazione.setDocument(new JTextFieldFormatDouble());
     txtDistribuzione.setDocument(new JTextFieldFormatDouble());
+    txtTrazione2.setDocument(new JTextFieldFormatDouble());
+    txtDistribuzione2.setDocument(new JTextFieldFormatDouble());
     txtImporto.setDocument(new JTextFieldFormatDouble());
     txtValMerce.setDocument(new JTextFieldFormatDouble());
     txtImpProv.setDocument(new JTextFieldFormatDouble());
     txtPercProv.setDocument(new JTextFieldFormatDouble());
     txtQuantita.setDocument(new JTextFieldFormatDouble());
+    txtQuantita2.setDocument(new JTextFieldFormatDouble());
     txtImpIva.setDocument(new JTextFieldFormatDouble());
 }
     
@@ -1086,6 +1162,11 @@ private Spedizione creaSpedizioneDaInserire() {
         distrib1 = (Double.parseDouble(txtDistribuzione.getText()));
     } catch (NumberFormatException e) {}
     
+    double distrib2 = 0.00;
+    try {
+        distrib2 = (Double.parseDouble(txtDistribuzione2.getText()));
+    } catch (NumberFormatException e) {}
+    
     double iva = 0.00;
     try {
         iva = (Double.parseDouble(txtImpIva.getText()));
@@ -1123,6 +1204,11 @@ private Spedizione creaSpedizioneDaInserire() {
         quantita1 = Double.parseDouble(txtQuantita.getText());
     } catch (NumberFormatException e) {}
     
+    double quantita2 = 0.00;
+    try {
+        quantita2 = Double.parseDouble(txtQuantita2.getText());
+    } catch (NumberFormatException e) {}
+    
     double totale = 0.00;
     try {
         totale = (Double.parseDouble(txtTotale.getText()));
@@ -1133,8 +1219,14 @@ private Spedizione creaSpedizioneDaInserire() {
         trazione1 = (Double.parseDouble(txtTrazione.getText()));
     } catch (NumberFormatException e) {}
     
-    String um1 = (String) cboUm.getSelectedItem();
+    double trazione2 = 0.00;
+    try {
+        trazione2 = (Double.parseDouble(txtTrazione2.getText()));
+    } catch (NumberFormatException e) {}
     
+    String um1 = (String) cboUm.getSelectedItem();
+    String um2 = (String) cboUm2.getSelectedItem();
+        
     //Acquisisce il mezzo selezionato. Se non è stato selezionato alcun mezzo, viene lanciata e gestita una eccezione.      
     Mezzo mezzo = null;
     String targa;
@@ -1176,7 +1268,7 @@ private Spedizione creaSpedizioneDaInserire() {
     
     Spedizione sped = new Spedizione(numero, id_fornitore, dataCarico, dataDocumento, descrizione, targa,
             um1, quantita1, trazione1, distrib1, importo, sconto, percIva, iva, 
-            percProvv, impProv, totale, note, rientrata, null, null, valMerce, imponibile, stato);
+            percProvv, impProv, totale, note, rientrata, null, null, valMerce, imponibile, stato, um2, quantita2, trazione2, distrib2);
     
     spedDaFatturare = sped;
     
@@ -1445,6 +1537,27 @@ private void txtImpProvFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:eve
     calcolaTotale();
 }//GEN-LAST:event_txtImpProvFocusLost
 
+private void txtQuantita2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantita2FocusLost
+// TODO add your handling code here:
+    calcolaImporto();
+    calcolaSconto();
+    calcolaTotale();
+}//GEN-LAST:event_txtQuantita2FocusLost
+
+private void txtTrazione2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTrazione2FocusLost
+// TODO add your handling code here:
+    calcolaImporto();
+    calcolaSconto();
+    calcolaTotale();
+}//GEN-LAST:event_txtTrazione2FocusLost
+
+private void txtDistribuzione2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDistribuzione2FocusLost
+// TODO add your handling code here:
+    calcolaImporto();
+    calcolaSconto();
+    calcolaTotale();
+}//GEN-LAST:event_txtDistribuzione2FocusLost
+
 private void popolaSelect(List items) {
     cboMezzo.addItem(new Mezzo(null, "Vettore", null));
     for (Object mezzo : items)
@@ -1455,6 +1568,10 @@ private void calcolaImporto(){
     double traz = 0.0;
     double distrib = 0.0;
     double qta = 0.00;
+    double traz2 = 0.0;
+    double distrib2 = 0.0;
+    double qta2 = 0.00;
+    
     if (!(txtTrazione.getText().equals("")))
         try {
             traz = Double.parseDouble(txtTrazione.getText());
@@ -1472,7 +1589,24 @@ private void calcolaImporto(){
             qta = Double.parseDouble(txtQuantita.getText());
         } catch (NumberFormatException e) {}
     
-    double importo = (qta * traz) + (qta * distrib);
+    if (!(txtTrazione2.getText().equals("")))
+        try {
+            traz2 = Double.parseDouble(txtTrazione2.getText());
+        } catch (NumberFormatException e) {}
+        
+    
+    if (!(txtDistribuzione2.getText().equals("")))
+        try {
+            distrib2 = Double.parseDouble(txtDistribuzione2.getText());
+        } catch (NumberFormatException e) {}
+        
+    
+    if (!(txtQuantita2.getText().equals("")))
+        try {
+            qta2 = Double.parseDouble(txtQuantita2.getText());
+        } catch (NumberFormatException e) {}
+    
+    double importo = qta * (traz + distrib) + qta2 * (traz2 + distrib2);
     txtImporto.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(importo)));
 }
 
@@ -1574,6 +1708,7 @@ private void pulisciText(){
     txtAnnoDocumento.setText(null);
     txtDescrizione.setText(null);
     txtDistribuzione.setText(null);
+    txtDistribuzione2.setText(null);
     txtGiornoCarico.setText(null);
     txtGiornoDocumento.setText(null);
     txtImpIva.setText(null);
@@ -1590,9 +1725,12 @@ private void pulisciText(){
     txtPercIva.setText(String.valueOf(PERC_IVA));
     txtPercProv.setText(null);
     txtQuantita.setText(null);
+    txtQuantita2.setText(null);
     txtTotale.setText(null);
     txtTrazione.setText(null);
+    txtTrazione2.setText(null);
     cboUm.setSelectedIndex(0);
+    cboUm2.setSelectedIndex(0);
     txtPercSconto.setText(null);
     txtBolle.setText(null);
     txtImponibile.setText(null);
@@ -1613,6 +1751,7 @@ private void pulisciText(){
     private javax.swing.JButton btnNuovo;
     private javax.swing.JComboBox cboMezzo;
     private javax.swing.JComboBox cboUm;
+    private javax.swing.JComboBox cboUm2;
     private javax.swing.JCheckBox chkRientrata;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1654,6 +1793,8 @@ private void pulisciText(){
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton optConsegna;
@@ -1668,6 +1809,7 @@ private void pulisciText(){
     private javax.swing.JTextField txtBolle;
     private javax.swing.JTextField txtDescrizione;
     private javax.swing.JTextField txtDistribuzione;
+    private javax.swing.JTextField txtDistribuzione2;
     private javax.swing.JTextField txtGiornoCarico;
     private javax.swing.JTextField txtGiornoDocumento;
     private javax.swing.JTextField txtImpIva;
@@ -1684,8 +1826,10 @@ private void pulisciText(){
     private javax.swing.JTextField txtPercProv;
     private javax.swing.JTextField txtPercSconto;
     private javax.swing.JTextField txtQuantita;
+    private javax.swing.JTextField txtQuantita2;
     private javax.swing.JTextField txtTotale;
     private javax.swing.JTextField txtTrazione;
+    private javax.swing.JTextField txtTrazione2;
     private javax.swing.JTextField txtValMerce;
     // End of variables declaration//GEN-END:variables
     //private Date dataPresunta;

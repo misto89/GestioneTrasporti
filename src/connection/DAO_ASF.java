@@ -384,7 +384,8 @@ public abstract class DAO_ASF {
                         + checkNull(sped.getDescrizione()) + ", " + sped.getFornitore() + ", " + checkNull(idMezzo) + ", " + checkNull(sped.getUm1()) + ", " + sped.getQta1() + ", " 
                         + sped.getTraz1() + ", " + sped.getDistrib1() + ", " + sped.getImporto() + ", " + sped.getSconto() + ", " + sped.getPercIva() + ", " + sped.getIva() +
                         ", " + sped.getPercProvv() + ", " + sped.getProvvigione() + ", " + sped.getTotale() + ", " + checkNull(sped.getNote()) + ", " + sped.getRientrata() + 
-                        ", NULL, NULL, " + sped.getValoreMerce() + ", " + sped.getImponibile() + ", '" + sped.getStato() + "')";
+                        ", NULL, NULL, " + sped.getValoreMerce() + ", " + sped.getImponibile() + ", '" + sped.getStato() + "', " + checkNull(sped.getUm2()) + ", " + sped.getQta2() + ", " 
+                        + sped.getTraz2() + ", " + sped.getDistrib2() +")";
                 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
@@ -675,8 +676,10 @@ public abstract class DAO_ASF {
                     s.getProvvigione() + ", " + Tabelle.Spedizioni.TOTALE + " = " + s.getTotale() + ", " + Tabelle.Spedizioni.NOTE + " = " +
                     checkNull(s.getNote()) + ", " + Tabelle.Spedizioni.RIENTRATA + " = " + s.getRientrata() + ", " + Tabelle.Spedizioni.NUM_FATTURA + 
                     " = " + checkNull(s.getNumFattura()) + ", " + Tabelle.Spedizioni.VALORE_MERCE + " = " + s.getValoreMerce() + ", " +
-                    Tabelle.Spedizioni.IMPONIBILE + " = " + s.getImponibile() + ", " + Tabelle.Spedizioni.STATO + " = '" + s.getStato() +
-                    "' WHERE " + Tabelle.Spedizioni.NUMERO + " = '" + s.getNumSpedizione() + "' AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + s.getDataCarico() + "'";
+                    Tabelle.Spedizioni.IMPONIBILE + " = " + s.getImponibile() + ", " + Tabelle.Spedizioni.STATO + " = '" + s.getStato() + "', " +                   
+                    Tabelle.Spedizioni.UM2 + " = " + checkNull(s.getUm2()) + ", " + Tabelle.Spedizioni.QTA2 + " = " + s.getQta2() + ", " + 
+                    Tabelle.Spedizioni.TRAZ2 + " = " + s.getTraz2() + ", " + Tabelle.Spedizioni.DISTRIB2 + " = " + s.getDistrib2() +
+                    " WHERE " + Tabelle.Spedizioni.NUMERO + " = '" + s.getNumSpedizione() + "' AND " + Tabelle.Spedizioni.DATA_CARICO + " = '" + s.getDataCarico() + "'";
                 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql); 
@@ -1001,6 +1004,10 @@ public abstract class DAO_ASF {
             Double qta1;
             Double traz1;
             Double distrib1;
+            String um2;
+            Double qta2;
+            Double traz2;
+            Double distrib2;
             Double importo;
             Integer sconto;
             Integer percIva;
@@ -1029,6 +1036,10 @@ public abstract class DAO_ASF {
                 qta1 = rs.getDouble(Tabelle.Spedizioni.QTA1);
                 traz1 = rs.getDouble(Tabelle.Spedizioni.TRAZ1);
                 distrib1 = rs.getDouble(Tabelle.Spedizioni.DISTRIB1);
+                um2 = rs.getString(Tabelle.Spedizioni.UM2);
+                qta2 = rs.getDouble(Tabelle.Spedizioni.QTA2);
+                traz2 = rs.getDouble(Tabelle.Spedizioni.TRAZ2);
+                distrib2 = rs.getDouble(Tabelle.Spedizioni.DISTRIB2);
                 importo = rs.getDouble(Tabelle.Spedizioni.IMPORTO);
                 note = rs.getString(Tabelle.Spedizioni.NOTE);
                 percIva = rs.getInt(Tabelle.Spedizioni.PERC_IVA);
@@ -1054,7 +1065,8 @@ public abstract class DAO_ASF {
                     
                 Spedizione sped = new Spedizione(numero, forn, dataCarico, dataDocumento, descrizione, mezzo, 
                         um1, qta1, traz1, distrib1, importo, sconto, percIva, iva, 
-                        percProvvigione, provvigione, totale, note, rientrata, numFattura, dataFattura, valoreMerce, imponibile, stato);
+                        percProvvigione, provvigione, totale, note, rientrata, numFattura, dataFattura, valoreMerce, 
+                        imponibile, stato, um2, qta2, traz2, distrib2);
                 
                 if (memCliente)
                     sped.setCliente(cliente);
@@ -1331,110 +1343,6 @@ public abstract class DAO_ASF {
 //        }
 //    }
    
-    /*
-     * Effettua un controllo generico sulla data inserita e l'eventuale numero forzato dall'utente per la fattura.
-     * Restituisce un numero intero che caratterizza il numero della fattura proposto dal sistema
-     */
-    /*public static int checkTutt(Date dataDoc, int forcedNumber){
-        int valoreReturn = 1;
-        try {
-            String dataDocYear = (dataDoc.toString()).substring(0, 4);
-            Date data = null;
-            String sqlDataPrec = "SELECT " + Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO + " FROM " + 
-                    Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDoc + "' ORDER BY " +
-                    Tabelle.Fatture.DATA + " DESC, " + Tabelle.Fatture.NUMERO + " DESC LIMIT 1";
-            
-            System.out.println(sqlDataPrec);
-            ps = conn.prepareStatement(sqlDataPrec);
-            rs = ps.executeQuery();
-            
-            Date dataPrec = null;
-            int numPrec = 0;
-            if (rs.next()){
-                dataPrec = rs.getDate(Tabelle.Fatture.DATA);
-                numPrec = rs.getInt(Tabelle.Fatture.NUMERO);
-            }
-            
-            String sqlDataSucc = "SELECT " + Tabelle.Fatture.DATA + ", " + Tabelle.Fatture.NUMERO + " FROM " + 
-                    Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.DATA + " BETWEEN '" + dataDoc + "' AND '" + dataDocYear+"-12-31' AND " + Tabelle.Fatture.NUMERO + " > " + numPrec + " ORDER BY " +
-                    Tabelle.Fatture.DATA + " ASC, " + Tabelle.Fatture.NUMERO + " ASC LIMIT 1";
-            
-            System.out.println(sqlDataSucc);
-            ps = conn.prepareStatement(sqlDataSucc);
-            rs = ps.executeQuery();
-            
-            Date dataSucc = null;
-            int numSucc = 0;
-            if (rs.next()){
-                dataSucc = rs.getDate(Tabelle.Fatture.DATA);
-                numSucc = rs.getInt(Tabelle.Fatture.NUMERO);
-            }
-            if (forcedNumber != -1) {
-                String sqlNumExistency = "SELECT " +  Tabelle.Fatture.NUMERO + " FROM " + Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.NUMERO +
-                        " = " + forcedNumber + " AND " + Tabelle.Fatture.DATA + " BETWEEN '" +  dataDocYear + "-01-01' AND '" + dataDocYear + "-12-31'";
-                System.out.println(sqlNumExistency);
-                PreparedStatement psNumExistency = conn.prepareStatement(sqlNumExistency);
-                ResultSet rsNumExistency = psNumExistency.executeQuery();
-                if (rsNumExistency.next()) {
-                    //valoreReturn viene posto a -1 valore che definisce l'esistenza del numero inserito.
-                    throw new CheckTuttException("Numero fattura inserito già esistente.");
-                    
-                } else {
-                    if (numPrec > 0) {
-                       if (numSucc > 0) {
-                           if ((forcedNumber < numPrec) && dataDoc.equals(dataPrec)) //RICONTROLLARE
-                               //Fattura inserita nello stesso giorno della precedente ma con numero inferiore (lecito)                   
-                               valoreReturn = 0;    //Valore di ok
-                                 
-                           else if (!((forcedNumber > numPrec) && (forcedNumber < numSucc)))
-                                throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
-                                        "oppure non c'è nessun intervallo di fatture alla data selezionata.");
-                            else
-                                valoreReturn = 0;    //Valore di ok
-                            
-                        } else if (numSucc == 0) {
-                            if ((forcedNumber<numPrec) && (dataDoc.equals(dataPrec)))
-                                //Fattura inserita nello stesso giorno della precedente ma con numero inferiore (questo caso specifico si ha quando la fattura relativa a 
-                                //numPrec è anche l'ultima fattura nel anno, di modo che numSucc risulta = 0)                   
-                                valoreReturn = 0;    //Valore di ok
-                            
-                            else if (!((forcedNumber > numPrec)))
-                                throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
-                                        "oppure non c'è nessun intervallo di fatture alla data selezionata.");
-                            
-                            else
-                                valoreReturn = 0;    //Valore di ok
-                          }
-                       
-                    } else if (numPrec == 0) {
-                        if (numSucc != 0) { //Se entrambi i valori sono 0 allora è la prima fattura in assoluto nell'anno
-                            if (forcedNumber > numSucc)
-                                throw new CheckTuttException("Il numero inserito non è disponibile nell'intervallo, " + 
-                                            "oppure non c'è nessun intervallo di fatture alla data selezionata.");
-                            else
-                                valoreReturn = 0;    //Valore di ok
-                        } else
-                            valoreReturn = 0;
-                    } 
-                }
-                
-            } else {
-                //System.out.println("Nprec: " + numPrec + "\nNsucc: " + numSucc);
-                if (numSucc - numPrec == 1) {
-                    throw new CheckTuttException("Nessun intervallo di fatture presente alla data selezionata.");
-                    
-                } else 
-                    valoreReturn = numPrec + 1;
-            }
-
-            return valoreReturn;
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
-            throw new CheckTuttException("Numero fattura inserito già esistente.");
-            
-        }
-    }*/
     public static int checkTutt(Date dataDoc, int forcedNumber){
         int valoreReturn = 1;
         if (forcedNumber != -1){

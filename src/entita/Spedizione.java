@@ -51,6 +51,10 @@ public class Spedizione implements Entity {
     private Double qta1;
     private Double traz1;
     private Double distrib1;
+    private String um2;
+    private Double qta2;
+    private Double traz2;
+    private Double distrib2;
     private Double importo;
     private Integer sconto;
     private Integer percIva;
@@ -67,7 +71,7 @@ public class Spedizione implements Entity {
     private Character stato;
     private Fornitore cliente;
     
-    public static final int NUM_CAMPI = 18; //numero campi da visualizzare
+    public static final int NUM_CAMPI = 22; //numero campi da visualizzare
     public static final int NUM_CAMPI_STORICO = 9; //numero campi da visualizzare per lo storico
     
     
@@ -82,7 +86,7 @@ public class Spedizione implements Entity {
     public Spedizione(String num, Integer fornitore, Date dataCarico, Date dataDocumento, String descrizione, String mezzo,
             String um1, Double qta1, Double traz1, Double distrib1, Double importo, Integer sconto, Integer percIva, Double iva, 
             Double percProvv, Double provv, Double totale, String note, boolean rientrata, Integer fattura, Date dataFattura,
-            Double valMerce, Double imponibile, Character stato) {
+            Double valMerce, Double imponibile, Character stato, String um2, Double qta2, Double traz2, Double distrib2) {
         
         this.numero = num;
         this.fornitore = fornitore;
@@ -108,6 +112,10 @@ public class Spedizione implements Entity {
         this.valoreMerce = valMerce;
         this.imponibile = imponibile;
         this.stato = stato;
+        this.qta2 = qta2;
+        this.traz2 = traz2;
+        this.distrib2 = distrib2;
+        this.um2 = um2;
     }
 
     public List<String> getBolle() {
@@ -200,6 +208,38 @@ public class Spedizione implements Entity {
 
     public void setDistrib1(Double distrib) {
         this.distrib1 = distrib;
+    }
+
+    public String getUm2() {
+        return um2;
+    }
+
+    public void setUm2(String um) {
+        this.um2 = um;
+    }
+
+    public Double getQta2() {
+        return qta2;
+    }
+
+    public void setQta2(double qta) {
+        this.qta2 = qta;
+    }
+
+    public Double getTraz2() {
+        return traz2;
+    }
+
+    public void setTraz2(Double traz) {
+        this.traz2 = traz;
+    }
+
+    public Double getDistrib2() {
+        return distrib2;
+    }
+
+    public void setDistrib2(Double distrib) {
+        this.distrib2 = distrib;
     }
 
     public Double getImporto() {
@@ -360,7 +400,7 @@ public class Spedizione implements Entity {
         else
             stato = "Ritiro";
         
-        Object[] arrayFatt = {bolle.toString(), stato, numero, sdf.format(dataCarico), dataDoc, descrizione, um1, qta1, traz1, distrib1, importo, imponibile, valoreMerce, provvigione, note, rientrata, mezzo, numFattura};
+        Object[] arrayFatt = {bolle.toString(), stato, numero, sdf.format(dataCarico), dataDoc, descrizione, um1, um2, qta1, qta2, traz1, traz2, distrib1, distrib2, importo, imponibile, valoreMerce, provvigione, note, rientrata, mezzo, numFattura};
         return arrayFatt;
     }
     

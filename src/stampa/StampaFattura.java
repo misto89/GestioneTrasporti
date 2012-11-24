@@ -108,7 +108,7 @@ public final class StampaFattura extends StampaDocumento {
 
         if (!fattura.getForfait()){
             for (Spedizione sped: spedizioni) {
-                String descrizione = sped.getDescrizione();
+                String descrizione = (sped.getDescrizione() != null) ? sped.getDescrizione() : "";
                 if (sped.getValoreMerce() != 0) {
                     descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
                 } else if (sped.getProvvigione() != 0)
@@ -117,20 +117,38 @@ public final class StampaFattura extends StampaDocumento {
                 //Controlli generici sulla presenza o meno dei valori, se i valori non sono presenti (pari a 0) non appaiono nella fattura
                 String importo = doubleToString(roundTwoDecimals(sped.getImporto()));
                 String przUnitario = doubleToString(roundTwoDecimals(sped.getDistrib1() + sped.getTraz1()));
+                if (sped.getDistrib2() != 0.00 || sped.getTraz2() != 0.00)
+                    przUnitario += "\n" + doubleToString(roundTwoDecimals(sped.getDistrib2() + sped.getTraz2()));
+                
                 String qta = null;
-                int qtaInt = 0;
-                double qtaDouble = 0.00;
+                int qta1Int = 0;
+                double qta1Double = 0.00;
+                int qta2Int = 0;
+                double qta2Double = 0.00;
                 
                 if(sped.getQta1() == 0.00){
                    qta = "";
                 } else {
-                    qtaDouble = sped.getQta1();
-                    qtaInt = (int) qtaDouble;
-                    if ( (qtaDouble - qtaInt) == 0 )
-                        qta = String.valueOf(qtaInt);
+                    qta1Double = sped.getQta1();
+                    qta1Int = (int) qta1Double;
+                    if ( (qta1Double - qta1Int) == 0 )
+                        qta = String.valueOf(qta1Int);
                     else
-                        qta = String.format("%1$,.1f", qtaDouble);
+                        qta = String.format("%1$,.1f", qta1Double);
                 }
+                
+                if(sped.getQta2() != 0.00) {
+                    qta += "\n";
+                    qta2Double = sped.getQta2();
+                    qta2Int = (int) qta2Double;
+                    if ( (qta2Double - qta2Int) == 0 )
+                        qta += String.valueOf(qta2Int);
+                    else
+                        qta += String.format("%1$,.1f", qta2Double);
+                }
+                
+                String um = (sped.getUm2() != null) ? sped.getUm1() + "\n" + sped.getUm2() : sped.getUm1();
+                
                 if(sped.getImporto() == 0){
                     importo = "";
                 }
@@ -147,7 +165,7 @@ public final class StampaFattura extends StampaDocumento {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(descrizione, FONT_PICCOLO_NORMALE)),
-                    new PdfPCell(new Phrase(sped.getUm1(), FONT_PICCOLO_NORMALE)),
+                    new PdfPCell(new Phrase(um, FONT_PICCOLO_NORMALE)),
                     new PdfPCell(new Phrase(qta, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(przUnitario, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(importo, FONT_GRANDE_NORMALE)),
@@ -208,7 +226,7 @@ public final class StampaFattura extends StampaDocumento {
         } else if (fattura.getForfait()) {
             //stampa la fattura eliminando i riferimenti a quantità, prezzi e totali delle spedizioni
             for (Spedizione sped: spedizioni) {
-                String descrizione = sped.getDescrizione();
+                String descrizione = (sped.getDescrizione() != null) ? sped.getDescrizione() : "";
                 if (sped.getValoreMerce() != 0) {
                     descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
                 } else if (sped.getProvvigione() != 0)

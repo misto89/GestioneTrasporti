@@ -344,6 +344,10 @@ public class DAO_CBC {
             Double qta1;
             Double traz1;
             Double distrib1;
+            String um2;
+            Double qta2;
+            Double traz2;
+            Double distrib2;
             Double importo;
             Integer sconto;
             Integer percIva;
@@ -368,6 +372,10 @@ public class DAO_CBC {
                 qta1 = rsSped.getDouble(Tabelle.Spedizioni.QTA1);
                 traz1 = rsSped.getDouble(Tabelle.Spedizioni.TRAZ1);
                 distrib1 = rsSped.getDouble(Tabelle.Spedizioni.DISTRIB1);
+                um2 = rsSped.getString(Tabelle.Spedizioni.UM2);
+                qta2 = rsSped.getDouble(Tabelle.Spedizioni.QTA2);
+                traz2 = rsSped.getDouble(Tabelle.Spedizioni.TRAZ2);
+                distrib2 = rsSped.getDouble(Tabelle.Spedizioni.DISTRIB2);
                 importo = rsSped.getDouble(Tabelle.Spedizioni.IMPORTO);
                 note = rsSped.getString(Tabelle.Spedizioni.NOTE);
                 percIva = rsSped.getInt(Tabelle.Spedizioni.PERC_IVA);
@@ -383,7 +391,8 @@ public class DAO_CBC {
                         
                 Spedizione sped = new Spedizione(numero, forn, dataCarico, dataDocumento, descrizione, null, 
                         um1, qta1, traz1, distrib1, importo, sconto, percIva, iva, 
-                        percProvvigione, provvigione, totale, note, rientrata, fattura, dataFattura, valoreMerce, imponibile, stato);
+                        percProvvigione, provvigione, totale, note, rientrata, fattura, dataFattura, valoreMerce, imponibile, stato,
+                        um2, qta2, traz2, distrib2);
 
                 psSped = conn.prepareStatement("SELECT " + Tabelle.Bolle.BOLLA + " FROM " + Tabelle.BOLLE + " WHERE " + 
                         Tabelle.Bolle.SPEDIZIONE + " = '" + numero + "' AND " + Tabelle.Bolle.DATA_SPEDIZIONE + " = '" + dataCarico + "'");
