@@ -1710,6 +1710,13 @@ void setFatture() {
         public void mouseClicked(MouseEvent me) {
             mnuEliminaFattura.setEnabled(true);
             mnuModFattura.setEnabled(true);
+            
+            if (me.getClickCount() > 1) {
+                if (tblFatture.getSelectedColumn() != PAGATA) {
+                    mnuModFatturaActionPerformed(null);
+                    
+                } 
+            }
 //            selected = fattureInTabella.get(getIndexSelectedFattura());
             
             //JOptionPane.showMessageDialog(rootPane,selected.getImporto());
@@ -1721,7 +1728,7 @@ void setFatture() {
             //mouseClicked(null);
         }
 
-    });
+    });    
     
     tblFatture.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     Character[] valoriPagata = {'S', 'N'};
