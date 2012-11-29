@@ -202,10 +202,10 @@ CREATE TABLE `spedizioni` (
   `descrizione` varchar(100) DEFAULT NULL,
   `forn_cliente` int(10) NOT NULL,
   `mezzo` int(3) DEFAULT NULL,
-  `um` varchar(10) DEFAULT NULL,
-  `qta` decimal(7,2) NOT NULL DEFAULT '0.00',
-  `traz` decimal(7,2) NOT NULL DEFAULT '0.00',
-  `distrib` decimal(7,2) NOT NULL DEFAULT '0.00',
+  `um1` varchar(10) DEFAULT NULL,
+  `qta1` decimal(7,2) NOT NULL DEFAULT '0.00',
+  `traz1` decimal(7,2) NOT NULL DEFAULT '0.00',
+  `distrib1` decimal(7,2) NOT NULL DEFAULT '0.00',
   `importo` decimal(10,2) NOT NULL DEFAULT '0.00',
   `sconto` int(2) NOT NULL DEFAULT '0',
   `perciva` int(2) NOT NULL DEFAULT '21',
@@ -220,6 +220,10 @@ CREATE TABLE `spedizioni` (
   `valoremerce` decimal(10,2) NOT NULL DEFAULT '0.00',
   `imponibile` decimal(9,2) NOT NULL DEFAULT '0.00',
   `stato` char(1) NOT NULL DEFAULT 'C',
+  `um2` varchar(10) DEFAULT NULL,
+  `qta2` decimal(7,2) NOT NULL DEFAULT '0.00',
+  `traz2` decimal(7,2) NOT NULL DEFAULT '0.00',
+  `distrib2` decimal(7,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`numero`,`data_carico`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -233,4 +237,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-14 17:25:28
+-- Dump completed on 2012-11-29 17:59:02
