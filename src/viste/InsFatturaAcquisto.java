@@ -24,6 +24,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import libs.DateUpdate;
 import libs.DoubleFormatter;
+import libs.Utility;
 
 /**
  *
@@ -701,63 +702,27 @@ private Fattura createFattura(){
     String anno = txtAnnoFatt.getText();
     String mese = txtMeseFatt.getText();
     String giorno = txtGiornoFatt.getText();
-
-    if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-        JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data", 
-            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
-        return null;
-    }
-
-    if (anno.length() == 2)
-        anno = "20" + anno;
-    else if (anno.length() == 3)
-        anno = "2" + anno;
-
-    if (mese.length() == 1)
-        mese = "0" + mese;
-
-    if (giorno.length() == 1)
-        giorno = "0" + giorno;
-
+    
     Date data = null;
     try {
-        data = Date.valueOf(anno + "-" + mese + "-"  + giorno);
+        data = Utility.dateValueOf(anno, mese, giorno, "data");
 
     } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, "Valore inserito per la data non valido! Inserire la data nel formato gg/mm/aaaa", 
-            "Formato errato", JOptionPane.ERROR_MESSAGE);
-            return null;
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
     
     String annoScad = txtAnnoScadenza.getText();
     String meseScad = txtMeseScadenza.getText();
     String giornoScad = txtGiornoScadenza.getText();
 
-    if (annoScad.isEmpty() || meseScad.isEmpty() || giornoScad.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-        JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data scadenza", 
-            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
-        return null;
-    }
-
-    if (annoScad.length() == 2)
-        annoScad = "20" + annoScad;
-    else if (annoScad.length() == 3)
-        annoScad = "2" + annoScad;
-
-    if (meseScad.length() == 1)
-        meseScad = "0" + meseScad;
-
-    if (giornoScad.length() == 1)
-        giornoScad = "0" + giornoScad;
-
     Date dataScadenza = null;
     try {
-        dataScadenza = Date.valueOf(annoScad + "-" + meseScad + "-"  + giornoScad);
+        dataScadenza = Utility.dateValueOf(annoScad, meseScad, giornoScad, "data scadenza");
 
     } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, "Valore inserito per la data scadenza non valido! Inserire la data nel formato gg/mm/aaaa", 
-            "Formato errato", JOptionPane.ERROR_MESSAGE);
-            return null;
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
 
     String metPag = "Contante-0";
@@ -915,20 +880,9 @@ private void setDataScadenza() {
     String annoFatt = txtAnnoFatt.getText();
     
     if (!giornoFatt.isEmpty() && !meseFatt.isEmpty() && !annoFatt.isEmpty()) {
-        
-        if (annoFatt.length() == 2)
-            annoFatt = "20" + annoFatt;
-        else if (annoFatt.length() == 3)
-            annoFatt = "2" + annoFatt;
-
-        if (meseFatt.length() == 1)
-            meseFatt = "0" + meseFatt;
-
-        if (giornoFatt.length() == 1)
-            giornoFatt = "0" + giornoFatt;
-        
+                
         try {
-            Date dataFattura = Date.valueOf(annoFatt + "-" + meseFatt + "-" + giornoFatt);
+            Date dataFattura = Utility.dateValueOf(annoFatt, meseFatt, giornoFatt, "data fattura");
             String[] nuovaScadenza = DateUpdate.update(dataFattura, Integer.parseInt((String) cboGiorni.getSelectedItem())).toString().split("-");
             txtGiornoScadenza.setText(nuovaScadenza[2]);
             txtMeseScadenza.setText(nuovaScadenza[1]);

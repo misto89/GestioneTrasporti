@@ -15,6 +15,7 @@ import entita.Fattura;
 import java.sql.Date;
 import javax.swing.JOptionPane;
 import libs.DateUpdate;
+import libs.Utility;
 
 /**
  *
@@ -205,28 +206,12 @@ private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:e
     String meseScad = txtMeseScadenza.getText();
     String giornoScad = txtGiornoScadenza.getText();
     Date dataScadenza = null;
-
-    if (annoScad.length() == 2)
-        annoScad = "20" + annoScad;
-    
-    if (meseScad.length() == 1)
-        meseScad = "0" + meseScad;
-    
-    if (giornoScad.length() == 1) 
-        giornoScad = "0" + giornoScad;
-    
-    if (annoScad.isEmpty() || meseScad.isEmpty() || giornoScad.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-        JOptionPane.showMessageDialog(null, "Inserire la data scadenza nel formato gg mm aaaa", 
-            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
     
     try {
-        dataScadenza = Date.valueOf(annoScad + "-" + meseScad + "-" + giornoScad);
+        dataScadenza = Utility.dateValueOf(annoScad, meseScad, giornoScad, "data scadenza");
     } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, "Valore inserito per la data scadenza non valido! Inserire la data nel formato gg/mm/aaaa", 
-            "Formato errato", JOptionPane.ERROR_MESSAGE);
-            return;
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return;
     }
     
     String vecchioMetodo = fattura.getMetPag();

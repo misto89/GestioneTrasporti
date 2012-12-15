@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import libs.DoubleFormatter;
+import libs.Utility;
 
 /**
  *
@@ -431,7 +432,7 @@ private void checkInsertedTotal(){
         tot += val;
     }
     txtTot.setText(String.valueOf(DoubleFormatter.roundTwoDecimals(tot)));
-    if (tot != fattura.getTotale())
+    if (DoubleFormatter.roundTwoDecimals(tot) != fattura.getTotale())
         txtTot.setForeground(Color.red);
     else txtTot.setForeground(Color.green);
 }
@@ -479,7 +480,7 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         somma += valori[i];
     }
         
-    if (somma != fattura.getTotale()) {
+    if (DoubleFormatter.roundTwoDecimals(somma) != fattura.getTotale()) {
         JOptionPane.showMessageDialog(this, "La somma di tutti i valori inseriti non coincide con il totale della fattura!\nSi prega di ricontrollare i valori inseriti",
                 "Errore", JOptionPane.ERROR_MESSAGE);
         
@@ -498,32 +499,16 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         
          String anno = txtAnnoPagamento.getText();
          String mese = txtMesePagamento.getText();
-         String giorno = txtGiornoPagamento.getText();
-        
-        if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-            JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data", 
-                "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (anno.length() == 2)
-            anno = "20" + anno;
-        else if (anno.length() == 3)
-            anno = "2" + anno;
-
-        if (mese.length() == 1)
-            mese = "0" + mese;
-
-        if (giorno.length() == 1)
-            giorno = "0" + giorno;       
-        
-        
+         String giorno = txtGiornoPagamento.getText(); 
+       
          Date dataPagam = null;
          try {
-             dataPagam = Date.valueOf(anno + "-" + mese + "-" + giorno);
+             dataPagam = Utility.dateValueOf(anno, mese, giorno, "data pagamento");
          } catch (IllegalArgumentException e) {
-             JOptionPane.showMessageDialog(this, "Formato data non valido! Inserire la data nel formato gg mm aaaa");
+             JOptionPane.showMessageDialog(null, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
+             return;
          }
+         
          if (parentClassName.equalsIgnoreCase(INS_FATT_ACQUISTO)){
             ((InsFatturaAcquisto)parent).movimenti = movimenti; 
             ((InsFatturaAcquisto)parent).dataPagamento = dataPagam; 

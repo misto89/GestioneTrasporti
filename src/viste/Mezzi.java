@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import libs.Utility;
 import stampa.StampaMezzi;
 
 /**
@@ -898,20 +899,9 @@ private Date getData(JTextField txtAnno, JTextField txtMese, JTextField txtGiorn
     String giorno = txtGiorno.getText();
         
     if ( !(anno.isEmpty() && mese.isEmpty() && giorno.isEmpty()) ) { //Non sono tutte tre vuote
-        
-        if (anno.length() == 2)
-            anno = "20" + anno;
-        else if (anno.length() == 3)
-            anno = "2" + anno;
-
-        if (mese.length() == 1)
-            mese = "0" + mese;
-
-        if (giorno.length() == 1)
-            giorno = "0" + giorno;
-        
+               
         try {
-            return Date.valueOf(anno + "-" + mese + "-" + giorno);
+            return Utility.dateValueOf(anno, mese, giorno, "data");
 
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Inserire la scadenza " + tipoScadenza + " nel formato gg mm aaaa");

@@ -31,6 +31,7 @@ public class FileChooser extends javax.swing.JDialog {
         initComponents();
         ColorManager color = new ColorManager();
         color.changeColor(flChooser);
+        flChooser.setCurrentDirectory(FrontController.getDumpDir());
     }
 
     /** This method is called from within the constructor to

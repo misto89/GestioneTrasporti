@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import libs.DoubleFormatter;
+import libs.Utility;
 
 /**
  *
@@ -1073,22 +1074,7 @@ private Spedizione creaSpedizioneDaInserire() {
     String anno = txtAnnoCarico.getText();
     String mese = txtMeseCarico.getText();
     String giorno = txtGiornoCarico.getText();
-    
-    if (anno.length() == 2)
-        anno = "20" + anno;
-    
-    if (mese.length() == 1)
-        mese = "0" + mese;
-    
-    if (giorno.length() == 1) 
-        giorno = "0" + giorno;
-    
-    if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-        JOptionPane.showMessageDialog(null, "Inserire la data carico nel formato gg mm aaaa", 
-            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
-        return null;
-    }
-        
+            
     /*
      * Se la data non è inserita nel formato corretto, mostra un messaggio di errore.
      * Per formato corretto si intende che il giorno non superi 31, o che il mese non
@@ -1096,42 +1082,22 @@ private Spedizione creaSpedizioneDaInserire() {
      * mese inserito. (es. il 31/11 non esiste)
      */
     try {
-        dataCarico = Date.valueOf(anno + "-" + mese + "-" + giorno);
+        dataCarico = Utility.dateValueOf(anno, mese, giorno, "data carico");
     } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, "Valore inserito per la data carico non valido! Inserire la data nel formato gg/mm/aaaa", 
-            "Formato errato", JOptionPane.ERROR_MESSAGE);
-            return null;
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
     
     Date dataDocumento = null;
     anno = txtAnnoDocumento.getText();
     mese = txtMeseDocumento.getText();
     giorno = txtGiornoDocumento.getText();
-    
-    if (anno.length() == 2)
-        anno = "20" + anno;
-    
-    if (mese.length() == 1)
-        mese = "0" + mese;
-    
-    if (giorno.length() == 1) 
-        giorno = "0" + giorno;
-    
-    if (!anno.isEmpty() && !mese.isEmpty() && !giorno.isEmpty()) { //Sono stati inseriti tutti i campi relativi alla data in questione
-        //Controlla la data, come nel caso della data precedente
-        try {
-            dataDocumento = Date.valueOf(anno + "-" + mese + "-" + giorno);
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, "Valore inserito per la data documento non valido! Inserire la data nel formato gg/mm/aaaa", 
-                "Formato errato", JOptionPane.ERROR_MESSAGE);
-                return null;
-        }
-    } else if (anno.isEmpty() && mese.isEmpty() && giorno.isEmpty()) {
-        
-    } else { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-        JOptionPane.showMessageDialog(null, "Valore inserito per la data documento non valido! Inserire la data nel formato gg/mm/aaaa", 
-                "Formato errato", JOptionPane.ERROR_MESSAGE);
-                return null;
+           
+    try {
+        dataDocumento = Utility.dateValueOf(anno, mese, giorno, "data documento");
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
     
     //Acquisisce la stringa delle bolle, e se non vuota, controlla che rispetti il formato corretto (cioè col '-')

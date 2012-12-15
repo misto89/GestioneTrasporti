@@ -282,4 +282,8 @@ public abstract class FrontController {
     public static List<Spedizione> getStoricoSpedizioni(int anno, Spedizione.tipo type){
         return DAO_ASF.getStoricoSpedizioni(anno, type);
     }
+    
+    public static File getDumpDir() {
+        return new File(Database.DIR_NAME);
+    }
 }

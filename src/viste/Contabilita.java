@@ -36,6 +36,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import libs.Utility;
 import stampa.StampaMovimentazioneMensile;
 
 
@@ -503,25 +504,13 @@ private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {/
             String giorno = splitted[0];
             String mese = splitted[1];
             String anno = splitted[2];
-            
-            if (anno.length() == 2)
-                anno = "20" + anno;
-                    
-            else if (anno.length() == 3)
-                anno = "2" + anno;
-
-            if (mese.length() == 1)
-                mese = "0" + mese;
-
-            if (giorno.length() == 1) 
-                giorno = "0" + giorno;
-            
+                      
             try {
-                dataIniziale = Date.valueOf(anno + "-" + mese + "-" + giorno);
+                dataIniziale = Utility.dateValueOf(anno, mese, giorno, "data iniziale");
                 okDate = true;
                 
             } catch (IllegalArgumentException e) { //Il valore inserito per la data non è valido, perché non esiste. Per esempio si inserisce 13 come mese
-                JOptionPane.showMessageDialog(rootPane, "Inserisci la data nel formato corretto", "Valore errato", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
             }
             
         }
@@ -546,25 +535,13 @@ private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {/
                 String giorno = splitted[0];
                 String mese = splitted[1];
                 String anno = splitted[2];
-                
-                if (anno.length() == 2)
-                    anno = "20" + anno;
-                    
-                else if (anno.length() == 3)
-                    anno = "2" + anno;
-
-                if (mese.length() == 1)
-                    mese = "0" + mese;
-
-                if (giorno.length() == 1) 
-                    giorno = "0" + giorno;
-                
+                               
                 try {
-                    dataFinale = Date.valueOf(anno + "-" + mese + "-" + giorno);
+                    dataFinale = Utility.dateValueOf(anno, mese, giorno, "data finale");
                     okDate = true;
                     
                 } catch (IllegalArgumentException e) { //Il valore inserito per la data non è valido, perché non esiste. Per esempio si inserisce 13 come mese
-                    JOptionPane.showMessageDialog(rootPane, "Inserisci la data nel formato corretto", "Valore errato", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
                 }
             }
             

@@ -26,7 +26,7 @@ public class Database {
     private String db;
     
     private static final String FILE_NAME = "_gestione_trasporti.sql";
-    private static final String DIR_NAME = ConfigManager.getProperty("dumpdir");
+    public static final String DIR_NAME = ConfigManager.getProperty("dumpdir");
         
     public Database() {
         user = ConfigManager.getProperty("user");

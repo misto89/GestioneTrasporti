@@ -175,29 +175,32 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" pref="1207" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="pnlPagate" max="32767" attributes="1"/>
-                          <Component id="pnlAnno" alignment="0" max="32767" attributes="1"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="pnlTipo" linkSize="1" min="-2" max="-2" attributes="1"/>
-                                  <Component id="pnlFornitore" linkSize="1" alignment="1" min="-2" max="-2" attributes="1"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="pnlScadute" max="32767" attributes="1"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="pnlMesi" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="pnlRiepilogo" max="32767" attributes="1"/>
+                          <Component id="pnlAnno" max="32767" attributes="1"/>
+                          <Component id="pnlPagate" max="32767" attributes="1"/>
                       </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="pnlFornitore" linkSize="1" min="-2" max="-2" attributes="1"/>
+                                  <Component id="pnlTipo" linkSize="1" min="-2" max="-2" attributes="1"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="pnlScadute" max="32767" attributes="1"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="pnlMesi" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="pnlRiepilogo" max="32767" attributes="1"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane1" alignment="1" pref="1215" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -206,36 +209,31 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="7" pref="7" max="7" attributes="0"/>
-                      <Component id="pnlRiepilogo" min="-2" max="-2" attributes="1"/>
-                  </Group>
-                  <Component id="pnlAnno" max="32767" attributes="1"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="pnlAnno" min="-2" max="-2" attributes="1"/>
+                  <Component id="pnlRiepilogo" min="-2" max="-2" attributes="1"/>
               </Group>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" attributes="1">
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnlMesi" max="32767" attributes="1"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="pnlPagate" alignment="0" max="32767" attributes="1"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="pnlScadute" alignment="0" max="32767" attributes="1"/>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="pnlFornitore" min="-2" max="-2" attributes="1"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="pnlTipo" min="-2" max="-2" attributes="1"/>
-                              </Group>
-                          </Group>
+                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="102" alignment="0" attributes="1">
+                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                          <Component id="pnlScadute" max="32767" attributes="1"/>
+                      </Group>
+                      <Component id="pnlPagate" alignment="0" max="32767" attributes="1"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="pnlFornitore" min="-2" max="-2" attributes="1"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="pnlTipo" min="-2" max="-2" attributes="1"/>
                       </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="423" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -259,7 +257,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="cboAnno" pref="143" max="32767" attributes="0"/>
+                  <Component id="cboAnno" pref="177" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -269,7 +267,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="cboAnno" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="35" max="32767" attributes="0"/>
+                  <EmptySpace pref="30" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -316,7 +314,7 @@
                   <Component id="pnlTotPagate" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="pnlTotNonPagate" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="242" max="32767" attributes="0"/>
+                  <EmptySpace pref="177" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -609,7 +607,7 @@
                       <Component id="optTutte" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="optNonPagate" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="76" max="32767" attributes="0"/>
+                  <EmptySpace pref="110" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -738,7 +736,7 @@
                           <Component id="chkMarzo" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="55" max="32767" attributes="0"/>
+                  <EmptySpace pref="49" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1129,7 +1127,7 @@
                       <Component id="optTutteScad" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="optNonScadute" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="55" max="32767" attributes="0"/>
+                  <EmptySpace pref="40" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1141,7 +1139,7 @@
                   <Component id="optScadute" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="optNonScadute" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="38" max="32767" attributes="0"/>
+                  <EmptySpace pref="27" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
