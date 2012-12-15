@@ -111,6 +111,7 @@ public class DAO_CBC {
         boolean forfait;
         String note;
         Date dataScadenza;
+        Date dataPagamento;
 
         while (rs.next()){
             numero = rs.getInt(Tabelle.Fatture.NUMERO);
@@ -125,9 +126,10 @@ public class DAO_CBC {
             forfait = rs.getBoolean(Tabelle.Fatture.FORFAIT);
             note = rs.getString(Tabelle.Fatture.NOTE);
             dataScadenza = rs.getDate(Tabelle.Fatture.SCADENZA);
-
+            dataPagamento = rs.getDate(Tabelle.Fatture.PAGAMENTO);
+            
             Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, ricSpedizioni(numero, dataFattura) , forfait, pagata, note,
-                    dataScadenza);
+                    dataScadenza, dataPagamento);
             
             int codFornCliente = 0;
             if (!recuperaCliente)
@@ -475,7 +477,7 @@ public class DAO_CBC {
 
                 sql = "INSERT INTO " + Tabelle.FATT_ACQUISTO + " VALUES (" + fatt.getNumero() + ", " + checkNull(fatt.getData()) + ", " + checkNull(fatt.getMetPag()) + ", " + fatt.getImporto() + ", " + 
                                             fatt.getSconto() + ", " + fatt.getIva() + ", " + fatt.getTotale() + ", " + fatt.getPagata() + ", '" + fatt.getTipo() + "', " + checkNull(fatt.getNote()) +
-                                            ", " + fatt.getFornitore() + ", '" + fatt.getDataScadenza() + "' , " + checkNull(fatt.getSpecificaNumero()) + ")";
+                                            ", " + fatt.getFornitore() + ", '" + fatt.getDataScadenza() + "' , " + checkNull(fatt.getSpecificaNumero()) + ", NULL)";
 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
@@ -531,6 +533,7 @@ public class DAO_CBC {
         int codForn;
         Date dataScadenza;
         String specificaNumero;
+        Date dataPagamento;
 
         while (rs.next()){
             numero = rs.getInt(Tabelle.FattureAcquisto.NUMERO);
@@ -546,9 +549,10 @@ public class DAO_CBC {
             note = rs.getString(Tabelle.FattureAcquisto.NOTE);
             dataScadenza = rs.getDate(Tabelle.FattureAcquisto.SCADENZA);
             specificaNumero = rs.getString(Tabelle.FattureAcquisto.SPECIFICA_NUMERO);
-
+            dataPagamento = rs.getDate(Tabelle.FattureAcquisto.PAGAMENTO);
+            
             Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, sconto, ivaTot, totale, tipoAcquisto, pagata, codForn, note,
-                    dataScadenza, specificaNumero);
+                    dataScadenza, specificaNumero, dataPagamento);
 
             int codFornCliente = 0;
             if (!recuperaForn)
@@ -734,14 +738,19 @@ public class DAO_CBC {
     public static void updatePagamentoFattura(Fattura.tipo tipo, Fattura fattura, boolean pagata, List<Movimento> movimenti) {
         try {
            
+            if (!pagata)
+                fattura.setDataPagamento(null);
+            
             if (tipo == Fattura.tipo.ACQ) {
-                sql = "UPDATE " + Tabelle.FATT_ACQUISTO + " SET " + Tabelle.FattureAcquisto.PAGATA + " = " + pagata +
+                sql = "UPDATE " + Tabelle.FATT_ACQUISTO + " SET " + Tabelle.FattureAcquisto.PAGATA + " = " + pagata + 
+                        ", " + Tabelle.FattureAcquisto.PAGAMENTO + " = " + checkNull(fattura.getDataPagamento()) + 
                         " WHERE " + Tabelle.FattureAcquisto.NUMERO + " = " + fattura.getNumero() + " AND " + 
                         Tabelle.FattureAcquisto.DATA + " = '" + fattura.getData() + "'" + " AND " + Tabelle.FattureAcquisto.FORNITORE + 
                         " = " + fattura.getCliente().getCod();    
                 
             } else {
                 sql = "UPDATE " + Tabelle.FATTURE + " SET " + Tabelle.Fatture.PAGATA + " = " + pagata +
+                        ", " + Tabelle.Fatture.PAGAMENTO + " = " + checkNull(fattura.getDataPagamento()) + 
                         " WHERE " + Tabelle.Fatture.NUMERO + " = " + fattura.getNumero() + " AND " + 
                         Tabelle.Fatture.DATA + " = '" + fattura.getData() + "'";
             }
@@ -1153,7 +1162,7 @@ public class DAO_CBC {
                 ps = conn.prepareStatement(sql);
                 ps.executeUpdate();
                 
-                sql = "UPDATE " + Tabelle.FATT_ACQUISTO + " SET " + Tabelle.FattureAcquisto.PAGATA + " = 0" +
+                sql = "UPDATE " + Tabelle.FATT_ACQUISTO + " SET " + Tabelle.FattureAcquisto.PAGATA + " = 0, " + Tabelle.FattureAcquisto.PAGAMENTO + " = NULL" +
                         " WHERE " + Tabelle.FattureAcquisto.NUMERO + " = " + old.getNumero() + " AND " + Tabelle.FattureAcquisto.DATA + " = '" + old.getData()
                         + "' AND " + Tabelle.FattureAcquisto.FORNITORE + " = " + old.getFornitore();
                 

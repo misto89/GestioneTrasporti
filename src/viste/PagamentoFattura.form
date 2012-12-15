@@ -375,9 +375,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtGiornoScadenza">
-          <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtGiornoScadenzaFocusLost"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel15">
           <Properties>
@@ -385,9 +382,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtMeseScadenza">
-          <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtMeseScadenzaFocusLost"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel16">
           <Properties>
@@ -395,9 +389,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtAnnoScadenza">
-          <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtAnnoScadenzaFocusLost"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -1341,7 +1341,7 @@ private void txtImportoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:eve
 }//GEN-LAST:event_txtImportoFocusLost
 
 void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boolean pagata, boolean forfait, String note, List<Movimento> movimenti,
-        Date dataScadenza) {
+        Date dataScadenza, Date dataPagamento) {
            
     Double importo = 0.00;
     try {
@@ -1375,7 +1375,7 @@ void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boo
     speds.add(spedDaFatturare);
 
     Fattura fatt = new Fattura(numero, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, speds, forfait, pagata, note,
-            dataScadenza);
+            dataScadenza, null);
     
     fatt.setCliente(fornitore);
     try {
@@ -1389,6 +1389,7 @@ void continuaEmissione(int numero, Date dataFattura, String metodoPagamento, boo
                                 
                 }
                 
+                fatt.setDataPagamento(dataPagamento);
                 FrontController.updatePagataFattura(Fattura.tipo.VEN, fatt, pagata, movimenti);
             }
             

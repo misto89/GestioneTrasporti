@@ -469,7 +469,7 @@ public abstract class DAO_ASF {
                 
                 sql = "INSERT INTO " + Tabelle.FATTURE + " VALUES (" + fatt.getNumero() + ", " + checkNull(fatt.getData()) + ", " + checkNull(fatt.getMetPag()) + ", " + fatt.getImporto() + ", " + 
                                             fatt.getSconto() + ", " + fatt.getProvvigione() + ", " + fatt.getIva() + ", " + fatt.getTotale() + ", " + fatt.getForfait() + ", " + fatt.getPagata() + ", "
-                                            + checkNull(fatt.getNote()) + ", '" + fatt.getDataScadenza() + "')";
+                                            + checkNull(fatt.getNote()) + ", '" + fatt.getDataScadenza() + "', NULL)";
 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);

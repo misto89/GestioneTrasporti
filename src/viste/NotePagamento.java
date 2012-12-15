@@ -16,6 +16,7 @@ import entita.Movimento;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Window;
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -96,6 +97,13 @@ public class NotePagamento extends javax.swing.JDialog {
         lblRiba1 = new javax.swing.JLabel();
         txtTot = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        txtAnnoPagamento = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtGiornoPagamento = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        txtMesePagamento = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modalità di pagamento");
@@ -271,11 +279,25 @@ public class NotePagamento extends javax.swing.JDialog {
 
         lblRiba1.setText("Totale inserito");
 
-        txtTot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtTot.setFont(new java.awt.Font("Tahoma", 1, 12));
         txtTot.setForeground(new java.awt.Color(0, 255, 0));
         txtTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel6.setText("€");
+
+        jLabel11.setText("Data Pagamento");
+
+        jLabel13.setText("gg");
+
+        txtAnnoPagamento.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel12.setText("mm");
+
+        txtGiornoPagamento.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel14.setText("aaaa");
+
+        txtMesePagamento.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -283,7 +305,7 @@ public class NotePagamento extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnConferma)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -291,12 +313,29 @@ public class NotePagamento extends javax.swing.JDialog {
                     .addComponent(pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(lblRiba1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtTot, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblRiba1)
+                            .addComponent(jLabel11))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                                .addComponent(txtTot, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtGiornoPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtMesePagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtAnnoPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
@@ -312,7 +351,16 @@ public class NotePagamento extends javax.swing.JDialog {
                     .addComponent(lblRiba1)
                     .addComponent(txtTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtAnnoPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14)
+                    .addComponent(txtGiornoPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(txtMesePagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConferma)
                     .addComponent(btnAnnulla))
@@ -358,7 +406,20 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
     }
     parentClassName = parent.getClass().getSimpleName(); 
     checkInsertedTotal();
-            
+    txtGiornoPagamento.setDocument(new JTextFieldLimit(MAX_LENGTH_GIORNO));
+    txtMesePagamento.setDocument(new JTextFieldLimit(MAX_LENGTH_MESE));
+    txtAnnoPagamento.setDocument(new JTextFieldLimit(MAX_LENGTH_ANNO));
+    
+    Date data = null;
+    if (fattura.getDataPagamento() == null) {
+        data = fattura.getDataScadenza();
+    } else
+        data = fattura.getDataPagamento();
+    
+    String[] dataStr = data.toString().split("-");
+    txtGiornoPagamento.setText(dataStr[2]);
+    txtMesePagamento.setText(dataStr[1]);
+    txtAnnoPagamento.setText(dataStr[0]);
 }//GEN-LAST:event_formWindowOpened
 
 private void checkInsertedTotal(){
@@ -435,15 +496,46 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             if (valori[i] != 0.00)
                 movimenti.add(new Movimento(fattura.getNumero(), fattura.getData(), tipo.toString(), metodiPagamento[i + 1], valori[i], fattura.getCliente().getCod()));
         
+         String anno = txtAnnoPagamento.getText();
+         String mese = txtMesePagamento.getText();
+         String giorno = txtGiornoPagamento.getText();
         
-            
+        if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
+            JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data", 
+                "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (anno.length() == 2)
+            anno = "20" + anno;
+        else if (anno.length() == 3)
+            anno = "2" + anno;
+
+        if (mese.length() == 1)
+            mese = "0" + mese;
+
+        if (giorno.length() == 1)
+            giorno = "0" + giorno;       
+        
+        
+         Date dataPagam = null;
+         try {
+             dataPagam = Date.valueOf(anno + "-" + mese + "-" + giorno);
+         } catch (IllegalArgumentException e) {
+             JOptionPane.showMessageDialog(this, "Formato data non valido! Inserire la data nel formato gg mm aaaa");
+         }
          if (parentClassName.equalsIgnoreCase(INS_FATT_ACQUISTO)){
             ((InsFatturaAcquisto)parent).movimenti = movimenti; 
+            ((InsFatturaAcquisto)parent).dataPagamento = dataPagam; 
          } else if (parentClassName.equalsIgnoreCase(SPEDIZIONI)){
             ((Spedizioni)parent).movimenti = movimenti;
+            ((Spedizioni)parent).dataPagamento = dataPagam;
          } else if (parentClassName.equalsIgnoreCase(PAGAMENTO_FATT)){
              ((PagamentoFattura)parent).movimenti = movimenti;
+             ((PagamentoFattura)parent).dataPagamento = dataPagam;
          } else {
+             
+             fattura.setDataPagamento(dataPagam);
              FrontController.updatePagataFattura(tipo, fattura, true, movimenti);
         
              if (tipo == Fattura.tipo.VEN) {
@@ -495,6 +587,10 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JButton btnAnnulla;
     private javax.swing.JButton btnConferma;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -508,9 +604,12 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JLabel lblRiba1;
     private javax.swing.JPanel pnl;
     private javax.swing.JTextField txtAccredito;
+    private javax.swing.JTextField txtAnnoPagamento;
     private javax.swing.JTextField txtAssegno;
     private javax.swing.JTextField txtBonifico;
     private javax.swing.JTextField txtContante;
+    private javax.swing.JTextField txtGiornoPagamento;
+    private javax.swing.JTextField txtMesePagamento;
     private javax.swing.JTextField txtRiba;
     private javax.swing.JTextField txtTot;
     // End of variables declaration//GEN-END:variables
@@ -524,4 +623,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
 //    private boolean calledByDialog = false;
 //    private boolean calledBySpedizioni = false;
     private String[] metodiPagamento;
+    private static final int MAX_LENGTH_GIORNO = 2;
+    private static final int MAX_LENGTH_MESE = 2;
+    private static final int MAX_LENGTH_ANNO = 4;
 }

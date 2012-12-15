@@ -1649,14 +1649,14 @@ void setFatture() {
     
     final String[] COLONNE = {
         "FORNITORE", "TIPO", "NUM. DOC", "DATA", "IMPONIBILE", "IVA", 
-        "TOTALE", "MOD. PAGAMENTO", "PAGATA",  "SCADENZA", "NOTE PAGAM.", "NOTE" 
+        "TOTALE", "MOD. PAGAMENTO", "PAGATA", "DATA PAGAMENTO", "SCADENZA", "NOTE PAGAM.", "NOTE" 
     };
     
     Class[] types = { String.class, String.class, Integer.class,
-                    Object.class, Double.class, Double.class, Double.class, String.class, Character.class, Object.class, String.class, String.class };
+                    Object.class, Double.class, Double.class, Double.class, String.class, Character.class, Object.class, Object.class, String.class, String.class };
     
     TableModel tm = new FattureTableModel(arrayFatt, COLONNE, types, new boolean[] {
-        false, false, false, false, false, false, false, false, true, false, false, false
+        false, false, false, false, false, false, false, false, true, false, false, false, false
     });
     tblFatture.setModel(tm);
     
@@ -1688,11 +1688,11 @@ void setFatture() {
     });
     
     boolean[] resizable = {
-        true, true, false, false, false, false, false, false, false, false, true, true
+        true, true, false, false, false, false, false, false, false, false, false, true, true
     };
     
     int[] width = {
-        300, 90, 100, 90, 125, 125, 125, 170, 70, 125, 300, 300
+        300, 90, 100, 90, 125, 125, 125, 170, 70, 125, 125, 300, 300
     };
     
     tblFatture.getTableHeader().setReorderingAllowed(false); //Fa in modo che l'utente non possa modificare l'ordine delle colonne
@@ -1874,8 +1874,9 @@ void setFatture() {
     private static final int TOTALE = 6;
     private static final int MOD_PAG = 7;
     private static final int PAGATA = 8;
-    private static final int SCADENZA = 9;
-    private static final int NOTE_PAG = 10;
-    private static final int NOTE = 11;
+    private static final int PAGAMENTO = 9;
+    private static final int SCADENZA = 10;
+    private static final int NOTE_PAG = 11;
+    private static final int NOTE = 12;
 
 }

@@ -36,9 +36,10 @@ public class Fattura implements Entity {
     private int fornitore; //solo per fatture d'acquisto
     private String specificaNumero; //solo per le fatture d'acquisto
     private List<Movimento> movimenti = new LinkedList<Movimento>();
+    private Date dataPagamento;
     
-    public static int NUM_CAMPI_EMESSE = 11;
-    public static int NUM_CAMPI_ACQUISTO = 12;
+    public static int NUM_CAMPI_EMESSE = 12;
+    public static int NUM_CAMPI_ACQUISTO = 13;
    
     public static enum pagata {
         P, NP, ALL
@@ -71,7 +72,7 @@ public class Fattura implements Entity {
     }
     
     public Fattura(int num, Date data, String metPag, double imp, double prov, double sc, double iva, double tot, List<Spedizione> spedizioni, boolean forfait, boolean pagata, String n,
-            Date dataScadenza){
+            Date dataScadenza, Date dataPagamento){
         numero = num;
         dataFattura = data;
         metodoPagamento = metPag;
@@ -86,11 +87,12 @@ public class Fattura implements Entity {
         this.spedizioni = spedizioni;
         this.pagata = pagata;
         this.dataScadenza = dataScadenza;
+        this.dataPagamento = dataPagamento;        
     }
     
     //costruttore per la fattura d'acquisto
     public Fattura (int num,  Date data, String metPag, double imp, double sc, double iva, double tot, String tipo, boolean pagata, int codForn, String note,
-            Date dataScadenza, String specificaNumero){
+            Date dataScadenza, String specificaNumero, Date dataPagamento){
         numero = num;
         dataFattura = data;
         metodoPagamento = metPag;
@@ -105,6 +107,7 @@ public class Fattura implements Entity {
         this.note = note;
         this.dataScadenza = dataScadenza;
         this.specificaNumero = specificaNumero;
+        this.dataPagamento = dataPagamento;  
     }
     
     public int getNumero() {
@@ -187,7 +190,7 @@ public class Fattura implements Entity {
     
     public List<Spedizione> getSpedizioni() {
         return spedizioni;
-    }
+    }    
     
     public boolean getPagata() {
         return pagata;
@@ -286,7 +289,7 @@ public class Fattura implements Entity {
         if (cliente.getTitolare() != null)
             strCliente += " di " + cliente.getTitolare();
         
-        return new Object[] {strCliente, numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
+        return new Object[] {strCliente, numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, (dataPagamento != null) ? sdf.format(dataPagamento) : "", sdf.format(getDataScadenza()), getNotePag(), note};
     }
     
     public Object[] fattAcquistoToArray() {
@@ -305,7 +308,7 @@ public class Fattura implements Entity {
         if (cliente.getTitolare() != null)
             strCliente += " di " + cliente.getTitolare();
         
-        return new Object[] {strCliente, tipo, (specificaNumero != null) ? numero + "-" + specificaNumero : numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, sdf.format(getDataScadenza()), getNotePag(), note};
+        return new Object[] {strCliente, tipo, (specificaNumero != null) ? numero + "-" + specificaNumero : numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, (dataPagamento != null) ? sdf.format(dataPagamento) : "", sdf.format(getDataScadenza()), getNotePag(), note};
     }
     
     public boolean isScaduta() {
@@ -338,10 +341,25 @@ public class Fattura implements Entity {
     public void setDataScadenza(Date dataScadenza) {
         this.dataScadenza = dataScadenza;
     }
-   
+    
     public String getFormattedDataScadenza() {
         final String NEW_FORMAT = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
         return sdf.format(getDataScadenza());
     }
+    
+    public Date getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(Date dataPagamento) {
+        this.dataPagamento = dataPagamento;
+    }
+   
+    public String getFormattedDataPagamento() {
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
+        return sdf.format(this.dataPagamento);
+    }    
+    
 }

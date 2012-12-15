@@ -161,6 +161,12 @@ public final class StampaFattura extends StampaDocumento {
                 if (dataDocumento != null)
                     dataDoc = sdf.format(dataDocumento);
                    
+                String sconto = String.valueOf(sped.getSconto() + " %");
+                if (sped.getSconto() == 0)
+                {
+                    sconto = "";
+                }
+                
                 PdfPCell[] rigaSped = {
                     new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
@@ -169,7 +175,7 @@ public final class StampaFattura extends StampaDocumento {
                     new PdfPCell(new Phrase(qta, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(przUnitario, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(importo, FONT_GRANDE_NORMALE)),
-                    new PdfPCell(new Phrase(String.valueOf(sped.getSconto() + " %"), FONT_GRANDE_NORMALE)),
+                    new PdfPCell(new Phrase(sconto, FONT_GRANDE_NORMALE)),
                     new PdfPCell(new Phrase(String.valueOf(sped.getPercIva() + " %"), FONT_GRANDE_NORMALE)),
                     //new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(sped.getValoreMerce())), FONT_GRANDE_NORMALE)),
                 };

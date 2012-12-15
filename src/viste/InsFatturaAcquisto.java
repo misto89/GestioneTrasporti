@@ -582,6 +582,7 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                             m.setData(fatt.getData());
                             m.setNumDoc(fatt.getNumero());
                         }
+                        fatt.setDataPagamento(dataPagamento);
                         FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, fatt.getPagata(), movimenti);
                         movimenti = null;
                         
@@ -612,6 +613,7 @@ private void btnMemorizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                         m.setData(fatt.getData());
                         m.setNumDoc(fatt.getNumero());
                     }
+                    fatt.setDataPagamento(dataPagamento);
                     FrontController.updatePagataFattura(Fattura.tipo.ACQ, fatt, fatt.getPagata(), movimenti);
                     movimenti = null;                    
                 }
@@ -824,7 +826,7 @@ private Fattura createFattura(){
 
     String note = txtNote.getText();
 
-    Fattura fattura = new Fattura(num, data, metPag, importo, sconto, iva, totale, tipo, pagata, fornitore, note, dataScadenza, specificaNumero);
+    Fattura fattura = new Fattura(num, data, metPag, importo, sconto, iva, totale, tipo, pagata, fornitore, note, dataScadenza, specificaNumero, null);
     fattura.setCliente(new Fornitore(codFornitore));
 
     return fattura;
@@ -1005,6 +1007,8 @@ void unCheckPagate(){
     
     //Lista temporanea di movimenti
     public List<Movimento> movimenti = new LinkedList<Movimento>();
+    //Data pagamento modificata/inserita nella dialog NotePagamento
+    public Date dataPagamento = null;
     /*
      * Campi per il calcolo
      */

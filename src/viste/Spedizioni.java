@@ -1951,7 +1951,7 @@ private void btnEmettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     final int RESPONSE = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler procedere con l'emissione della fattura?", "Conferma fatturazione", JOptionPane.OK_CANCEL_OPTION);
     if (RESPONSE == JOptionPane.OK_OPTION) {
         Fattura fatt = new Fattura(numFattura, dataFattura, metodoPagamento, importo, provvigione, sconto, ivaTot, totale, spedizioniDaFatt, 
-                forfait, pagata, note, dataScadenza);
+                forfait, pagata, note, dataScadenza, null);
         
         fatt.setCliente(new Fornitore(id_fornitore));
         try {
@@ -1965,6 +1965,7 @@ private void btnEmettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                             m.setData(fatt.getData());
                             m.setNumDoc(fatt.getNumero());
                         }
+                        fatt.setDataPagamento(dataPagamento);
                         FrontController.updatePagataFattura(Fattura.tipo.VEN, fatt, pagata, movimenti);
                         movimenti = null;
                     }
@@ -2392,6 +2393,38 @@ private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         fatt.setNumero(Integer.parseInt(txtNumFatt.getText()));
         fatt.setData(dataPresunta);
         fatt.setCliente((Fornitore)cboFornitori.getSelectedItem());
+        
+        String anno = txtAnnoScadenza.getText();
+        String mese = txtMeseScadenza.getText();
+        String giorno = txtGiornoScadenza.getText();
+        
+        if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
+            JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data", 
+                "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (anno.length() == 2)
+            anno = "20" + anno;
+        else if (anno.length() == 3)
+            anno = "2" + anno;
+
+        if (mese.length() == 1)
+            mese = "0" + mese;
+
+        if (giorno.length() == 1)
+            giorno = "0" + giorno;       
+        
+        
+         Date dataScadenza = null;
+         try {
+             dataScadenza = Date.valueOf(anno + "-" + mese + "-" + giorno);
+         } catch (IllegalArgumentException e) {
+             JOptionPane.showMessageDialog(this, "Formato data non valido! Inserire la data nel formato gg mm aaaa");
+         }
+        
+        fatt.setDataScadenza(dataScadenza);
+        
         Double totale = 0.0;
         if (chkForfait.isSelected())
             totale = Double.parseDouble(txtTotForfait.getText());
@@ -2643,6 +2676,8 @@ int getIndexSpedizione(Spedizione sped) {
     
     //Lista temporanea di movimenti
     public List<Movimento> movimenti = new LinkedList<Movimento>();
+    //Data pagamento modificata/inserita nella dialog NotePagamento
+    public Date dataPagamento = null;
     
     private final boolean[] modificaCelle = new boolean[] {
             true, true, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false 

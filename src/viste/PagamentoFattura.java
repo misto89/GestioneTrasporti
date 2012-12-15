@@ -181,27 +181,9 @@ public class PagamentoFattura extends javax.swing.JDialog {
 
         jLabel14.setText("gg");
 
-        txtGiornoScadenza.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtGiornoScadenzaFocusLost(evt);
-            }
-        });
-
         jLabel15.setText("mm");
 
-        txtMeseScadenza.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtMeseScadenzaFocusLost(evt);
-            }
-        });
-
         jLabel16.setText("aaaa");
-
-        txtAnnoScadenza.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtAnnoScadenzaFocusLost(evt);
-            }
-        });
 
         javax.swing.GroupLayout pnlDatiLayout = new javax.swing.GroupLayout(pnlDati);
         pnlDati.setLayout(pnlDatiLayout);
@@ -337,7 +319,7 @@ public class PagamentoFattura extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlDati, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlDati, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOk)
@@ -441,7 +423,7 @@ private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:e
         boolean forfait = chkForfait.isSelected();
         try {
             FrontController.checkTutt(dataFattura, numFattura);
-            insSpedizione.continuaEmissione(numFattura, dataFattura, modPag, pagata, forfait, note, movimenti, dataScadenza);
+            insSpedizione.continuaEmissione(numFattura, dataFattura, modPag, pagata, forfait, note, movimenti, dataScadenza, dataPagamento);
             dispose();
             
         } catch (CheckTuttException e) {
@@ -589,6 +571,38 @@ private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         fatt.setNumero(Integer.parseInt(txtNFatt.getText()));
         fatt.setData(dataPresunta);
         fatt.setCliente(insSpedizione.getCliente());
+        
+        String anno = txtAnnoScadenza.getText();
+        String mese = txtMeseScadenza.getText();
+        String giorno = txtGiornoScadenza.getText();
+        
+        if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
+            JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data", 
+                "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (anno.length() == 2)
+            anno = "20" + anno;
+        else if (anno.length() == 3)
+            anno = "2" + anno;
+
+        if (mese.length() == 1)
+            mese = "0" + mese;
+
+        if (giorno.length() == 1)
+            giorno = "0" + giorno;       
+        
+        
+         Date dataScadenza = null;
+         try {
+             dataScadenza = Date.valueOf(anno + "-" + mese + "-" + giorno);
+         } catch (IllegalArgumentException e) {
+             JOptionPane.showMessageDialog(this, "Formato data non valido! Inserire la data nel formato gg mm aaaa");
+         }
+        
+        fatt.setDataScadenza(dataScadenza);
+        
         Double totale = insSpedizione.getTotale();
         fatt.setTotale(totale);
         String metodoPagamento = null;
@@ -603,18 +617,6 @@ private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     } else
         movimenti = null;    
 }//GEN-LAST:event_chkPagataActionPerformed
-
-private void txtGiornoScadenzaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtGiornoScadenzaFocusLost
-// TODO add your handling code here:
-}//GEN-LAST:event_txtGiornoScadenzaFocusLost
-
-private void txtMeseScadenzaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMeseScadenzaFocusLost
-// TODO add your handling code here:
-}//GEN-LAST:event_txtMeseScadenzaFocusLost
-
-private void txtAnnoScadenzaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAnnoScadenzaFocusLost
-// TODO add your handling code here:
-}//GEN-LAST:event_txtAnnoScadenzaFocusLost
 
 private void cboGiorniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGiorniActionPerformed
 // TODO add your handling code here:
@@ -660,6 +662,8 @@ private void cboGiorniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     
     //Lista temporanea di movimenti
     public List<Movimento> movimenti = new LinkedList<Movimento>();
+    //Data pagamento modificata/inserita nella dialog NotePagamento
+    public Date dataPagamento = null;    
     
     private static final int MAX_LENGTH_GIORNO = 2;
     private static final int MAX_LENGTH_MESE = 2;
