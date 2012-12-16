@@ -40,6 +40,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import stampa.StampaRegistroAcquisto;
 
+
 /**
  *
  * @author Michele
@@ -187,6 +188,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
         mnuEliminaFattura = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         mnuIntervalloDate = new javax.swing.JCheckBoxMenuItem();
+        mnuFilterDataPagamento = new javax.swing.JMenuItem();
         mnuProspetto = new javax.swing.JMenu();
         mnuStampaCompleta = new javax.swing.JMenuItem();
         mnuStampaParziale = new javax.swing.JMenuItem();
@@ -374,7 +376,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                 .addComponent(pnlTotPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlTotNonPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
         pnlRiepilogoLayout.setVerticalGroup(
             pnlRiepilogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -885,6 +887,15 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
         });
         jMenu3.add(mnuIntervalloDate);
 
+        mnuFilterDataPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/intervallodate.png"))); // NOI18N
+        mnuFilterDataPagamento.setText("Per intervallo data pagamento");
+        mnuFilterDataPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFilterDataPagamentoActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnuFilterDataPagamento);
+
         jMenuBar1.add(jMenu3);
 
         mnuProspetto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prospetto.png"))); // NOI18N
@@ -1266,7 +1277,11 @@ private void optVarieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIntervalloDateActionPerformed
 // TODO add your handling code here:
-    // TODO add your handling code here:
+    dbDateFieldToFilter = "data";
+    dateFilter();
+}//GEN-LAST:event_mnuIntervalloDateActionPerformed
+
+private boolean dateFilter(){
     boolean okDate = false;
     java.util.Calendar currentime = Calendar.getInstance();
     dataIniziale = null;
@@ -1287,7 +1302,7 @@ private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {/
             
         } catch (NullPointerException e) { //L'utente ha premuto annulla sull'input dialog
             mnuIntervalloDate.setSelected(false);
-            return;
+            return false;
         }
     
         if (!checkData(dataI)) //Il formato della data inserita dall'utente, non è gg/mm/aaaa
@@ -1329,7 +1344,7 @@ private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {/
         String dataF = JOptionPane.showInputDialog(rootPane, "Inserisci la data finale oppure premi OK se vuoi utilizzare la data odierna.");
         if (dataF == null) { //L'utente ha premuto annulla sull'input dialog
             mnuIntervalloDate.setSelected(false);
-            return;
+            return false;
         }
         
         if (!(dataF.isEmpty())) { //La data inserita non è la stringa vuota
@@ -1372,8 +1387,10 @@ private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {/
        }
        chkTutti.setSelected(false);
        setFatture();
+       return okDate;
    }
-}//GEN-LAST:event_mnuIntervalloDateActionPerformed
+   return false;
+}
 
 private void optManutenzioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optManutenzioneActionPerformed
 // TODO add your handling code here:
@@ -1508,6 +1525,12 @@ private void mnuStampaParzialeActionPerformed(java.awt.event.ActionEvent evt) {/
     Stampa(false, riepilogo);
 }//GEN-LAST:event_mnuStampaParzialeActionPerformed
 
+private void mnuFilterDataPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFilterDataPagamentoActionPerformed
+// TODO add your handling code here:
+    dbDateFieldToFilter = "data_pagamento"; //Da cambiare con costante
+    dateFilter();
+}//GEN-LAST:event_mnuFilterDataPagamentoActionPerformed
+
 private String meseToString(int mese) {
     String stringa = null;
     switch (mese) {
@@ -1596,7 +1619,7 @@ void setFatture() {
     else
         tipo = Fattura.pagata.P;
     
-    List<Fattura> fattureProvvisorie = FrontController.getFattureAcquisto((Integer)cboAnno.getSelectedItem(), cliente, mesi, tipo, tipoFatt, dataIniziale, dataFinale);
+    List<Fattura> fattureProvvisorie = FrontController.getFattureAcquisto((Integer)cboAnno.getSelectedItem(), cliente, mesi, tipo, tipoFatt, dataIniziale, dataFinale, dbDateFieldToFilter);
     List<Fattura> fatture = new LinkedList<Fattura>();
     
     if (optScadute.isSelected()) {
@@ -1812,6 +1835,7 @@ void setFatture() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnuEliminaFattura;
     private javax.swing.JMenu mnuFattura;
+    private javax.swing.JMenuItem mnuFilterDataPagamento;
     private javax.swing.JMenuItem mnuInsFatt;
     private javax.swing.JCheckBoxMenuItem mnuIntervalloDate;
     private javax.swing.JMenuItem mnuModFattura;
@@ -1863,6 +1887,7 @@ void setFatture() {
     Date dataIniziale = null;
     Date dataFinale = null;
     private RegistroFattureAcquisto vista;
+    private String dbDateFieldToFilter = "";
     
     private static final int FORNITORE = 0;
     private static final int TIPO = 1;

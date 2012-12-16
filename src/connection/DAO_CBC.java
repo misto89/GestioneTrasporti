@@ -186,7 +186,7 @@ public class DAO_CBC {
      * @return Una lista di fatture, una lista vuota nel caso in cui non fosse stato selezionato alcun mese,
      * o null in caso di eventuali errori.
      */
-    public static List<Fattura> getFatture(int anno, Fornitore cliente, boolean mesi[], Fattura.pagata tipo, Date dataIntIn, Date dataIntFin) {
+    public static List<Fattura> getFatture(int anno, Fornitore cliente, boolean mesi[], Fattura.pagata tipo, Date dataIntIn, Date dataIntFin, String dateFieldToFilter) {
         
         /*
          * La stringa sql verrà costruita dinamicamente in base alle informazioni
@@ -245,7 +245,7 @@ public class DAO_CBC {
             else //non è stato selezionato alcun mese
                 sql = "";
         } else
-            sql += "(" + Tabelle.Fatture.DATA + " BETWEEN '" + dataIntIn + "' AND '" + dataIntFin + "') OR "; 
+            sql += "(" + dateFieldToFilter + " BETWEEN '" + dataIntIn + "' AND '" + dataIntFin + "') OR "; 
             
         
         if (!sql.equalsIgnoreCase("")) { //E' stato selezionato qualche mese
@@ -604,7 +604,7 @@ public class DAO_CBC {
      * @return Una lista di fatture, una lista vuota nel caso in cui non fosse stato selezionato alcun mese,
      * o null in caso di eventuali errori.
      */
-    public static List<Fattura> getFattureAcquisto(int anno, Fornitore fornitore, boolean mesi[], Fattura.pagata tipo, String tipoFatt, Date dataIntIn, Date dataIntFin) {
+    public static List<Fattura> getFattureAcquisto(int anno, Fornitore fornitore, boolean mesi[], Fattura.pagata tipo, String tipoFatt, Date dataIntIn, Date dataIntFin, String dateFieldToFilter) {
         
         /*
          * La stringa sql verrà costruita dinamicamente in base alle informazioni
@@ -664,8 +664,8 @@ public class DAO_CBC {
 
             else //non è stato selezionato alcun mese
                 sql = "";
-        } else
-            sql += "(" + Tabelle.FattureAcquisto.DATA + " BETWEEN '" + dataIntIn + "' AND '" + dataIntFin + "') OR "; 
+        } else 
+            sql += "(" + dateFieldToFilter + " BETWEEN '" + dataIntIn + "' AND '" + dataIntFin + "') OR "; 
         
         
         if (!sql.equalsIgnoreCase("")) { //E' stato selezionato qualche mese

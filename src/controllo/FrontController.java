@@ -195,8 +195,8 @@ public abstract class FrontController {
         return DAO_CBC.getAnniEsercizioForSpedizioni();
     }
 
-    public static List<Fattura> getFatture(Integer anno, Fornitore cliente, boolean[] mesi, Fattura.pagata pagata, Date dataIntIn, Date dataIntFin) {
-        return DAO_CBC.getFatture(anno, cliente, mesi, pagata, dataIntIn, dataIntFin);
+    public static List<Fattura> getFatture(Integer anno, Fornitore cliente, boolean[] mesi, Fattura.pagata pagata, Date dataIntIn, Date dataIntFin, String dateFieldToFilter) {
+        return DAO_CBC.getFatture(anno, cliente, mesi, pagata, dataIntIn, dataIntFin, dateFieldToFilter);
     }
    
     public static List<Fattura> getFatture(Fornitore forn_cliente, Fattura.tipo tipo) {
@@ -211,8 +211,8 @@ public abstract class FrontController {
         return DAO_CBC.insertFattAcquisto(fatt);
     }
     
-    public static List<Fattura> getFattureAcquisto(Integer anno, Fornitore cliente, boolean[] mesi, Fattura.pagata pagata, String tipo, Date dataIntIn, Date dataIntFin) {
-        return DAO_CBC.getFattureAcquisto(anno, cliente, mesi, pagata, tipo, dataIntIn, dataIntFin);
+    public static List<Fattura> getFattureAcquisto(Integer anno, Fornitore cliente, boolean[] mesi, Fattura.pagata pagata, String tipo, Date dataIntIn, Date dataIntFin, String dateFieldToFilter) {
+        return DAO_CBC.getFattureAcquisto(anno, cliente, mesi, pagata, tipo, dataIntIn, dataIntFin, dateFieldToFilter);
     }
 
     public static void updatePagataFattura(Fattura.tipo tipo, Fattura fattura, boolean pagata) {
