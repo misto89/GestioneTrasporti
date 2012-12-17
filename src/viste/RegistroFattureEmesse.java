@@ -173,6 +173,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
         mnuProspetto = new javax.swing.JMenu();
         mnuStampaCompleta = new javax.swing.JMenuItem();
         mnuStampaParziale = new javax.swing.JMenuItem();
+        mnuStampaPrimaNota = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro Fatture Emesse");
@@ -722,8 +723,9 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
         });
         jMenu3.add(mnuIntervalloDate);
 
+        mnuFilterDataPagamento.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         mnuFilterDataPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/intervallodate.png"))); // NOI18N
-        mnuFilterDataPagamento.setText("Per intervallo data pagamento");
+        mnuFilterDataPagamento.setText("Per intervallo date pagamento");
         mnuFilterDataPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuFilterDataPagamentoActionPerformed(evt);
@@ -757,6 +759,16 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
         });
         mnuProspetto.add(mnuStampaParziale);
 
+        mnuStampaPrimaNota.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        mnuStampaPrimaNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
+        mnuStampaPrimaNota.setText("Stampa prima nota");
+        mnuStampaPrimaNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuStampaPrimaNotaActionPerformed(evt);
+            }
+        });
+        mnuProspetto.add(mnuStampaPrimaNota);
+
         jMenuBar1.add(mnuProspetto);
 
         setJMenuBar(jMenuBar1);
@@ -781,7 +793,7 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlMesi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1146, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1092,7 +1104,7 @@ private void mnuStampaCompletaActionPerformed(java.awt.event.ActionEvent evt) {/
         Double.parseDouble(txtTotFatture.getText()), Double.parseDouble(txtTotPagate.getText()), Double.parseDouble(txtTotNonPagate.getText())
     };
     
-    Stampa(true, riepilogo);
+    Stampa(StampaRegistroEmesse.COMPLETA, riepilogo);
 }//GEN-LAST:event_mnuStampaCompletaActionPerformed
 
 private void mnuAnteprimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnteprimaActionPerformed
@@ -1109,7 +1121,7 @@ private void mnuAnteprimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 }//GEN-LAST:event_mnuAnteprimaActionPerformed
 
-private void Stampa(boolean isCompleta, Object[] riepilogo) {
+private void Stampa(int type, Object[] riepilogo) {
     Fattura.pagata filtroP;
     if (optPagate.isSelected())
         filtroP = Fattura.pagata.P;
@@ -1137,9 +1149,9 @@ private void Stampa(boolean isCompleta, Object[] riepilogo) {
     
     try {
         if (mnuIntervalloDate.isSelected())
-            new StampaRegistroEmesse(dataIniziale, dataFinale, filtroP, filtroS, cliente, riepilogo, mesi, fattureInTabella, isCompleta).printAndOpen();
+            new StampaRegistroEmesse(dataIniziale, dataFinale, filtroP, filtroS, cliente, riepilogo, mesi, fattureInTabella, type).printAndOpen();
         else
-            new StampaRegistroEmesse((Integer)cboAnno.getSelectedItem(), filtroP, filtroS, cliente, riepilogo, mesi, fattureInTabella, isCompleta).printAndOpen();
+            new StampaRegistroEmesse((Integer)cboAnno.getSelectedItem(), filtroP, filtroS, cliente, riepilogo, mesi, fattureInTabella, type).printAndOpen();
         
     } catch (DocumentException ex) {
         Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
@@ -1155,7 +1167,7 @@ private void mnuStampaParzialeActionPerformed(java.awt.event.ActionEvent evt) {/
         Double.parseDouble(txtTotPagate.getText()), Double.parseDouble(txtTotNonPagate.getText())
     };
     
-    Stampa(false, riepilogo);
+    Stampa(StampaRegistroEmesse.PARZIALE, riepilogo);
 }//GEN-LAST:event_mnuStampaParzialeActionPerformed
 
 private void mnuFilterDataPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFilterDataPagamentoActionPerformed
@@ -1163,6 +1175,15 @@ private void mnuFilterDataPagamentoActionPerformed(java.awt.event.ActionEvent ev
     dbDateFieldToFilter = "data_pagamento"; //Da cambiare con costante
     dateFilter();
 }//GEN-LAST:event_mnuFilterDataPagamentoActionPerformed
+
+private void mnuStampaPrimaNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaPrimaNotaActionPerformed
+// TODO add your handling code here:
+    Object[] riepilogo = {
+        Integer.parseInt(txtNumFatt.getText()), Double.parseDouble(txtTotFatture.getText())
+    };
+    
+    Stampa(StampaRegistroEmesse.PRIMA_NOTA, riepilogo);
+}//GEN-LAST:event_mnuStampaPrimaNotaActionPerformed
 
 private String meseToString(int mese) {
     String stringa = null;
@@ -1425,6 +1446,7 @@ void setFatture() {
     private javax.swing.JMenuItem mnuRistampa;
     private javax.swing.JMenuItem mnuStampaCompleta;
     private javax.swing.JMenuItem mnuStampaParziale;
+    private javax.swing.JMenuItem mnuStampaPrimaNota;
     private javax.swing.JRadioButton optNonPagate;
     private javax.swing.JRadioButton optNonScadute;
     private javax.swing.JRadioButton optPagate;
@@ -1456,7 +1478,7 @@ void setFatture() {
     Date dataIniziale = null;
     Date dataFinale = null;
     private RegistroFattureEmesse vista;
-    private String dbDateFieldToFilter = "";
+    private String dbDateFieldToFilter = null;
     
     private static final int CLIENTE = 0;
     private static final int NUM = 1;

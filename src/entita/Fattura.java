@@ -359,7 +359,10 @@ public class Fattura implements Entity {
     public String getFormattedDataPagamento() {
         final String NEW_FORMAT = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
-        return sdf.format(this.dataPagamento);
+        if (dataPagamento != null)
+            return sdf.format(dataPagamento);
+        else 
+            return "";
     }    
     
 }

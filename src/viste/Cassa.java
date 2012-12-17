@@ -762,11 +762,18 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
 private void btnEliminaMovimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminaMovimentoActionPerformed
 // TODO add your handling code here:    
-    if (!FrontController.deleteMovimentazioneContante(movimentiContante.get(tblMovimenti.getSelectedRow())))
-        JOptionPane.showMessageDialog(this, "Si è verificato un errore durante l'eliminazione!", "Errore", JOptionPane.ERROR_MESSAGE);
-    else
-        setTable();
     
+    final int RESPONSE = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler procedere con l'eliminazione del movimento?", "Conferma eliminazione", JOptionPane.OK_CANCEL_OPTION);
+    if (RESPONSE == JOptionPane.OK_OPTION) {
+        if (!FrontController.deleteMovimentazioneContante(movimentiContante.get(tblMovimenti.getSelectedRow())))
+            JOptionPane.showMessageDialog(this, "Si è verificato un errore durante l'eliminazione!", "Errore", JOptionPane.ERROR_MESSAGE);
+        else {
+            setTable();
+            JOptionPane.showMessageDialog(this, "Movimento eliminato con successo!", "Eliminazione avvenuta", JOptionPane.INFORMATION_MESSAGE);
+        }
+            
+    }
+       
 }//GEN-LAST:event_btnEliminaMovimentoActionPerformed
 
 private boolean checkData(String data) {

@@ -247,7 +247,6 @@ public class DAO_CBC {
         } else
             sql += "(" + dateFieldToFilter + " BETWEEN '" + dataIntIn + "' AND '" + dataIntFin + "') OR "; 
             
-        
         if (!sql.equalsIgnoreCase("")) { //E' stato selezionato qualche mese
             if (sql.substring(sql.length()-4).equalsIgnoreCase("AND "))
                 sql = sql.substring(0, sql.length()-4).trim(); //Rimuove un eventuale AND finale
