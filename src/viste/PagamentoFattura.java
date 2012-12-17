@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import libs.DateUpdate;
+import libs.Utility;
 
 
 /**
@@ -342,41 +343,11 @@ private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:e
     String mese = txtMese.getText();
     String giorno = txtGiorno.getText();
     Date dataFattura = null;
-    
-    if (anno.length() == 2)
-        anno = "20" + anno;
-    
-    if (mese.length() == 1)
-        mese = "0" + mese;
-    
-    if (giorno.length() == 1) 
-        giorno = "0" + giorno;
-    
-    if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-        JOptionPane.showMessageDialog(null, "Inserire la data fattura nel formato gg mm aaaa", 
-            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
+       
     String annoScad = txtAnnoScadenza.getText();
     String meseScad = txtMeseScadenza.getText();
     String giornoScad = txtGiornoScadenza.getText();
     Date dataScadenza = null;
-
-    if (annoScad.length() == 2)
-        annoScad = "20" + annoScad;
-    
-    if (meseScad.length() == 1)
-        meseScad = "0" + meseScad;
-    
-    if (giornoScad.length() == 1) 
-        giornoScad = "0" + giornoScad;
-    
-    if (annoScad.isEmpty() || meseScad.isEmpty() || giornoScad.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-        JOptionPane.showMessageDialog(null, "Inserire la data scadenza nel formato gg mm aaaa", 
-            "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
     
      /*
      * Se la data non è inserita nel formato corretto, mostra un messaggio di errore.
@@ -385,19 +356,17 @@ private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:e
      * mese inserito. (es. il 31/11 non esiste)
      */
     try {
-        dataFattura = Date.valueOf(anno + "-" + mese + "-" + giorno);
+        dataFattura = Utility.dateValueOf(anno, mese, giorno, "data");
     } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, "Valore inserito per la data fattura non valido! Inserire la data nel formato gg/mm/aaaa", 
-            "Formato errato", JOptionPane.ERROR_MESSAGE);
-            return;
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return;
     }
     
     try {
-        dataScadenza = Date.valueOf(annoScad + "-" + meseScad + "-" + giornoScad);
+        dataScadenza = Utility.dateValueOf(annoScad, meseScad, giornoScad, "data scadenza");
     } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, "Valore inserito per la data scadenza non valido! Inserire la data nel formato gg/mm/aaaa", 
-            "Formato errato", JOptionPane.ERROR_MESSAGE);
-            return;
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
+        return;
     }
     
     /*int checkValue;
@@ -477,19 +446,8 @@ private void setNumber() {
     String anno = txtAnno.getText();
     String mese = txtMese.getText();
     String giorno = txtGiorno.getText();
-    
-    if (anno.length() == 2)
-        anno = "20" + anno;
-    else if (anno.length() == 3)
-        anno = "2" + anno;
-
-    if (mese.length() == 1)
-        mese = "0" + mese;
-
-    if (giorno.length() == 1)
-        giorno = "0" + giorno;
-    
-    dataPresunta = Date.valueOf(anno + "-" + mese + "-" + giorno);
+        
+    dataPresunta = Utility.dateValueOf(anno, mese, giorno, "data");
     int textNumber = Integer.parseInt(txtNFatt.getText());
     if (forced) {
         try {
@@ -574,32 +532,14 @@ private void chkPagataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         
         String anno = txtAnnoScadenza.getText();
         String mese = txtMeseScadenza.getText();
-        String giorno = txtGiornoScadenza.getText();
+        String giorno = txtGiornoScadenza.getText();        
         
-        if (anno.isEmpty() || mese.isEmpty() || giorno.isEmpty()) { //Un o più campi fra gg, mm e aaaa non sono stati inseriti
-            JOptionPane.showMessageDialog(null, "Inserire tutti i campi per la data", 
-                "Campo obbligatorio mancante", JOptionPane.ERROR_MESSAGE);
-            return;
+        Date dataScadenza = null;
+        try {
+             dataScadenza = Utility.dateValueOf(anno, mese, giorno, "data scadenza");
+        } catch (IllegalArgumentException e) {
+             JOptionPane.showMessageDialog(this, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
         }
-
-        if (anno.length() == 2)
-            anno = "20" + anno;
-        else if (anno.length() == 3)
-            anno = "2" + anno;
-
-        if (mese.length() == 1)
-            mese = "0" + mese;
-
-        if (giorno.length() == 1)
-            giorno = "0" + giorno;       
-        
-        
-         Date dataScadenza = null;
-         try {
-             dataScadenza = Date.valueOf(anno + "-" + mese + "-" + giorno);
-         } catch (IllegalArgumentException e) {
-             JOptionPane.showMessageDialog(this, "Formato data non valido! Inserire la data nel formato gg mm aaaa");
-         }
         
         fatt.setDataScadenza(dataScadenza);
         

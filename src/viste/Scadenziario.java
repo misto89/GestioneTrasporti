@@ -39,6 +39,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import libs.DoubleFormatter;
+import libs.Utility;
 import stampa.StampaScadenziario;
 
 /**
@@ -383,24 +384,12 @@ private void cboPeriodiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 String mese = splitted[1];
                 String anno = splitted[2];
 
-                if (anno.length() == 2)
-                    anno = "20" + anno;
-
-                else if (anno.length() == 3)
-                    anno = "2" + anno;
-
-                if (mese.length() == 1)
-                    mese = "0" + mese;
-
-                if (giorno.length() == 1) 
-                    giorno = "0" + giorno;
-
                 try {
-                    dataScelta = Date.valueOf(anno + "-" + mese + "-" + giorno);
+                    dataScelta = Utility.dateValueOf(anno, mese, giorno, "data");
                     okDate = true;
 
                 } catch (IllegalArgumentException e) { //Il valore inserito per la data non è valido, perché non esiste. Per esempio si inserisce 13 come mese
-                    JOptionPane.showMessageDialog(rootPane, "Inserisci la data nel formato corretto", "Valore errato", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Formato errato", JOptionPane.ERROR_MESSAGE);
                 }
 
             }

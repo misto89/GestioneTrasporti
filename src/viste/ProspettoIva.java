@@ -14,7 +14,6 @@ import contabilizzazione.SaldoIvaMensile;
 import controllo.FrontController;
 import java.awt.Color;
 import java.util.List;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
