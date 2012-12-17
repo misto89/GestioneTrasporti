@@ -16,8 +16,10 @@ import controllo.FrontController;
 import entita.Entity;
 import entita.Fattura;
 import entita.Fornitore;
+import java.awt.event.MouseEvent;
 import movimentazionecontante.Versamento;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
@@ -77,11 +79,11 @@ public class Cassa extends javax.swing.JFrame {
             MovimentazioneContante movimento = movimentiContante.get(row);
             
             int id = movimento.getId();
-            String banca = ((String) tblVersamenti.getValueAt(row, BANCA));
+            String banca = ((String) tblMovimenti.getValueAt(row, BANCA));
             double importo = 0.00;
             
             try {
-                importo = ((Double) tblVersamenti.getValueAt(row, IMPORTO));
+                importo = ((Double) tblMovimenti.getValueAt(row, IMPORTO));
             } catch (NullPointerException e) {
                 setValueAt(movimento.getImporto(), row, column);
                 return;
@@ -93,7 +95,7 @@ public class Cassa extends javax.swing.JFrame {
                 Double attivoContante = Double.parseDouble(txtAttivoContante.getText());
                 Double passivoContante = Double.parseDouble(txtPassivoContante.getText());
                                 
-                String tipo = ((String) tblVersamenti.getValueAt(row, TIPO));
+                String tipo = ((String) tblMovimenti.getValueAt(row, TIPO));
                 
                 if (tipo.equalsIgnoreCase(Versamento.class.getSimpleName())) {
                     totVersamenti -= movimento.getImporto();
@@ -179,7 +181,8 @@ public class Cassa extends javax.swing.JFrame {
         txtTotAccreditoUscite = new javax.swing.JTextField();
         pnlMovimenti = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblVersamenti = new javax.swing.JTable();
+        tblMovimenti = new javax.swing.JTable();
+        btnEliminaMovimento = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         mnuIntervalloDate = new javax.swing.JCheckBoxMenuItem();
@@ -390,7 +393,7 @@ public class Cassa extends javax.swing.JFrame {
         pnlMovimenti.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Movimenti Contante", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
         pnlMovimenti.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tblVersamenti.setModel(new javax.swing.table.DefaultTableModel(
+        tblMovimenti.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -398,10 +401,20 @@ public class Cassa extends javax.swing.JFrame {
 
             }
         ));
-        tblVersamenti.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane3.setViewportView(tblVersamenti);
+        tblMovimenti.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane3.setViewportView(tblMovimenti);
 
         pnlMovimenti.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 28, 640, 200));
+
+        btnEliminaMovimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancella.png"))); // NOI18N
+        btnEliminaMovimento.setText("Elimina movimento");
+        btnEliminaMovimento.setEnabled(false);
+        btnEliminaMovimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminaMovimentoActionPerformed(evt);
+            }
+        });
+        pnlMovimenti.add(btnEliminaMovimento, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 190, 40));
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/filtra.png"))); // NOI18N
         jMenu3.setText("Filtra");
@@ -446,9 +459,12 @@ public class Cassa extends javax.swing.JFrame {
                     .addComponent(pnlCassa, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
-                    .addComponent(pnlMovimenti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(63, 63, 63))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlUscite, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                        .addGap(63, 63, 63))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlMovimenti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -467,21 +483,19 @@ public class Cassa extends javax.swing.JFrame {
                     .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlEntrate, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnlCassa, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
+                        .addComponent(pnlCassa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlUscite, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnlMovimenti, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))
+                        .addComponent(pnlMovimenti, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlAnno, pnlCliente});
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlCassa, pnlMovimenti});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlEntrate, pnlUscite});
 
@@ -746,12 +760,21 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     
 }//GEN-LAST:event_mnuStampaActionPerformed
 
+private void btnEliminaMovimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminaMovimentoActionPerformed
+// TODO add your handling code here:    
+    if (!FrontController.deleteMovimentazioneContante(movimentiContante.get(tblMovimenti.getSelectedRow())))
+        JOptionPane.showMessageDialog(this, "Si è verificato un errore durante l'eliminazione!", "Errore", JOptionPane.ERROR_MESSAGE);
+    else
+        setTable();
+    
+}//GEN-LAST:event_btnEliminaMovimentoActionPerformed
+
 private boolean checkData(String data) {
     Pattern pattern = Pattern.compile("\\d{1,2}/\\d{1,2}/\\d{2,4}");
     Matcher match = pattern.matcher(data);
     return match.matches();
 }
- 
+
 void setTable() {
        
     setAnniMesi(dataIniziale, dataFinale);
@@ -894,29 +917,39 @@ void setTable() {
     types = new Class[] {Object.class, String.class, Double.class, String.class};
     
     tm = new CassaTableModel(arrayMov, COLONNE_MOV, types, new boolean[] {false, true, true, false});
-    tblVersamenti.setModel(tm);
-    tblVersamenti.setRowSorter(new TableRowSorter(tm) {
-
-        class DateComparator implements Comparator {
+    tblMovimenti.setModel(tm);
+//    tblMovimenti.setRowSorter(new TableRowSorter(tm) {
+//
+//        class DateComparator implements Comparator {
+//
+//            @Override
+//            public int compare(Object o1, Object o2) {
+//                String[] data1_str = ((String) o1).split("/");
+//                String[] data2_str = ((String) o2).split("/");
+//
+//                Date data1 = Date.valueOf(data1_str[2] + "-" + data1_str[1] + "-" + data1_str[0]);
+//                Date data2 = Date.valueOf(data2_str[2] + "-" + data2_str[1] + "-" + data2_str[0]);
+//
+//                return data1.compareTo(data2);
+//            }
+//            
+//        }
+//        
+//        @Override
+//        public void sort() {
+//            setComparator(DATA, new DateComparator());
+//            super.sort();
+//        }
+//        
+//    });
+    
+    tblMovimenti.addMouseListener(new MouseAdapter() {
 
             @Override
-            public int compare(Object o1, Object o2) {
-                String[] data1_str = ((String) o1).split("/");
-                String[] data2_str = ((String) o2).split("/");
-
-                Date data1 = Date.valueOf(data1_str[2] + "-" + data1_str[1] + "-" + data1_str[0]);
-                Date data2 = Date.valueOf(data2_str[2] + "-" + data2_str[1] + "-" + data2_str[0]);
-
-                return data1.compareTo(data2);
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                btnEliminaMovimento.setEnabled(true);
             }
-            
-        }
-        
-        @Override
-        public void sort() {
-            setComparator(DATA, new DateComparator());
-            super.sort();
-        }
         
     });
     
@@ -971,7 +1004,8 @@ void setTable() {
         tblCassaPassiva.getColumnModel().getColumn(i).setCellRenderer(new DoubleFormatter());
     }
     
-    tblVersamenti.getColumnModel().getColumn(IMPORTO).setCellRenderer(new DoubleFormatter());
+    tblMovimenti.getColumnModel().getColumn(IMPORTO).setCellRenderer(new DoubleFormatter());
+    btnEliminaMovimento.setEnabled(false);
 }
 
 /*
@@ -986,6 +1020,7 @@ private void popolaSelect(List items) {
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminaMovimento;
     private javax.swing.JButton btnPrelievo;
     private javax.swing.JButton btnVersamento;
     private javax.swing.JComboBox cboAnno;
@@ -1013,7 +1048,7 @@ private void popolaSelect(List items) {
     private javax.swing.JPanel pnlUscite;
     private javax.swing.JTable tblCassaAttiva;
     private javax.swing.JTable tblCassaPassiva;
-    private javax.swing.JTable tblVersamenti;
+    private javax.swing.JTable tblMovimenti;
     private javax.swing.JTextField txtAttivoContante;
     private javax.swing.JTextField txtCassaNetto;
     private javax.swing.JTextField txtPassivoContante;

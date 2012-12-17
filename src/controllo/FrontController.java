@@ -266,6 +266,10 @@ public abstract class FrontController {
     public static boolean updateMovimentazioneContante(MovimentazioneContante movimento) {
         return DAO_CBC.updateMovimentoContante(movimento);
     }
+    
+    public static boolean deleteMovimentazioneContante(MovimentazioneContante movimento) {
+        return DAO_CBC.deleteMovimentoContante(movimento);
+    }
 
     public static boolean deleteTempFiles() {
         return new Cleaner().cleanTempFiles();

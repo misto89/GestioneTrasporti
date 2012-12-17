@@ -1250,4 +1250,19 @@ public class DAO_CBC {
             return false;
         }
     }
+
+    public static boolean deleteMovimentoContante(MovimentazioneContante movimento) {
+        try {
+            sql = "DELETE FROM " + Tabelle.MOVIMENTICONTANTE + " WHERE " + Tabelle.MovimentoContante.NUMERO + " = " + movimento.getId();
+            
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 }
