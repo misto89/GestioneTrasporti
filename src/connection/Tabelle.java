@@ -8,7 +8,7 @@ package connection;
  *
  * @author Michele
  */
-class Tabelle {
+public class Tabelle {
     
     static final String FORNITORI = "fornitori";
     static final String MEZZI = "mezzi";
@@ -103,7 +103,7 @@ class Tabelle {
     }
     
     //Rappresenta la tabella "fatture" con i suoi campi
-   static class Fatture {
+   public static class Fatture {
         public static final String NUMERO = "numero";	 	 	 	 	
 	public static final String DATA = "data";
         public static final String METODO_PAGAMENTO = "metodopagamento";
@@ -120,7 +120,7 @@ class Tabelle {
     }
     
     //Rappresenta la tabella "fatture acquisto" con i suoi campi
-    static class FattureAcquisto {
+    public static class FattureAcquisto {
         public static final String NUMERO = "numero";	 	 	 	 	
 	public static final String DATA = "data";
         public static final String METODO_PAGAMENTO = "metodopagamento";

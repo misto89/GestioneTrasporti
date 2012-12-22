@@ -39,6 +39,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import libs.Utility;
 import stampa.StampaRegistroEmesse;
+import connection.Tabelle;
 
 /**
  *
@@ -999,7 +1000,7 @@ private void mnuRistampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
 private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIntervalloDateActionPerformed
 // TODO add your handling code here:   
-    dbDateFieldToFilter = "data";
+    dbDateFieldToFilter = Tabelle.Fatture.DATA;
     dateFilter();
 }//GEN-LAST:event_mnuIntervalloDateActionPerformed
 
@@ -1172,7 +1173,7 @@ private void mnuStampaParzialeActionPerformed(java.awt.event.ActionEvent evt) {/
 
 private void mnuFilterDataPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFilterDataPagamentoActionPerformed
 // TODO add your handling code here:
-    dbDateFieldToFilter = "data_pagamento"; //Da cambiare con costante
+    dbDateFieldToFilter = Tabelle.Fatture.PAGAMENTO;
     dateFilter();
 }//GEN-LAST:event_mnuFilterDataPagamentoActionPerformed
 

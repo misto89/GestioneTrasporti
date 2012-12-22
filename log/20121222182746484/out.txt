@@ -1,0 +1,637 @@
+Configuration file loaded: C:\Users\Andle\Documents\GitHub\GestioneTrasporti\conf.properties
+Connection to database pugliatrasporti successfully executed
+Connection to database pugliatrasporti successfully executed
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+Connection to database pugliatrasporti successfully executed
+SELECT DISTINCT YEAR(data) as ANNO FROM fatture ORDER BY data DESC
+SELECT DISTINCT fatture.*, fornitori.* FROM fatture, spedizioni, fornitori WHERE fatture.numero = spedizioni.fattura AND data = data_fattura AND forn_cliente = cod AND (data BETWEEN '2012-01-01' AND '2012-12-31') ORDER BY data, numero
+SELECT * FROM spedizioni WHERE fattura = 1 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 45
+SELECT * FROM spedizioni WHERE fattura = 2 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 13
+SELECT * FROM spedizioni WHERE fattura = 3 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 3 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 46
+SELECT * FROM spedizioni WHERE fattura = 4 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 4 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 44
+SELECT * FROM spedizioni WHERE fattura = 5 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 5 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 47
+SELECT * FROM spedizioni WHERE fattura = 6 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 48
+SELECT * FROM spedizioni WHERE fattura = 7 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 49
+SELECT * FROM spedizioni WHERE fattura = 8 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 8 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 50
+SELECT * FROM spedizioni WHERE fattura = 9 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 9 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 52
+SELECT * FROM spedizioni WHERE fattura = 10 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 10 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 53
+SELECT * FROM spedizioni WHERE fattura = 11 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 11 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 54
+SELECT * FROM spedizioni WHERE fattura = 12 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 12 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 55
+SELECT * FROM spedizioni WHERE fattura = 13 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 13 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 56
+SELECT * FROM spedizioni WHERE fattura = 14 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 57
+SELECT * FROM spedizioni WHERE fattura = 15 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 15 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 51
+SELECT * FROM spedizioni WHERE fattura = 16 AND data_fattura = '2012-10-05' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 16 AND data = '2012-10-05' AND tipo = 'VEN' AND forncliente = 59
+SELECT * FROM spedizioni WHERE fattura = 17 AND data_fattura = '2012-10-05' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 17 AND data = '2012-10-05' AND tipo = 'VEN' AND forncliente = 58
+SELECT * FROM spedizioni WHERE fattura = 18 AND data_fattura = '2012-10-06' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 18 AND data = '2012-10-06' AND tipo = 'VEN' AND forncliente = 60
+SELECT * FROM spedizioni WHERE fattura = 19 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 19 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 14
+SELECT * FROM spedizioni WHERE fattura = 20 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 20 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 63
+SELECT * FROM spedizioni WHERE fattura = 21 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 21 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 45
+SELECT * FROM spedizioni WHERE fattura = 22 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 22 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 64
+SELECT * FROM spedizioni WHERE fattura = 23 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 23 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 65
+SELECT * FROM spedizioni WHERE fattura = 24 AND data_fattura = '2012-10-09' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 24 AND data = '2012-10-09' AND tipo = 'VEN' AND forncliente = 56
+SELECT * FROM spedizioni WHERE fattura = 25 AND data_fattura = '2012-10-09' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 25 AND data = '2012-10-09' AND tipo = 'VEN' AND forncliente = 66
+SELECT * FROM spedizioni WHERE fattura = 26 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 26 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 54
+SELECT * FROM spedizioni WHERE fattura = 27 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 27 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 67
+SELECT * FROM spedizioni WHERE fattura = 28 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 28 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 68
+SELECT * FROM spedizioni WHERE fattura = 29 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 29 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 55
+SELECT * FROM spedizioni WHERE fattura = 30 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 30 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 69
+SELECT * FROM spedizioni WHERE fattura = 31 AND data_fattura = '2012-10-11' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 31 AND data = '2012-10-11' AND tipo = 'VEN' AND forncliente = 70
+SELECT * FROM spedizioni WHERE fattura = 32 AND data_fattura = '2012-10-11' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 32 AND data = '2012-10-11' AND tipo = 'VEN' AND forncliente = 13
+SELECT * FROM spedizioni WHERE fattura = 33 AND data_fattura = '2012-10-11' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 33 AND data = '2012-10-11' AND tipo = 'VEN' AND forncliente = 71
+SELECT * FROM spedizioni WHERE fattura = 34 AND data_fattura = '2012-10-11' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 34 AND data = '2012-10-11' AND tipo = 'VEN' AND forncliente = 67
+SELECT * FROM spedizioni WHERE fattura = 35 AND data_fattura = '2012-10-13' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 35 AND data = '2012-10-13' AND tipo = 'VEN' AND forncliente = 63
+SELECT * FROM spedizioni WHERE fattura = 36 AND data_fattura = '2012-10-13' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 36 AND data = '2012-10-13' AND tipo = 'VEN' AND forncliente = 72
+SELECT * FROM spedizioni WHERE fattura = 37 AND data_fattura = '2012-10-13' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 37 AND data = '2012-10-13' AND tipo = 'VEN' AND forncliente = 71
+SELECT * FROM spedizioni WHERE fattura = 38 AND data_fattura = '2012-10-13' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 38 AND data = '2012-10-13' AND tipo = 'VEN' AND forncliente = 73
+SELECT * FROM spedizioni WHERE fattura = 39 AND data_fattura = '2012-10-15' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 39 AND data = '2012-10-15' AND tipo = 'VEN' AND forncliente = 74
+SELECT * FROM spedizioni WHERE fattura = 40 AND data_fattura = '2012-10-15' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 40 AND data = '2012-10-15' AND tipo = 'VEN' AND forncliente = 8
+SELECT * FROM spedizioni WHERE fattura = 41 AND data_fattura = '2012-10-16' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 41 AND data = '2012-10-16' AND tipo = 'VEN' AND forncliente = 85
+SELECT * FROM spedizioni WHERE fattura = 42 AND data_fattura = '2012-10-16' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 42 AND data = '2012-10-16' AND tipo = 'VEN' AND forncliente = 45
+SELECT * FROM spedizioni WHERE fattura = 43 AND data_fattura = '2012-10-16' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 43 AND data = '2012-10-16' AND tipo = 'VEN' AND forncliente = 14
+SELECT * FROM spedizioni WHERE fattura = 44 AND data_fattura = '2012-10-17' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 44 AND data = '2012-10-17' AND tipo = 'VEN' AND forncliente = 86
+SELECT * FROM spedizioni WHERE fattura = 45 AND data_fattura = '2012-10-17' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 45 AND data = '2012-10-17' AND tipo = 'VEN' AND forncliente = 54
+SELECT * FROM spedizioni WHERE fattura = 46 AND data_fattura = '2012-10-17' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 46 AND data = '2012-10-17' AND tipo = 'VEN' AND forncliente = 87
+SELECT * FROM spedizioni WHERE fattura = 47 AND data_fattura = '2012-10-17' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 47 AND data = '2012-10-17' AND tipo = 'VEN' AND forncliente = 88
+SELECT * FROM spedizioni WHERE fattura = 48 AND data_fattura = '2012-10-18' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 48 AND data = '2012-10-18' AND tipo = 'VEN' AND forncliente = 89
+SELECT * FROM spedizioni WHERE fattura = 49 AND data_fattura = '2012-10-19' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 49 AND data = '2012-10-19' AND tipo = 'VEN' AND forncliente = 90
+SELECT * FROM spedizioni WHERE fattura = 50 AND data_fattura = '2012-10-19' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 50 AND data = '2012-10-19' AND tipo = 'VEN' AND forncliente = 91
+SELECT * FROM spedizioni WHERE fattura = 51 AND data_fattura = '2012-10-20' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 51 AND data = '2012-10-20' AND tipo = 'VEN' AND forncliente = 92
+SELECT * FROM spedizioni WHERE fattura = 52 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 52 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 93
+SELECT * FROM spedizioni WHERE fattura = 53 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 53 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 121
+SELECT * FROM spedizioni WHERE fattura = 54 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 54 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 122
+SELECT * FROM spedizioni WHERE fattura = 55 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 55 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 123
+SELECT * FROM spedizioni WHERE fattura = 56 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 56 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 124
+SELECT * FROM spedizioni WHERE fattura = 57 AND data_fattura = '2012-10-23' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 57 AND data = '2012-10-23' AND tipo = 'VEN' AND forncliente = 125
+SELECT * FROM spedizioni WHERE fattura = 58 AND data_fattura = '2012-10-23' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 58 AND data = '2012-10-23' AND tipo = 'VEN' AND forncliente = 119
+SELECT * FROM spedizioni WHERE fattura = 59 AND data_fattura = '2012-10-23' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 59 AND data = '2012-10-23' AND tipo = 'VEN' AND forncliente = 126
+SELECT * FROM spedizioni WHERE fattura = 60 AND data_fattura = '2012-10-23' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 60 AND data = '2012-10-23' AND tipo = 'VEN' AND forncliente = 127
+SELECT * FROM spedizioni WHERE fattura = 61 AND data_fattura = '2012-10-24' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 61 AND data = '2012-10-24' AND tipo = 'VEN' AND forncliente = 128
+SELECT * FROM spedizioni WHERE fattura = 62 AND data_fattura = '2012-10-24' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 62 AND data = '2012-10-24' AND tipo = 'VEN' AND forncliente = 86
+SELECT * FROM spedizioni WHERE fattura = 63 AND data_fattura = '2012-10-24' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 63 AND data = '2012-10-24' AND tipo = 'VEN' AND forncliente = 56
+SELECT * FROM spedizioni WHERE fattura = 64 AND data_fattura = '2012-10-24' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 64 AND data = '2012-10-24' AND tipo = 'VEN' AND forncliente = 129
+SELECT * FROM spedizioni WHERE fattura = 65 AND data_fattura = '2012-10-25' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 65 AND data = '2012-10-25' AND tipo = 'VEN' AND forncliente = 130
+SELECT * FROM spedizioni WHERE fattura = 66 AND data_fattura = '2012-10-25' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 66 AND data = '2012-10-25' AND tipo = 'VEN' AND forncliente = 131
+SELECT * FROM spedizioni WHERE fattura = 67 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 67 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 32
+SELECT * FROM spedizioni WHERE fattura = 68 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 68 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 38
+SELECT * FROM spedizioni WHERE fattura = 69 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 69 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 22
+SELECT * FROM spedizioni WHERE fattura = 70 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 70 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 21
+SELECT * FROM spedizioni WHERE fattura = 71 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 71 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 31
+SELECT * FROM spedizioni WHERE fattura = 72 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 72 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 15
+SELECT * FROM spedizioni WHERE fattura = 73 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 73 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 16
+SELECT * FROM spedizioni WHERE fattura = 74 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 74 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 37
+SELECT * FROM spedizioni WHERE fattura = 75 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 75 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 25
+SELECT * FROM spedizioni WHERE fattura = 76 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 76 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 42
+SELECT * FROM spedizioni WHERE fattura = 77 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 77 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 76
+SELECT * FROM spedizioni WHERE fattura = 78 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 78 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 43
+SELECT * FROM spedizioni WHERE fattura = 79 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 79 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 81
+SELECT * FROM spedizioni WHERE fattura = 80 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 80 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 82
+SELECT * FROM spedizioni WHERE fattura = 81 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 81 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 83
+SELECT * FROM spedizioni WHERE fattura = 82 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 82 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 79
+SELECT * FROM spedizioni WHERE fattura = 83 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 83 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 80
+SELECT * FROM spedizioni WHERE fattura = 84 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 84 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 24
+SELECT * FROM spedizioni WHERE fattura = 85 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 85 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 133
+SELECT * FROM spedizioni WHERE fattura = 86 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 86 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 134
+SELECT * FROM spedizioni WHERE fattura = 87 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 87 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 28
+SELECT * FROM spedizioni WHERE fattura = 88 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 88 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 29
+SELECT * FROM spedizioni WHERE fattura = 89 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 89 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 19
+SELECT * FROM spedizioni WHERE fattura = 90 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 90 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 9
+SELECT * FROM spedizioni WHERE fattura = 91 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 91 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 27
+SELECT * FROM spedizioni WHERE fattura = 92 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 92 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 30
+SELECT * FROM spedizioni WHERE fattura = 93 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 93 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 40
+SELECT * FROM spedizioni WHERE fattura = 94 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 94 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 10
+SELECT * FROM spedizioni WHERE fattura = 95 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 95 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 77
+SELECT * FROM spedizioni WHERE fattura = 96 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 96 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 41
+SELECT * FROM spedizioni WHERE fattura = 97 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 97 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 119
+SELECT * FROM spedizioni WHERE fattura = 98 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 98 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 118
+SELECT * FROM spedizioni WHERE fattura = 99 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 99 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 78
+SELECT * FROM spedizioni WHERE fattura = 100 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 100 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 75
+SELECT * FROM spedizioni WHERE fattura = 101 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 101 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 39
+SELECT * FROM spedizioni WHERE fattura = 102 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 102 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 84
+SELECT * FROM spedizioni WHERE fattura = 103 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 103 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 17
+SELECT * FROM spedizioni WHERE fattura = 104 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 104 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 135
+SELECT * FROM spedizioni WHERE fattura = 105 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 105 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 20
+SELECT * FROM spedizioni WHERE fattura = 106 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 106 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 34
+SELECT * FROM spedizioni WHERE fattura = 107 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 107 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 136
+SELECT * FROM spedizioni WHERE fattura = 108 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 108 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 71
+SELECT * FROM spedizioni WHERE fattura = 109 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 109 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 55
+SELECT * FROM spedizioni WHERE fattura = 110 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 110 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 68
+SELECT * FROM spedizioni WHERE fattura = 111 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 111 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 137
+SELECT * FROM spedizioni WHERE fattura = 112 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 112 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 138
+SELECT * FROM spedizioni WHERE fattura = 113 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 113 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 139
+SELECT * FROM spedizioni WHERE fattura = 114 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 114 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 23
+SELECT * FROM spedizioni WHERE fattura = 115 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 115 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 12
+SELECT * FROM spedizioni WHERE fattura = 117 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 117 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 18
+SELECT * FROM spedizioni WHERE fattura = 118 AND data_fattura = '2012-12-15' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 118 AND data = '2012-12-15' AND tipo = 'VEN' AND forncliente = 65
+SELECT * FROM spedizioni WHERE fattura = 119 AND data_fattura = '2012-12-15' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 119 AND data = '2012-12-15' AND tipo = 'VEN' AND forncliente = 32
+SELECT DISTINCT fatture.*, fornitori.* FROM fatture, spedizioni, fornitori WHERE fatture.numero = spedizioni.fattura AND data = data_fattura AND forn_cliente = cod AND ((data BETWEEN '2012-10-02' AND '2012-10-05')) ORDER BY data, numero
+SELECT * FROM spedizioni WHERE fattura = 1 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 45
+SELECT * FROM spedizioni WHERE fattura = 2 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 13
+SELECT * FROM spedizioni WHERE fattura = 3 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 3 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 46
+SELECT * FROM spedizioni WHERE fattura = 4 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 4 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 44
+SELECT * FROM spedizioni WHERE fattura = 5 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 5 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 47
+SELECT * FROM spedizioni WHERE fattura = 6 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 48
+SELECT * FROM spedizioni WHERE fattura = 7 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 49
+SELECT * FROM spedizioni WHERE fattura = 8 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 8 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 50
+SELECT * FROM spedizioni WHERE fattura = 9 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 9 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 52
+SELECT * FROM spedizioni WHERE fattura = 10 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 10 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 53
+SELECT * FROM spedizioni WHERE fattura = 11 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 11 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 54
+SELECT * FROM spedizioni WHERE fattura = 12 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 12 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 55
+SELECT * FROM spedizioni WHERE fattura = 13 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 13 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 56
+SELECT * FROM spedizioni WHERE fattura = 14 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 57
+SELECT * FROM spedizioni WHERE fattura = 15 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 15 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 51
+SELECT * FROM spedizioni WHERE fattura = 16 AND data_fattura = '2012-10-05' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 16 AND data = '2012-10-05' AND tipo = 'VEN' AND forncliente = 59
+SELECT * FROM spedizioni WHERE fattura = 17 AND data_fattura = '2012-10-05' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 17 AND data = '2012-10-05' AND tipo = 'VEN' AND forncliente = 58
+SELECT DISTINCT fatture.*, fornitori.* FROM fatture, spedizioni, fornitori WHERE fatture.numero = spedizioni.fattura AND data = data_fattura AND forn_cliente = cod AND (data BETWEEN '2012-01-01' AND '2012-12-31') ORDER BY data, numero
+SELECT * FROM spedizioni WHERE fattura = 1 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 45
+SELECT * FROM spedizioni WHERE fattura = 2 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 13
+SELECT * FROM spedizioni WHERE fattura = 3 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 3 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 46
+SELECT * FROM spedizioni WHERE fattura = 4 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 4 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 44
+SELECT * FROM spedizioni WHERE fattura = 5 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 5 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 47
+SELECT * FROM spedizioni WHERE fattura = 6 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 48
+SELECT * FROM spedizioni WHERE fattura = 7 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 49
+SELECT * FROM spedizioni WHERE fattura = 8 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 8 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 50
+SELECT * FROM spedizioni WHERE fattura = 9 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 9 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 52
+SELECT * FROM spedizioni WHERE fattura = 10 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 10 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 53
+SELECT * FROM spedizioni WHERE fattura = 11 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 11 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 54
+SELECT * FROM spedizioni WHERE fattura = 12 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 12 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 55
+SELECT * FROM spedizioni WHERE fattura = 13 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 13 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 56
+SELECT * FROM spedizioni WHERE fattura = 14 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 57
+SELECT * FROM spedizioni WHERE fattura = 15 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 15 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 51
+SELECT * FROM spedizioni WHERE fattura = 16 AND data_fattura = '2012-10-05' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 16 AND data = '2012-10-05' AND tipo = 'VEN' AND forncliente = 59
+SELECT * FROM spedizioni WHERE fattura = 17 AND data_fattura = '2012-10-05' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 17 AND data = '2012-10-05' AND tipo = 'VEN' AND forncliente = 58
+SELECT * FROM spedizioni WHERE fattura = 18 AND data_fattura = '2012-10-06' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 18 AND data = '2012-10-06' AND tipo = 'VEN' AND forncliente = 60
+SELECT * FROM spedizioni WHERE fattura = 19 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 19 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 14
+SELECT * FROM spedizioni WHERE fattura = 20 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 20 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 63
+SELECT * FROM spedizioni WHERE fattura = 21 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 21 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 45
+SELECT * FROM spedizioni WHERE fattura = 22 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 22 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 64
+SELECT * FROM spedizioni WHERE fattura = 23 AND data_fattura = '2012-10-08' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 23 AND data = '2012-10-08' AND tipo = 'VEN' AND forncliente = 65
+SELECT * FROM spedizioni WHERE fattura = 24 AND data_fattura = '2012-10-09' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 24 AND data = '2012-10-09' AND tipo = 'VEN' AND forncliente = 56
+SELECT * FROM spedizioni WHERE fattura = 25 AND data_fattura = '2012-10-09' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 25 AND data = '2012-10-09' AND tipo = 'VEN' AND forncliente = 66
+SELECT * FROM spedizioni WHERE fattura = 26 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 26 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 54
+SELECT * FROM spedizioni WHERE fattura = 27 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 27 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 67
+SELECT * FROM spedizioni WHERE fattura = 28 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 28 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 68
+SELECT * FROM spedizioni WHERE fattura = 29 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 29 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 55
+SELECT * FROM spedizioni WHERE fattura = 30 AND data_fattura = '2012-10-10' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 30 AND data = '2012-10-10' AND tipo = 'VEN' AND forncliente = 69
+SELECT * FROM spedizioni WHERE fattura = 31 AND data_fattura = '2012-10-11' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 31 AND data = '2012-10-11' AND tipo = 'VEN' AND forncliente = 70
+SELECT * FROM spedizioni WHERE fattura = 32 AND data_fattura = '2012-10-11' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 32 AND data = '2012-10-11' AND tipo = 'VEN' AND forncliente = 13
+SELECT * FROM spedizioni WHERE fattura = 33 AND data_fattura = '2012-10-11' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 33 AND data = '2012-10-11' AND tipo = 'VEN' AND forncliente = 71
+SELECT * FROM spedizioni WHERE fattura = 34 AND data_fattura = '2012-10-11' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 34 AND data = '2012-10-11' AND tipo = 'VEN' AND forncliente = 67
+SELECT * FROM spedizioni WHERE fattura = 35 AND data_fattura = '2012-10-13' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 35 AND data = '2012-10-13' AND tipo = 'VEN' AND forncliente = 63
+SELECT * FROM spedizioni WHERE fattura = 36 AND data_fattura = '2012-10-13' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 36 AND data = '2012-10-13' AND tipo = 'VEN' AND forncliente = 72
+SELECT * FROM spedizioni WHERE fattura = 37 AND data_fattura = '2012-10-13' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 37 AND data = '2012-10-13' AND tipo = 'VEN' AND forncliente = 71
+SELECT * FROM spedizioni WHERE fattura = 38 AND data_fattura = '2012-10-13' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 38 AND data = '2012-10-13' AND tipo = 'VEN' AND forncliente = 73
+SELECT * FROM spedizioni WHERE fattura = 39 AND data_fattura = '2012-10-15' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 39 AND data = '2012-10-15' AND tipo = 'VEN' AND forncliente = 74
+SELECT * FROM spedizioni WHERE fattura = 40 AND data_fattura = '2012-10-15' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 40 AND data = '2012-10-15' AND tipo = 'VEN' AND forncliente = 8
+SELECT * FROM spedizioni WHERE fattura = 41 AND data_fattura = '2012-10-16' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 41 AND data = '2012-10-16' AND tipo = 'VEN' AND forncliente = 85
+SELECT * FROM spedizioni WHERE fattura = 42 AND data_fattura = '2012-10-16' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 42 AND data = '2012-10-16' AND tipo = 'VEN' AND forncliente = 45
+SELECT * FROM spedizioni WHERE fattura = 43 AND data_fattura = '2012-10-16' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 43 AND data = '2012-10-16' AND tipo = 'VEN' AND forncliente = 14
+SELECT * FROM spedizioni WHERE fattura = 44 AND data_fattura = '2012-10-17' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 44 AND data = '2012-10-17' AND tipo = 'VEN' AND forncliente = 86
+SELECT * FROM spedizioni WHERE fattura = 45 AND data_fattura = '2012-10-17' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 45 AND data = '2012-10-17' AND tipo = 'VEN' AND forncliente = 54
+SELECT * FROM spedizioni WHERE fattura = 46 AND data_fattura = '2012-10-17' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 46 AND data = '2012-10-17' AND tipo = 'VEN' AND forncliente = 87
+SELECT * FROM spedizioni WHERE fattura = 47 AND data_fattura = '2012-10-17' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 47 AND data = '2012-10-17' AND tipo = 'VEN' AND forncliente = 88
+SELECT * FROM spedizioni WHERE fattura = 48 AND data_fattura = '2012-10-18' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 48 AND data = '2012-10-18' AND tipo = 'VEN' AND forncliente = 89
+SELECT * FROM spedizioni WHERE fattura = 49 AND data_fattura = '2012-10-19' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 49 AND data = '2012-10-19' AND tipo = 'VEN' AND forncliente = 90
+SELECT * FROM spedizioni WHERE fattura = 50 AND data_fattura = '2012-10-19' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 50 AND data = '2012-10-19' AND tipo = 'VEN' AND forncliente = 91
+SELECT * FROM spedizioni WHERE fattura = 51 AND data_fattura = '2012-10-20' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 51 AND data = '2012-10-20' AND tipo = 'VEN' AND forncliente = 92
+SELECT * FROM spedizioni WHERE fattura = 52 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 52 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 93
+SELECT * FROM spedizioni WHERE fattura = 53 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 53 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 121
+SELECT * FROM spedizioni WHERE fattura = 54 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 54 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 122
+SELECT * FROM spedizioni WHERE fattura = 55 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 55 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 123
+SELECT * FROM spedizioni WHERE fattura = 56 AND data_fattura = '2012-10-22' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 56 AND data = '2012-10-22' AND tipo = 'VEN' AND forncliente = 124
+SELECT * FROM spedizioni WHERE fattura = 57 AND data_fattura = '2012-10-23' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 57 AND data = '2012-10-23' AND tipo = 'VEN' AND forncliente = 125
+SELECT * FROM spedizioni WHERE fattura = 58 AND data_fattura = '2012-10-23' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 58 AND data = '2012-10-23' AND tipo = 'VEN' AND forncliente = 119
+SELECT * FROM spedizioni WHERE fattura = 59 AND data_fattura = '2012-10-23' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 59 AND data = '2012-10-23' AND tipo = 'VEN' AND forncliente = 126
+SELECT * FROM spedizioni WHERE fattura = 60 AND data_fattura = '2012-10-23' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 60 AND data = '2012-10-23' AND tipo = 'VEN' AND forncliente = 127
+SELECT * FROM spedizioni WHERE fattura = 61 AND data_fattura = '2012-10-24' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 61 AND data = '2012-10-24' AND tipo = 'VEN' AND forncliente = 128
+SELECT * FROM spedizioni WHERE fattura = 62 AND data_fattura = '2012-10-24' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 62 AND data = '2012-10-24' AND tipo = 'VEN' AND forncliente = 86
+SELECT * FROM spedizioni WHERE fattura = 63 AND data_fattura = '2012-10-24' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 63 AND data = '2012-10-24' AND tipo = 'VEN' AND forncliente = 56
+SELECT * FROM spedizioni WHERE fattura = 64 AND data_fattura = '2012-10-24' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 64 AND data = '2012-10-24' AND tipo = 'VEN' AND forncliente = 129
+SELECT * FROM spedizioni WHERE fattura = 65 AND data_fattura = '2012-10-25' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 65 AND data = '2012-10-25' AND tipo = 'VEN' AND forncliente = 130
+SELECT * FROM spedizioni WHERE fattura = 66 AND data_fattura = '2012-10-25' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 66 AND data = '2012-10-25' AND tipo = 'VEN' AND forncliente = 131
+SELECT * FROM spedizioni WHERE fattura = 67 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 67 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 32
+SELECT * FROM spedizioni WHERE fattura = 68 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 68 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 38
+SELECT * FROM spedizioni WHERE fattura = 69 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 69 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 22
+SELECT * FROM spedizioni WHERE fattura = 70 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 70 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 21
+SELECT * FROM spedizioni WHERE fattura = 71 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 71 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 31
+SELECT * FROM spedizioni WHERE fattura = 72 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 72 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 15
+SELECT * FROM spedizioni WHERE fattura = 73 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 73 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 16
+SELECT * FROM spedizioni WHERE fattura = 74 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 74 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 37
+SELECT * FROM spedizioni WHERE fattura = 75 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 75 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 25
+SELECT * FROM spedizioni WHERE fattura = 76 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 76 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 42
+SELECT * FROM spedizioni WHERE fattura = 77 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 77 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 76
+SELECT * FROM spedizioni WHERE fattura = 78 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 78 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 43
+SELECT * FROM spedizioni WHERE fattura = 79 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 79 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 81
+SELECT * FROM spedizioni WHERE fattura = 80 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 80 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 82
+SELECT * FROM spedizioni WHERE fattura = 81 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 81 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 83
+SELECT * FROM spedizioni WHERE fattura = 82 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 82 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 79
+SELECT * FROM spedizioni WHERE fattura = 83 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 83 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 80
+SELECT * FROM spedizioni WHERE fattura = 84 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 84 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 24
+SELECT * FROM spedizioni WHERE fattura = 85 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 85 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 133
+SELECT * FROM spedizioni WHERE fattura = 86 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 86 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 134
+SELECT * FROM spedizioni WHERE fattura = 87 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 87 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 28
+SELECT * FROM spedizioni WHERE fattura = 88 AND data_fattura = '2012-10-30' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 88 AND data = '2012-10-30' AND tipo = 'VEN' AND forncliente = 29
+SELECT * FROM spedizioni WHERE fattura = 89 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 89 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 19
+SELECT * FROM spedizioni WHERE fattura = 90 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 90 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 9
+SELECT * FROM spedizioni WHERE fattura = 91 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 91 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 27
+SELECT * FROM spedizioni WHERE fattura = 92 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 92 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 30
+SELECT * FROM spedizioni WHERE fattura = 93 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 93 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 40
+SELECT * FROM spedizioni WHERE fattura = 94 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 94 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 10
+SELECT * FROM spedizioni WHERE fattura = 95 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 95 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 77
+SELECT * FROM spedizioni WHERE fattura = 96 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 96 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 41
+SELECT * FROM spedizioni WHERE fattura = 97 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 97 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 119
+SELECT * FROM spedizioni WHERE fattura = 98 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 98 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 118
+SELECT * FROM spedizioni WHERE fattura = 99 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 99 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 78
+SELECT * FROM spedizioni WHERE fattura = 100 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 100 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 75
+SELECT * FROM spedizioni WHERE fattura = 101 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 101 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 39
+SELECT * FROM spedizioni WHERE fattura = 102 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 102 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 84
+SELECT * FROM spedizioni WHERE fattura = 103 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 103 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 17
+SELECT * FROM spedizioni WHERE fattura = 104 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 104 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 135
+SELECT * FROM spedizioni WHERE fattura = 105 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 105 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 20
+SELECT * FROM spedizioni WHERE fattura = 106 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 106 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 34
+SELECT * FROM spedizioni WHERE fattura = 107 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 107 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 136
+SELECT * FROM spedizioni WHERE fattura = 108 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 108 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 71
+SELECT * FROM spedizioni WHERE fattura = 109 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 109 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 55
+SELECT * FROM spedizioni WHERE fattura = 110 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 110 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 68
+SELECT * FROM spedizioni WHERE fattura = 111 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 111 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 137
+SELECT * FROM spedizioni WHERE fattura = 112 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 112 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 138
+SELECT * FROM spedizioni WHERE fattura = 113 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 113 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 139
+SELECT * FROM spedizioni WHERE fattura = 114 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 114 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 23
+SELECT * FROM spedizioni WHERE fattura = 115 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 115 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 12
+SELECT * FROM spedizioni WHERE fattura = 117 AND data_fattura = '2012-10-31' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 117 AND data = '2012-10-31' AND tipo = 'VEN' AND forncliente = 18
+SELECT * FROM spedizioni WHERE fattura = 118 AND data_fattura = '2012-12-15' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 118 AND data = '2012-12-15' AND tipo = 'VEN' AND forncliente = 65
+SELECT * FROM spedizioni WHERE fattura = 119 AND data_fattura = '2012-12-15' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 119 AND data = '2012-12-15' AND tipo = 'VEN' AND forncliente = 32
+SELECT DISTINCT fatture.*, fornitori.* FROM fatture, spedizioni, fornitori WHERE fatture.numero = spedizioni.fattura AND data = data_fattura AND forn_cliente = cod AND ((data_pagamento BETWEEN '2012-10-02' AND '2012-10-05')) ORDER BY data, numero
+SELECT * FROM spedizioni WHERE fattura = 1 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 45
+SELECT * FROM spedizioni WHERE fattura = 3 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 3 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 46
+SELECT * FROM spedizioni WHERE fattura = 4 AND data_fattura = '2012-10-02' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 4 AND data = '2012-10-02' AND tipo = 'VEN' AND forncliente = 44
+SELECT * FROM spedizioni WHERE fattura = 5 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 5 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 47
+SELECT * FROM spedizioni WHERE fattura = 6 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 48
+SELECT * FROM spedizioni WHERE fattura = 7 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 49
+SELECT * FROM spedizioni WHERE fattura = 8 AND data_fattura = '2012-10-03' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 8 AND data = '2012-10-03' AND tipo = 'VEN' AND forncliente = 50
+SELECT * FROM spedizioni WHERE fattura = 9 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 9 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 52
+SELECT * FROM spedizioni WHERE fattura = 10 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 10 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 53
+SELECT * FROM spedizioni WHERE fattura = 11 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 11 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 54
+SELECT * FROM spedizioni WHERE fattura = 12 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 12 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 55
+SELECT * FROM spedizioni WHERE fattura = 13 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 13 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 56
+SELECT * FROM spedizioni WHERE fattura = 14 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 57
+SELECT * FROM spedizioni WHERE fattura = 15 AND data_fattura = '2012-10-04' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 15 AND data = '2012-10-04' AND tipo = 'VEN' AND forncliente = 51
+SELECT * FROM spedizioni WHERE fattura = 16 AND data_fattura = '2012-10-05' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 16 AND data = '2012-10-05' AND tipo = 'VEN' AND forncliente = 59
+SELECT * FROM spedizioni WHERE fattura = 17 AND data_fattura = '2012-10-05' ORDER BY stato, data_documento, numero
+SELECT * FROM movimenti WHERE num_doc = 17 AND data = '2012-10-05' AND tipo = 'VEN' AND forncliente = 58
+SELECT * FROM fornitori ORDER BY nome, piva, codfiscale
+SELECT DISTINCT YEAR(data) as ANNO FROM fattureacq ORDER BY data DESC
+SELECT DISTINCT fattureacq.*, fornitori.* FROM fattureacq JOIN fornitori ON fornitore = cod AND (data BETWEEN '2012-01-01' AND '2012-12-31') ORDER BY data, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-03-27' AND tipo = 'ACQ' AND forncliente = 1
+SELECT * FROM movimenti WHERE num_doc = 750 AND data = '2012-03-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1025 AND data = '2012-04-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1308 AND data = '2012-05-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-06-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-18' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-22' AND tipo = 'ACQ' AND forncliente = 132
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-27' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1587 AND data = '2012-06-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 193 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 5
+SELECT * FROM movimenti WHERE num_doc = 825 AND data = '2012-07-03' AND tipo = 'ACQ' AND forncliente = 6
+SELECT * FROM movimenti WHERE num_doc = 7 AND data = '2012-07-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 1919 AND data = '2012-07-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 353 AND data = '2012-08-01' AND tipo = 'ACQ' AND forncliente = 95
+SELECT * FROM movimenti WHERE num_doc = 8 AND data = '2012-08-13' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-08-28' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-08-28' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 69 AND data = '2012-09-01' AND tipo = 'ACQ' AND forncliente = 96
+SELECT * FROM movimenti WHERE num_doc = 525 AND data = '2012-09-06' AND tipo = 'ACQ' AND forncliente = 97
+SELECT * FROM movimenti WHERE num_doc = 9 AND data = '2012-09-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 8748 AND data = '2012-09-19' AND tipo = 'ACQ' AND forncliente = 99
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-09-25' AND tipo = 'ACQ' AND forncliente = 115
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-09-25' AND tipo = 'ACQ' AND forncliente = 115
+SELECT * FROM movimenti WHERE num_doc = 321 AND data = '2012-09-27' AND tipo = 'ACQ' AND forncliente = 94
+SELECT * FROM movimenti WHERE num_doc = 2323 AND data = '2012-09-28' AND tipo = 'ACQ' AND forncliente = 98
+SELECT * FROM movimenti WHERE num_doc = 2514 AND data = '2012-09-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 10072 AND data = '2012-10-02' AND tipo = 'ACQ' AND forncliente = 103
+SELECT * FROM movimenti WHERE num_doc = 40546 AND data = '2012-10-02' AND tipo = 'ACQ' AND forncliente = 106
+SELECT * FROM movimenti WHERE num_doc = 495216 AND data = '2012-10-03' AND tipo = 'ACQ' AND forncliente = 106
+SELECT * FROM movimenti WHERE num_doc = 213 AND data = '2012-10-05' AND tipo = 'ACQ' AND forncliente = 102
+SELECT * FROM movimenti WHERE num_doc = 1433 AND data = '2012-10-05' AND tipo = 'ACQ' AND forncliente = 105
+SELECT * FROM movimenti WHERE num_doc = 1434 AND data = '2012-10-05' AND tipo = 'ACQ' AND forncliente = 105
+SELECT * FROM movimenti WHERE num_doc = 10595 AND data = '2012-10-08' AND tipo = 'ACQ' AND forncliente = 103
+SELECT * FROM movimenti WHERE num_doc = 53456 AND data = '2012-10-08' AND tipo = 'ACQ' AND forncliente = 116
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-10-09' AND tipo = 'ACQ' AND forncliente = 117
+SELECT * FROM movimenti WHERE num_doc = 9342454 AND data = '2012-10-09' AND tipo = 'ACQ' AND forncliente = 116
+SELECT * FROM movimenti WHERE num_doc = 9 AND data = '2012-10-10' AND tipo = 'ACQ' AND forncliente = 107
+SELECT * FROM movimenti WHERE num_doc = 136 AND data = '2012-10-10' AND tipo = 'ACQ' AND forncliente = 108
+SELECT * FROM movimenti WHERE num_doc = 2261 AND data = '2012-10-10' AND tipo = 'ACQ' AND forncliente = 104
+SELECT * FROM movimenti WHERE num_doc = 10932 AND data = '2012-10-11' AND tipo = 'ACQ' AND forncliente = 103
+SELECT * FROM movimenti WHERE num_doc = 1212529 AND data = '2012-10-11' AND tipo = 'ACQ' AND forncliente = 109
+SELECT * FROM movimenti WHERE num_doc = 10 AND data = '2012-10-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 5025 AND data = '2012-10-15' AND tipo = 'ACQ' AND forncliente = 110
+SELECT * FROM movimenti WHERE num_doc = 1506 AND data = '2012-10-16' AND tipo = 'ACQ' AND forncliente = 105
+SELECT * FROM movimenti WHERE num_doc = 1522 AND data = '2012-10-16' AND tipo = 'ACQ' AND forncliente = 105
+SELECT * FROM movimenti WHERE num_doc = 2519 AND data = '2012-10-16' AND tipo = 'ACQ' AND forncliente = 98
+SELECT * FROM movimenti WHERE num_doc = 1204 AND data = '2012-10-17' AND tipo = 'ACQ' AND forncliente = 111
+SELECT * FROM movimenti WHERE num_doc = 1535 AND data = '2012-10-19' AND tipo = 'ACQ' AND forncliente = 105
+SELECT * FROM movimenti WHERE num_doc = 3 AND data = '2012-10-20' AND tipo = 'ACQ' AND forncliente = 115
+SELECT * FROM movimenti WHERE num_doc = 4 AND data = '2012-10-20' AND tipo = 'ACQ' AND forncliente = 115
+SELECT * FROM movimenti WHERE num_doc = 5 AND data = '2012-10-20' AND tipo = 'ACQ' AND forncliente = 115
+SELECT * FROM movimenti WHERE num_doc = 995 AND data = '2012-10-22' AND tipo = 'ACQ' AND forncliente = 112
+SELECT * FROM movimenti WHERE num_doc = 11892 AND data = '2012-10-22' AND tipo = 'ACQ' AND forncliente = 103
+SELECT * FROM movimenti WHERE num_doc = 116331 AND data = '2012-10-24' AND tipo = 'ACQ' AND forncliente = 113
+SELECT * FROM movimenti WHERE num_doc = 26010650 AND data = '2012-10-24' AND tipo = 'ACQ' AND forncliente = 114
+SELECT * FROM movimenti WHERE num_doc = 2614 AND data = '2012-10-25' AND tipo = 'ACQ' AND forncliente = 98
+SELECT * FROM movimenti WHERE num_doc = 12349 AND data = '2012-10-25' AND tipo = 'ACQ' AND forncliente = 103
+SELECT * FROM movimenti WHERE num_doc = 116630 AND data = '2012-10-25' AND tipo = 'ACQ' AND forncliente = 113
+SELECT * FROM movimenti WHERE num_doc = 116945 AND data = '2012-10-26' AND tipo = 'ACQ' AND forncliente = 113
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-10-28' AND tipo = 'ACQ' AND forncliente = 115
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-28' AND tipo = 'ACQ' AND forncliente = 115
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-10-29' AND tipo = 'ACQ' AND forncliente = 140
+SELECT * FROM movimenti WHERE num_doc = 2 AND data = '2012-10-29' AND tipo = 'ACQ' AND forncliente = 140
+SELECT * FROM movimenti WHERE num_doc = 3 AND data = '2012-10-29' AND tipo = 'ACQ' AND forncliente = 140
+SELECT * FROM movimenti WHERE num_doc = 4 AND data = '2012-10-29' AND tipo = 'ACQ' AND forncliente = 140
+SELECT * FROM movimenti WHERE num_doc = 5 AND data = '2012-10-29' AND tipo = 'ACQ' AND forncliente = 140
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-10-29' AND tipo = 'ACQ' AND forncliente = 140
+SELECT DISTINCT fattureacq.*, fornitori.* FROM fattureacq JOIN fornitori ON fornitore = cod AND ((data BETWEEN '2012-03-27' AND '2012-06-30')) ORDER BY data, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-03-27' AND tipo = 'ACQ' AND forncliente = 1
+SELECT * FROM movimenti WHERE num_doc = 750 AND data = '2012-03-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1025 AND data = '2012-04-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1308 AND data = '2012-05-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-06-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-18' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-22' AND tipo = 'ACQ' AND forncliente = 132
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-27' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1587 AND data = '2012-06-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT DISTINCT fattureacq.*, fornitori.* FROM fattureacq JOIN fornitori ON fornitore = cod AND ((data_pagamento BETWEEN '2012-03-27' AND '2012-06-30')) ORDER BY data, numero
+SELECT * FROM movimenti WHERE num_doc = 14 AND data = '2012-03-27' AND tipo = 'ACQ' AND forncliente = 1
+SELECT * FROM movimenti WHERE num_doc = 750 AND data = '2012-03-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1025 AND data = '2012-04-30' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 1308 AND data = '2012-05-31' AND tipo = 'ACQ' AND forncliente = 2
+SELECT * FROM movimenti WHERE num_doc = 6 AND data = '2012-06-12' AND tipo = 'ACQ' AND forncliente = 3
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-18' AND tipo = 'ACQ' AND forncliente = 4
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-22' AND tipo = 'ACQ' AND forncliente = 132
+SELECT * FROM movimenti WHERE num_doc = 1 AND data = '2012-06-27' AND tipo = 'ACQ' AND forncliente = 4

@@ -12,6 +12,7 @@ package viste;
 
 import libs.DoubleFormatter;
 import com.itextpdf.text.DocumentException;
+import connection.Tabelle;
 import controllo.FrontController;
 import entita.Entity;
 import entita.Fattura;
@@ -1290,7 +1291,7 @@ private void optVarieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void mnuIntervalloDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIntervalloDateActionPerformed
 // TODO add your handling code here:
-    dbDateFieldToFilter = "data";
+    dbDateFieldToFilter = Tabelle.Fatture.DATA;
     dateFilter();
 }//GEN-LAST:event_mnuIntervalloDateActionPerformed
 
@@ -1516,7 +1517,7 @@ private void mnuStampaParzialeActionPerformed(java.awt.event.ActionEvent evt) {/
 
 private void mnuFilterDataPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFilterDataPagamentoActionPerformed
 // TODO add your handling code here:
-    dbDateFieldToFilter = "data_pagamento"; //Da cambiare con costante
+    dbDateFieldToFilter = Tabelle.Fatture.PAGAMENTO;
     dateFilter();
 }//GEN-LAST:event_mnuFilterDataPagamentoActionPerformed
 
