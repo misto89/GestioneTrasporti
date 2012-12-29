@@ -394,6 +394,9 @@ private void mnuEliminaFileTempActionPerformed(java.awt.event.ActionEvent evt) {
         File[] dumpFiles;
         try {
             dumpFiles = FrontController.getAllDumpFiles();
+            if (dumpFiles == null)
+                return;
+            
             Arrays.sort(dumpFiles, new Comparator() {
 
                 @Override
