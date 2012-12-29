@@ -20,6 +20,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -69,6 +71,11 @@ public class Main extends javax.swing.JFrame {
         setTitle("Gestione trasporti");
         setName("main"); // NOI18N
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         btnFatturazione.setBackground(new java.awt.Color(255, 255, 255));
         btnFatturazione.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/spedizioni.png"))); // NOI18N
@@ -235,7 +242,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnMezzi, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(btnAnagFornitoriClienti, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(btnAnagFornitoriClienti, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                     .addComponent(btnFatturazione, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -263,7 +270,7 @@ public class Main extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnScadenziario, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)))
+                            .addComponent(btnScadenziario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAnagFornitoriClienti, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -379,6 +386,46 @@ private void mnuEliminaFileTempActionPerformed(java.awt.event.ActionEvent evt) {
     else
         JOptionPane.showMessageDialog(this, "Si è verificato un errore durante l'eliminazione!", "Esito", JOptionPane.ERROR_MESSAGE);
 }//GEN-LAST:event_mnuEliminaFileTempActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        final long HOURS_24 = 86400000; //24 ore (in millisecondi)
+        
+        File[] dumpFiles;
+        try {
+            dumpFiles = FrontController.getAllDumpFiles();
+            Arrays.sort(dumpFiles, new Comparator() {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    File f1 = (File) o1;
+                    File f2 = (File) o2;
+                    
+                    //Ordina dal più recente al meno recente
+                    return new Long(f2.lastModified()).compareTo(new Long(f1.lastModified()));
+                }
+                
+            });
+            
+            File lastDump = dumpFiles[0]; //Dump più recente            
+            java.util.Date now = new java.util.Date(); //Tempo corrente   
+            long timePassed = now.getTime() - lastDump.lastModified(); //Tempo trascorso fra l'ultimo dump al timestamp corrente (in millisecondi)
+            
+            if (timePassed > HOURS_24) { //Se sono trascorse più di 24 ore, effettua un dump automatico
+                try {
+                    FrontController.test();            
+                    try {
+                        FrontController.backup();
+                    } 
+                    catch (FileNotFoundException e) {} 
+                    catch (IOException ex) {} 
+                    catch (EccezioneUtenteNonValido e) {}
+
+                } catch (EccezioneConnesioneNonRiuscita e) {}
+            }
+            
+        } catch (EccezioneUtenteNonValido e) {}
+    }//GEN-LAST:event_formWindowOpened
 
 private static void redirectOutErr() throws FileNotFoundException {
     File dirLog = new File("log");

@@ -649,7 +649,7 @@ public class Spedizioni extends javax.swing.JFrame {
             }
         });
 
-        pnlRiepilogo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Fattura", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+        pnlRiepilogo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Fattura", 0, 2));
 
         jLabel21.setText("Importo totale");
 
@@ -687,7 +687,7 @@ public class Spedizioni extends javax.swing.JFrame {
         txtTotale.setEnabled(false);
         txtTotale.setFocusable(false);
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("Data Fattura");
 
         jLabel10.setText("gg");
@@ -714,7 +714,7 @@ public class Spedizioni extends javax.swing.JFrame {
             }
         });
 
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel27.setText("Numero Fattura");
 
         txtNumFatt.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -724,7 +724,7 @@ public class Spedizioni extends javax.swing.JFrame {
         });
 
         btnEmetti.setBackground(new java.awt.Color(255, 255, 255));
-        btnEmetti.setFont(new java.awt.Font("Tahoma", 1, 12));
+        btnEmetti.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnEmetti.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/emettifattura.png"))); // NOI18N
         btnEmetti.setText("Emetti Fattura");
         btnEmetti.setToolTipText("Emetti la fattura per le spedizioni selezionate");
@@ -746,7 +746,7 @@ public class Spedizioni extends javax.swing.JFrame {
 
         jLabel3.setText("Giorni");
 
-        chkPagata.setFont(new java.awt.Font("Tahoma", 1, 12));
+        chkPagata.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chkPagata.setText("Fattura pagata");
         chkPagata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -754,7 +754,7 @@ public class Spedizioni extends javax.swing.JFrame {
             }
         });
 
-        chkForfait.setFont(new java.awt.Font("Tahoma", 1, 12));
+        chkForfait.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chkForfait.setText("Importo Forfettario");
         chkForfait.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -764,13 +764,13 @@ public class Spedizioni extends javax.swing.JFrame {
 
         lblImpForfait.setText("Importo");
 
-        txtTotForfait.setFont(new java.awt.Font("Tahoma", 1, 14));
+        txtTotForfait.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtTotForfait.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotForfait.setText("0,00");
         txtTotForfait.setEnabled(false);
         txtTotForfait.setFocusable(false);
 
-        lblTotForfait.setFont(new java.awt.Font("Tahoma", 1, 14));
+        lblTotForfait.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblTotForfait.setText("Totale");
 
         txtPercIvaForfait.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -927,7 +927,7 @@ public class Spedizioni extends javax.swing.JFrame {
 
         jLabel14.setText("€");
 
-        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel28.setText("Scadenza");
 
         jLabel29.setText("gg");
@@ -1303,13 +1303,13 @@ public class Spedizioni extends javax.swing.JFrame {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlRiepilogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
-                        .addComponent(btnModifica, javax.swing.GroupLayout.PREFERRED_SIZE, 24, Short.MAX_VALUE)
+                        .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnModifica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnElimina))
                     .addComponent(btnRegistroEmesse, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

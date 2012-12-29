@@ -290,4 +290,8 @@ public abstract class FrontController {
     public static File getDumpDir() {
         return new File(Database.DIR_NAME);
     }
+
+    public static File[] getAllDumpFiles() {
+        return new Database().getAllDumpFiles();
+    }
 }

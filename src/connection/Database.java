@@ -88,4 +88,8 @@ public class Database {
         
     }
     
+    public File[] getAllDumpFiles() {
+        return new File(DIR_NAME).listFiles();
+    }
+    
 }
