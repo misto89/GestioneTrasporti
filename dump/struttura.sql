@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.41, for Win32 (ia32)
+-- MySQL dump 10.13  Distrib 5.5.27, for Win32 (x86)
 --
 -- Host: localhost    Database: pugliatrasporti
 -- ------------------------------------------------------
--- Server version	5.1.41
+-- Server version	5.5.27
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -58,6 +58,7 @@ CREATE TABLE `fatture` (
   `pagata` tinyint(1) NOT NULL DEFAULT '0',
   `note` varchar(200) DEFAULT NULL,
   `data_scadenza` date NOT NULL,
+  `data_pagamento` date DEFAULT NULL,
   PRIMARY KEY (`numero`,`data`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -83,6 +84,7 @@ CREATE TABLE `fattureacq` (
   `fornitore` int(11) NOT NULL,
   `data_scadenza` date NOT NULL,
   `specifica_numero` varchar(20) DEFAULT NULL,
+  `data_pagamento` date DEFAULT NULL,
   PRIMARY KEY (`numero`,`data`,`fornitore`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -237,4 +239,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-29 17:59:02
+-- Dump completed on 2013-01-08 11:43:47
