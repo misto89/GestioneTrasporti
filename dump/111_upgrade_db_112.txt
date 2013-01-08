@@ -1,6 +1,0 @@
-USE pugliatrasporti;
-
-ALTER TABLE  `fattureacq` ADD  `data_pagamento` DATE NULL DEFAULT NULL;
-update fattureacq set data_pagamento = data_scadenza where pagata=1;
-ALTER TABLE  `fatture` ADD  `data_pagamento` DATE NULL DEFAULT NULL;
-update fatture set data_pagamento = data_scadenza where pagata=1;
