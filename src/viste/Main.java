@@ -53,10 +53,11 @@ public class Main extends javax.swing.JFrame {
         btnAnagFornitoriClienti = new javax.swing.JButton();
         btnMezzi = new javax.swing.JButton();
         btnFattureEmesse = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        txtContabilita = new javax.swing.JButton();
-        txtCassa = new javax.swing.JButton();
+        btnFattureAcquisto = new javax.swing.JButton();
+        btnContabilita = new javax.swing.JButton();
+        btnCassa = new javax.swing.JButton();
         btnScadenziario = new javax.swing.JButton();
+        btnNoteCredito = new javax.swing.JButton();
         barraMenu = new javax.swing.JMenuBar();
         mnuStrumenti = new javax.swing.JMenu();
         mnuTest = new javax.swing.JMenuItem();
@@ -129,33 +130,33 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/registrofattacquisto.png"))); // NOI18N
-        jButton1.setText("Registro Fatture acquisto");
-        jButton1.setMargin(new java.awt.Insets(2, -10, 2, 14));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnFattureAcquisto.setBackground(new java.awt.Color(255, 255, 255));
+        btnFattureAcquisto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/registrofattacquisto.png"))); // NOI18N
+        btnFattureAcquisto.setText("Registro Fatture acquisto");
+        btnFattureAcquisto.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        btnFattureAcquisto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnFattureAcquistoActionPerformed(evt);
             }
         });
 
-        txtContabilita.setBackground(new java.awt.Color(255, 255, 255));
-        txtContabilita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/contabilit.png"))); // NOI18N
-        txtContabilita.setText("Contabilità");
-        txtContabilita.setMargin(new java.awt.Insets(2, -10, 2, 14));
-        txtContabilita.addActionListener(new java.awt.event.ActionListener() {
+        btnContabilita.setBackground(new java.awt.Color(255, 255, 255));
+        btnContabilita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/contabilit.png"))); // NOI18N
+        btnContabilita.setText("Contabilità");
+        btnContabilita.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        btnContabilita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtContabilitaActionPerformed(evt);
+                btnContabilitaActionPerformed(evt);
             }
         });
 
-        txtCassa.setBackground(new java.awt.Color(255, 255, 255));
-        txtCassa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cassa.png"))); // NOI18N
-        txtCassa.setText("Cassa");
-        txtCassa.setMargin(new java.awt.Insets(2, -10, 2, 14));
-        txtCassa.addActionListener(new java.awt.event.ActionListener() {
+        btnCassa.setBackground(new java.awt.Color(255, 255, 255));
+        btnCassa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cassa.png"))); // NOI18N
+        btnCassa.setText("Cassa");
+        btnCassa.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        btnCassa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCassaActionPerformed(evt);
+                btnCassaActionPerformed(evt);
             }
         });
 
@@ -166,6 +167,16 @@ public class Main extends javax.swing.JFrame {
         btnScadenziario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnScadenziarioActionPerformed(evt);
+            }
+        });
+
+        btnNoteCredito.setBackground(new java.awt.Color(255, 255, 255));
+        btnNoteCredito.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/notecredito.png"))); // NOI18N
+        btnNoteCredito.setText("Inserimento Nota Credito");
+        btnNoteCredito.setMargin(new java.awt.Insets(2, -10, 2, 14));
+        btnNoteCredito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNoteCreditoActionPerformed(evt);
             }
         });
 
@@ -241,22 +252,24 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnMezzi, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(btnAnagFornitoriClienti, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                    .addComponent(btnFatturazione, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                    .addComponent(btnMezzi, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                    .addComponent(btnAnagFornitoriClienti, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                    .addComponent(btnFatturazione, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtContabilita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnFattureEmesse, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))
+                    .addComponent(btnContabilita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnFattureAcquisto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnFattureEmesse, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCassa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnScadenziario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnCassa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnScadenziario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnNoteCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnagFornitoriClienti, btnFatturazione, btnFattureEmesse, btnMezzi, btnScadenziario, jButton1, txtCassa, txtContabilita});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnagFornitoriClienti, btnCassa, btnContabilita, btnFatturazione, btnFattureAcquisto, btnFattureEmesse, btnMezzi, btnNoteCredito, btnScadenziario});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,11 +279,11 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnFattureEmesse, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCassa, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCassa, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnScadenziario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btnFattureAcquisto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnScadenziario)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAnagFornitoriClienti, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -278,15 +291,16 @@ public class Main extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnFatturazione, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtContabilita, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnContabilita, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNoteCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(11, 11, 11))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnMezzi, jButton1});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnFattureAcquisto, btnMezzi, btnScadenziario});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAnagFornitoriClienti, btnFattureEmesse});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnFatturazione, txtCassa, txtContabilita});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCassa, btnContabilita, btnFatturazione, btnNoteCredito});
 
         btnAnagFornitoriClienti.getAccessibleContext().setAccessibleDescription("Anagrafica Fornitori/Clienti");
 
@@ -330,20 +344,20 @@ private void btnFattureEmesseActionPerformed(java.awt.event.ActionEvent evt) {//
     FrontController.open(new RegistroFattureEmesse());
 }//GEN-LAST:event_btnFattureEmesseActionPerformed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+private void btnFattureAcquistoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFattureAcquistoActionPerformed
 // TODO add your handling code here:
     FrontController.open(new RegistroFattureAcquisto());
-}//GEN-LAST:event_jButton1ActionPerformed
+}//GEN-LAST:event_btnFattureAcquistoActionPerformed
 
-private void txtContabilitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContabilitaActionPerformed
+private void btnContabilitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContabilitaActionPerformed
 // TODO add your handling code here:
     FrontController.open(new Contabilita());
-}//GEN-LAST:event_txtContabilitaActionPerformed
+}//GEN-LAST:event_btnContabilitaActionPerformed
 
-private void txtCassaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCassaActionPerformed
+private void btnCassaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCassaActionPerformed
 // TODO add your handling code here:
     FrontController.open(new Cassa());
-}//GEN-LAST:event_txtCassaActionPerformed
+}//GEN-LAST:event_btnCassaActionPerformed
 
 private void btnScadenziarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScadenziarioActionPerformed
 // TODO add your handling code here:
@@ -430,6 +444,11 @@ private void mnuEliminaFileTempActionPerformed(java.awt.event.ActionEvent evt) {
         } catch (EccezioneUtenteNonValido e) {}
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnNoteCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoteCreditoActionPerformed
+        // TODO add your handling code here:
+        FrontController.open(new InsNotaCredito());
+    }//GEN-LAST:event_btnNoteCreditoActionPerformed
+
 private static void redirectOutErr() throws FileNotFoundException {
     File dirLog = new File("log");
     if (!dirLog.exists())
@@ -501,11 +520,14 @@ private static void redirectOutErr() throws FileNotFoundException {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JButton btnAnagFornitoriClienti;
+    private javax.swing.JButton btnCassa;
+    private javax.swing.JButton btnContabilita;
     private javax.swing.JButton btnFatturazione;
+    private javax.swing.JButton btnFattureAcquisto;
     private javax.swing.JButton btnFattureEmesse;
     private javax.swing.JButton btnMezzi;
+    private javax.swing.JButton btnNoteCredito;
     private javax.swing.JButton btnScadenziario;
-    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem mnuBackup;
     private javax.swing.JMenuItem mnuEliminaFileTemp;
@@ -514,7 +536,5 @@ private static void redirectOutErr() throws FileNotFoundException {
     private javax.swing.JMenuItem mnuRestore;
     private javax.swing.JMenu mnuStrumenti;
     private javax.swing.JMenuItem mnuTest;
-    private javax.swing.JButton txtCassa;
-    private javax.swing.JButton txtContabilita;
     // End of variables declaration//GEN-END:variables
 }

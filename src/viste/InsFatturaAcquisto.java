@@ -337,20 +337,12 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
                                 .addComponent(txtGiornoFatt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel12))
-                            .addComponent(txtNum))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(pnlLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(121, 121, 121))
-                    .addGroup(pnlLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(126, 126, 126))
-                    .addGroup(pnlLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(143, 143, 143))
-                    .addGroup(pnlLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                            .addComponent(txtNum)))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlLayout.createSequentialGroup()
                         .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,7 +379,7 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
             pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cboFornitore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboFornitore)
                 .addGap(18, 18, 18)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -430,7 +422,7 @@ public class InsFatturaAcquisto extends javax.swing.JDialog {
                     .addComponent(cboGiorni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(cboMetPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
                 .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
                     .addComponent(txtGiornoScadenza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -878,18 +870,13 @@ private void setDataScadenza() {
     String giornoFatt = txtGiornoFatt.getText();
     String meseFatt = txtMeseFatt.getText();
     String annoFatt = txtAnnoFatt.getText();
-    
-    if (!giornoFatt.isEmpty() && !meseFatt.isEmpty() && !annoFatt.isEmpty()) {
-                
-        try {
-            Date dataFattura = Utility.dateValueOf(annoFatt, meseFatt, giornoFatt, "data fattura");
-            String[] nuovaScadenza = DateUpdate.update(dataFattura, Integer.parseInt((String) cboGiorni.getSelectedItem())).toString().split("-");
-            txtGiornoScadenza.setText(nuovaScadenza[2]);
-            txtMeseScadenza.setText(nuovaScadenza[1]);
-            txtAnnoScadenza.setText(nuovaScadenza[0]);
-            
-        } catch (IllegalArgumentException e) {}
-    }
+
+    try {
+        String[] nuovaScadenza = Utility.setDataScadenza(giornoFatt, meseFatt, annoFatt, Integer.parseInt((String) cboGiorni.getSelectedItem()));
+        txtGiornoScadenza.setText(nuovaScadenza[2]);
+        txtMeseScadenza.setText(nuovaScadenza[1]);
+        txtAnnoScadenza.setText(nuovaScadenza[0]);
+    } catch (IllegalArgumentException e) {}
 }
 
 void unCheckPagate(){

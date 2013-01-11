@@ -20,6 +20,7 @@ import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -293,5 +294,9 @@ public abstract class FrontController {
 
     public static File[] getAllDumpFiles() {
         return new Database().getAllDumpFiles();
+    }
+    
+    public static boolean insertNotaCredito(NotaCredito notaCredito) {
+        return DAO_CBC.insertNotaCredito(notaCredito);
     }
 }

@@ -17,26 +17,26 @@ import java.util.List;
  */
 public class Fattura implements Entity {
         
-    private Integer numero;
-    private Date dataFattura;
-    private String metodoPagamento;
+    protected Integer numero;
+    protected Date data;
+    protected String metodoPagamento;
     private Double importo;
     private Double provvigione;
     private Double sconto;
-    private Double imponibile;
-    private Double ivaTot;
-    private Double totale;
+    protected Double imponibile;
+    protected Double ivaTot;
+    protected Double totale;
     private List<Spedizione> spedizioni;
-    private boolean pagata;
+    protected boolean pagata;
     private boolean forfait;
-    private Fornitore cliente;
-    private String note;
-    private Date dataScadenza;
+    protected Fornitore cliente;
+    protected String note;
+    protected Date dataScadenza;
     private String tipo; //solo per fatture d'acquisto
     private int fornitore; //solo per fatture d'acquisto
     private String specificaNumero; //solo per le fatture d'acquisto
     private List<Movimento> movimenti = new LinkedList<Movimento>();
-    private Date dataPagamento;
+    protected Date dataPagamento;
     
     public static int NUM_CAMPI_EMESSE = 12;
     public static int NUM_CAMPI_ACQUISTO = 13;
@@ -74,7 +74,7 @@ public class Fattura implements Entity {
     public Fattura(int num, Date data, String metPag, double imp, double prov, double sc, double iva, double tot, List<Spedizione> spedizioni, boolean forfait, boolean pagata, String n,
             Date dataScadenza, Date dataPagamento){
         numero = num;
-        dataFattura = data;
+        this.data = data;
         metodoPagamento = metPag;
         importo = imp;
         provvigione = prov;
@@ -94,7 +94,7 @@ public class Fattura implements Entity {
     public Fattura (int num,  Date data, String metPag, double imp, double sc, double iva, double tot, String tipo, boolean pagata, int codForn, String note,
             Date dataScadenza, String specificaNumero, Date dataPagamento){
         numero = num;
-        dataFattura = data;
+        this.data = data;
         metodoPagamento = metPag;
         importo = imp;
         sconto = sc;
@@ -119,17 +119,17 @@ public class Fattura implements Entity {
     }
     
     public Date getData() {
-        return dataFattura;
+        return data;
     }
     
     public String getFormattedData() {
         final String NEW_FORMAT = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
-        return sdf.format(dataFattura);
+        return sdf.format(data);
     }
     
     public void setData(Date data) {
-        dataFattura = data;
+        this.data = data;
     }
     
     public String getMetPag() {
@@ -270,7 +270,7 @@ public class Fattura implements Entity {
 //        if (spedizioni == null)
 //            return this.numero.equals(fatt.numero) && this.dataFattura.equals(fatt.dataFattura) && this.cliente.equals(fatt.getCliente());
 //        else
-            return this.numero.equals(fatt.numero) && this.dataFattura.equals(fatt.dataFattura);
+            return this.numero.equals(fatt.numero) && this.data.equals(fatt.data);
     }
         
     public Object[] toArray() {
@@ -289,7 +289,7 @@ public class Fattura implements Entity {
         if (cliente.getTitolare() != null)
             strCliente += " di " + cliente.getTitolare();
         
-        return new Object[] {strCliente, numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, (dataPagamento != null) ? sdf.format(dataPagamento) : "", sdf.format(getDataScadenza()), getNotePag(), note};
+        return new Object[] {strCliente, numero, sdf.format(data), imponibile, ivaTot, totale, metodoPagam, pagata, (dataPagamento != null) ? sdf.format(dataPagamento) : "", (dataScadenza != null) ? sdf.format(dataScadenza) : "", getNotePag(), note};
     }
     
     public Object[] fattAcquistoToArray() {
@@ -308,7 +308,7 @@ public class Fattura implements Entity {
         if (cliente.getTitolare() != null)
             strCliente += " di " + cliente.getTitolare();
         
-        return new Object[] {strCliente, tipo, (specificaNumero != null) ? numero + "-" + specificaNumero : numero, sdf.format(dataFattura), imponibile, ivaTot, totale, metodoPagam, pagata, (dataPagamento != null) ? sdf.format(dataPagamento) : "", sdf.format(getDataScadenza()), getNotePag(), note};
+        return new Object[] {strCliente, tipo, (specificaNumero != null) ? numero + "-" + specificaNumero : numero, sdf.format(data), imponibile, ivaTot, totale, metodoPagam, pagata, (dataPagamento != null) ? sdf.format(dataPagamento) : "", sdf.format(getDataScadenza()), getNotePag(), note};
     }
     
     public boolean isScaduta() {

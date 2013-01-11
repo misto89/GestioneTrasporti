@@ -377,10 +377,9 @@ public abstract class DAO_ASF {
                     idMezzo = rs.getInt(Tabelle.Mezzi.ID);
                 }
                 
-                ps = conn.prepareStatement("START TRANSACTION");
-                ps.executeUpdate();
+                conn.setAutoCommit(false);
                 
-                sql = "INSERT INTO " + Tabelle.SPEDIZIONI + " VALUES ("+Integer.parseInt(sped.getNumSpedizione())+", " + checkNull(sped.getDataCarico()) + ", " + checkNull(sped.getDataDocumento()) + ", " 
+                sql = "INSERT INTO " + Tabelle.SPEDIZIONI + " VALUES (" + Integer.parseInt(sped.getNumSpedizione())+", " + checkNull(sped.getDataCarico()) + ", " + checkNull(sped.getDataDocumento()) + ", " 
                         + checkNull(sped.getDescrizione()) + ", " + sped.getFornitore() + ", " + checkNull(idMezzo) + ", " + checkNull(sped.getUm1()) + ", " + sped.getQta1() + ", " 
                         + sped.getTraz1() + ", " + sped.getDistrib1() + ", " + sped.getImporto() + ", " + sped.getSconto() + ", " + sped.getPercIva() + ", " + sped.getIva() +
                         ", " + sped.getPercProvv() + ", " + sped.getProvvigione() + ", " + sped.getTotale() + ", " + checkNull(sped.getNote()) + ", " + sped.getRientrata() + 
@@ -400,12 +399,17 @@ public abstract class DAO_ASF {
                     
                 }
                 
-                ps = conn.prepareStatement("COMMIT");
-                ps.executeUpdate();
+                conn.commit();
+                conn.setAutoCommit(true);
                 return true;
                 
             } catch (SQLException ex) {
                 Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    conn.rollback();
+                } catch (SQLException ex1) {
+                    Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 if (ex.getErrorCode() == DUPLICATE_ENTRY) {
                     throw new EccezioneChiaveDuplicata("Numero spedizione '" + sped.getNumSpedizione() + "' esistente per l'anno in questione!");
                                         
@@ -464,8 +468,7 @@ public abstract class DAO_ASF {
             Fattura fatt = (Fattura) o;
             
             try {
-                ps = conn.prepareStatement("START TRANSACTION");
-                ps.executeUpdate();
+                conn.setAutoCommit(false);
                 
                 sql = "INSERT INTO " + Tabelle.FATTURE + " VALUES (" + fatt.getNumero() + ", " + checkNull(fatt.getData()) + ", " + checkNull(fatt.getMetPag()) + ", " + fatt.getImporto() + ", " + 
                                             fatt.getSconto() + ", " + fatt.getProvvigione() + ", " + fatt.getIva() + ", " + fatt.getTotale() + ", " + fatt.getForfait() + ", " + fatt.getPagata() + ", "
@@ -488,13 +491,17 @@ public abstract class DAO_ASF {
                     ps.executeUpdate();
                 }
 
-                ps = conn.prepareStatement("COMMIT");
-                ps.executeUpdate();
-                
+                conn.commit();
+                conn.setAutoCommit(true);
                 return true;
 
             } catch (SQLException ex) {
                 Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    conn.rollback();
+                } catch (SQLException ex1) {
+                    Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 if (ex.getErrorCode() == DATA_TOO_LONG) {
                     String errorMsg = ex.getMessage();
                     if (errorMsg.contains(Tabelle.Fatture.METODO_PAGAMENTO))
@@ -662,8 +669,7 @@ public abstract class DAO_ASF {
                     idMezzo = rs.getInt(Tabelle.Mezzi.ID);
                     
                 }                             
-                ps = conn.prepareStatement("START TRANSACTION");
-                ps.executeUpdate();
+                conn.setAutoCommit(false);
                 
                 sql = "UPDATE " + Tabelle.SPEDIZIONI + " SET " + Tabelle.Spedizioni.DATA_CARICO + " = " + checkNull(s.getDataCarico()) + ", " + 
                     Tabelle.Spedizioni.DATA_DOCUMENTO + " = " + checkNull(s.getDataDocumento()) + ", " + Tabelle.Spedizioni.DESCRIZIONE + 
@@ -700,11 +706,16 @@ public abstract class DAO_ASF {
                     
                 }
                 
-                ps = conn.prepareStatement("COMMIT");
-                ps.executeUpdate();
+                conn.commit();
+                conn.setAutoCommit(true);
                 return true;
                 
             } catch (SQLException ex) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex1) {
+                    Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 if (ex.getErrorCode() == DATA_TOO_LONG) {
                     String errorMsg = ex.getMessage();
                     if (errorMsg.contains(Tabelle.Spedizioni.NUMERO))
@@ -815,8 +826,7 @@ public abstract class DAO_ASF {
         } else if (o instanceof Spedizione) {
             Spedizione s = (Spedizione) o;
             try {
-                ps = conn.prepareStatement("START TRANSACTION");
-                ps.executeUpdate();
+                conn.setAutoCommit(false);
                 
                 sql = "DELETE FROM " + Tabelle.SPEDIZIONI + " WHERE " + Tabelle.Spedizioni.NUMERO + " = '" + s.getNumSpedizione()+ "' AND " + Tabelle.Spedizioni.DATA_CARICO + " = '"+ s.getDataCarico() + "'";
                 
@@ -831,14 +841,19 @@ public abstract class DAO_ASF {
                 ps = conn.prepareStatement(sql);
                 ps.executeUpdate();
                 
-                ps = conn.prepareStatement("COMMIT");
-                ps.executeUpdate();
+                conn.commit();
+                conn.setAutoCommit(true);
                 
 //                resetNumSpedizione(Integer.parseInt(s.getNumSpedizione()), s.getDataCarico());
                 return true;
                 
             } catch (SQLException ex) {
                 Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    conn.rollback();
+                } catch (SQLException ex1) {
+                    Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 return false;
             }
         }
@@ -847,8 +862,7 @@ public abstract class DAO_ASF {
     
     public static boolean cambiaCliente(List<Spedizione> spedizioni, Fornitore cliente) {
         try {
-            ps = conn.prepareStatement("START TRANSACTION");
-            ps.executeUpdate();
+            conn.setAutoCommit(false);
             
             for (Spedizione spedizione : spedizioni) {
                 sql = "UPDATE " + Tabelle.SPEDIZIONI + " SET " + Tabelle.Spedizioni.FORN_CLIENTE + " = " + cliente.getCod() + " WHERE " +
@@ -860,12 +874,17 @@ public abstract class DAO_ASF {
                 ps.executeUpdate();
             }
             
-            ps = conn.prepareStatement("COMMIT");
-            ps.executeUpdate();
+            conn.commit();
+            conn.setAutoCommit(true);
             return true;
             
         } catch (SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                conn.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             return false;
         }
     }
@@ -1267,6 +1286,15 @@ public abstract class DAO_ASF {
                     data = rsMaxDate.getDate("MAXDATE");
                 }
                 sql = "SELECT MAX(" + Tabelle.Spedizioni.NUMERO + ") AS MAXNUM FROM " + Tabelle.SPEDIZIONI + " WHERE " + Tabelle.Spedizioni.DATA_CARICO + " >= '" + dataDocYear + "-01-01'" + " AND " + Tabelle.Spedizioni.DATA_CARICO + " <= '" + dataDocYear + "-12-31'";  
+            } else if (table.equals(NotaCredito.class)) {
+                String sqlMaxDate = "SELECT MAX(" + Tabelle.NoteCredito.DATA + ") AS MAXDATE FROM " + Tabelle.NOTE_CREDITO;
+                System.out.println(sqlMaxDate);
+                PreparedStatement psMaxDate = conn.prepareStatement(sqlMaxDate);
+                ResultSet rsMaxDate = psMaxDate.executeQuery();
+                if (rsMaxDate.next()){ 
+                    data = rsMaxDate.getDate("MAXDATE");
+                }
+                sql = "SELECT MAX(" + Tabelle.NoteCredito.NUMERO + ") AS MAXNUM FROM " + Tabelle.NOTE_CREDITO + " WHERE " + Tabelle.NoteCredito.DATA + " >= '" + dataDocYear + "-01-01'" + " AND " + Tabelle.NoteCredito.DATA + " <= '" + dataDocYear + "-12-31'";  
             }
             
             System.out.println(sql);

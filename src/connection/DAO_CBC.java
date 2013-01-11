@@ -10,9 +10,11 @@ import contabilizzazione.SaldoIvaMensile;
 import eccezioni.EccezioneChiaveDuplicata;
 import eccezioni.EccezioneModificaFattAcquisto;
 import eccezioni.EccezioneValoreCampoTroppoLungo;
+import entita.DescrizioniNotaCredito;
 import entita.Fattura;
 import entita.Fornitore;
 import entita.Movimento;
+import entita.NotaCredito;
 import entita.Spedizione;
 import movimentazionecontante.*;
 import java.sql.Connection;
@@ -177,6 +179,79 @@ public class DAO_CBC {
         }
     }
     
+    private static void ricNota(boolean recuperaCliente, Fornitore cliente, List<Fattura> fatture) throws SQLException {
+            
+        int id;
+        Integer numero;
+        Date data;
+        String metodoPagamento;
+        Double imponibile;
+        Double ivaTot;
+        Double totale;
+        boolean pagata;
+        String note;
+        Date dataPagamento;
+        Date dataScadenza;
+
+        while (rs.next()){
+            id = rs.getInt(Tabelle.NoteCredito.ID);
+            numero = rs.getInt(Tabelle.NoteCredito.NUMERO);
+            data = rs.getDate(Tabelle.NoteCredito.DATA);
+            metodoPagamento = rs.getString(Tabelle.NoteCredito.METODO_PAGAMENTO);
+            imponibile = rs.getDouble(Tabelle.NoteCredito.IMPONIBILE);
+            ivaTot = rs.getDouble(Tabelle.NoteCredito.IVA);
+            totale = rs.getDouble(Tabelle.NoteCredito.TOTALE);
+            pagata = rs.getBoolean(Tabelle.NoteCredito.PAGATA);
+            note = rs.getString(Tabelle.NoteCredito.NOTE);            
+            dataPagamento = rs.getDate(Tabelle.NoteCredito.DATA_PAGAMENTO);
+            dataScadenza = rs.getDate(Tabelle.NoteCredito.DATA_SCADENZA);
+            
+            int codFornCliente = 0;
+            if (recuperaCliente) { //Recupera i dati relativi al cliente
+
+                Integer cod = rs.getInt(Tabelle.Fornitori.COD);
+                String nome = rs.getString(Tabelle.Fornitori.NOME);
+                String titolare = rs.getString(Tabelle.Fornitori.TITOLARE);
+                String piva = rs.getString(Tabelle.Fornitori.PIVA);
+                String codfisc = rs.getString(Tabelle.Fornitori.CODFISCALE);
+                String indirizzoLeg = rs.getString(Tabelle.Fornitori.INDIRIZZO_LEGALE);
+                String telefono1 = rs.getString(Tabelle.Fornitori.TELEFONO1);
+                String telefono2 = rs.getString(Tabelle.Fornitori.TELEFONO2);
+                String fax = rs.getString(Tabelle.Fornitori.FAX);
+                String email = rs.getString(Tabelle.Fornitori.EMAIL);
+                String capLeg = rs.getString(Tabelle.Fornitori.CAP_LEGALE);
+                String cittaLeg = rs.getString(Tabelle.Fornitori.CITTA_LEGALE);
+                String provLeg = rs.getString(Tabelle.Fornitori.PROV_LEGALE);
+                String nazioneLeg = rs.getString(Tabelle.Fornitori.NAZIONE_LEGALE);
+                String banca = rs.getString(Tabelle.Fornitori.BANCA);
+                String iban = rs.getString(Tabelle.Fornitori.IBAN);
+                String nomeRef1 = rs.getString(Tabelle.Fornitori.NOME_REF_1);
+                String nomeRef2 = rs.getString(Tabelle.Fornitori.NOME_REF_2);
+                String emailRef1 = rs.getString(Tabelle.Fornitori.EMAIL_REF_1);
+                String emailRef2 = rs.getString(Tabelle.Fornitori.EMAIL_REF_2);
+                String telRef1 = rs.getString(Tabelle.Fornitori.TEL_REF_1);
+                String telRef2 = rs.getString(Tabelle.Fornitori.TEL_REF_2);
+                String iscrizioneAlbo = rs.getString(Tabelle.Fornitori.ISCRIZIONE_ALBO);
+                String indirizzoOp = rs.getString(Tabelle.Fornitori.INDIRIZZO_OP);
+                String capOp = rs.getString(Tabelle.Fornitori.CAP_OP);
+                String cittaOp = rs.getString(Tabelle.Fornitori.CITTA_OP);
+                String provOp = rs.getString(Tabelle.Fornitori.PROV_OP);
+                String nazioneOp = rs.getString(Tabelle.Fornitori.NAZIONE_OP);
+
+                cliente = new Fornitore(cod, nome, titolare, piva, codfisc, indirizzoLeg, telefono1, telefono2, fax, email, capLeg, cittaLeg, provLeg, nazioneLeg, banca, iban,
+                        iscrizioneAlbo, indirizzoOp, cittaOp, capOp, provOp, nazioneOp, nomeRef1, nomeRef2, emailRef1, emailRef2, telRef1, telRef2);   
+                
+                codFornCliente = cod;
+            }
+
+            NotaCredito nota = new NotaCredito(numero, data, cliente, metodoPagamento, imponibile, ivaTot, totale, null, pagata, note, dataPagamento, dataScadenza);
+            nota.setDescrizioni(ricDescrizioni(nota));
+            nota.setMovimenti(ricMovimenti(numero, data, codFornCliente, Fattura.tipo.VEN));            
+            nota.setId(id);
+            fatture.add(nota);
+        }
+    }
+    
     /**
      * Recupera tutte le fatture che rispecchiano i parametri in input
      * @param anno L'anno da considerare
@@ -272,7 +347,108 @@ public class DAO_CBC {
                 return null;
             }
         }   
+        addNoteCredito(fatture, anno, cliente, mesi, tipo, dataIntIn, dataIntFin, dateFieldToFilter);
         return fatture;
+    }
+    
+    /**
+     * Recupera tutte le note credito che rispecchiano i parametri in input
+     * @param anno L'anno da considerare
+     * @param cliente Il cliente relativo
+     * @param mesi L'insieme dei mesi di cui recuperarne le fatture
+     * @param tipo Il tipo delle note da recuperare (pagate, non pagate, tutte)
+     * @return Una lista di note, una lista vuota nel caso in cui non fosse stato selezionato alcun mese,
+     * o null in caso di eventuali errori.
+     */
+    private static void addNoteCredito(List<Fattura> fatture,int anno, Fornitore cliente, boolean mesi[], Fattura.pagata tipo, Date dataIntIn, Date dataIntFin, String dateFieldToFilter) {
+        
+        /*
+         * La stringa sql verrà costruita dinamicamente in base alle informazioni
+         * presenti nella firma del metodo
+         */
+        boolean intervalloDate = false;
+        boolean recuperaCliente;
+        
+        if (dataIntIn != null) {
+            intervalloDate = true;
+        }
+        if (cliente.getCod() != null) {//Cliente selezionato
+            sql = "SELECT DISTINCT " + 
+                    Tabelle.NOTE_CREDITO + ".* FROM " + 
+                    Tabelle.NOTE_CREDITO + 
+                    " WHERE " + 
+                        Tabelle.NoteCredito.CLIENTE + " = " + cliente.getCod() + 
+                        " AND (";
+            
+            recuperaCliente = false;
+            
+        } else {//Tutti i clienti
+            sql = "SELECT DISTINCT " + 
+                    Tabelle.NOTE_CREDITO + ".*, " + 
+                    Tabelle.FORNITORI + ".* FROM " + 
+                        Tabelle.NOTE_CREDITO + ", " +
+                        Tabelle.FORNITORI + 
+                    " WHERE " +                         
+                        Tabelle.NoteCredito.CLIENTE + " = " + Tabelle.Fornitori.COD + " AND (";
+            
+            recuperaCliente = true;
+        }        
+        
+        if (tipo == Fattura.pagata.P) 
+            sql += Tabelle.NoteCredito.PAGATA + " = true AND ("; 
+        else if (tipo == Fattura.pagata.NP) 
+            sql += Tabelle.NoteCredito.PAGATA + " = false AND ("; 
+        
+        int j = 0;
+        for (boolean mese : mesi) {
+            if (mese)
+                j++; //numero di mesi posti a true
+        }
+        
+        if (!intervalloDate){
+            if (j > 0 && j < 12) { //Sono stati selezionati solo alcuni mesi
+                for (int i = 0; i < mesi.length; i++) {
+                    if (mesi[i]) {
+                        String m = String.valueOf(i + 1);
+                        if (m.length() == 1)
+                            m = "0" + m;
+
+                        sql += "(" + Tabelle.NoteCredito.DATA + " BETWEEN '" + anno + "-" + m + "-01' AND '" + anno + "-" + m + "-31') OR "; 
+                    }
+                }
+
+            } else if (j == 12) //Sono stati selezionati tutti i mesi
+                sql += Tabelle.NoteCredito.DATA + " BETWEEN '" + anno + "-01-01' AND '" + anno + "-12-31' AND "; 
+
+            else //non è stato selezionato alcun mese
+                sql = "";
+        } else
+            sql += "(" + dateFieldToFilter + " BETWEEN '" + dataIntIn + "' AND '" + dataIntFin + "') OR "; 
+            
+        if (!sql.equalsIgnoreCase("")) { //E' stato selezionato qualche mese
+            if (sql.substring(sql.length()-4).equalsIgnoreCase("AND "))
+                sql = sql.substring(0, sql.length()-4).trim(); //Rimuove un eventuale AND finale
+            
+            if (sql.substring(sql.length()-3).equalsIgnoreCase("OR "))
+                sql = sql.substring(0, sql.length()-3).trim(); //Rimuove un eventuale OR finale
+            
+            //Se si fa la distinzione tra fatture pagate e non, bisogna chiudere la parentesi che era stata aperta all'inizio
+            if (tipo != Fattura.pagata.ALL)
+                sql += ")";
+            
+            sql += ") ORDER BY " + Tabelle.NoteCredito.DATA + ", " + Tabelle.NoteCredito.NUMERO;
+            
+            try {
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                rs = ps.executeQuery();
+                
+                ricNota(recuperaCliente, cliente, fatture);
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   
     }
     
      /*
@@ -413,11 +589,51 @@ public class DAO_CBC {
         return spedizioni;
     }
     
+    /*
+     * Restituisce tutte le spedizioni appartenenti ad una fattura
+     */
+    private static List<DescrizioniNotaCredito> ricDescrizioni(NotaCredito nota) throws SQLException {
+        
+        sql = "SELECT * FROM " + 
+                Tabelle.DESCRIZIONI_NOTE_CREDITO + 
+                " WHERE " + 
+                    Tabelle.DescrizioniNoteCredito.NOTA_CREDITO + " = " + nota.getId() + 
+                    " ORDER BY " + Tabelle.DescrizioniNoteCredito.ID;
+
+        System.out.println(sql);
+        PreparedStatement psSped = conn.prepareStatement(sql);
+        ResultSet rsSped = psSped.executeQuery();
+                  
+        List<DescrizioniNotaCredito> descrizioni = new LinkedList<DescrizioniNotaCredito>();
+        
+        try {
+            String descrizione;
+            Double importo;
+            Integer percIva;
+            double iva;
+                     
+            while (rsSped.next()){
+                descrizione = rs.getString(Tabelle.DescrizioniNoteCredito.DESCRIZIONE);
+                importo = rs.getDouble(Tabelle.DescrizioniNoteCredito.IMPORTO);
+                percIva = rs.getInt(Tabelle.DescrizioniNoteCredito.PERC_IVA);
+                iva = rs.getDouble(Tabelle.DescrizioniNoteCredito.IVA);
+                
+                DescrizioniNotaCredito desc = new DescrizioniNotaCredito(descrizione, importo, percIva, iva);
+                desc.setNota(nota);
+                descrizioni.add(desc);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        return descrizioni;
+    }
+    
     public static boolean deleteFattura(Fattura fattura) {
         try {
             
-            ps = conn.prepareStatement("START TRANSACTION");
-            ps.executeUpdate();
+            conn.setAutoCommit(false);
             
             sql = "DELETE FROM " + Tabelle.FATTURE + " WHERE " + Tabelle.Fatture.NUMERO + " = " + fattura.getNumero() + " AND " + Tabelle.Fatture.DATA +
                     " = '" + fattura.getData() + "'";
@@ -442,12 +658,16 @@ public class DAO_CBC {
             ps = conn.prepareStatement(sql);
             ps.executeUpdate();
             
-            ps = conn.prepareStatement("COMMIT");
-            ps.executeUpdate();            
-                
+            conn.commit();
+            conn.setAutoCommit(true);
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                conn.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(DAO_CBC.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             return false;
         }
     }
@@ -471,8 +691,6 @@ public class DAO_CBC {
             //rs.next();
 //            int num = rs.getInt("num");
 //            if (num == 0) { //numero nell'anno non esistente
-                ps = conn.prepareStatement("START TRANSACTION");
-                ps.executeUpdate();
 
                 sql = "INSERT INTO " + Tabelle.FATT_ACQUISTO + " VALUES (" + fatt.getNumero() + ", " + checkNull(fatt.getData()) + ", " + checkNull(fatt.getMetPag()) + ", " + fatt.getImporto() + ", " + 
                                             fatt.getSconto() + ", " + fatt.getIva() + ", " + fatt.getTotale() + ", " + fatt.getPagata() + ", '" + fatt.getTipo() + "', " + checkNull(fatt.getNote()) +
@@ -480,9 +698,6 @@ public class DAO_CBC {
 
                 System.out.println(sql);
                 ps = conn.prepareStatement(sql);
-                ps.executeUpdate();
-                
-                ps = conn.prepareStatement("COMMIT");
                 ps.executeUpdate();
 
                 return true;
@@ -737,6 +952,7 @@ public class DAO_CBC {
     public static void updatePagamentoFattura(Fattura.tipo tipo, Fattura fattura, boolean pagata, List<Movimento> movimenti) {
         try {
            
+            conn.setAutoCommit(false);
             if (!pagata)
                 fattura.setDataPagamento(null);
             
@@ -754,20 +970,17 @@ public class DAO_CBC {
                         Tabelle.Fatture.DATA + " = '" + fattura.getData() + "'";
             }
                
-                ps = conn.prepareStatement("START TRANSACTION");
-                ps.executeUpdate();
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
 
-                System.out.println(sql);
-                ps = conn.prepareStatement(sql);
-                ps.executeUpdate();
-            
-                sql = "DELETE FROM " + Tabelle.MOVIMENTI + " WHERE " + Tabelle.Movimenti.NUM_DOC + " = " + fattura.getNumero() + " AND " +
-                        Tabelle.Movimenti.DATA + " = '" + fattura.getData() + "' AND " + Tabelle.Movimenti.TIPO + " = '" + tipo + "' AND " +
-                        Tabelle.Movimenti.FORN_CLIENTE + " = " + fattura.getCliente().getCod();
-                
-                System.out.println(sql);
-                ps = conn.prepareStatement(sql);
-                ps.executeUpdate();
+            sql = "DELETE FROM " + Tabelle.MOVIMENTI + " WHERE " + Tabelle.Movimenti.NUM_DOC + " = " + fattura.getNumero() + " AND " +
+                    Tabelle.Movimenti.DATA + " = '" + fattura.getData() + "' AND " + Tabelle.Movimenti.TIPO + " = '" + tipo + "' AND " +
+                    Tabelle.Movimenti.FORN_CLIENTE + " = " + fattura.getCliente().getCod();
+
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
                 
             if (movimenti != null) {
 
@@ -782,12 +995,16 @@ public class DAO_CBC {
                 
             } 
             
-            ps = conn.prepareStatement("COMMIT");
-            ps.executeUpdate();
+            conn.commit();
+            conn.setAutoCommit(true);
             
         } catch (SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
-          
+            try {
+                conn.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(DAO_CBC.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         } 
     }
     
@@ -934,16 +1151,11 @@ public class DAO_CBC {
             String banca = m.getBanca();
             double importo = m.getImporto();
             
-            ps = conn.prepareStatement("START TRANSACTION");
-            ps.executeUpdate();
-            
             sql = "INSERT INTO " +  Tabelle.MOVIMENTICONTANTE + " VALUES (NULL, '" + data + "', " + checkNull(banca) + "," + importo + ",'" + type + "')";
             System.out.println(sql);
             ps = conn.prepareStatement(sql);
             ps.executeUpdate();
-            
-            ps = conn.prepareStatement("COMMIT");
-            ps.executeUpdate();
+
             return true;
         } catch(SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
@@ -1131,6 +1343,8 @@ public class DAO_CBC {
     
     public static boolean updateFatturaAcquisto(Fattura toUpdate, Fattura old){
         try {
+            conn.setAutoCommit(false);
+            
             sql = "UPDATE " + Tabelle.FATT_ACQUISTO + " SET " + Tabelle.FattureAcquisto.FORNITORE + " = " + toUpdate.getFornitore() + 
                     ", " + Tabelle.FattureAcquisto.NUMERO + " = " + toUpdate.getNumero() + ", " + Tabelle.FattureAcquisto.DATA + " = " + checkNull(toUpdate.getData()) +
                     ", " + Tabelle.FattureAcquisto.IMPORTO + " = " + toUpdate.getImporto() + ", " + Tabelle.FattureAcquisto.IVA + " = " + toUpdate.getIva() + 
@@ -1191,10 +1405,16 @@ public class DAO_CBC {
                 ps.executeUpdate();
                 return true;
             }
-            
+            conn.commit();
+            conn.setAutoCommit(true);
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                conn.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(DAO_CBC.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             if (ex.getErrorCode() == DATA_TOO_LONG) {
                 String errorMsg = ex.getMessage();
                 if (errorMsg.contains(Tabelle.FattureAcquisto.METODO_PAGAMENTO))
@@ -1222,8 +1442,7 @@ public class DAO_CBC {
     public static boolean deleteFatturaAcquisto(Fattura fattura) {
         try {
             
-            ps = conn.prepareStatement("START TRANSACTION");
-            ps.executeUpdate();
+            conn.setAutoCommit(false);
             
             sql = "DELETE FROM " + Tabelle.FATT_ACQUISTO + " WHERE " + Tabelle.FattureAcquisto.NUMERO + " = " + fattura.getNumero() + " AND " + Tabelle.FattureAcquisto.DATA +
                     " = '" + fattura.getData() + "' AND " + Tabelle.FattureAcquisto.FORNITORE + " = " + fattura.getFornitore();
@@ -1240,12 +1459,16 @@ public class DAO_CBC {
             ps = conn.prepareStatement(sql);
             ps.executeUpdate();
             
-            ps = conn.prepareStatement("COMMIT");
-            ps.executeUpdate();            
-                
+            conn.commit();      
+            conn.setAutoCommit(true);
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                conn.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(DAO_CBC.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             return false;
         }
     }
@@ -1261,6 +1484,80 @@ public class DAO_CBC {
             
         } catch (SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public static boolean insertNotaCredito(NotaCredito notaCredito) {
+
+        try {
+            conn.setAutoCommit(false);
+            sql = "INSERT INTO " 
+                    + Tabelle.NOTE_CREDITO 
+                    + " VALUES ("
+                    + "NULL, "
+                    + notaCredito.getNumero() + ", '"
+                    + notaCredito.getData() + "', "
+                    + notaCredito.getCliente().getCod() + ", '"
+                    + notaCredito.getMetPag() + "', "
+                    + notaCredito.getImponibile() + ", "
+                    + notaCredito.getIva() + ", "
+                    + notaCredito.getTotale() + ", "
+                    + notaCredito.getPagata() + ", "
+                    + checkNull(notaCredito.getNote()) + ", "
+                    + checkNull(notaCredito.getDataPagamento()) + ", "
+                    + checkNull(notaCredito.getDataScadenza())
+                    + ") ";
+            
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();           
+            
+            sql = "SELECT "
+                    + Tabelle.NoteCredito.ID
+                    + " FROM "
+                    + Tabelle.NOTE_CREDITO
+                    + " WHERE "
+                    + Tabelle.NoteCredito.NUMERO + " = " + notaCredito.getNumero()
+                    + " AND "
+                    + Tabelle.NoteCredito.DATA + " = '" + notaCredito.getData() + "'";
+                              
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();    
+            rs.next();
+            int id = rs.getInt(Tabelle.NoteCredito.ID);
+            
+            List<DescrizioniNotaCredito> descrizioni = notaCredito.getDescrizioni();
+            
+            for (DescrizioniNotaCredito descrizione : descrizioni) {
+                sql = "INSERT INTO "
+                        + Tabelle.DESCRIZIONI_NOTE_CREDITO
+                        + " VALUES ("
+                        + "NULL, "
+                        + id + ", '"
+                        + descrizione.getDescrizione() + "', "
+                        + descrizione.getImporto() + ", "
+                        + descrizione.getPercIva() + ", "
+                        + descrizione.getIva()
+                        + ")";
+                
+                System.out.println(sql);
+                ps = conn.prepareStatement(sql);
+                ps.executeUpdate();    
+            }
+           
+            conn.commit();
+            conn.setAutoCommit(true);
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                conn.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(DAO_CBC.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             return false;
         }
     }

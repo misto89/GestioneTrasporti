@@ -18,6 +18,8 @@ public class Tabelle {
     static final String FATT_ACQUISTO = "fattureacq";
     static final String MOVIMENTI = "movimenti";
     static final String MOVIMENTICONTANTE = "movimcontante";
+    static final String NOTE_CREDITO = "note_credito";
+    static final String DESCRIZIONI_NOTE_CREDITO = "descrizioni_note_credito";
     
     //Rappresenta la tabella "fornitori" con i suoi campi
     static class Fornitori {
@@ -153,5 +155,30 @@ public class Tabelle {
         public static final String IMPORTO = "importo";
         public static final String TIPO = "tipo";
         public static final String NUMERO = "numero";
+    }
+    
+    static class NoteCredito {
+        public static final String ID = "id";
+        public static final String NUMERO = "numero";
+        public static final String DATA = "data";
+        public static final String CLIENTE = "cliente";
+        public static final String METODO_PAGAMENTO = "metodopagamento";
+        public static final String IMPONIBILE = "imponibile";
+        public static final String IVA = "iva";
+        public static final String TOTALE = "totale";
+        public static final String PAGATA = "pagata";
+        public static final String NOTE = "note";
+        public static final String DATA_PAGAMENTO = "data_pagamento";
+        public static final String DATA_SCADENZA = "data_scadenza";
+    }
+    
+    static class DescrizioniNoteCredito {
+        public static final String ID = "id";
+        public static final String NOTA_CREDITO = "nota";
+        public static final String DESCRIZIONE = "descrizione";
+        public static final String IMPORTO = "importo";
+        public static final String PERC_IVA = "perciva";
+        public static final String IVA = "iva";
+
     }
 }

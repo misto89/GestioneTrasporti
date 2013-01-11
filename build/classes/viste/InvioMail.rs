@@ -1,3 +1,0 @@
-viste.InvioMail
-viste.MailProgressBarManager$Task
-viste.MailProgressBarManager

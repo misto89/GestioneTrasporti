@@ -135,22 +135,25 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="btnMezzi" linkSize="2" alignment="1" pref="200" max="32767" attributes="1"/>
-                  <Component id="btnAnagFornitoriClienti" linkSize="2" alignment="0" pref="226" max="32767" attributes="1"/>
-                  <Component id="btnFatturazione" linkSize="2" alignment="0" pref="200" max="32767" attributes="1"/>
+                  <Component id="btnMezzi" linkSize="2" alignment="1" pref="227" max="32767" attributes="1"/>
+                  <Component id="btnAnagFornitoriClienti" linkSize="2" alignment="0" pref="227" max="32767" attributes="1"/>
+                  <Component id="btnFatturazione" linkSize="2" alignment="0" pref="227" max="32767" attributes="1"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="txtContabilita" linkSize="2" max="32767" attributes="1"/>
-                  <Component id="jButton1" linkSize="2" alignment="1" max="32767" attributes="1"/>
-                  <Component id="btnFattureEmesse" linkSize="2" alignment="1" pref="226" max="32767" attributes="1"/>
+                  <Component id="btnContabilita" linkSize="2" max="32767" attributes="1"/>
+                  <Component id="btnFattureAcquisto" linkSize="2" alignment="1" max="32767" attributes="1"/>
+                  <Component id="btnFattureEmesse" linkSize="2" alignment="1" pref="227" max="32767" attributes="1"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="txtCassa" linkSize="2" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
-                  <Component id="btnScadenziario" linkSize="2" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="btnCassa" linkSize="2" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                      <Component id="btnScadenziario" linkSize="2" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="btnNoteCredito" linkSize="2" min="-2" pref="227" max="-2" attributes="1"/>
               </Group>
-              <EmptySpace pref="11" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -162,12 +165,12 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnFattureEmesse" linkSize="3" alignment="3" min="-2" pref="45" max="-2" attributes="1"/>
-                          <Component id="txtCassa" linkSize="4" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                          <Component id="btnCassa" linkSize="4" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton1" linkSize="1" alignment="3" min="-2" pref="42" max="-2" attributes="1"/>
-                          <Component id="btnScadenziario" alignment="3" max="32767" attributes="1"/>
+                          <Component id="btnFattureAcquisto" linkSize="1" alignment="3" min="-2" pref="42" max="-2" attributes="1"/>
+                          <Component id="btnScadenziario" linkSize="1" alignment="3" min="-2" max="-2" attributes="1"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -177,7 +180,8 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnFatturazione" linkSize="4" alignment="3" min="-2" pref="45" max="-2" attributes="1"/>
-                          <Component id="txtContabilita" linkSize="4" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                          <Component id="btnContabilita" linkSize="4" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                          <Component id="btnNoteCredito" linkSize="4" alignment="3" min="-2" pref="42" max="-2" attributes="1"/>
                       </Group>
                   </Group>
               </Group>
@@ -288,7 +292,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFattureEmesseActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnFattureAcquisto">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -302,10 +306,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFattureAcquistoActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="txtContabilita">
+    <Component class="javax.swing.JButton" name="btnContabilita">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -319,10 +323,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtContabilitaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnContabilitaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="txtCassa">
+    <Component class="javax.swing.JButton" name="btnCassa">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -336,7 +340,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCassaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCassaActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnScadenziario">
@@ -354,6 +358,23 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnScadenziarioActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnNoteCredito">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/img/notecredito.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Inserimento Nota Credito"/>
+        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+          <Insets value="[2, -10, 2, 14]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNoteCreditoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
