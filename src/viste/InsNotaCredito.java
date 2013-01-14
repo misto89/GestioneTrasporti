@@ -615,6 +615,11 @@ public class InsNotaCredito extends javax.swing.JFrame {
             return;
         }
         
+        if (descrizioni.size() == 0) {
+            JOptionPane.showMessageDialog(this, "Inserire almeno una descrizione", "Descrizione obbligatoria", JOptionPane.ERROR_MESSAGE);            
+            return;
+        }
+        
         int numero = FrontController.getNumber(NotaCredito.class, data);
         
         String metodoPagamento = "Contante-0";        

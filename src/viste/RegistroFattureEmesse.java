@@ -40,6 +40,7 @@ import javax.swing.table.TableRowSorter;
 import libs.Utility;
 import stampa.StampaRegistroEmesse;
 import connection.Tabelle;
+import entita.NotaCredito;
 
 /**
  *
@@ -79,7 +80,14 @@ public class RegistroFattureEmesse extends javax.swing.JFrame {
                 if (valPagata == 'S') {
                     FrontController.open(new NotePagamento(vista, rootPaneCheckingEnabled, fattura));
                 } else {
-                    FrontController.updatePagataFattura(Fattura.tipo.VEN, fattura, false);
+                    
+                    Fattura.tipo tipo;
+                    if (classeRigaSelezionata.equals(Fattura.class))
+                        tipo = Fattura.tipo.VEN;
+                    else
+                        tipo = Fattura.tipo.VNC;
+                    
+                    FrontController.updatePagataFattura(tipo, fattura, false);
                     setFatture();
                 }
                 
@@ -949,15 +957,27 @@ private void cboAnnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
 
 private void mnuAnnullaFatturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnnullaFatturaActionPerformed
 // TODO add your handling code here:
-    final int RESPONSE = JOptionPane.showConfirmDialog(this, "Sei sicuro di voler annullare la fattura emessa?\nSi ricorda che tutte le spedizioni appartenenti alla fattura selezionata torneranno allo stato di non fatturate",
-            "Conferma annullamento fattura", JOptionPane.OK_CANCEL_OPTION);
-    if (RESPONSE == JOptionPane.OK_OPTION) {
+    String msgConferma = null;
+    String entitaToDelete = null;
+    
+    if (classeRigaSelezionata.equals(Fattura.class)) {
+        msgConferma = "Sei sicuro di voler annullare la fattura emessa?\n"
+                + "Si ricorda che tutte le spedizioni appartenenti alla fattura selezionata torneranno allo stato di non fatturate";
+        entitaToDelete = "fattura";
+    } else {
+        msgConferma = "Sei sicuro di voler eliminare la nota credito emessa?";
+        entitaToDelete = "nota credito";
+    }
+        
+    final int RESPONSE = JOptionPane.showConfirmDialog(this, msgConferma, "Conferma annullamento " + entitaToDelete, JOptionPane.OK_CANCEL_OPTION);
+    if (RESPONSE == JOptionPane.OK_OPTION) {        
         if (FrontController.delete(fattureInTabella.get(getIndexSelectedFattura()))) {
             setFatture();
-            JOptionPane.showMessageDialog(this, "Fattura annullata con successo!", "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, entitaToDelete.substring(0,1).toUpperCase() + entitaToDelete.substring(1) + " annullata con successo!", "", JOptionPane.INFORMATION_MESSAGE);
         } else 
-            JOptionPane.showMessageDialog(this, "Si è verificato un errore durante l'eliminazione della fattura!", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Si è verificato un errore durante l'eliminazione della " + entitaToDelete + "!", "Errore", JOptionPane.ERROR_MESSAGE);
     }
+    
 }//GEN-LAST:event_mnuAnnullaFatturaActionPerformed
 
 private void optTutteScadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optTutteScadActionPerformed
@@ -1376,10 +1396,17 @@ void setFatture() {
     mnuFattura.setEnabled(false);
     tblFatture.addMouseListener(new MouseAdapter() {
         public void mouseClicked(MouseEvent me) {
+            
+            Fattura fattSelezionata = fattureInTabella.get(getIndexSelectedFattura());
+            if (fattSelezionata instanceof NotaCredito) 
+                classeRigaSelezionata = NotaCredito.class;
+            else
+                classeRigaSelezionata = Fattura.class;
+            
             mnuFattura.setEnabled(true);
             if (me.getClickCount() > 1) {
                 if (tblFatture.getSelectedColumn() == MOD_PAG) {
-                    FrontController.open(new ModificaModPagamento(vista, rootPaneCheckingEnabled, fattureInTabella.get(getIndexSelectedFattura())));
+                    FrontController.open(new ModificaModPagamento(vista, rootPaneCheckingEnabled, fattSelezionata));
                     
                 } else {
                     mnuAnteprimaActionPerformed(null);
@@ -1480,6 +1507,7 @@ void setFatture() {
     Date dataFinale = null;
     private RegistroFattureEmesse vista;
     private String dbDateFieldToFilter = null;
+    private Class classeRigaSelezionata;
     
     private static final int CLIENTE = 0;
     private static final int NUM = 1;

@@ -246,7 +246,7 @@ public class DAO_CBC {
 
             NotaCredito nota = new NotaCredito(numero, data, cliente, metodoPagamento, imponibile, ivaTot, totale, null, pagata, note, dataPagamento, dataScadenza);
             nota.setDescrizioni(ricDescrizioni(nota));
-            nota.setMovimenti(ricMovimenti(numero, data, codFornCliente, Fattura.tipo.VEN));            
+            nota.setMovimenti(ricMovimenti(numero, data, codFornCliente, Fattura.tipo.VNC));            
             nota.setId(id);
             fatture.add(nota);
         }
@@ -630,6 +630,56 @@ public class DAO_CBC {
         return descrizioni;
     }
     
+    public static boolean deleteNotaCredito(NotaCredito notaCredito) {
+        try {
+            
+            conn.setAutoCommit(false);
+            
+            sql = "DELETE FROM " + 
+                    Tabelle.NOTE_CREDITO + 
+                    " WHERE " + 
+                        Tabelle.NoteCredito.ID + " = " + notaCredito.getId();
+            
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+            
+            sql = "DELETE FROM " + 
+                    Tabelle.MOVIMENTI + 
+                    " WHERE " + 
+                        Tabelle.Movimenti.TIPO + " = '" + Fattura.tipo.VNC + 
+                        "' AND " + Tabelle.Movimenti.NUM_DOC + " = " + notaCredito.getNumero() + 
+                        " AND " + Tabelle.Movimenti.DATA + " = '" + notaCredito.getData() + 
+                        "' AND " + Tabelle.Movimenti.FORN_CLIENTE + " = " + notaCredito.getCliente().getCod();
+            
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+            
+            sql = "DELETE FROM " +
+                    Tabelle.DESCRIZIONI_NOTE_CREDITO + 
+                    " WHERE " + 
+                        Tabelle.DescrizioniNoteCredito.NOTA_CREDITO + " = " + notaCredito.getId();
+            
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+            
+            conn.commit();
+            conn.setAutoCommit(true);
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                conn.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(DAO_CBC.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            return false;
+        }
+    }
+    
     public static boolean deleteFattura(Fattura fattura) {
         try {
             
@@ -642,7 +692,8 @@ public class DAO_CBC {
             ps = conn.prepareStatement(sql);
             ps.executeUpdate();
             
-            sql = "DELETE FROM " + Tabelle.MOVIMENTI + " WHERE " + Tabelle.Movimenti.NUM_DOC + " = " + fattura.getNumero() + 
+            sql = "DELETE FROM " + Tabelle.MOVIMENTI + " WHERE " + Tabelle.Movimenti.TIPO + " = '" + Fattura.tipo.VEN +
+                    "' AND " + Tabelle.Movimenti.NUM_DOC + " = " + fattura.getNumero() + 
                     " AND " + Tabelle.Movimenti.DATA + " = '" + fattura.getData() + "' AND " + Tabelle.Movimenti.FORN_CLIENTE +
                     " = " + fattura.getCliente().getCod();
             
@@ -963,11 +1014,18 @@ public class DAO_CBC {
                         Tabelle.FattureAcquisto.DATA + " = '" + fattura.getData() + "'" + " AND " + Tabelle.FattureAcquisto.FORNITORE + 
                         " = " + fattura.getCliente().getCod();    
                 
-            } else {
+            } else if (tipo == Fattura.tipo.VEN) {
                 sql = "UPDATE " + Tabelle.FATTURE + " SET " + Tabelle.Fatture.PAGATA + " = " + pagata +
                         ", " + Tabelle.Fatture.PAGAMENTO + " = " + checkNull(fattura.getDataPagamento()) + 
                         " WHERE " + Tabelle.Fatture.NUMERO + " = " + fattura.getNumero() + " AND " + 
                         Tabelle.Fatture.DATA + " = '" + fattura.getData() + "'";
+                
+            } else if (tipo == Fattura.tipo.VNC) {
+                sql = "UPDATE " +
+                        Tabelle.NOTE_CREDITO +
+                        " SET " + Tabelle.NoteCredito.PAGATA + " = " + pagata +
+                        ", " + Tabelle.NoteCredito.DATA_PAGAMENTO + " = " + checkNull(fattura.getDataPagamento()) +
+                        " WHERE " + Tabelle.NoteCredito.ID + " = " + ((NotaCredito)fattura).getId();
             }
                
             System.out.println(sql);
@@ -1094,6 +1152,20 @@ public class DAO_CBC {
                         sql += Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornCliente + " AND ";
 
                     sql += Tabelle.MOVIMENTI + "." + Tabelle.Movimenti.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";
+                    
+                    String sqlUnion = " UNION SELECT DISTINCT " 
+                            + Tabelle.Movimenti.ID + ", " 
+                            + Tabelle.Movimenti.MET_PAG 
+                            + ", " + Tabelle.Movimenti.VALORE 
+                            + " FROM " + Tabelle.MOVIMENTI +
+                            " WHERE " + Tabelle.Movimenti.TIPO + " = '" + Fattura.tipo.VNC + "' AND ";
+                    
+                    if (fornCliente != -1)
+                        sqlUnion += Tabelle.Movimenti.FORN_CLIENTE + " = " + fornCliente + " AND ";
+
+                    sqlUnion += Tabelle.MOVIMENTI + "." + Tabelle.Movimenti.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";
+                    
+                    sql += sqlUnion;
                     
                 } else if (tipoMov == Fattura.tipo.ACQ){
                     sql = "SELECT " + Tabelle.Movimenti.MET_PAG + ", " + Tabelle.Movimenti.VALORE + " FROM " + Tabelle.MOVIMENTI +
@@ -1367,7 +1439,8 @@ public class DAO_CBC {
             if (toUpdate.getPagata() && (toUpdate.getImporto() != old.getImporto() || toUpdate.getSconto() != old.getSconto() ||
                     toUpdate.getIva() != old.getIva() || toUpdate.getTotale() != old.getTotale())) {
                 
-                sql = "DELETE FROM " + Tabelle.MOVIMENTI + " WHERE " + Tabelle.Movimenti.NUM_DOC + " = " + old.getNumero() + 
+                sql = "DELETE FROM " + Tabelle.MOVIMENTI + " WHERE " + Tabelle.Movimenti.TIPO + " = '" + Fattura.tipo.ACQ +
+                        "' AND " + Tabelle.Movimenti.NUM_DOC + " = " + old.getNumero() + 
                         " AND " + Tabelle.Movimenti.DATA + " = '" + old.getData() + "' AND " + Tabelle.Movimenti.FORN_CLIENTE + 
                         " = " + old.getFornitore();
                 
@@ -1383,6 +1456,8 @@ public class DAO_CBC {
                 ps = conn.prepareStatement(sql);
                 ps.executeUpdate();
                 
+                conn.commit();
+                conn.setAutoCommit(true);
                 throw new EccezioneModificaFattAcquisto("La modifica è stata eseguita, ma la fattura è tornata allo stato di \"Non pagata\".\n" +
                         "Questo perché sono stati modificati uno o più valori tra importo, sconto, iva e totale");
                 

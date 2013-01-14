@@ -1538,14 +1538,23 @@ public abstract class DAO_ASF {
     public static boolean updateModalitaPagamento(Fattura fattura) {
         try {
             
-            sql = "UPDATE " + 
+            if (fattura instanceof NotaCredito)
+                sql = "UPDATE " + 
+                    Tabelle.NOTE_CREDITO + 
+                    " SET " + Tabelle.NoteCredito.METODO_PAGAMENTO + " = " + checkNull(fattura.getMetPag()) + 
+                    ", " + Tabelle.NoteCredito.DATA_SCADENZA + " = '" + fattura.getDataScadenza() + "' " +
+                    " WHERE " +
+                    Tabelle.NoteCredito.NUMERO + " = " + fattura.getNumero() + 
+                        " AND " + Tabelle.NoteCredito.DATA + " = '" + fattura.getData() + "'";
+            else
+                sql = "UPDATE " + 
                     Tabelle.FATTURE + 
                     " SET " + Tabelle.Fatture.METODO_PAGAMENTO + " = " + checkNull(fattura.getMetPag()) + 
                     ", " + Tabelle.Fatture.SCADENZA + " = '" + fattura.getDataScadenza() + "' " +
                     " WHERE " +
                     Tabelle.Fatture.NUMERO + " = " + fattura.getNumero() + 
                         " AND " + Tabelle.Fatture.DATA + " = '" + fattura.getData() + "'";
-            
+           
             System.out.println(sql);
             ps = conn.prepareStatement(sql);
             ps.executeUpdate();

@@ -50,7 +50,7 @@ public class Fattura implements Entity {
     }
     
     public static enum tipo {
-        ACQ, VEN, ALL
+        ACQ, VEN, VNC, ALL
     }
     
 //    public static class order {

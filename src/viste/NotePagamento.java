@@ -13,6 +13,7 @@ package viste;
 import controllo.FrontController;
 import entita.Fattura;
 import entita.Movimento;
+import entita.NotaCredito;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Window;
@@ -20,8 +21,10 @@ import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import libs.DoubleFormatter;
 import libs.Utility;
+import org.eclipse.persistence.jaxb.JAXBContextFactory;
 
 /**
  *
@@ -49,6 +52,12 @@ public class NotePagamento extends javax.swing.JDialog {
         
         this.parent = parent;
         setTitle(getTitle() + ": totale fattura " + fattura.getTotale());
+        
+        if (fattura instanceof NotaCredito) {
+            for (int i = 1; i < txtMetodi.length; i++)
+                txtMetodi[i].setEnabled(false);
+            
+        }
     }
    
     //Costruttore per la modifica live dei metodi di pagamento dalla dialog insFatturaAcquisto
@@ -280,7 +289,8 @@ public class NotePagamento extends javax.swing.JDialog {
 
         lblRiba1.setText("Totale inserito");
 
-        txtTot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        txtTot.setEditable(false);
+        txtTot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTot.setForeground(new java.awt.Color(0, 255, 0));
         txtTot.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
@@ -319,7 +329,7 @@ public class NotePagamento extends javax.swing.JDialog {
                             .addComponent(jLabel11))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                                 .addComponent(txtTot, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -487,9 +497,12 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     } else {
         List<Movimento> movimenti = new LinkedList<Movimento>();
         Fattura.tipo tipo;
-        if (parentClassName.equalsIgnoreCase(REG_EMESSE) || parentClassName.equalsIgnoreCase(SPEDIZIONI) || parentClassName.equalsIgnoreCase(PAGAMENTO_FATT))
-            tipo = Fattura.tipo.VEN;
-        else
+        if (parentClassName.equalsIgnoreCase(REG_EMESSE) || parentClassName.equalsIgnoreCase(SPEDIZIONI) || parentClassName.equalsIgnoreCase(PAGAMENTO_FATT)) {
+            if (fattura instanceof NotaCredito)
+                tipo = Fattura.tipo.VNC;
+            else
+                tipo = Fattura.tipo.VEN;
+        } else
             tipo = Fattura.tipo.ACQ;
         
         
@@ -523,7 +536,7 @@ private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
              fattura.setDataPagamento(dataPagam);
              FrontController.updatePagataFattura(tipo, fattura, true, movimenti);
         
-             if (tipo == Fattura.tipo.VEN) {
+             if (tipo == Fattura.tipo.VEN || tipo == Fattura.tipo.VNC) {
                 ((RegistroFattureEmesse)parent).setFatture();
             
              } else {

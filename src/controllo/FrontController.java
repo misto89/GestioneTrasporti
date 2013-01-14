@@ -94,12 +94,17 @@ public abstract class FrontController {
      */
     public static boolean delete(Entity o) {
         if (o instanceof Fattura) {
-            if (((Fattura)o).getTipo() != null && ((Fattura)o).getSpedizioni() == null)
-                return  DAO_CBC.deleteFatturaAcquisto((Fattura)o);
-            else
-                return DAO_CBC.deleteFattura((Fattura)o);
-        }           
-        
+            if (o instanceof NotaCredito)
+                return DAO_CBC.deleteNotaCredito((NotaCredito) o);
+            
+            else {
+                if (((Fattura)o).getTipo() != null && ((Fattura)o).getSpedizioni() == null)
+                    return  DAO_CBC.deleteFatturaAcquisto((Fattura)o);
+                else
+                    return DAO_CBC.deleteFattura((Fattura)o);
+            }
+        }        
+
         return DAO_ASF.delete(o);
     }
     
