@@ -1009,8 +1009,11 @@ private void mnuRistampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     Fattura fattura = fattureInTabella.get(getIndexSelectedFattura());
     
     try {
-        new stampa.StampaFattura(fattura, fattura.getCliente(), false).printAndOpen();
-
+        if (classeRigaSelezionata.equals(Fattura.class))
+            new stampa.StampaFattura(fattura, fattura.getCliente(), false).printAndOpen();
+        else
+            new stampa.StampaNotaCredito((NotaCredito)fattura, fattura.getCliente(), false).printAndOpen();
+        
     } catch (DocumentException ex) {
         Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
     } catch (IOException ex) {
@@ -1130,11 +1133,14 @@ private void mnuStampaCompletaActionPerformed(java.awt.event.ActionEvent evt) {/
 
 private void mnuAnteprimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnteprimaActionPerformed
 // TODO add your handling code here:
-    Fattura fattura = fattureInTabella.get(getIndexSelectedFattura());
-    
+    Fattura fattura = fattureInTabella.get(getIndexSelectedFattura());   
     try {
-        new stampa.StampaFattura(fattura, fattura.getCliente(), true).printAndOpen();
-
+        
+        if (classeRigaSelezionata.equals(Fattura.class))
+            new stampa.StampaFattura(fattura, fattura.getCliente(), true).printAndOpen();
+        else
+            new stampa.StampaNotaCredito((NotaCredito)fattura, fattura.getCliente(), true).printAndOpen();
+        
     } catch (DocumentException ex) {
         Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
     } catch (IOException ex) {

@@ -15,8 +15,10 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
+import entita.DescrizioniNotaCredito;
 import entita.Fattura;
 import entita.Fornitore;
+import entita.NotaCredito;
 import entita.Spedizione;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -31,7 +33,7 @@ import java.util.logging.Logger;
  *
  * @author Michele
  */
-public class StampaFattura extends StampaDocumento {
+public class StampaNotaCredito extends StampaDocumento {
         
     private class PageManager extends PdfPageEventHelper {
                                
@@ -57,15 +59,15 @@ public class StampaFattura extends StampaDocumento {
                     PdfPTable intestSped = new PdfPTable(1);
                     intestSped.setWidthPercentage(100);
                     intestSped.setSpacingBefore(0);
-                    PdfPCell intC = new PdfPCell(new Phrase("ECCOVI FATTURA PER TRASPORTO/I EFFETTUATO/I PER VOSTRO CONTO", FONT_GRANDE_NORMALE));
+                    PdfPCell intC = new PdfPCell(new Phrase("ECCOVI NOTA CREDITO PER STORNO", FONT_GRANDE_NORMALE));
                     intC.setBorder(BORDER_LEFT_RIGHT);
                     intC.setFixedHeight(20);
                     intestSped.addCell(intC);
                     doc.add(intestSped);
                 }
-                doc.add(initTableSped());
+                doc.add(initTableDescr());
             } catch (DocumentException ex) {
-                Logger.getLogger(StampaFattura.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StampaNotaCredito.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -100,27 +102,17 @@ public class StampaFattura extends StampaDocumento {
 //            rigaSegue.writeSelectedRows(0, -1, 36, 56, writer.getDirectContent());
 //        }
         
-        private PdfPTable initTableSped() {
-            PdfPTable table = initColsSped();
+        private PdfPTable initTableDescr() {
+            PdfPTable table = initColsDescr();
 
             PdfPCell[] intestazioneSpedizioni = {
-                new PdfPCell(new Phrase("RIF. DOC.", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("DATA DOC.", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("DESCRIZIONE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("U.M", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("QTA", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("PRZ.UN", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("IMPORTO", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("SC.", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("IVA", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("IVA", FONT_GRANDE_BOLD))
             };
 
             for (int i = 0; i < intestazioneSpedizioni.length; i++) {
-                if (i == 0)         
-                    intestazioneSpedizioni[i].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                else
-                    intestazioneSpedizioni[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-
+                intestazioneSpedizioni[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 table.addCell(intestazioneSpedizioni[i]);
 
             }
@@ -140,11 +132,11 @@ public class StampaFattura extends StampaDocumento {
                     doc.add(img);
 
                 } catch (BadElementException ex) {
-                    Logger.getLogger(StampaFattura.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(StampaNotaCredito.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MalformedURLException ex) {
-                    Logger.getLogger(StampaFattura.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(StampaNotaCredito.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(StampaFattura.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(StampaNotaCredito.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -223,11 +215,11 @@ public class StampaFattura extends StampaDocumento {
             final String NEW_FORMAT = "dd/MM/yyyy";
             SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
 
-            String numero =  String.valueOf(fattura.getNumero());
+            String numero =  String.valueOf(notaCredito.getNumero());
             if (numero.length() == 1)
                 numero = "0" + numero;
 
-            String[] metPagam = fattura.getMetPag().split("-");
+            String[] metPagam = notaCredito.getMetPag().split("-");
             String metodoPagam = "";
             if (metPagam[1].equals("0"))
                 metodoPagam = metPagam[0];
@@ -240,9 +232,9 @@ public class StampaFattura extends StampaDocumento {
                 new PdfPCell(new Phrase("DATA", FONT_PICCOLO_BOLD)),
                 new PdfPCell(new Phrase("MODALITA' DI PAGAMENTO", FONT_PICCOLO_BOLD)),
                 new PdfPCell(new Phrase("PAGINA", FONT_PICCOLO_BOLD)),
-                new PdfPCell(new Phrase("Fattura", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("Nota di credito", FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(numero, FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(sdf.format(fattura.getData()), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(sdf.format(notaCredito.getData()), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(metodoPagam, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(String.valueOf(numPagina), FONT_GRANDE_NORMALE))    
             };         
@@ -257,7 +249,7 @@ public class StampaFattura extends StampaDocumento {
             try {
                 table.setWidths(widths);
             } catch (DocumentException ex) {
-                Logger.getLogger(StampaFattura.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StampaNotaCredito.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             for (int i = 0; i < info.length; i++) {
@@ -277,9 +269,9 @@ public class StampaFattura extends StampaDocumento {
     }
     
     private Fornitore cliente;
-    private Fattura fattura;
+    private NotaCredito notaCredito;
     private boolean allegato;
-    private List<Spedizione> spedizioni;
+    private List<DescrizioniNotaCredito> descrizioni;
     
     private final float X; //valore x del rettangolo da disegnare
 //    private final float Y_LAST; //valore y del rettangolo per l'ultima pagina del pdf (quella con i totali)
@@ -290,12 +282,12 @@ public class StampaFattura extends StampaDocumento {
     
     private static final String FILENAME = "fattura.pdf";
     
-    public StampaFattura(Fattura fattura, Fornitore cliente, boolean allegato) throws DocumentException, IOException {
+    public StampaNotaCredito(NotaCredito notaCredito, Fornitore cliente, boolean allegato) throws DocumentException, IOException {
         super(FILENAME);
-        this.fattura = fattura;
+        this.notaCredito = notaCredito;
         this.cliente = cliente;
         this.allegato = allegato; 
-        spedizioni = fattura.getSpedizioni();
+        descrizioni = notaCredito.getDescrizioni();
         
         X = 36;
 //        Y_LAST = 102;
@@ -319,223 +311,61 @@ public class StampaFattura extends StampaDocumento {
         writer.setPageEvent(new PageManager());
     }
           
-    private void setTableSped(PdfPTable table) {
-        final String NEW_FORMAT = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
-        
-        for (Spedizione sped: spedizioni) {
-            String descrizione = (sped.getDescrizione() != null) ? sped.getDescrizione() : "";
-            if (sped.getValoreMerce() != 0) {
-                descrizione += "\nVal.Merce â‚¬ " + String.format("%1$,.2f", sped.getValoreMerce());
-            } else if (sped.getProvvigione() != 0)
-                descrizione += "\nSpese Contrassegno â‚¬ " + String.format("%1$,.2f", sped.getProvvigione());
-
+    private void setTableDescr(PdfPTable table) {
+        for (DescrizioniNotaCredito descr: descrizioni) {
+            String descrizione = (descr.getDescrizione() != null) ? descr.getDescrizione() : "";        
             //Controlli generici sulla presenza o meno dei valori, se i valori non sono presenti (pari a 0) non appaiono nella fattura
-            String importo = doubleToString(roundTwoDecimals(sped.getImporto()));
-            String przUnitario = doubleToString(roundTwoDecimals(sped.getDistrib1() + sped.getTraz1()));
-            if (sped.getDistrib2() != 0.00 || sped.getTraz2() != 0.00)
-                przUnitario += "\n" + doubleToString(roundTwoDecimals(sped.getDistrib2() + sped.getTraz2()));
-
-            String qta = null;
-            int qta1Int = 0;
-            double qta1Double = 0.00;
-            int qta2Int = 0;
-            double qta2Double = 0.00;
-
-            if(sped.getQta1() == 0.00){
-               qta = "";
-            } else {
-                qta1Double = sped.getQta1();
-                qta1Int = (int) qta1Double;
-                if ( (qta1Double - qta1Int) == 0 )
-                    qta = String.valueOf(qta1Int);
-                else
-                    qta = String.format("%1$,.1f", qta1Double);
-            }
-
-            if(sped.getQta2() != 0.00) {
-                qta += "\n";
-                qta2Double = sped.getQta2();
-                qta2Int = (int) qta2Double;
-                if ( (qta2Double - qta2Int) == 0 )
-                    qta += String.valueOf(qta2Int);
-                else
-                    qta += String.format("%1$,.1f", qta2Double);
-            }
-
-            String um = (sped.getUm2() != null) ? sped.getUm1() + "\n" + sped.getUm2() : sped.getUm1();
-
-            if(sped.getImporto() == 0){
+            String importo = doubleToString(roundTwoDecimals(descr.getImporto()));
+            
+            if (descr.getImporto() == 0){
                 importo = "";
-            }
-            if(sped.getDistrib1() + sped.getTraz1() == 0){
-                przUnitario = "";
-            }            
+            }        
 
-            Date dataDocumento = sped.getDataDocumento();
-            String dataDoc = "";
-            if (dataDocumento != null)
-                dataDoc = sdf.format(dataDocumento);
-
-            String sconto = String.valueOf(sped.getSconto() + " %");
-            if (sped.getSconto() == 0)
-            {
-                sconto = "";
-            }
-
-            PdfPCell[] rigaSped = {
-                new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
+            PdfPCell[] rigaDescr = {
                 new PdfPCell(new Phrase(descrizione, FONT_PICCOLO_NORMALE)),
-                new PdfPCell(new Phrase(um, FONT_PICCOLO_NORMALE)),
-                new PdfPCell(new Phrase(qta, FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(przUnitario, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(importo, FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(sconto, FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(String.valueOf(sped.getPercIva() + " %"), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(String.valueOf(descr.getPercIva() + " %"), FONT_GRANDE_NORMALE)),
             };
 
-            rigaSped[0].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            rigaSped[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            rigaSped[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            rigaDescr[0].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            rigaDescr[1].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            rigaDescr[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
-            for (int i = 0; i < rigaSped.length; i++) {
-                rigaSped[i].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
-                rigaSped[i].setBorder(NO_BORDER);    
-                table.addCell(rigaSped[i]);
+            for (int i = 0; i < rigaDescr.length; i++) {
+                rigaDescr[i].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                rigaDescr[i].setBorder(NO_BORDER);    
+                table.addCell(rigaDescr[i]);
             }
 
         }
     }
-    
-    private void setTableSpedForfait(PdfPTable table) {
-        final String NEW_FORMAT = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
-        
-        //stampa la fattura eliminando i riferimenti a quantitÃ , prezzi e totali delle spedizioni
-        for (Spedizione sped: spedizioni) {
-            String descrizione = (sped.getDescrizione() != null) ? sped.getDescrizione() : "";
-            if (sped.getValoreMerce() != 0) {
-                descrizione += "\nVal.Merce â‚¬ " + String.format("%1$,.2f", sped.getValoreMerce());
-            } else if (sped.getProvvigione() != 0)
-                descrizione += "\nSpese Contrassegno â‚¬ " + String.format("%1$,.2f", sped.getProvvigione());
-
-            Date dataDocumento = sped.getDataDocumento();
-            String dataDoc = "";
-            if (dataDocumento != null)
-                dataDoc = sdf.format(dataDocumento);
-
-            PdfPCell[] rigaSped = {
-                new PdfPCell(new Phrase(sped.getStringaBolle(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(descrizione, FONT_PICCOLO_NORMALE)),
-                new PdfPCell(new Phrase("", FONT_PICCOLO_NORMALE)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
-                //new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
-            };
-            rigaSped[0].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            rigaSped[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            rigaSped[2].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            rigaSped[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            rigaSped[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            rigaSped[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            rigaSped[6].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            rigaSped[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            rigaSped[8].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-
-            rigaSped[0].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);              
-            rigaSped[1].setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
-
-            for (int i = 0; i < rigaSped.length; i++) {
-                rigaSped[i].setBorder(NO_BORDER);
-                table.addCell(rigaSped[i]);
-            }
-
-        }
-    }
-    
+       
     @Override
     protected void stampa() throws DocumentException, IOException {
         
         doc.open();
        
-        PdfPTable table = initColsSped();
+        PdfPTable table = initColsDescr();
       
-        if (!fattura.getForfait()){
-            setTableSped(table);
-            doc.add(table);
-        } else {
-            setTableSpedForfait(table);
-            doc.add(table);
-            
-            final int NUM_COLS_FORFAIT = 8;
-            PdfPTable rigaForfait = new PdfPTable(NUM_COLS_FORFAIT);
-            int[] widths = {115, 25, 20, 25, 45, 60, 20, 23};
-            rigaForfait.setWidths(widths);
-            rigaForfait.setWidthPercentage(100);
-
-            PdfPCell[] riga = {
-                new PdfPCell(new Phrase("Per importo totale di:", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),           
-                new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(fattura.getImporto())), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase("", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase(fattura.getPercIva() + " %", FONT_GRANDE_NORMALE)),
-            };
-
-            riga[0].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            riga[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            riga[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            riga[3].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            riga[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            riga[5].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            riga[6].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            riga[7].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-
-            for (int i = 0; i < riga.length; i++) {
-                riga[i].setBorder(NO_BORDER);
-                rigaForfait.addCell(riga[i]);
-            }
-            rigaForfait.setHorizontalAlignment(PdfPTable.ALIGN_LEFT);
-            rigaForfait.setSpacingBefore(10);
-
-            doc.add(rigaForfait);
-        }
+        setTableDescr(table);
+        doc.add(table);    
 
         //Riepilogo finale totali------------------------------------------------------------------
-        final int NUM_COLS_TOTALI = 6;
+        final int NUM_COLS_TOTALI = 3;
         final int TOTAL_WIDTH = 523;
         table = new PdfPTable(NUM_COLS_TOTALI);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
         table.setTotalWidth(TOTAL_WIDTH);
         //table.setWidthPercentage(100);
-        table.setWidths(new int[] {15, 15, 15, 14, 14, 17});
+        table.setWidths(new int[] {15, 14, 17});
         
         PdfPCell[] totali = {
             new PdfPCell(new Phrase("IMPORTO", FONT_PICCOLO_NORMALE)),
-            new PdfPCell(new Phrase("SCONTO", FONT_PICCOLO_NORMALE)),
-            new PdfPCell(new Phrase("PROVV. ASSEGNI", FONT_PICCOLO_NORMALE)),
-            new PdfPCell(new Phrase("IMPONIBILE", FONT_PICCOLO_NORMALE)),
             new PdfPCell(new Phrase("IVA", FONT_PICCOLO_NORMALE)),
             new PdfPCell(new Phrase("TOTALE", FONT_PICCOLO_BOLD)),
-            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getImporto()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getSconto()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getProvvigione()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getImponibile()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getIva()))), FONT_GRANDE_NORMALE)),
-            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(fattura.getTotale()))), FONT_GRANDE_BOLD))            
+            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(-1 * notaCredito.getImponibile()))), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(-1 * notaCredito.getIva()))), FONT_GRANDE_NORMALE)),
+            new PdfPCell(new Phrase(String.valueOf(doubleToString(roundTwoDecimals(-1 * notaCredito.getTotale()))), FONT_GRANDE_BOLD))            
         };
                
         for (int i = 0; i < totali.length; i++) {
@@ -551,8 +381,8 @@ public class StampaFattura extends StampaDocumento {
 
         PdfPTable rigaNote = new PdfPTable(1);
         PdfPCell riga; 
-        if (fattura.getNote() != null)
-            riga = new PdfPCell(new Phrase("NOTE: " + fattura.getNote(), FONT_GRANDE_NORMALE)); 
+        if (notaCredito.getNote() != null)
+            riga = new PdfPCell(new Phrase("NOTE: " + notaCredito.getNote(), FONT_GRANDE_NORMALE)); 
         else
             riga = new PdfPCell(new Phrase("NOTE: ", FONT_GRANDE_NORMALE)); 
         
@@ -568,9 +398,9 @@ public class StampaFattura extends StampaDocumento {
         doc.close();
     }
     
-    private PdfPTable initColsSped() {
-        final int NUM_COLS_TABLE_SPED = 9;
-        final int[] WIDTHS_TABLE_SPED = {35, 40, 83, 15, 20, 34, 48, 20, 20};
+    private PdfPTable initColsDescr() {
+        final int NUM_COLS_TABLE_SPED = 3;
+        final int[] WIDTHS_TABLE_SPED = {83, 48, 20};
     
         PdfPTable table = new PdfPTable(NUM_COLS_TABLE_SPED);
         table.setSpacingBefore(0);
@@ -579,7 +409,7 @@ public class StampaFattura extends StampaDocumento {
         try {
             table.setWidths(WIDTHS_TABLE_SPED);
         } catch (DocumentException ex) {
-            Logger.getLogger(StampaFattura.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StampaNotaCredito.class.getName()).log(Level.SEVERE, null, ex);
         }
         table.setWidthPercentage(100);
         

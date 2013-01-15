@@ -170,6 +170,7 @@ public class InsNotaCredito extends javax.swing.JFrame {
         });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()));
+        jPanel1.setAutoscrolls(true);
 
         btnNuova.setBackground(new java.awt.Color(255, 255, 255));
         btnNuova.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modifica.png"))); // NOI18N

@@ -1544,8 +1544,7 @@ public abstract class DAO_ASF {
                     " SET " + Tabelle.NoteCredito.METODO_PAGAMENTO + " = " + checkNull(fattura.getMetPag()) + 
                     ", " + Tabelle.NoteCredito.DATA_SCADENZA + " = '" + fattura.getDataScadenza() + "' " +
                     " WHERE " +
-                    Tabelle.NoteCredito.NUMERO + " = " + fattura.getNumero() + 
-                        " AND " + Tabelle.NoteCredito.DATA + " = '" + fattura.getData() + "'";
+                        Tabelle.NoteCredito.ID + " = " + ((NotaCredito)fattura).getId();
             else
                 sql = "UPDATE " + 
                     Tabelle.FATTURE + 

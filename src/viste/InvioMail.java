@@ -15,6 +15,7 @@ import controllo.FrontController;
 import eccezioni.EccezioneCredenzialiErrate;
 import entita.Fattura;
 import entita.Fornitore;
+import entita.NotaCredito;
 import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -46,16 +47,25 @@ public class InvioMail extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        fattura = f;
+        fattura = f;        
         cliente = f.getCliente();
 
-        setColorAndEmailList();
+        setColorAndEmailList();                
+        
+        String entitaStampa = "";
+        
+        if (fattura instanceof NotaCredito){
+            entitaStampa = "nota credito";
+            testo = "Spett.le <span style='font-weight:bold'>" + cliente.getNome()+ "</span>,<br />in allegato nota di credito per storno.<br /><br />";
+        } else {
+            entitaStampa = "fattura";
+            testo = "Spett.le <span style='font-weight:bold'>" + cliente.getNome()+ "</span>,<br />in allegato fattura per la/e spedizione/i effettuata/e per vostro conto. <br /><br />";
+        }
+        
+        testo += "Cordialmente, <br />Franco Rotunno & Figli s.r.l.";
         
         setTitle(getTitle() + " a " + cliente);
-        txtOggetto.setText("Invio fattura numero " + fattura.getNumero() + " in data " + fattura.getFormattedData());
-        testo = "Spett.le <span style='font-weight:bold'>" + cliente.getNome()+ "</span>,<br />in allegato fattura per la/e spedizione/i effettuata/e per vostro conto. <br /><br />" +
-                "Cordialmente, <br />Franco Rotunno & Figli s.r.l.";
-
+        txtOggetto.setText("Invio " + entitaStampa + " numero " + fattura.getNumero() + " in data " + fattura.getFormattedData());               
         txtTesto.setText(testo);
         prgBar.setVisible(false);
     }
@@ -361,7 +371,11 @@ private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     
     if (fattura != null) {
         try {
-            new MailProgressBarManager(prgBar, to, cc, txtOggetto.getText(), testo, new stampa.StampaFattura(fattura, cliente, true).printAndGet(), this).actionPerformed(null);
+            if (fattura instanceof NotaCredito)
+                new MailProgressBarManager(prgBar, to, cc, txtOggetto.getText(), testo, new stampa.StampaNotaCredito((NotaCredito) fattura, cliente, true).printAndGet(), this).actionPerformed(null);
+            else
+                new MailProgressBarManager(prgBar, to, cc, txtOggetto.getText(), testo, new stampa.StampaFattura(fattura, cliente, true).printAndGet(), this).actionPerformed(null);
+            
         } catch (DocumentException ex) {
             Logger.getLogger(InvioMail.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

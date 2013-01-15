@@ -50,12 +50,21 @@ public class DAO_CBC {
     public static List<Integer> getAnniEsercizio(Fattura.tipo tipo){
         try {
             if (tipo == Fattura.tipo.VEN) 
-                sql = "SELECT DISTINCT YEAR(" + Tabelle.Fatture.DATA + ") as ANNO FROM " + Tabelle.FATTURE + " ORDER BY " + Tabelle.Fatture.DATA + " DESC";
+                sql = "SELECT YEAR(" + Tabelle.Fatture.DATA + ") as ANNO FROM " + Tabelle.FATTURE + 
+                        " UNION " + 
+                        "SELECT YEAR(" + Tabelle.NoteCredito.DATA + ") as ANNO FROM " + Tabelle.NOTE_CREDITO + 
+                        " ORDER BY ANNO DESC";
+            
             else if (tipo == Fattura.tipo.ACQ)
-                sql = "SELECT DISTINCT YEAR(" + Tabelle.FattureAcquisto.DATA + ") as ANNO FROM " + Tabelle.FATT_ACQUISTO + " ORDER BY " + Tabelle.FattureAcquisto.DATA + " DESC";
+                sql = "SELECT DISTINCT YEAR(" + Tabelle.FattureAcquisto.DATA + ") as ANNO FROM " + Tabelle.FATT_ACQUISTO + 
+                        " ORDER BY " + Tabelle.FattureAcquisto.DATA + " DESC";
             else
-                sql = "SELECT YEAR(" + Tabelle.Fatture.DATA + ") as ANNO FROM " + Tabelle.FATTURE + " UNION " + 
-                        "SELECT YEAR(" + Tabelle.FattureAcquisto.DATA + ") as ANNO FROM " + Tabelle.FATT_ACQUISTO + " ORDER BY ANNO DESC";
+                sql = "SELECT YEAR(" + Tabelle.Fatture.DATA + ") as ANNO FROM " + Tabelle.FATTURE + 
+                        " UNION " + 
+                        "SELECT YEAR(" + Tabelle.FattureAcquisto.DATA + ") as ANNO FROM " + Tabelle.FATT_ACQUISTO + 
+                        " UNION " + 
+                        "SELECT YEAR(" + Tabelle.NoteCredito.DATA + ") as ANNO FROM " + Tabelle.NOTE_CREDITO + 
+                        " ORDER BY ANNO DESC";
                 
             System.out.println(sql);
             ps = conn.prepareStatement(sql);
@@ -245,9 +254,9 @@ public class DAO_CBC {
             }
 
             NotaCredito nota = new NotaCredito(numero, data, cliente, metodoPagamento, imponibile, ivaTot, totale, null, pagata, note, dataPagamento, dataScadenza);
-            nota.setDescrizioni(ricDescrizioni(nota));
-            nota.setMovimenti(ricMovimenti(numero, data, codFornCliente, Fattura.tipo.VNC));            
             nota.setId(id);
+            nota.setDescrizioni(ricDescrizioni(nota));           
+            nota.setMovimenti(ricMovimenti(numero, data, codFornCliente, Fattura.tipo.VNC));                        
             fatture.add(nota);
         }
     }
@@ -590,7 +599,7 @@ public class DAO_CBC {
     }
     
     /*
-     * Restituisce tutte le spedizioni appartenenti ad una fattura
+     * Restituisce tutte le spedizioni appartenenti ad una nota credito
      */
     private static List<DescrizioniNotaCredito> ricDescrizioni(NotaCredito nota) throws SQLException {
         
@@ -613,11 +622,11 @@ public class DAO_CBC {
             double iva;
                      
             while (rsSped.next()){
-                descrizione = rs.getString(Tabelle.DescrizioniNoteCredito.DESCRIZIONE);
-                importo = rs.getDouble(Tabelle.DescrizioniNoteCredito.IMPORTO);
-                percIva = rs.getInt(Tabelle.DescrizioniNoteCredito.PERC_IVA);
-                iva = rs.getDouble(Tabelle.DescrizioniNoteCredito.IVA);
-                
+                descrizione = rsSped.getString(Tabelle.DescrizioniNoteCredito.DESCRIZIONE);
+                importo = rsSped.getDouble(Tabelle.DescrizioniNoteCredito.IMPORTO);
+                percIva = rsSped.getInt(Tabelle.DescrizioniNoteCredito.PERC_IVA);
+                iva = rsSped.getDouble(Tabelle.DescrizioniNoteCredito.IVA);
+                                 
                 DescrizioniNotaCredito desc = new DescrizioniNotaCredito(descrizione, importo, percIva, iva);
                 desc.setNota(nota);
                 descrizioni.add(desc);
@@ -1072,6 +1081,7 @@ public class DAO_CBC {
     public static List<SaldoContabilitaMensile> getContabilitaFatture(String[] anniMesi, Fattura.pagata tipo, int fornCliente){
         try {
             String sqlEmesse = "";
+            String sqlUnionNoteCredito = "";
             String sqlRicevute = "";
             PreparedStatement psEmesse;
             ResultSet rsEmesse;
@@ -1080,30 +1090,48 @@ public class DAO_CBC {
             LinkedList<SaldoContabilitaMensile> movimMensili = new LinkedList<SaldoContabilitaMensile>();
             
             for (String meseAnno : anniMesi){
-                sqlEmesse = "SELECT DISTINCT " + Tabelle.FATTURE + "." + Tabelle.Fatture.NUMERO + ", " + Tabelle.FATTURE + "." + Tabelle.Fatture.DATA + ", " + 
-                        Tabelle.FATTURE + "." + Tabelle.Fatture.TOTALE + " FROM " + Tabelle.FATTURE + " JOIN " + Tabelle.SPEDIZIONI + " ON " +
-                        Tabelle.Fatture.DATA + " = " + Tabelle.Spedizioni.DATA_FATTURA + " AND " + Tabelle.FATTURE + "." + Tabelle.Fatture.NUMERO + " = " +
-                        Tabelle.Spedizioni.NUM_FATTURA + " WHERE "; 
+                sqlEmesse = "SELECT DISTINCT " 
+                        + Tabelle.FATTURE + "." + Tabelle.Fatture.NUMERO + ", "
+                        + Tabelle.FATTURE + "." + Tabelle.Fatture.DATA + ", " + 
+                        Tabelle.FATTURE + "." + Tabelle.Fatture.TOTALE +
+                        " FROM " 
+                        + Tabelle.FATTURE 
+                            + " JOIN " + Tabelle.SPEDIZIONI + " ON " +
+                            Tabelle.Fatture.DATA + " = " + Tabelle.Spedizioni.DATA_FATTURA 
+                            + " AND " + Tabelle.FATTURE + "." + Tabelle.Fatture.NUMERO + " = " + Tabelle.Spedizioni.NUM_FATTURA + " WHERE "; 
+                
+                sqlUnionNoteCredito = "SELECT DISTINCT " 
+                        + Tabelle.NOTE_CREDITO + "." + Tabelle.NoteCredito.NUMERO + ", " 
+                        + Tabelle.NOTE_CREDITO + "." + Tabelle.NoteCredito.DATA + ", " + 
+                        Tabelle.NOTE_CREDITO + "." + Tabelle.NoteCredito.TOTALE + " AS " + Tabelle.Fatture.TOTALE + 
+                        " FROM " 
+                        + Tabelle.NOTE_CREDITO 
+                             + " WHERE ";
                 
                 sqlRicevute = "SELECT " + Tabelle.FattureAcquisto.TOTALE + " FROM " + Tabelle.FATT_ACQUISTO +  " WHERE "; 
-               
+                
                 if (fornCliente != -1) {
                     sqlEmesse += Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornCliente + " AND ";
                     sqlRicevute += Tabelle.FattureAcquisto.FORNITORE + " = " + fornCliente + " AND ";
+                    sqlUnionNoteCredito += Tabelle.NoteCredito.CLIENTE + " = " + fornCliente + " AND ";
                 }  
                 if (tipo == Fattura.pagata.P) {
                     sqlEmesse += Tabelle.Fatture.PAGATA + " = true AND ";
                     sqlRicevute += Tabelle.FattureAcquisto.PAGATA + " = true AND ";
+                    sqlUnionNoteCredito += Tabelle.NoteCredito.PAGATA + " = true AND ";
                 }
                 else if (tipo == Fattura.pagata.NP) {
                     sqlEmesse += Tabelle.Fatture.PAGATA + " = false AND ";
                     sqlRicevute += Tabelle.FattureAcquisto.PAGATA + " = false AND "; 
+                    sqlUnionNoteCredito += Tabelle.NoteCredito.PAGATA + " = false AND ";
                 }
                 
                 sqlEmesse += Tabelle.Fatture.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";
-                sqlRicevute += Tabelle.FattureAcquisto.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";
-
+                sqlRicevute += Tabelle.FattureAcquisto.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";               
+                sqlUnionNoteCredito += Tabelle.NoteCredito.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";
+                                
                 System.out.println(sqlEmesse);
+                System.out.println(sqlUnionNoteCredito);
                 System.out.println(sqlRicevute);
                 psEmesse = conn.prepareStatement(sqlEmesse);
                 rsEmesse= psEmesse.executeQuery();
@@ -1113,6 +1141,12 @@ public class DAO_CBC {
                 SaldoContabilitaMensile mese = new SaldoContabilitaMensile(meseAnno);
                 while (rsEmesse.next()) {
                     double tot = rsEmesse.getDouble(Tabelle.Fatture.TOTALE);
+                    mese.addPos(tot);
+                }
+                psEmesse = conn.prepareStatement(sqlUnionNoteCredito);
+                rsEmesse = psEmesse.executeQuery();
+                while (rsEmesse.next()) {
+                    double tot = rsEmesse.getDouble(Tabelle.NoteCredito.TOTALE);
                     mese.addPos(tot);
                 }
                 while (rsAcquisto.next()){
@@ -1280,6 +1314,9 @@ public class DAO_CBC {
       } 
     }
 
+    /*
+     * Utilizzato per lo scadenziario
+     */
     public static List<Fattura> getFatture(Fornitore forn_cliente, Fattura.tipo tipo) {
         
         boolean recuperaFornCliente;
@@ -1354,6 +1391,7 @@ public class DAO_CBC {
         try {
             String sqlEmesse = "";
             String sqlRicevute = "";
+            String sqlNoteCredito = "";
             PreparedStatement psEmesse;
             ResultSet rsEmesse;
             PreparedStatement psAcquisto;
@@ -1361,14 +1399,28 @@ public class DAO_CBC {
             LinkedList<SaldoIvaMensile> saldiMensili = new LinkedList<SaldoIvaMensile>();
             
             for (String meseAnno : anniMesi){
-                sqlEmesse = "SELECT " + Tabelle .Fatture.IVA + " FROM " + Tabelle.FATTURE + " WHERE "; 
+                sqlEmesse = "SELECT " + 
+                            Tabelle.Fatture.IVA 
+                                + " FROM " 
+                                    + Tabelle.FATTURE + " WHERE "; 
                 
-                sqlRicevute = "SELECT " + Tabelle.FattureAcquisto.IVA + " FROM " + Tabelle.FATT_ACQUISTO +  " WHERE "; 
+                sqlNoteCredito = "SELECT " + 
+                                        Tabelle.NoteCredito.IVA 
+                                            + " FROM " 
+                                                + Tabelle.NOTE_CREDITO + " WHERE ";
+                
+                sqlRicevute = "SELECT " 
+                                + Tabelle.FattureAcquisto.IVA 
+                                    + " FROM " 
+                                        + Tabelle.FATT_ACQUISTO 
+                                            +  " WHERE "; 
                 
                 sqlEmesse += Tabelle.Fatture.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";
                 sqlRicevute += Tabelle.FattureAcquisto.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";
-
+                sqlNoteCredito += Tabelle.NoteCredito.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";              
+                
                 System.out.println(sqlEmesse);
+                System.out.println(sqlNoteCredito);
                 System.out.println(sqlRicevute);
                 psEmesse = conn.prepareStatement(sqlEmesse);
                 rsEmesse= psEmesse.executeQuery();
@@ -1379,6 +1431,13 @@ public class DAO_CBC {
                 while (rsEmesse.next()) {
                     double tot = rsEmesse.getDouble(1);
                     mese.addIvaDebito(tot);
+                }
+                //Utilizzimo lo stesso rsEmesse per estrarre i totali delle note credito e sommarli al totale IvaDebito del mese  
+                psEmesse = conn.prepareStatement(sqlNoteCredito);
+                rsEmesse = psEmesse.executeQuery();
+                while (rsEmesse.next()) {
+                    double totNotaCredito = rsEmesse.getDouble(1);
+                    mese.addIvaDebito(totNotaCredito);
                 }
                 while (rsAcquisto.next()){
                     double tot = rsAcquisto.getDouble(1);
@@ -1610,8 +1669,8 @@ public class DAO_CBC {
                         + Tabelle.DESCRIZIONI_NOTE_CREDITO
                         + " VALUES ("
                         + "NULL, "
-                        + id + ", '"
-                        + descrizione.getDescrizione() + "', "
+                        + id + ", "
+                        + checkNull(descrizione.getDescrizione()) + ", "
                         + descrizione.getImporto() + ", "
                         + descrizione.getPercIva() + ", "
                         + descrizione.getIva()
