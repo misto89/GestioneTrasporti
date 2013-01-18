@@ -224,8 +224,12 @@ public class StampaFattura extends StampaDocumento {
             SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
 
             String numero =  String.valueOf(fattura.getNumero());
+            String year = fattura.getData().toString().substring(0,4);
             if (numero.length() == 1)
                 numero = "0" + numero;
+            
+            //Inserimento della notazione Num/AnnoFattura
+            numero += "/" + year;
 
             String[] metPagam = fattura.getMetPag().split("-");
             String metodoPagam = "";

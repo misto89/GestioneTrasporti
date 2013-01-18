@@ -216,9 +216,13 @@ public class StampaNotaCredito extends StampaDocumento {
             SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
 
             String numero =  String.valueOf(notaCredito.getNumero());
+            String year = notaCredito.getData().toString().substring(0,4);
             if (numero.length() == 1)
                 numero = "0" + numero;
 
+            //Inserimento della notazione Num/AnnoFattura
+            numero += "/" + year;
+            
             String[] metPagam = notaCredito.getMetPag().split("-");
             String metodoPagam = "";
             if (metPagam[1].equals("0"))
