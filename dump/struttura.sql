@@ -33,9 +33,27 @@ DROP TABLE IF EXISTS `bolle_spedizioni`;
 CREATE TABLE `bolle_spedizioni` (
   `num_spedizione` varchar(10) NOT NULL,
   `data_spedizione` date NOT NULL,
-  `bolla` varchar(10) NOT NULL,
+  `bolla` varchar(30) NOT NULL,
   PRIMARY KEY (`num_spedizione`,`data_spedizione`,`bolla`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `descrizioni_note_credito`
+--
+
+DROP TABLE IF EXISTS `descrizioni_note_credito`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `descrizioni_note_credito` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nota` int(11) NOT NULL,
+  `descrizione` varchar(100) DEFAULT NULL,
+  `importo` decimal(10,2) DEFAULT NULL,
+  `perciva` int(2) DEFAULT NULL,
+  `iva` decimal(9,5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +186,7 @@ CREATE TABLE `movimcontante` (
   `importo` decimal(9,2) NOT NULL,
   `tipo` varchar(11) NOT NULL,
   PRIMARY KEY (`numero`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,6 +204,30 @@ CREATE TABLE `movimenti` (
   `met_pag` varchar(30) NOT NULL,
   `valore` decimal(10,2) NOT NULL,
   `forncliente` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `note_credito`
+--
+
+DROP TABLE IF EXISTS `note_credito`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `note_credito` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `numero` int(11) NOT NULL,
+  `data` date NOT NULL,
+  `cliente` int(11) NOT NULL,
+  `metodopagamento` varchar(30) NOT NULL DEFAULT 'Contante-0',
+  `imponibile` decimal(10,2) NOT NULL,
+  `iva` decimal(9,2) NOT NULL,
+  `totale` decimal(10,2) NOT NULL,
+  `pagata` tinyint(1) NOT NULL DEFAULT '0',
+  `note` varchar(200) DEFAULT NULL,
+  `data_pagamento` date DEFAULT NULL,
+  `data_scadenza` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -239,4 +281,4 @@ CREATE TABLE `spedizioni` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-08 11:43:47
+-- Dump completed on 2013-02-06 22:50:07
