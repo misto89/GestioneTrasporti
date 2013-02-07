@@ -547,7 +547,7 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
 
 private void cboFornitoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFornitoreActionPerformed
 // TODO add your handling code here:
-    txtNum.requestFocus();
+    //txtNum.requestFocus();
     Fornitore forn = null;
     if (cboFornitore.getSelectedIndex() > 0) {
         forn = (Fornitore) cboFornitore.getSelectedItem();
