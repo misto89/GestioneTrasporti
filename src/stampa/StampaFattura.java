@@ -330,9 +330,9 @@ public class StampaFattura extends StampaDocumento {
         for (Spedizione sped: spedizioni) {
             String descrizione = (sped.getDescrizione() != null) ? sped.getDescrizione() : "";
             if (sped.getValoreMerce() != 0) {
-                descrizione += "\nVal.Merce â‚¬ " + String.format("%1$,.2f", sped.getValoreMerce());
+                descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
             } else if (sped.getProvvigione() != 0)
-                descrizione += "\nSpese Contrassegno â‚¬ " + String.format("%1$,.2f", sped.getProvvigione());
+                descrizione += "\nSpese Contrassegno € " + String.format("%1$,.2f", sped.getProvvigione());
 
             //Controlli generici sulla presenza o meno dei valori, se i valori non sono presenti (pari a 0) non appaiono nella fattura
             String importo = doubleToString(roundTwoDecimals(sped.getImporto()));
@@ -426,9 +426,9 @@ public class StampaFattura extends StampaDocumento {
         for (Spedizione sped: spedizioni) {
             String descrizione = (sped.getDescrizione() != null) ? sped.getDescrizione() : "";
             if (sped.getValoreMerce() != 0) {
-                descrizione += "\nVal.Merce â‚¬ " + String.format("%1$,.2f", sped.getValoreMerce());
+                descrizione += "\nVal.Merce € " + String.format("%1$,.2f", sped.getValoreMerce());
             } else if (sped.getProvvigione() != 0)
-                descrizione += "\nSpese Contrassegno â‚¬ " + String.format("%1$,.2f", sped.getProvvigione());
+                descrizione += "\nSpese Contrassegno € " + String.format("%1$,.2f", sped.getProvvigione());
 
             Date dataDocumento = sped.getDataDocumento();
             String dataDoc = "";
