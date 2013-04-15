@@ -337,16 +337,31 @@ public class Fornitore implements Entity {
         //return "entita.Fornitori[ cod=" + cod + " ]";
 
         if (nome != null) {
-            if (piva != null)
-                return (this.nome).toUpperCase() + " - " + this.piva;
-            else
-                return (this.nome).toUpperCase() + " - " + this.codfiscale;
+            if (piva != null){
+                if (titolare != null)                    
+                    return (this.nome).toUpperCase() + " di " + (this.titolare).toUpperCase() + " - " + this.piva;
+                else
+                    return (this.nome).toUpperCase() + " - " + this.piva;
+            }                
+            else {
+                if (titolare != null)                    
+                    return (this.nome).toUpperCase() + " di " + (this.titolare).toUpperCase() + " - " + this.codfiscale;
+                else
+                    return (this.nome).toUpperCase() + " - " + this.codfiscale;
+            }
             
         } else {
-            if (piva != null)
-                return this.piva;
-            else
-                return this.codfiscale;
+            if (piva != null){
+                 if (titolare != null)
+                     return " Di " + (this.titolare).toUpperCase() + " - " + this.piva;                
+                else
+                     return this.piva;
+            } else{ 
+                if (titolare != null)
+                     return " Di " + (this.titolare).toUpperCase() + " - " + this.codfiscale;                
+                else
+                     return this.codfiscale;
+            }
         }
         
     }
