@@ -131,7 +131,7 @@ public class Contabilita extends javax.swing.JFrame {
             pnlAnnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAnnoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cboAnno, 0, 201, Short.MAX_VALUE)
+                .addComponent(cboAnno, 0, 115, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlAnnoLayout.setVerticalGroup(
@@ -139,7 +139,7 @@ public class Contabilita extends javax.swing.JFrame {
             .addGroup(pnlAnnoLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(cboAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlPagate.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Pagate", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
@@ -176,7 +176,7 @@ public class Contabilita extends javax.swing.JFrame {
                     .addComponent(optTutte)
                     .addComponent(optPagate)
                     .addComponent(optNonPagate))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         pnlPagateLayout.setVerticalGroup(
             pnlPagateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,7 +204,7 @@ public class Contabilita extends javax.swing.JFrame {
             pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlClienteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cboCliente, 0, 235, Short.MAX_VALUE)
+                .addComponent(cboCliente, 0, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlClienteLayout.setVerticalGroup(
@@ -212,7 +212,7 @@ public class Contabilita extends javax.swing.JFrame {
             .addGroup(pnlClienteLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tblContEmesse.setModel(new javax.swing.table.DefaultTableModel(
@@ -226,16 +226,16 @@ public class Contabilita extends javax.swing.JFrame {
         tblContEmesse.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(tblContEmesse);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("TOTALI");
 
-        txtTotNeg.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotNeg.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         txtTotNeg.setEnabled(false);
 
-        txtTotPos.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotPos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         txtTotPos.setEnabled(false);
 
-        txtTotSaldo.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtTotSaldo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         txtTotSaldo.setEnabled(false);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/filtra.png"))); // NOI18N
@@ -294,9 +294,9 @@ public class Contabilita extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
@@ -309,7 +309,7 @@ public class Contabilita extends javax.swing.JFrame {
                             .addComponent(txtTotNeg, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(10, 10, 10)
                             .addComponent(txtTotSaldo))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
