@@ -195,6 +195,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
         mnuStampaCompleta = new javax.swing.JMenuItem();
         mnuStampaParziale = new javax.swing.JMenuItem();
         mnuStampaPrimaNota = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar2.add(jMenu1);
@@ -224,7 +225,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
             pnlAnnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAnnoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cboAnno, 0, 79, Short.MAX_VALUE)
+                .addComponent(cboAnno, 0, 80, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlAnnoLayout.setVerticalGroup(
@@ -429,7 +430,7 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                     .addComponent(optPagate)
                     .addComponent(optTutte)
                     .addComponent(optNonPagate))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         pnlPagateLayout.setVerticalGroup(
             pnlPagateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -936,6 +937,16 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
         });
         mnuProspetto.add(mnuStampaPrimaNota);
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/stampa.png"))); // NOI18N
+        jMenuItem1.setText("Stampa cliente");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        mnuProspetto.add(jMenuItem1);
+
         jMenuBar1.add(mnuProspetto);
 
         setJMenuBar(jMenuBar1);
@@ -949,10 +960,8 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlAnno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(pnlPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(pnlPagate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pnlAnno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -965,9 +974,12 @@ public class RegistroFattureAcquisto extends javax.swing.JFrame {
                                 .addComponent(pnlMesi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(pnlRiepilogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(43, 43, 43))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1236, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1243, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnlAnno, pnlPagate});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -1531,6 +1543,16 @@ private void mnuStampaPrimaNotaActionPerformed(java.awt.event.ActionEvent evt) {
     Stampa(StampaRegistroAcquisto.PRIMA_NOTA, riepilogo);
 }//GEN-LAST:event_mnuStampaPrimaNotaActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+
+        Object[] riepilogo = {
+             Integer.parseInt(txtNumFatt.getText()),Double.parseDouble(txtTotFatture.getText()), 
+             Double.parseDouble(txtTotPagate.getText()), Double.parseDouble(txtTotNonPagate.getText())
+         };
+
+         Stampa(StampaRegistroAcquisto.CLIENTE, riepilogo);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
 private String meseToString(int mese) {
     String stringa = null;
     switch (mese) {
@@ -1832,6 +1854,7 @@ void setFatture() {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnuEliminaFattura;
     private javax.swing.JMenu mnuFattura;
