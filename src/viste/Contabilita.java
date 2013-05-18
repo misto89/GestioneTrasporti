@@ -10,7 +10,6 @@
  */
 package viste;
 
-import libs.DoubleFormatter;
 import com.itextpdf.text.DocumentException;
 import contabilizzazione.SaldoContabilitaMensile;
 import contabilizzazione.SaldoIvaMensile;
@@ -36,6 +35,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import libs.DoubleFormatter;
 import libs.Utility;
 import stampa.StampaMovimentazioneMensile;
 
@@ -108,6 +108,9 @@ public class Contabilita extends javax.swing.JFrame {
         mnuStampa = new javax.swing.JMenuItem();
         mnuIVa = new javax.swing.JMenu();
         mnuProspettoIva = new javax.swing.JMenuItem();
+        mnuBilancio = new javax.swing.JMenu();
+        mnuBilancioFattureEmesse = new javax.swing.JMenuItem();
+        mnuBilancioFattureAcquisto = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Contabilità");
@@ -283,6 +286,29 @@ public class Contabilita extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuIVa);
 
+        mnuBilancio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prelievo.png"))); // NOI18N
+        mnuBilancio.setText("Bilancio");
+
+        mnuBilancioFattureEmesse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/emettifattura.png"))); // NOI18N
+        mnuBilancioFattureEmesse.setText("Fatture Emesse");
+        mnuBilancioFattureEmesse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuBilancioFattureEmesseActionPerformed(evt);
+            }
+        });
+        mnuBilancio.add(mnuBilancioFattureEmesse);
+
+        mnuBilancioFattureAcquisto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prospettoiva.png"))); // NOI18N
+        mnuBilancioFattureAcquisto.setText("Fatture Acquisto");
+        mnuBilancioFattureAcquisto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuBilancioFattureAcquistoActionPerformed(evt);
+            }
+        });
+        mnuBilancio.add(mnuBilancioFattureAcquisto);
+
+        jMenuBar1.add(mnuBilancio);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -326,7 +352,7 @@ public class Contabilita extends javax.swing.JFrame {
                     .addComponent(txtTotSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTotNeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTotPos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pnlAnno, pnlCliente, pnlPagate});
@@ -601,6 +627,14 @@ private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }
 }//GEN-LAST:event_mnuStampaActionPerformed
 
+    private void mnuBilancioFattureEmesseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBilancioFattureEmesseActionPerformed
+        FrontController.open(new ProspettoBilancio(this, rootPaneCheckingEnabled, "emesse"));
+    }//GEN-LAST:event_mnuBilancioFattureEmesseActionPerformed
+
+    private void mnuBilancioFattureAcquistoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBilancioFattureAcquistoActionPerformed
+        FrontController.open(new ProspettoBilancio(this, rootPaneCheckingEnabled, "acquisto"));
+    }//GEN-LAST:event_mnuBilancioFattureAcquistoActionPerformed
+
 private String doubleToString(double d) {
     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     String string = currencyFormatter.format(d);
@@ -737,6 +771,9 @@ void stampaProspettoIva(List<SaldoIvaMensile> prospettoIva, String[] totali) {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu mnuBilancio;
+    private javax.swing.JMenuItem mnuBilancioFattureAcquisto;
+    private javax.swing.JMenuItem mnuBilancioFattureEmesse;
     private javax.swing.JMenu mnuIVa;
     private javax.swing.JCheckBoxMenuItem mnuIntervalloDate;
     private javax.swing.JMenu mnuProspetto;

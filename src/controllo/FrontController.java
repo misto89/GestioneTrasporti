@@ -10,6 +10,7 @@ import connection.DAO_ASF;
 import connection.DAO_CBC;
 import connection.Database;
 import connection.MailManager;
+import contabilizzazione.BilancioMensile;
 import contabilizzazione.SaldoCassaMensile;
 import contabilizzazione.SaldoIvaMensile;
 import eccezioni.EccezioneConnesioneNonRiuscita;
@@ -231,6 +232,14 @@ public abstract class FrontController {
     
     public static List<SaldoContabilitaMensile> getContabilitaFatture(String[] anniMesi, Fattura.pagata tipo, int fornCliente){
        return DAO_CBC.getContabilitaFatture(anniMesi, tipo, fornCliente);
+    }
+    
+    public static List<BilancioMensile> getBilancioEmesse(String[] anniMesi, int fornCliente){
+       return DAO_CBC.getBilancioFattureEmesse(anniMesi, fornCliente);
+    }
+    
+    public static List<BilancioMensile> getBilancioAcquisto(String[] anniMesi, int fornCliente){
+       return DAO_CBC.getBilancioFattureAcquisto(anniMesi, fornCliente);
     }
     
     public static List<SaldoCassaMensile> getMovimentazioneCassaMensile(String[] anniMesi, int fornCliente, Fattura.tipo tipoMov){

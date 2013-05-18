@@ -21,10 +21,8 @@ import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import libs.DoubleFormatter;
 import libs.Utility;
-import org.eclipse.persistence.jaxb.JAXBContextFactory;
 
 /**
  *

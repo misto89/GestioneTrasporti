@@ -4,6 +4,7 @@
  */
 package connection;
 
+import contabilizzazione.BilancioMensile;
 import contabilizzazione.SaldoCassaMensile;
 import contabilizzazione.SaldoContabilitaMensile;
 import contabilizzazione.SaldoIvaMensile;
@@ -1158,6 +1159,141 @@ public class DAO_CBC {
                 
              }
             return movimMensili;
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+          
+        } 
+        return null;
+    }
+    
+    /*
+     * Seleziona tutte le fatture emesse e produce un bilancio delle fatture incassate, da incassare e saldos
+     */
+    public static List<BilancioMensile> getBilancioFattureEmesse(String[] anniMesi, int fornCliente){
+        try {
+            String sql = "";
+            String sqlUnionNoteCredito = "";            
+            PreparedStatement ps;
+            ResultSet rs;                        
+            LinkedList<BilancioMensile> bilancio = new LinkedList<BilancioMensile>();
+            
+            for (String meseAnno : anniMesi){
+                sql = "SELECT DISTINCT " 
+                        + Tabelle.FATTURE + "." + Tabelle.Fatture.NUMERO + ", "
+                        + Tabelle.FATTURE + "." + Tabelle.Fatture.PAGATA + ", "
+                        + Tabelle.FATTURE + "." + Tabelle.Fatture.DATA + ", " + 
+                        Tabelle.FATTURE + "." + Tabelle.Fatture.TOTALE +
+                        " FROM " 
+                        + Tabelle.FATTURE 
+                            + " JOIN " + Tabelle.SPEDIZIONI + " ON " +
+                            Tabelle.Fatture.DATA + " = " + Tabelle.Spedizioni.DATA_FATTURA 
+                            + " AND " + Tabelle.FATTURE + "." + Tabelle.Fatture.NUMERO + " = " + Tabelle.Spedizioni.NUM_FATTURA + " WHERE "; 
+                
+                sqlUnionNoteCredito = "SELECT DISTINCT " 
+                        + Tabelle.NOTE_CREDITO + "." + Tabelle.NoteCredito.NUMERO + ", " 
+                        + Tabelle.NOTE_CREDITO + "." + Tabelle.NoteCredito.PAGATA + ", " 
+                        + Tabelle.NOTE_CREDITO + "." + Tabelle.NoteCredito.DATA + ", " + 
+                        Tabelle.NOTE_CREDITO + "." + Tabelle.NoteCredito.TOTALE + " AS " + Tabelle.Fatture.TOTALE + 
+                        " FROM " 
+                        + Tabelle.NOTE_CREDITO 
+                             + " WHERE ";
+                
+                //sqlRicevute = "SELECT " + Tabelle.FattureAcquisto.TOTALE + " FROM " + Tabelle.FATT_ACQUISTO +  " WHERE "; 
+                
+                if (fornCliente != -1) {
+                    sql += Tabelle.Spedizioni.FORN_CLIENTE + " = " + fornCliente + " AND ";
+                    //sqlRicevute += Tabelle.FattureAcquisto.FORNITORE + " = " + fornCliente + " AND ";
+                    sqlUnionNoteCredito += Tabelle.NoteCredito.CLIENTE + " = " + fornCliente + " AND ";
+                }  
+                
+                sql += Tabelle.Fatture.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";
+                //sqlRicevute += Tabelle.FattureAcquisto.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";               
+                sqlUnionNoteCredito += Tabelle.NoteCredito.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";
+                                
+                System.out.println(sql);
+                System.out.println(sqlUnionNoteCredito);
+                //System.out.println(sqlRicevute);
+                ps = conn.prepareStatement(sql);
+                rs= ps.executeQuery();
+                //psAcquisto = conn.prepareStatement(sqlRicevute);
+                //rsAcquisto= psAcquisto.executeQuery();
+                
+                BilancioMensile mese = new BilancioMensile(meseAnno);
+                while (rs.next()) {
+                    double tot = rs.getDouble(Tabelle.Fatture.TOTALE);
+                    boolean pagata = rs.getBoolean(Tabelle.Fatture.PAGATA);
+                    mese.setTotale(mese.getTotale() + tot);
+                    if(pagata)
+                        mese.setTotaleLiquidato(mese.getTotaleLiquidato() + tot);
+                    else
+                        mese.setTotaleDaLiquidare(mese.getTotaleDaLiquidare() + tot);
+                }
+                ps = conn.prepareStatement(sqlUnionNoteCredito);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    double tot = rs.getDouble(Tabelle.NoteCredito.TOTALE);
+                    boolean pagata = rs.getBoolean(Tabelle.NoteCredito.PAGATA);
+                    mese.setTotale(mese.getTotale() + tot);
+                    if(pagata)
+                        mese.setTotaleLiquidato(mese.getTotaleLiquidato() + tot);
+                    else
+                        mese.setTotaleDaLiquidare(mese.getTotaleDaLiquidare() + tot);
+                }
+                
+                mese.setSaldo();
+                bilancio.add(mese);
+                
+             }
+            return bilancio;
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
+          
+        } 
+        return null;
+    }
+    
+    /*
+     * Seleziona tutte le fatture emesse e produce un bilancio delle fatture incassate, da incassare e saldos
+     */
+    public static List<BilancioMensile> getBilancioFattureAcquisto(String[] anniMesi, int fornCliente){
+        try {
+            String sql = "";           
+            PreparedStatement ps;
+            ResultSet rs;                        
+            LinkedList<BilancioMensile> bilancio = new LinkedList<BilancioMensile>();
+            
+            for (String meseAnno : anniMesi){
+                
+                sql = "SELECT " + Tabelle.FattureAcquisto.TOTALE + ", " +
+                        Tabelle.FattureAcquisto.PAGATA +
+                        " FROM " + Tabelle.FATT_ACQUISTO +  " WHERE "; 
+                
+                if (fornCliente != -1) {                   
+                    sql += Tabelle.FattureAcquisto.FORNITORE + " = " + fornCliente + " AND ";                    
+                }  
+                                
+                sql += Tabelle.FattureAcquisto.DATA + " BETWEEN '" + meseAnno + "-01' AND '" + meseAnno + "-31'";                             
+                                
+                System.out.println(sql);              
+                ps = conn.prepareStatement(sql);
+                rs= ps.executeQuery();
+                
+                BilancioMensile mese = new BilancioMensile(meseAnno);
+                while (rs.next()) {
+                    double tot = rs.getDouble(Tabelle.FattureAcquisto.TOTALE);
+                    boolean pagata = rs.getBoolean(Tabelle.FattureAcquisto.PAGATA);
+                    mese.setTotale(mese.getTotale() + tot);
+                    if(pagata)
+                        mese.setTotaleLiquidato(mese.getTotaleLiquidato() + tot);
+                    else
+                        mese.setTotaleDaLiquidare(mese.getTotaleDaLiquidare() + tot);
+                }                
+                
+                mese.setSaldo();
+                bilancio.add(mese);
+                
+             }
+            return bilancio;
         } catch (SQLException ex) {
             Logger.getLogger(DAO_ASF.class.getName()).log(Level.SEVERE, null, ex);
           

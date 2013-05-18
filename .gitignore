@@ -1,3 +1,4 @@
 log/
 tmp/
 build/
+nbproject/private/private.properties
