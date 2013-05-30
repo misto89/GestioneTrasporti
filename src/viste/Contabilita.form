@@ -86,6 +86,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuBilancioFattureEmesse">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+E"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/emettifattura.png"/>
                 </Property>
@@ -97,6 +100,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuBilancioFattureAcquisto">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+Q"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/prospettoiva.png"/>
                 </Property>

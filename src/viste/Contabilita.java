@@ -11,6 +11,7 @@
 package viste;
 
 import com.itextpdf.text.DocumentException;
+import contabilizzazione.BilancioMensile;
 import contabilizzazione.SaldoContabilitaMensile;
 import contabilizzazione.SaldoIvaMensile;
 import controllo.FrontController;
@@ -37,6 +38,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import libs.DoubleFormatter;
 import libs.Utility;
+import stampa.StampaBilancioFatture;
 import stampa.StampaMovimentazioneMensile;
 
 
@@ -289,6 +291,7 @@ public class Contabilita extends javax.swing.JFrame {
         mnuBilancio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prelievo.png"))); // NOI18N
         mnuBilancio.setText("Bilancio");
 
+        mnuBilancioFattureEmesse.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         mnuBilancioFattureEmesse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/emettifattura.png"))); // NOI18N
         mnuBilancioFattureEmesse.setText("Fatture Emesse");
         mnuBilancioFattureEmesse.addActionListener(new java.awt.event.ActionListener() {
@@ -298,6 +301,7 @@ public class Contabilita extends javax.swing.JFrame {
         });
         mnuBilancio.add(mnuBilancioFattureEmesse);
 
+        mnuBilancioFattureAcquisto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         mnuBilancioFattureAcquisto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prospettoiva.png"))); // NOI18N
         mnuBilancioFattureAcquisto.setText("Fatture Acquisto");
         mnuBilancioFattureAcquisto.addActionListener(new java.awt.event.ActionListener() {
@@ -745,6 +749,20 @@ private void popolaSelect(List items) {
             cboAnno.addItem((Integer)item);
         else
             cboCliente.addItem((Fornitore) item);
+}
+
+void stampaProspettoBilancio(List<BilancioMensile> prospetto, String[] totali, String type, int anno, Fornitore fornCliente) {
+    try {       
+        if (fornCliente == null)
+            new StampaBilancioFatture(anno, prospetto, type, totali).printAndOpen();
+        else
+            new StampaBilancioFatture(fornCliente, anno, prospetto, type, totali).printAndOpen();
+
+    } catch (DocumentException ex) {
+        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+        Logger.getLogger(Spedizioni.class.getName()).log(Level.SEVERE, null, ex);
+    }
 }
 
 void stampaProspettoIva(List<SaldoIvaMensile> prospettoIva, String[] totali) {
