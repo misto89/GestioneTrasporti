@@ -158,10 +158,15 @@ public final class StampaSpedizioni extends StampaDocumento {
             table.addCell(cella);
         }
         
-        double totale = 0.00;
+        double importoTotale = 0.00;
+        double provvigioneTotale = 0.00;
+        double imponibileTotale = 0.00;
         
         for (Spedizione spedizione : spedizioni) {
-            totale += spedizione.getImporto();
+            importoTotale += spedizione.getImporto();
+            provvigioneTotale += spedizione.getProvvigione();
+            imponibileTotale += spedizione.getImponibile();
+            
             final String NEW_FORMAT = "dd/MM/yyyy";
             SimpleDateFormat sdf = new SimpleDateFormat(NEW_FORMAT);
             String dataCarico = sdf.format(spedizione.getDataCarico());
@@ -188,16 +193,39 @@ public final class StampaSpedizioni extends StampaDocumento {
                         qta = String.format("%1$,.1f", qtaDouble);
                 }
                 
+                if (spedizione.getQta2() != 0) {
+                    qtaDouble = spedizione.getQta2();
+                    qtaInt = (int) qtaDouble;
+                    if ( (qtaDouble - qtaInt) == 0 )
+                        qta += "\n" + String.valueOf(qtaInt);
+                    else
+                        qta += "\n" + String.format("%1$,.1f", qtaDouble);
+                }
+                
+            String um = spedizione.getUm1();
+            if (spedizione.getUm2() != null) 
+                um += "\n" + spedizione.getUm2();
+            
+            String traz = doubleToString(roundTwoDecimals(spedizione.getTraz1()));
+            if (spedizione.getTraz2() != 0) {
+                traz += "\n" + doubleToString(roundTwoDecimals(spedizione.getTraz2()));
+            }
+            
+            String distrib = doubleToString(roundTwoDecimals(spedizione.getDistrib1()));
+            if (spedizione.getDistrib2() != 0) {
+                distrib += "\n" + doubleToString(roundTwoDecimals(spedizione.getDistrib2()));
+            }
+            
             PdfPCell[] rigaSped = {
                 new PdfPCell(new Phrase(spedizione.getStringaBolle(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(statoStr, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(dataCarico, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(dataDoc, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(spedizione.getDescrizione(), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(spedizione.getUm1(), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(um, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(qta, FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getTraz1())), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getDistrib1())), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(traz, FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(distrib, FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(spedizione.getImporto())), FONT_GRANDE_NORMALE))
             };
             
@@ -208,12 +236,13 @@ public final class StampaSpedizioni extends StampaDocumento {
             rigaSped[9].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             
             for (PdfPCell cella : rigaSped) {
+                //cella.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
                 cella.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
                 table.addCell(cella);
             }
         }
-
-        PdfPCell[] riga = {
+        
+        PdfPCell[] rigaImporto = {
                 new PdfPCell(new Phrase("IMPORTO TOTALE", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
@@ -223,15 +252,58 @@ public final class StampaSpedizioni extends StampaDocumento {
                 new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(DoubleFormatter.doubleToString(totale), FONT_GRANDE_BOLD))
+                new PdfPCell(new Phrase(DoubleFormatter.doubleToString(importoTotale), FONT_GRANDE_BOLD))
         };
         
-        for (int i = 0; i < riga.length; i++) {
-            if (i == riga.length-1)
-                riga[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        PdfPCell[] rigaProvv = {
+                new PdfPCell(new Phrase("SPESE CONTRASSEGNO", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(DoubleFormatter.doubleToString(provvigioneTotale), FONT_GRANDE_BOLD))
+        };
+        
+        PdfPCell[] rigaImponibile = {
+                new PdfPCell(new Phrase("IMPONIBILE\n\n", FONT_GRANDE_BOLD)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase("", FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(DoubleFormatter.doubleToString(imponibileTotale), FONT_GRANDE_BOLD))
+        };
+        
+        for (int i = 0; i < rigaImporto.length; i++) {
+            if (i == rigaImporto.length-1)
+                rigaImporto[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             
-            riga[i].setBorder(BORDER_TOP_AND_BOTTOM);
-            table.addCell(riga[i]);
+            rigaImporto[i].setBorder(BORDER_TOP_AND_BOTTOM);
+            rigaImporto[i].setBorderWidthTop(1.5f);
+            table.addCell(rigaImporto[i]);
+        }
+        
+        for (int i = 0; i < rigaProvv.length; i++) {
+            if (i == rigaProvv.length-1)
+                rigaProvv[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            
+            rigaProvv[i].setBorder(BORDER_TOP_AND_BOTTOM);
+            table.addCell(rigaProvv[i]);
+        }
+        
+        for (int i = 0; i < rigaImponibile.length; i++) {
+            if (i == rigaImponibile.length-1)
+                rigaImponibile[i].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            
+            rigaImponibile[i].setBorder(BORDER_TOP_AND_BOTTOM);
+            table.addCell(rigaImponibile[i]);
         }
         
         doc.add(table);
