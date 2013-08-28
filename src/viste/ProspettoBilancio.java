@@ -83,7 +83,6 @@ public class ProspettoBilancio extends javax.swing.JDialog {
         txtTotLiquidato = new javax.swing.JTextField();
         txtTotNonLiquidato = new javax.swing.JTextField();
         btnOk = new javax.swing.JButton();
-        txtSaldo = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuProspetto = new javax.swing.JMenu();
         mnuStampa = new javax.swing.JMenuItem();
@@ -181,9 +180,6 @@ public class ProspettoBilancio extends javax.swing.JDialog {
             }
         });
 
-        txtSaldo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtSaldo.setEnabled(false);
-
         mnuProspetto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prospetto.png"))); // NOI18N
         mnuProspetto.setText("Prospetto");
 
@@ -208,21 +204,18 @@ public class ProspettoBilancio extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnOk)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTotLiquidato, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTotNonLiquidato, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnOk))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotLiquidato, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotNonLiquidato, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -232,9 +225,6 @@ public class ProspettoBilancio extends javax.swing.JDialog {
                     .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, txtSaldo, txtTotLiquidato, txtTotNonLiquidato, txtTotale});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -245,8 +235,7 @@ public class ProspettoBilancio extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(txtTotNonLiquidato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTotLiquidato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTotale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOk)
                 .addContainerGap())
@@ -397,9 +386,8 @@ public class ProspettoBilancio extends javax.swing.JDialog {
     private void mnuStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStampaActionPerformed
         parent.stampaProspettoBilancio(prospettoBilancio, new String[] {
             txtTotale.getText(),
-            txtTotNonLiquidato.getText(),
             txtTotLiquidato.getText(),
-            txtSaldo.getText()
+            txtTotNonLiquidato.getText()
     }, type, (Integer) cboAnno.getSelectedItem(), codFornCliente == -1 ? null : (Fornitore) cboCliente.getSelectedItem());
     }//GEN-LAST:event_mnuStampaActionPerformed
 
@@ -417,37 +405,37 @@ public class ProspettoBilancio extends javax.swing.JDialog {
         double tot = 0.00;
         double totLiquidate = 0.00;
         double totNonLiquidate = 0.00;
-        double saldo = 0.00;
+//        double saldo = 0.00;
 
         for (BilancioMensile bil : bilancioList) {
             arrayBilancio[cont++] = bil.toArray();
             tot += bil.getTotale();
             totLiquidate += bil.getTotaleLiquidato();
             totNonLiquidate += bil.getTotaleDaLiquidare();
-            saldo += bil.getSaldo();
+//            saldo += bil.getSaldo();
         }
 
         txtTotale.setHorizontalAlignment(JTextField.RIGHT);
         txtTotLiquidato.setHorizontalAlignment(JTextField.RIGHT);
         txtTotNonLiquidato.setHorizontalAlignment(JTextField.RIGHT);
-        txtSaldo.setHorizontalAlignment(JTextField.RIGHT);
+//        txtSaldo.setHorizontalAlignment(JTextField.RIGHT);
         
         txtTotale.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(tot)));
         txtTotLiquidato.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totLiquidate)));
         txtTotNonLiquidato.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(totNonLiquidate)));
-        txtSaldo.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(saldo)));
+//        txtSaldo.setText(DoubleFormatter.doubleToString(DoubleFormatter.roundTwoDecimals(saldo)));
 
         String colLiquidato = type.equals("emesse") ? "TOTALE INCASSATO" : "TOTALE PAGATO";
         String colDaLiquidare = type.equals("emesse") ? "TOTALE DA INCASSARE" : "TOTALE DA PAGARE";
 
         final String[] COLONNE = {
-            "PERIODO", "TOTALE", colLiquidato, colDaLiquidare, "SALDO"
+            "PERIODO", "TOTALE", colLiquidato, colDaLiquidare,
         };
 
-        Class[] types = {String.class, Double.class, Double.class, Double.class, Double.class};
+        Class[] types = {String.class, Double.class, Double.class, Double.class};
 
         TableModel tm = new BilancioTableModel(arrayBilancio, COLONNE, types, new boolean[]{
-                    false, false, false, false, false
+                    false, false, false, false
                 });
 
         tblBilancio.setModel(tm);
@@ -456,7 +444,7 @@ public class ProspettoBilancio extends javax.swing.JDialog {
         tblBilancio.setRowSorter(sorter);
 
         boolean[] resizable = {
-            false, false, false, false, false
+            false, false, false, false
         };
 
 //    int[] width = {
@@ -472,7 +460,7 @@ public class ProspettoBilancio extends javax.swing.JDialog {
             TableColumn colonna = tblBilancio.getColumnModel().getColumn(i);
             colonna.setResizable(resizable[i]);
 
-            if (i == TOTALE || i == TOT_LIQUIDATE || i == SALDO || i == TOT_DA_LIQUIDARE) {
+            if (i == TOTALE || i == TOT_LIQUIDATE || i == TOT_DA_LIQUIDARE) {
                 colonna.setCellRenderer(new DoubleFormatter());
             } else {
                 DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -504,7 +492,6 @@ public class ProspettoBilancio extends javax.swing.JDialog {
     private javax.swing.JPanel pnlAnno;
     private javax.swing.JPanel pnlCliente;
     private javax.swing.JTable tblBilancio;
-    private javax.swing.JTextField txtSaldo;
     private javax.swing.JTextField txtTotLiquidato;
     private javax.swing.JTextField txtTotNonLiquidato;
     private javax.swing.JTextField txtTotale;
@@ -517,7 +504,7 @@ public class ProspettoBilancio extends javax.swing.JDialog {
     private static final int TOTALE = 1;
     private static final int TOT_LIQUIDATE = 2;
     private static final int TOT_DA_LIQUIDARE = 3;
-    private static final int SALDO = 4;
+//    private static final int SALDO = 4;
     private String type = null;
     
     private Contabilita parent;

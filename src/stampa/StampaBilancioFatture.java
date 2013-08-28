@@ -10,13 +10,8 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import contabilizzazione.BilancioMensile;
-import contabilizzazione.MovimentazioneMensile;
-import contabilizzazione.SaldoContabilitaMensile;
-import contabilizzazione.SaldoIvaMensile;
 import entita.Fornitore;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -120,11 +115,11 @@ public class StampaBilancioFatture extends StampaDocumento {
 
         doc.add(table);
 
-        table = new PdfPTable(5);
+        table = new PdfPTable(4);
         table.setHorizontalAlignment(PdfPTable.ALIGN_CENTER);
         table.setSpacingBefore(30);
         table.setWidthPercentage(100);
-        widths = new int[]{40, 40, 40, 40, 40};
+        widths = new int[]{40, 40, 40, 40};
         table.setWidths(widths);
 
         if (type.equals("emesse")) {
@@ -132,16 +127,14 @@ public class StampaBilancioFatture extends StampaDocumento {
                 new PdfPCell(new Phrase("PERIODO", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("TOTALE", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("TOTALE INCASSATO", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("TOTALE DA INCASSARE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("SALDO", FONT_GRANDE_BOLD))
+                new PdfPCell(new Phrase("TOTALE DA INCASSARE", FONT_GRANDE_BOLD))
             };
         } else {
             intestazione = new PdfPCell[]{
                 new PdfPCell(new Phrase("PERIODO", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("TOTALE", FONT_GRANDE_BOLD)),
                 new PdfPCell(new Phrase("TOTALE PAGATO", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("TOTALE DA PAGARE", FONT_GRANDE_BOLD)),
-                new PdfPCell(new Phrase("SALDO", FONT_GRANDE_BOLD))
+                new PdfPCell(new Phrase("TOTALE DA PAGARE", FONT_GRANDE_BOLD))
             };
         }
 
@@ -149,7 +142,7 @@ public class StampaBilancioFatture extends StampaDocumento {
         intestazione[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         intestazione[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         intestazione[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        intestazione[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+//        intestazione[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         for (PdfPCell cella : intestazione) {
 //            cella.setBorder(NO_BORDER);
@@ -162,15 +155,14 @@ public class StampaBilancioFatture extends StampaDocumento {
                 new PdfPCell(new Phrase(b.getMeseAnnoRif(), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(b.getTotale())), FONT_GRANDE_NORMALE)),
                 new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(b.getTotaleLiquidato())), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(b.getTotaleDaLiquidare())), FONT_GRANDE_NORMALE)),
-                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(b.getSaldo())), FONT_GRANDE_NORMALE)),
+                new PdfPCell(new Phrase(doubleToString(roundTwoDecimals(b.getTotaleDaLiquidare())), FONT_GRANDE_NORMALE))
             };
 
             riga[0].setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             riga[1].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             riga[2].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             riga[3].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            riga[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+//            riga[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
             for (PdfPCell cella : riga) {
 //                cella.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
@@ -191,14 +183,14 @@ public class StampaBilancioFatture extends StampaDocumento {
             new PdfPCell(new Phrase(totali[0], FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase(totali[1], FONT_GRANDE_BOLD)),
             new PdfPCell(new Phrase(totali[2], FONT_GRANDE_BOLD)),
-            new PdfPCell(new Phrase(totali[3], FONT_GRANDE_BOLD))
+//            new PdfPCell(new Phrase(totali[3], FONT_GRANDE_BOLD))
         };
 
         rigaTot[0].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         rigaTot[1].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         rigaTot[2].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         rigaTot[3].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-        rigaTot[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+//        rigaTot[4].setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         for (PdfPCell cella : rigaTot) {
             table.addCell(cella);

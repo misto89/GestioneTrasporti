@@ -1240,7 +1240,7 @@ public class DAO_CBC {
                         mese.setTotaleDaLiquidare(mese.getTotaleDaLiquidare() + tot);
                 }
                 
-                mese.setSaldo();
+//                mese.setSaldo();
                 bilancio.add(mese);
                 
              }
@@ -1289,7 +1289,7 @@ public class DAO_CBC {
                         mese.setTotaleDaLiquidare(mese.getTotaleDaLiquidare() + tot);
                 }                
                 
-                mese.setSaldo();
+//                mese.setSaldo();
                 bilancio.add(mese);
                 
              }

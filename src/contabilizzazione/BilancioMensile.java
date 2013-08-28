@@ -15,10 +15,10 @@ public class BilancioMensile implements MovimentazioneMensile {
     private double totale = 0.00;
     private double totaleLiquidato = 0.00;  //Totale già incassato/pagato
     private double totaleDaLiquidare = 0.00; //Totale non ancora incassato/pagato
-    private double saldo = 0.00;
+//    private double saldo = 0.00;
     private String meseAnnoRif;
 
-    public static final int NUM_CAMPI = 5;
+    public static final int NUM_CAMPI = 4;
     
     public BilancioMensile(String msAnRif) {
         meseAnnoRif = setMeseAnno(msAnRif);
@@ -90,18 +90,18 @@ public class BilancioMensile implements MovimentazioneMensile {
         this.meseAnnoRif = meseAnnoRif;
     }
     
-    public void setSaldo(){
-        saldo = totaleLiquidato - totaleDaLiquidare;
-    }
-    
-    public double getSaldo() {
-        return saldo;
-    }
+//    public void setSaldo(){
+//        saldo = totaleLiquidato - totaleDaLiquidare;
+//    }
+//    
+//    public double getSaldo() {
+//        return saldo;
+//    }
     
     @Override
     public Object[] toArray() {
         return new Object[] {this.getMeseAnnoRif(), DoubleFormatter.roundTwoDecimals(totale), 
-            DoubleFormatter.roundTwoDecimals(totaleLiquidato), DoubleFormatter.roundTwoDecimals(totaleDaLiquidare), 
-            DoubleFormatter.roundTwoDecimals(saldo)};
+            DoubleFormatter.roundTwoDecimals(totaleLiquidato), DoubleFormatter.roundTwoDecimals(totaleDaLiquidare)};
+//            DoubleFormatter.roundTwoDecimals(saldo)};
     }
 }
