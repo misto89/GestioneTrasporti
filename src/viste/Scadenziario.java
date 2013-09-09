@@ -319,12 +319,26 @@ public class Scadenziario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+private void init() {
+    
+    ProgressBar bar = new ProgressBar(this, new ProgressBar.Task() {
+
+        @Override
+        public Void execute() {
+            setTableEmesse();
+            setTableAcquisto();
+            return null;
+        }
+    });
+    
+    FrontController.open(bar);
+}
+    
 private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 // TODO add your handling code here:
     List<Entity> fornitori = FrontController.getAnagrafe(Fornitore.class);
     popolaSelect(fornitori);
-    setTableEmesse();
-    setTableAcquisto();
+    init();
     setPanelBorderTitle();
 }//GEN-LAST:event_formWindowOpened
 
@@ -351,8 +365,7 @@ private void setPanelBorderTitle(){
 
 private void cboFornClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFornClienteActionPerformed
 // TODO add your handling code here: 
-    setTableEmesse();
-    setTableAcquisto();
+    init();
     setPanelBorderTitle();
 }//GEN-LAST:event_cboFornClienteActionPerformed
 
@@ -396,8 +409,7 @@ private void cboPeriodiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             }
         }
     }
-    setTableEmesse();
-    setTableAcquisto();
+    init();
     setPanelBorderTitle();
 }//GEN-LAST:event_cboPeriodiActionPerformed
 

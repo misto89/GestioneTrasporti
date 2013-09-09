@@ -10,6 +10,7 @@
  */
 package viste;
 
+import connection.ConfigManager;
 import controllo.FrontController;
 import eccezioni.EccezioneConnesioneNonRiuscita;
 import eccezioni.EccezioneUtenteNonValido;
@@ -33,6 +34,15 @@ import javax.swing.JOptionPane;
  */
 public class Main extends javax.swing.JFrame {
 
+    static {
+        String d = ConfigManager.getProperty("debug");
+        if (d == null) 
+            debug = false;
+        else
+            debug = Boolean.parseBoolean(d);
+       
+    }
+    
     /** Creates new form Main */
     public Main() {
         initComponents();
@@ -497,7 +507,8 @@ private static void redirectOutErr() throws FileNotFoundException {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        redirectOutErr();
+        if (!debug)
+            redirectOutErr();
         
         try {
             FrontController.test();
@@ -537,4 +548,6 @@ private static void redirectOutErr() throws FileNotFoundException {
     private javax.swing.JMenu mnuStrumenti;
     private javax.swing.JMenuItem mnuTest;
     // End of variables declaration//GEN-END:variables
+
+    private static boolean debug;
 }

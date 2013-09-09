@@ -1621,19 +1621,19 @@ void setFatture() {
         popolaSelect(anni);
     }
       
-    Fornitore cliente = null;
+    final Fornitore cliente;
     if (cboFornitore.getSelectedIndex() == 0)
         cliente = new Fornitore(null);  
     else
         cliente = (Fornitore) cboFornitore.getSelectedItem();
     
-    boolean[] mesi = {
+    final boolean[] mesi = {
             chkGennaio.isSelected(), chkFebbraio.isSelected(), chkMarzo.isSelected(), chkAprile.isSelected(), chkMaggio.isSelected(), 
             chkGiugno.isSelected(), chkLuglio.isSelected(), chkAgosto.isSelected(), chkSett.isSelected(), chkOtt.isSelected(),
             chkNov.isSelected(), chkDic.isSelected()
     };
     
-    Fattura.pagata tipo;
+    final Fattura.pagata tipo;
     if (optTutte.isSelected())
         tipo = Fattura.pagata.ALL;
     else if (optNonPagate.isSelected())
@@ -1641,7 +1641,17 @@ void setFatture() {
     else
         tipo = Fattura.pagata.P;
     
-    List<Fattura> fattureProvvisorie = FrontController.getFattureAcquisto((Integer)cboAnno.getSelectedItem(), cliente, mesi, tipo, tipoFatt, dataIniziale, dataFinale, dbDateFieldToFilter);
+    ProgressBar<List<Fattura>> bar = new ProgressBar<List<Fattura>>(this, new ProgressBar.Task<List<Fattura>>() {
+
+        @Override
+        public List<Fattura> execute() {
+           return FrontController.getFattureAcquisto((Integer)cboAnno.getSelectedItem(), cliente, mesi, tipo, tipoFatt, dataIniziale, dataFinale, dbDateFieldToFilter);
+        }
+    });
+    
+    FrontController.open(bar);
+    
+    List<Fattura> fattureProvvisorie = bar.get();
     List<Fattura> fatture = new LinkedList<Fattura>();
     
     if (optScadute.isSelected()) {

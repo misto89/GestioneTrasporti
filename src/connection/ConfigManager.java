@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author pierpaolo
  */
-class ConfigManager {
+public class ConfigManager {
 
     private static Properties properties;
     private static String confString;
