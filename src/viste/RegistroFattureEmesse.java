@@ -41,6 +41,7 @@ import libs.Utility;
 import stampa.StampaRegistroEmesse;
 import connection.Tabelle;
 import entita.NotaCredito;
+import javax.swing.JCheckBox;
 
 /**
  *
@@ -947,9 +948,33 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
 // TODO add your handling code here:
     List<Entity> fornitori = FrontController.getAnagrafe(Fornitore.class);
     List<Integer> anni = FrontController.getAnniEsercizio(Fattura.tipo.VEN);
+    getInitialDates();
     popolaSelect(fornitori);
     popolaSelect(anni);
 }//GEN-LAST:event_formWindowOpened
+
+private void getInitialDates() {
+    //Uncheck di tutte le checkbox
+    for (JCheckBox jCheckBox : chkMesi) {        
+        jCheckBox.setSelected(false);
+    }
+    chkTutti.setSelected(false);
+    
+    java.util.Calendar currentime = Calendar.getInstance();
+    Date dataOdierna = new Date((currentime.getTime()).getTime()); //data odierna
+    int currentMonth = Integer.parseInt(dataOdierna.toString().split("-")[1]);                
+    int initialMonth = currentMonth - 1;
+    int finalMonth = currentMonth + 1;
+    chkMesi[currentMonth - 1].setSelected(true);
+    if(currentMonth == 12) {
+        chkMesi[initialMonth - 1].setSelected(true);
+    } else if(currentMonth == 1) {
+        chkMesi[finalMonth - 1].setSelected(true);
+    } else {
+        chkMesi[initialMonth - 1].setSelected(true);
+        chkMesi[finalMonth - 1].setSelected(true);
+    }        
+}
 
 private void cboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboClienteActionPerformed
 // TODO add your handling code here:
