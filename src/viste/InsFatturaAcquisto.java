@@ -938,7 +938,7 @@ void unCheckPagate(){
     private static final int MAX_LENGTH_MESE = 2;
     private static final int MAX_LENGTH_ANNO = 4;
     private static final int MAX_LENGTH_PERCIVA = 2;
-    private static final Integer PERC_IVA = 21;
+    private static final Integer PERC_IVA = libs.Constants.PERC_IVA;
     
 //    private RegistroFattureAcquisto vista;
     private InsFatturaAcquisto dialogVista;

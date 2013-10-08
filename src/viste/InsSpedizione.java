@@ -1805,7 +1805,7 @@ private void pulisciText(){
     private Fornitore fornitore;
     private int rigaTabellaSpedizioni; //Il numero della riga che sto modificando nella jtable delle spedizioni
     
-    private static final int PERC_IVA = 21;
+    private static final int PERC_IVA = libs.Constants.PERC_IVA;
     
     private static final int MAX_LENGTH_GIORNO = 2;
     private static final int MAX_LENGTH_MESE = 2;

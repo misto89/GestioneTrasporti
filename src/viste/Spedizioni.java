@@ -57,7 +57,7 @@ public class Spedizioni extends javax.swing.JFrame {
         double iva = 0.00;
         double totale = 0.00;
         
-        int percIva = 21;
+        int percIva = libs.Constants.PERC_IVA;
         try {
             percIva = Integer.parseInt(txtPercIvaForfait.getText());
         } catch (NumberFormatException e) {
@@ -649,7 +649,7 @@ public class Spedizioni extends javax.swing.JFrame {
             }
         });
 
-        pnlRiepilogo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Fattura", 0, 2));
+        pnlRiepilogo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Riepilogo Fattura", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
         jLabel21.setText("Importo totale");
 
@@ -774,7 +774,7 @@ public class Spedizioni extends javax.swing.JFrame {
         lblTotForfait.setText("Totale");
 
         txtPercIvaForfait.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtPercIvaForfait.setText("21");
+        txtPercIvaForfait.setText(String.valueOf(libs.Constants.PERC_IVA));
         txtPercIvaForfait.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtPercIvaForfaitFocusLost(evt);
