@@ -1503,9 +1503,27 @@ public class DAO_CBC {
         try {
             System.out.println(sql);
             ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-
+            rs = ps.executeQuery();                      
+            
             if (tipo == Fattura.tipo.VEN) {
+                String noteCreditoSql = "SELECT DISTINCT " + Tabelle.NOTE_CREDITO + ".*";
+                if(recuperaFornCliente) {
+                    noteCreditoSql +=  ", " + Tabelle.FORNITORI + ".* FROM " + Tabelle.NOTE_CREDITO + ", " + Tabelle.FORNITORI +
+                                            " WHERE " +  Tabelle.NoteCredito.CLIENTE + "=" + Tabelle.Fornitori.COD; 
+                } else {
+                    noteCreditoSql += " FROM " + Tabelle.NOTE_CREDITO + " WHERE 1=1";
+                }
+                if (forn_cliente.getCod() != null) {
+                    noteCreditoSql += " AND " + Tabelle.NoteCredito.CLIENTE + "=" + forn_cliente.getCod();
+                }
+                noteCreditoSql += " ORDER BY " + Tabelle.NoteCredito.DATA + ", " + Tabelle.NoteCredito.NUMERO;
+                System.out.println(noteCreditoSql);
+                PreparedStatement noteCreditoPs = conn.prepareStatement(noteCreditoSql);                
+                rs = noteCreditoPs.executeQuery();
+                                
+                ricNota(recuperaFornCliente, forn_cliente, fatture);                
+                
+                rs = ps.executeQuery(); 
                 ricFatt(recuperaFornCliente, forn_cliente, fatture);
             } else {
                 ricFattAcq(recuperaFornCliente, forn_cliente, fatture);
