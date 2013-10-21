@@ -8,11 +8,10 @@ import connection.MailManager;
 import controllo.FrontController;
 import eccezioni.EccezioneCredenzialiErrate;
 import java.io.File;
-import javax.mail.*;
 import java.util.*;
-import javax.mail.internet.*;
 import javax.activation.*;
-import javax.swing.JOptionPane;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 public class Mail {
     private static String host;  //tuo smtp

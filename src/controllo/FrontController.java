@@ -5,13 +5,13 @@
 package controllo;
 
 import connection.Cleaner;
-import contabilizzazione.SaldoContabilitaMensile;
 import connection.DAO_ASF;
 import connection.DAO_CBC;
 import connection.Database;
 import connection.MailManager;
 import contabilizzazione.BilancioMensile;
 import contabilizzazione.SaldoCassaMensile;
+import contabilizzazione.SaldoContabilitaMensile;
 import contabilizzazione.SaldoIvaMensile;
 import eccezioni.EccezioneConnesioneNonRiuscita;
 import entita.*;
@@ -21,7 +21,6 @@ import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;

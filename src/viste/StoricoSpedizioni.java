@@ -11,7 +11,6 @@
 package viste;
 
 import controllo.FrontController;
-
 import entita.Spedizione;
 import entita.Spedizione.tipo;
 import java.sql.Date;
